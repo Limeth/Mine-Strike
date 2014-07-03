@@ -20,6 +20,7 @@ import cz.minestrike.me.limeth.minestrike.listeners.InteractionListener;
 import cz.minestrike.me.limeth.minestrike.listeners.InventoryListener;
 import cz.minestrike.me.limeth.minestrike.listeners.PermissionListener;
 import cz.minestrike.me.limeth.minestrike.listeners.msPlayer.MSListenerManager;
+import cz.minestrike.me.limeth.minestrike.listeners.msPlayer.lobby.MSLobbyListener;
 import cz.minestrike.me.limeth.storagemanager.mysql.MySQLService;
 
 public class MineStrike extends JavaPlugin
@@ -36,10 +37,10 @@ public class MineStrike extends JavaPlugin
 		
 		try
 		{
-			initMSListenerManager();
 			loadData();
 			connectService();
-			registerListeners();
+			registerBukkitListeners();
+			registerMSListeners();
 			redirectCommands();
 			MSPlayer.loadOnlinePlayers();
 			MSPlayer.startMovementLoop();
@@ -111,7 +112,7 @@ public class MineStrike extends JavaPlugin
 		GameManager.saveGames();
 	}
 	
-	private void registerListeners()
+	private void registerBukkitListeners()
 	{
 		PluginManager pm = Bukkit.getPluginManager();
 		
@@ -121,9 +122,10 @@ public class MineStrike extends JavaPlugin
 		pm.registerEvents(new PermissionListener(), this);
 	}
 	
-	private void initMSListenerManager()
+	private void registerMSListeners()
 	{
 		msListenerManager = new MSListenerManager();
+		MSLobbyListener.construct();
 	}
 	
 	private void redirectCommands()

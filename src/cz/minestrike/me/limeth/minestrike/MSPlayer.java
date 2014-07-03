@@ -31,6 +31,7 @@ import cz.minestrike.me.limeth.minestrike.equipment.guns.GunType;
 import cz.minestrike.me.limeth.minestrike.equipment.guns.Reloading;
 import cz.minestrike.me.limeth.minestrike.games.Game;
 import cz.minestrike.me.limeth.minestrike.games.PlayerState;
+import cz.minestrike.me.limeth.minestrike.listeners.msPlayer.lobby.MSLobbyListener;
 import cz.minestrike.me.limeth.storagemanager.Record;
 import cz.minestrike.me.limeth.storagemanager.RecordData;
 import cz.minestrike.me.limeth.storagemanager.RecordStructure;
@@ -217,6 +218,8 @@ public class MSPlayer implements Record
 	{
 		if(hasGame())
 			game.redirect(event, this);
+		else
+			MSLobbyListener.getInstance().redirect(event, this);
 		
 		if(hasPlayerStructure())
 			playerStructure.redirect(event, this);
