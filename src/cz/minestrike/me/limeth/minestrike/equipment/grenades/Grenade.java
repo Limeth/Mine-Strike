@@ -1,0 +1,140 @@
+package cz.minestrike.me.limeth.minestrike.equipment.grenades;
+
+import net.minecraft.server.v1_7_R1.EntityPotion;
+import net.minecraft.server.v1_7_R1.WorldServer;
+
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.craftbukkit.v1_7_R1.CraftWorld;
+import org.bukkit.craftbukkit.v1_7_R1.entity.CraftThrownPotion;
+import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.ThrownPotion;
+import org.bukkit.util.Vector;
+
+import cz.minestrike.me.limeth.minestrike.MineStrike;
+
+public class Grenade
+{
+	private final GrenadeType type;
+	private LivingEntity shooter;
+	private EntityGrenade nmsEntity;
+	private boolean exploded;
+	private Integer taskId;
+	
+	public Grenade(GrenadeType type, LivingEntity shooter)
+	{
+		this.type = type;
+		this.shooter = shooter;
+	}
+	
+	public static Grenade throwGrenade(GrenadeType type, LivingEntity shooter, Location loc, Vector vec)
+	{
+		Grenade grenade = new Grenade(type, shooter);
+		int color = type.getColor();
+		GrenadeExplosionTrigger trigger = type.getTrigger();
+		WorldServer nmsWorld = ((CraftWorld) loc.getWorld()).getHandle();
+		EntityGrenade nmsEntity = new EntityGrenade(grenade, nmsWorld, loc.getX(), loc.getY(), loc.getZ(), color);
+		nmsEntity.motX = vec.getX();
+		nmsEntity.motY = vec.getY();
+		nmsEntity.motZ = vec.getZ();
+		
+		nmsWorld.addEntity(nmsEntity);
+		grenade.setNMSEntity(nmsEntity);
+		
+		if(trigger == GrenadeExplosionTrigger.TIMEOUT)
+		{
+			long ticksUntilExplosion = type.getTicksUntilExplosion();
+			
+			grenade.startCountdown(ticksUntilExplosion);
+		}
+		
+		return grenade;
+	}
+
+	public static Grenade throwGrenade(GrenadeType type, LivingEntity shooter, double force)
+	{
+		Location loc = shooter.getEyeLocation().clone();
+		Vector movementVec = shooter.getVelocity();
+		Vector vec = loc.getDirection().clone().add(movementVec);
+		
+		loc.add(vec).multiply(force);
+		
+		return throwGrenade(type, shooter, loc, vec);
+	}
+	
+	public int startCountdown(long ticks)
+	{
+		final Grenade that = this;
+		
+		return taskId = Bukkit.getScheduler().scheduleSyncDelayedTask(MineStrike.getInstance(), new Runnable() {
+			@Override
+			public void run()
+			{
+				that.explode();
+			}
+		}, ticks);
+	}
+	
+	public boolean explode()
+	{
+		boolean spawn = type.onExplosion(this);
+		exploded = true;
+		
+		return spawn;
+	}
+	
+	public GrenadeType getType()
+	{
+		return type;
+	}
+	
+	public ThrownPotion getEntity()
+	{
+		return (ThrownPotion) nmsEntity.getBukkitEntity();
+	}
+	
+	public void setEntity(ThrownPotion entity)
+	{
+		EntityPotion nmsEntity = ((CraftThrownPotion) entity).getHandle();
+		
+		if(!(nmsEntity instanceof EntityGrenade))
+			throw new IllegalArgumentException("The entity " + entity + " is not a grenade!");
+		
+		this.nmsEntity = (EntityGrenade) nmsEntity;
+	}
+	
+	public EntityGrenade getNMSEntity()
+	{
+		return nmsEntity;
+	}
+	
+	public void setNMSEntity(EntityGrenade nmsEntity)
+	{
+		this.nmsEntity = nmsEntity;
+	}
+
+	public Integer getTaskId()
+	{
+		return taskId;
+	}
+	
+	public LivingEntity getShooter()
+	{
+		return shooter;
+	}
+
+	public void setShooter(LivingEntity shooter)
+	{
+		this.shooter = shooter;
+	}
+
+	public boolean hasExploded()
+	{
+		return exploded;
+	}
+
+	public void setExploded(boolean exploded)
+	{
+		this.exploded = exploded;
+	}
+}
