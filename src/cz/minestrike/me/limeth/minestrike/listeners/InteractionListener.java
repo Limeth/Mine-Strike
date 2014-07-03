@@ -49,6 +49,7 @@ public class InteractionListener implements Listener
 			Player player = event.getPlayer();
 			
 			Grenade.throwGrenade(grenadeType, player, 1);
+			player.setItemInHand(null);
 			return;
 		}
 		
