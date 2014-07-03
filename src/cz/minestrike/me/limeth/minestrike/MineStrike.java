@@ -34,17 +34,17 @@ public class MineStrike extends JavaPlugin
 	public void onEnable()
 	{
 		instance = this;
+		logger = Logger.getLogger("minecraft");
 		
 		try
 		{
+			registerMSListeners();
+			registerBukkitListeners();
 			loadData();
 			connectService();
-			registerBukkitListeners();
-			registerMSListeners();
 			redirectCommands();
 			MSPlayer.loadOnlinePlayers();
 			MSPlayer.startMovementLoop();
-			logger = Logger.getLogger("minecraft");
 			info("Mine-Strike successfully enabled! (v" + getDescription().getVersion() + ")");
 		}
 		catch(Exception e)

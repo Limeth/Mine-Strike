@@ -218,11 +218,11 @@ public class MSPlayer implements Record
 	{
 		if(hasGame())
 			game.redirect(event, this);
-		else
-			MSLobbyListener.getInstance().redirect(event, this);
 		
 		if(hasPlayerStructure())
 			playerStructure.redirect(event, this);
+		else
+			MSLobbyListener.getInstance().redirect(event, this);
 	}
 	
 	public float updateMovementSpeed()

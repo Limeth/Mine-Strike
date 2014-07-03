@@ -33,7 +33,7 @@ import cz.minestrike.me.limeth.minestrike.util.collections.FilledArrayList;
 public class DefuseGame extends TeamGame<GameLobby, GameMenu, DefuseGameMap, DefuseEquipmentManager>
 {
 	public static final String CUSTOM_DATA_DEAD = "MineStrike.game.dead", CUSTOM_DATA_BALANCE = "MineStrike.game.balance";
-	public static final int MONEY_CAP = 10000, REQUIRED_ROUNDS = 2;//8; TODO
+	public static final int MONEY_CAP = 10000, REQUIRED_ROUNDS = 8;
 	private int tScore, ctScore;
 	private MSGameListener<DefuseGame> defuseGameListener;
 	private MSGameListener<DefuseGame> shoppingListener;
@@ -182,7 +182,12 @@ public class DefuseGame extends TeamGame<GameLobby, GameMenu, DefuseGameMap, Def
 			start();
 		
 		msPlayer.setCustomData(CUSTOM_DATA_BALANCE, MoneyAward.START_CASUAL.getAmount());
-		msPlayer.sendMessage(ChatColor.GRAY + "You have joined the " + team.getColoredName() + ChatColor.GRAY + ".");
+		
+		if(team != null)
+			msPlayer.sendMessage(ChatColor.GRAY + "You have joined the " + team.getColoredName() + ChatColor.GRAY + ".");
+		else
+			msPlayer.sendMessage(ChatColor.GRAY + "You have joined the spectators.");
+		
 		return true;
 	}
 	

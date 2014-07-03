@@ -79,6 +79,8 @@ public class MSLobbyListener extends MSListener
 				{
 					CommandBlock cmd = (CommandBlock) targetState;
 					command = cmd.getCommand();
+					
+					event.setCancelled(true);
 				}
 				else
 					continue;
