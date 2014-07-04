@@ -3,7 +3,6 @@ package cz.minestrike.me.limeth.minestrike.listeners.msPlayer;
 import org.bukkit.craftbukkit.v1_7_R1.inventory.CraftInventoryPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryView;
@@ -16,7 +15,6 @@ import cz.minestrike.me.limeth.minestrike.MineStrike;
 import cz.minestrike.me.limeth.minestrike.events.GameEquipEvent;
 import cz.minestrike.me.limeth.minestrike.events.GameQuitEvent.GameQuitReason;
 import cz.minestrike.me.limeth.minestrike.games.Game;
-import cz.minestrike.me.limeth.minestrike.games.MSGameListener;
 import cz.minestrike.me.limeth.minestrike.games.PlayerState;
 import cz.minestrike.me.limeth.minestrike.util.PlayerUtil;
 
@@ -42,13 +40,6 @@ public class MSInventoryListener<T extends Game<?, ?, ?, ?>> extends MSGameListe
 		
 		PlayerUtil.setItem(inv, 1, 1, MSConstant.QUIT_SERVER_ITEM);
 		PlayerUtil.setItem(inv, 2, 1, MSConstant.QUIT_MENU_ITEM);
-	}
-	
-	@EventHandler
-	public void onPlayerDeath(PlayerDeathEvent event, MSPlayer msPlayer)
-	{
-		event.getDrops().clear();
-		event.setDroppedExp(0);
 	}
 	
 	@EventHandler

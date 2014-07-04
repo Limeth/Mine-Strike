@@ -2,12 +2,14 @@ package cz.minestrike.me.limeth.minestrike.listeners;
 
 import java.sql.SQLException;
 
+import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
+import cz.minestrike.me.limeth.minestrike.MSConfig;
 import cz.minestrike.me.limeth.minestrike.MSPlayer;
 import cz.minestrike.me.limeth.minestrike.MineStrike;
 import cz.minestrike.me.limeth.minestrike.events.GameQuitEvent.GameQuitReason;
@@ -20,8 +22,9 @@ public class ConnectionListener implements Listener
 	{
 		Player player = event.getPlayer();
 		String playerName = player.getName();
-		
-		MSPlayer.get(playerName, true);
+		Location spawn = MSConfig.getSpawnLocation();
+		MSPlayer msPlayer = MSPlayer.get(playerName, true);
+		msPlayer.teleport(spawn);
 	}
 	
 	@EventHandler

@@ -23,10 +23,11 @@ import cz.minestrike.me.limeth.minestrike.MineStrike;
 // Remember to change "yourMainClass" to your plugin's main class and "yourPackage" to your package's name
 // Original code by chasechocolate
 // Modified by ftbastler for Minecraft 1.7
+// Modified by Limeth for own purposes
 
 public class HeadsUpDisplay
 {
-	public static final int ENTITY_ID = 1234;
+	public static final int ENTITY_ID = 1234, WITHER_HEALTH = 300;
 
 	private static HashMap<String, Boolean> hasHealthBar = new HashMap<String, Boolean>();
 
@@ -117,7 +118,7 @@ public class HeadsUpDisplay
 			e1.printStackTrace();
 		}
 
-		DataWatcher watcher = getWatcher(text, 300);
+		DataWatcher watcher = getWatcher(text, WITHER_HEALTH);
 
 		try
 		{
@@ -218,35 +219,40 @@ public class HeadsUpDisplay
 		watcher.a(6, (Float) (float) health);
 		watcher.a(10, (String) text); // Entity name
 		watcher.a(11, (Byte) (byte) 1); // Show name, 1 = show, 0 = don't show
-		// watcher.a(16, (Integer) (int) health); //Wither health, 300 = full
+		// watcher.a(16, (Integer) (int) health); //Wither health, WITHER_HEALTH = full
 		// health
 
 		return watcher;
 	}
-
-	// Other methods
-	public static void displayTextBar(String text, final Player player)
+	
+	public static boolean hasBar(Player player)
 	{
-		PacketPlayOutSpawnEntityLiving mobPacket = getMobPacket(text, player.getLocation());
-
-		sendPacket(player, mobPacket);
-		hasHealthBar.put(player.getName(), true);
-
-		new BukkitRunnable()
-		{
-			@Override
-			public void run()
-			{
-				PacketPlayOutEntityDestroy destroyEntityPacket = getDestroyEntityPacket();
-
-				sendPacket(player, destroyEntityPacket);
-				hasHealthBar.put(player.getName(), false);
-			}
-		}.runTaskLater(MineStrike.getInstance(), 120L);
+		return hasHealthBar.get(player.getName());
 	}
 
-	public static void displayLoadingBar(final String text, final String completeText, final Player player, final int healthAdd, final long delay, final boolean loadUp)
+	// Other methods
+	public static void displayTextBar(String text, Player player)
 	{
+		if(hasBar(player))
+			removeBar(player);
+		
+		PacketPlayOutSpawnEntityLiving mobPacket = getMobPacket(text, player.getLocation());
+		sendPacket(player, mobPacket);
+		hasHealthBar.put(player.getName(), true);
+	}
+	
+	public static void removeBar(Player player)
+	{
+		PacketPlayOutEntityDestroy destroyEntityPacket = getDestroyEntityPacket();
+		sendPacket(player, destroyEntityPacket);
+		hasHealthBar.put(player.getName(), false);
+	}
+	
+	public static void displayLoadingBar(String text, Player player, double healthAdd, double progress, long delay, boolean loadUp, Runnable onFinish)
+	{
+		if(hasBar(player))
+			removeBar(player);
+		
 		PacketPlayOutSpawnEntityLiving mobPacket = getMobPacket(text, player.getLocation());
 
 		sendPacket(player, mobPacket);
@@ -254,70 +260,46 @@ public class HeadsUpDisplay
 
 		new BukkitRunnable()
 		{
-			int health = (loadUp ? 0 : 300);
+			double health = (loadUp ? progress : (WITHER_HEALTH - progress));
 
 			@Override
 			public void run()
 			{
-				if((loadUp ? health < 300 : health > 0))
+				if(!hasBar(player))
 				{
-					DataWatcher watcher = getWatcher(text, health);
+					this.cancel();
+					return;
+				}
+				
+				if((loadUp ? health < WITHER_HEALTH : health > 0))
+				{
+					DataWatcher watcher = getWatcher(text, (int) health);
 					PacketPlayOutEntityMetadata metaPacket = getMetadataPacket(watcher);
 
 					sendPacket(player, metaPacket);
-
-					if(loadUp)
-					{
-						health += healthAdd;
-					}
-					else
-					{
-						health -= healthAdd;
-					}
+					
+					health += loadUp ? healthAdd : -healthAdd;
 				}
 				else
 				{
-					DataWatcher watcher = getWatcher(text, (loadUp ? 300 : 0));
+					DataWatcher watcher = getWatcher(text, (loadUp ? WITHER_HEALTH : 0));
 					PacketPlayOutEntityMetadata metaPacket = getMetadataPacket(watcher);
-					PacketPlayOutEntityDestroy destroyEntityPacket = getDestroyEntityPacket();
 
 					sendPacket(player, metaPacket);
-					sendPacket(player, destroyEntityPacket);
-					hasHealthBar.put(player.getName(), false);
-
-					// Complete text
-					PacketPlayOutSpawnEntityLiving mobPacket = getMobPacket(completeText, player.getLocation());
-
-					sendPacket(player, mobPacket);
-					hasHealthBar.put(player.getName(), true);
-
-					DataWatcher watcher2 = getWatcher(completeText, 300);
-					PacketPlayOutEntityMetadata metaPacket2 = getMetadataPacket(watcher2);
-
-					sendPacket(player, metaPacket2);
-
-					new BukkitRunnable()
-					{
-						@Override
-						public void run()
-						{
-							PacketPlayOutEntityDestroy destroyEntityPacket = getDestroyEntityPacket();
-
-							sendPacket(player, destroyEntityPacket);
-							hasHealthBar.put(player.getName(), false);
-						}
-					}.runTaskLater(MineStrike.getInstance(), 40L);
-
+					removeBar(player);
+					
+					onFinish.run();
 					this.cancel();
 				}
 			}
 		}.runTaskTimer(MineStrike.getInstance(), delay, delay);
 	}
 
-	public static void displayLoadingBar(final String text, final String completeText, final Player player, final int secondsDelay, final boolean loadUp)
+	public static void displayLoadingBar(String text, Player player, double secondsProgress, double secondsDuration, boolean loadUp, Runnable onFinish)
 	{
-		final int healthChangePerSecond = 300 / secondsDelay;
-
-		displayLoadingBar(text, completeText, player, healthChangePerSecond, 20L, loadUp);
+		double healthChangePerSecond = WITHER_HEALTH / secondsDuration;
+		double progress = WITHER_HEALTH * secondsProgress / secondsDuration;
+		
+		displayLoadingBar(text, player, progress, healthChangePerSecond, 20L, loadUp, onFinish);
 	}
 }

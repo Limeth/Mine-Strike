@@ -12,10 +12,10 @@ import cz.minestrike.me.limeth.minestrike.areas.Structure;
 import cz.minestrike.me.limeth.minestrike.areas.schemes.GameMap;
 import cz.minestrike.me.limeth.minestrike.areas.schemes.Scheme;
 import cz.minestrike.me.limeth.minestrike.events.ShopOpenEvent;
-import cz.minestrike.me.limeth.minestrike.games.MSGameListener;
 import cz.minestrike.me.limeth.minestrike.games.PlayerState;
 import cz.minestrike.me.limeth.minestrike.games.Team;
 import cz.minestrike.me.limeth.minestrike.games.team.defuse.DefuseGame.RoundEndReason;
+import cz.minestrike.me.limeth.minestrike.listeners.msPlayer.MSGameListener;
 
 public class DefuseGameListener extends MSGameListener<DefuseGame>
 {

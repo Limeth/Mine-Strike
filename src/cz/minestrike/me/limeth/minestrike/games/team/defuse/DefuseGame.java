@@ -21,14 +21,17 @@ import cz.minestrike.me.limeth.minestrike.events.ArenaJoinEvent;
 import cz.minestrike.me.limeth.minestrike.events.GameQuitEvent.GameQuitReason;
 import cz.minestrike.me.limeth.minestrike.events.GameSpawnEvent;
 import cz.minestrike.me.limeth.minestrike.games.GamePhase;
+import cz.minestrike.me.limeth.minestrike.games.GamePhaseType;
 import cz.minestrike.me.limeth.minestrike.games.GameType;
-import cz.minestrike.me.limeth.minestrike.games.MSGameListener;
 import cz.minestrike.me.limeth.minestrike.games.MoneyAward;
 import cz.minestrike.me.limeth.minestrike.games.PlayerState;
 import cz.minestrike.me.limeth.minestrike.games.Team;
 import cz.minestrike.me.limeth.minestrike.games.team.TeamGame;
+import cz.minestrike.me.limeth.minestrike.games.team.defuse.Round.RoundPhase;
+import cz.minestrike.me.limeth.minestrike.listeners.msPlayer.MSGameListener;
 import cz.minestrike.me.limeth.minestrike.listeners.msPlayer.MSShoppingListener;
 import cz.minestrike.me.limeth.minestrike.util.collections.FilledArrayList;
+import ftbastler.HeadsUpDisplay;
 
 public class DefuseGame extends TeamGame<GameLobby, GameMenu, DefuseGameMap, DefuseEquipmentManager>
 {
@@ -79,11 +82,11 @@ public class DefuseGame extends TeamGame<GameLobby, GameMenu, DefuseGameMap, Def
 	{
 		for(MSPlayer msPlayer : getPlayingPlayers())
 		{
-			spawnAndEquip(msPlayer, false);
-			
 			Player player = msPlayer.getPlayer();
 			
 			player.setWalkSpeed(0);
+			spawnAndEquip(msPlayer, false);
+			showWitherBar(msPlayer);
 		}
 		
 		broadcast("Preparing round...");
@@ -94,11 +97,52 @@ public class DefuseGame extends TeamGame<GameLobby, GameMenu, DefuseGameMap, Def
 	public boolean roundStart()
 	{
 		for(MSPlayer msPlayer : getPlayingPlayers())
+		{
+			showWitherBar(msPlayer);
 			msPlayer.updateMovementSpeed();
+		}
 		
 		broadcast("Round started.");
 		
 		return true;
+	}
+	
+	public void showWitherBar(MSPlayer msPlayer)
+	{
+		Player player = msPlayer.getPlayer();
+		GamePhaseType phaseType = getPhaseType();
+		
+		if(phaseType == GamePhaseType.RUNNING)
+		{
+			Round round = getRound();
+			RoundPhase roundPhase = round.getPhase();
+			
+			if(roundPhase == RoundPhase.STARTED || roundPhase == RoundPhase.PREPARING)
+			{
+				long nowMillis = System.currentTimeMillis();
+				long ranAtMillis = round.getRanAt();
+				long differenceMillis = nowMillis - ranAtMillis;
+				double difference = differenceMillis / 20D;
+				
+				HeadsUpDisplay.displayLoadingBar(getWitherTitle(), player, difference, Round.ROUND_TIME, false, () -> {
+					HeadsUpDisplay.displayTextBar(getWitherTitle(), player);
+				});
+				
+				return;
+			}
+		}
+		
+		HeadsUpDisplay.displayTextBar(getWitherTitle(), player);
+	}
+	
+	public void removeWitherBar(MSPlayer msPlayer)
+	{
+		HeadsUpDisplay.removeBar(msPlayer.getPlayer());
+	}
+	
+	public String getWitherTitle()
+	{
+		return ChatColor.BLUE + "" + ctScore + ChatColor.DARK_GRAY + " | " + ChatColor.GOLD + tScore;
 	}
 	
 	public void roundEnd(RoundEndReason reason)
@@ -181,7 +225,8 @@ public class DefuseGame extends TeamGame<GameLobby, GameMenu, DefuseGameMap, Def
 		if(!hasPhase())
 			start();
 		
-		msPlayer.setCustomData(CUSTOM_DATA_BALANCE, MoneyAward.START_CASUAL.getAmount());
+		setBalance(msPlayer, MoneyAward.START_CASUAL.getAmount());
+		showWitherBar(msPlayer);
 		
 		if(team != null)
 			msPlayer.sendMessage(ChatColor.GRAY + "You have joined the " + team.getColoredName() + ChatColor.GRAY + ".");
@@ -215,6 +260,14 @@ public class DefuseGame extends TeamGame<GameLobby, GameMenu, DefuseGameMap, Def
 			addBalance(msPlayer, difference);
 	}
 	
+	public void updateBalance(MSPlayer msPlayer)
+	{
+		int balance = getBalance(msPlayer);
+		Player player = msPlayer.getPlayer();
+		
+		player.setLevel(balance);
+	}
+	
 	public void addBalance(MSPlayer msPlayer, int difference)
 	{
 		int balance = getBalance(msPlayer);
@@ -231,6 +284,7 @@ public class DefuseGame extends TeamGame<GameLobby, GameMenu, DefuseGameMap, Def
 			balance = MONEY_CAP;
 		
 		msPlayer.setCustomData(CUSTOM_DATA_BALANCE, balance);
+		updateBalance(msPlayer);
 	}
 	
 	public int getBalance(MSPlayer msPlayer)
@@ -338,10 +392,8 @@ public class DefuseGame extends TeamGame<GameLobby, GameMenu, DefuseGameMap, Def
 			return null;
 		}
 		
-		Player player = msPlayer.getPlayer();
-		
 		if(teleport)
-			player.teleport(spawnLocation);
+			msPlayer.teleport(spawnLocation);
 		
 		return spawnLocation;
 	}

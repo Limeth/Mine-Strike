@@ -71,6 +71,9 @@ public class InteractionListener implements Listener
 		Player player = event.getEntity();
 		MSPlayer msPlayer = MSPlayer.get(player);
 		
+		event.setKeepLevel(true);
+		event.setDroppedExp(0);
+		event.getDrops().clear();
 		msPlayer.respawnDelayed();
 	}
 	

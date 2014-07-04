@@ -9,6 +9,7 @@ import net.minecraft.server.v1_7_R1.PacketPlayInClientCommand;
 
 import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
+import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -264,9 +265,9 @@ public class MSPlayer implements Record
 		else
 		{
 			Location loc = MSConfig.getWorld().getSpawnLocation();
-			Player player = getPlayer();
 			
-			player.teleport(loc);
+			if(teleport)
+				teleport(loc);
 			
 			return loc;
 		}
@@ -433,6 +434,24 @@ public class MSPlayer implements Record
 		
 		for(int i = 0; i < MSConstant.INVENTORY_WIDTH; i++)
 			inv.setItem(i, null);
+	}
+	
+	public void teleport(Location loc, boolean loadChunks)
+	{
+		if(loadChunks)
+		{
+			Chunk chunk = loc.getChunk();
+			
+			if(!chunk.isLoaded())
+				chunk.load();
+		}
+		
+		getPlayer().teleport(loc);
+	}
+	
+	public void teleport(Location loc)
+	{
+		teleport(loc, true);
 	}
 	
 	public Vector getInaccuracyVector(GunType gunType)

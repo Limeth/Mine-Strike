@@ -28,6 +28,7 @@ import cz.minestrike.me.limeth.minestrike.areas.schemes.GameMap;
 import cz.minestrike.me.limeth.minestrike.areas.schemes.GameMenu;
 import cz.minestrike.me.limeth.minestrike.equipment.EquipmentManager;
 import cz.minestrike.me.limeth.minestrike.events.GameEquipEvent;
+import cz.minestrike.me.limeth.minestrike.listeners.msPlayer.MSGameListener;
 import cz.minestrike.me.limeth.minestrike.renderers.MapPollRenderer;
 import cz.minestrike.me.limeth.minestrike.util.MapAllocator;
 import cz.minestrike.me.limeth.minestrike.util.RendererUtil;

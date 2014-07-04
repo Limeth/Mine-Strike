@@ -96,6 +96,7 @@ public abstract class Game<Lo extends GameLobby, Me extends GameMenu, Ma extends
 		msPlayer.spawn(true);
 	}
 	
+	@SuppressWarnings("deprecation")
 	public void equip(MSPlayer msPlayer, boolean force)
 	{
 		GameEquipEvent event = new GameEquipEvent(this, msPlayer, force);
@@ -490,7 +491,7 @@ public abstract class Game<Lo extends GameLobby, Me extends GameMenu, Ma extends
 	
 	public GamePhaseType getPhaseType()
 	{
-		return phase.getType();
+		return phase != null ? phase.getType() : null;
 	}
 
 	public String getLobbyId()
@@ -569,13 +570,13 @@ public abstract class Game<Lo extends GameLobby, Me extends GameMenu, Ma extends
 	{
 		return equipmentManager;
 	}
-
+	
 	@Override
 	public String toString()
 	{
 		return "Game [type=" + type + ", id=" + id + ", name=" + name + "]";
 	}
-
+	
 	public Scoreboard getScoreboard()
 	{
 		return scoreboard;

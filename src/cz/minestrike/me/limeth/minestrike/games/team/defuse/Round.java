@@ -12,8 +12,8 @@ import cz.minestrike.me.limeth.minestrike.areas.schemes.GameMenu;
 import cz.minestrike.me.limeth.minestrike.events.ArenaJoinEvent;
 import cz.minestrike.me.limeth.minestrike.games.GamePhase;
 import cz.minestrike.me.limeth.minestrike.games.GamePhaseType;
-import cz.minestrike.me.limeth.minestrike.games.MSGameListener;
 import cz.minestrike.me.limeth.minestrike.games.team.defuse.DefuseGame.RoundEndReason;
+import cz.minestrike.me.limeth.minestrike.listeners.msPlayer.MSGameListener;
 
 public class Round extends GamePhase<GameLobby, GameMenu, DefuseGameMap, DefuseEquipmentManager>
 {
@@ -23,6 +23,7 @@ public class Round extends GamePhase<GameLobby, GameMenu, DefuseGameMap, DefuseE
 		@Override
 		public void run()
 		{
+			setRanAt(System.currentTimeMillis());
 			boolean cont = getGame().roundPrepare();
 			setPhase(RoundPhase.PREPARING);
 
@@ -34,6 +35,7 @@ public class Round extends GamePhase<GameLobby, GameMenu, DefuseGameMap, DefuseE
 		@Override
 		public void run()
 		{
+			setRanAt(System.currentTimeMillis());
 			boolean cont = getGame().roundStart();
 			setPhase(RoundPhase.STARTED);
 
@@ -45,6 +47,7 @@ public class Round extends GamePhase<GameLobby, GameMenu, DefuseGameMap, DefuseE
 		@Override
 		public void run()
 		{
+			setRanAt(System.currentTimeMillis());
 			getGame().roundEnd(RoundEndReason.TIME_OUT);
 			setPhase(RoundPhase.ENDED);
 		}
@@ -52,6 +55,7 @@ public class Round extends GamePhase<GameLobby, GameMenu, DefuseGameMap, DefuseE
 	private final Runnable voteRunnable = new Runnable() {
 		public void run()
 		{
+			setRanAt(System.currentTimeMillis());
 			getGame().startMapPoll();
 		}
 	};
@@ -59,6 +63,7 @@ public class Round extends GamePhase<GameLobby, GameMenu, DefuseGameMap, DefuseE
 		@Override
 		public void run()
 		{
+			setRanAt(System.currentTimeMillis());
 			getGame().roundNext();
 		}
 	};
@@ -66,6 +71,7 @@ public class Round extends GamePhase<GameLobby, GameMenu, DefuseGameMap, DefuseE
 	private final MSGameListener<DefuseGame> listener;
 	private RoundPhase phase;
 	private Integer taskId;
+	private Long ranAt;
 	
 	public Round(DefuseGame game)
 	{
@@ -150,6 +156,16 @@ public class Round extends GamePhase<GameLobby, GameMenu, DefuseGameMap, DefuseE
 		listener.redirect(event, msPlayer);
 	}
 	
+	public Long getRanAt()
+	{
+		return ranAt;
+	}
+
+	public void setRanAt(Long ranAt)
+	{
+		this.ranAt = ranAt;
+	}
+
 	private static class RoundListener extends MSGameListener<DefuseGame>
 	{
 		public RoundListener(DefuseGame game)
