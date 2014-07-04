@@ -308,6 +308,8 @@ public class DefuseEquipmentManager implements EquipmentManager
 		}
 		else
 			throw new EquipmentPurchaseException(equipment, Translation.GAME_SHOP_ERROR_UNKNOWN.getMessage(equipment.getClass().getSimpleName()));
+		
+		game.addBalance(msPlayer, -price);
 	}
 
 	public DefuseGame getGame()

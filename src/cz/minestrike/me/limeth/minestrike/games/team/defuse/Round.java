@@ -24,8 +24,8 @@ public class Round extends GamePhase<GameLobby, GameMenu, DefuseGameMap, DefuseE
 		public void run()
 		{
 			setRanAt(System.currentTimeMillis());
-			boolean cont = getGame().roundPrepare();
 			setPhase(RoundPhase.PREPARING);
+			boolean cont = getGame().roundPrepare();
 
 			if(cont)
 				taskId = Bukkit.getScheduler().scheduleSyncDelayedTask(MineStrike.getInstance(), startRunnable, SPAWN_TIME);
@@ -36,8 +36,8 @@ public class Round extends GamePhase<GameLobby, GameMenu, DefuseGameMap, DefuseE
 		public void run()
 		{
 			setRanAt(System.currentTimeMillis());
-			boolean cont = getGame().roundStart();
 			setPhase(RoundPhase.STARTED);
+			boolean cont = getGame().roundStart();
 
 			if(cont)
 				taskId = Bukkit.getScheduler().scheduleSyncDelayedTask(MineStrike.getInstance(), endRunnable, ROUND_TIME);
@@ -48,8 +48,8 @@ public class Round extends GamePhase<GameLobby, GameMenu, DefuseGameMap, DefuseE
 		public void run()
 		{
 			setRanAt(System.currentTimeMillis());
-			getGame().roundEnd(RoundEndReason.TIME_OUT);
 			setPhase(RoundPhase.ENDED);
+			getGame().roundEnd(RoundEndReason.TIME_OUT);
 		}
 	};
 	private final Runnable voteRunnable = new Runnable() {

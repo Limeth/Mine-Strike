@@ -29,7 +29,7 @@ public class HeadsUpDisplay
 {
 	public static final int ENTITY_ID = 1234, WITHER_HEALTH = 300;
 
-	private static HashMap<String, Boolean> hasHealthBar = new HashMap<String, Boolean>();
+	private static HashMap<String, BukkitRunnable> healthBars = new HashMap<String, BukkitRunnable>();
 
 	public static void sendPacket(Player player, Packet packet)
 	{
@@ -227,7 +227,7 @@ public class HeadsUpDisplay
 	
 	public static boolean hasBar(Player player)
 	{
-		return hasHealthBar.get(player.getName());
+		return healthBars.containsKey(player.getName());
 	}
 
 	// Other methods
@@ -238,17 +238,23 @@ public class HeadsUpDisplay
 		
 		PacketPlayOutSpawnEntityLiving mobPacket = getMobPacket(text, player.getLocation());
 		sendPacket(player, mobPacket);
-		hasHealthBar.put(player.getName(), true);
+		healthBars.put(player.getName(), null);
 	}
 	
 	public static void removeBar(Player player)
 	{
+		String playerName = player.getName();
+		BukkitRunnable runnable = healthBars.get(playerName);
+		
+		if(runnable != null)
+			runnable.cancel();
+		
 		PacketPlayOutEntityDestroy destroyEntityPacket = getDestroyEntityPacket();
 		sendPacket(player, destroyEntityPacket);
-		hasHealthBar.put(player.getName(), false);
+		healthBars.remove(playerName);
 	}
 	
-	public static void displayLoadingBar(String text, Player player, double healthAdd, double progress, long delay, boolean loadUp, Runnable onFinish)
+	public static void displayLoadingBar(String text, Player player, double progress, double healthAdd, long delay, boolean loadUp, Runnable onFinish)
 	{
 		if(hasBar(player))
 			removeBar(player);
@@ -256,21 +262,14 @@ public class HeadsUpDisplay
 		PacketPlayOutSpawnEntityLiving mobPacket = getMobPacket(text, player.getLocation());
 
 		sendPacket(player, mobPacket);
-		hasHealthBar.put(player.getName(), true);
 
-		new BukkitRunnable()
+		BukkitRunnable runnable = new BukkitRunnable()
 		{
 			double health = (loadUp ? progress : (WITHER_HEALTH - progress));
 
 			@Override
 			public void run()
 			{
-				if(!hasBar(player))
-				{
-					this.cancel();
-					return;
-				}
-				
 				if((loadUp ? health < WITHER_HEALTH : health > 0))
 				{
 					DataWatcher watcher = getWatcher(text, (int) health);
@@ -292,13 +291,16 @@ public class HeadsUpDisplay
 					this.cancel();
 				}
 			}
-		}.runTaskTimer(MineStrike.getInstance(), delay, delay);
+		};
+		
+		healthBars.put(player.getName(), runnable);
+		runnable.runTaskTimer(MineStrike.getInstance(), delay, delay);
 	}
 
 	public static void displayLoadingBar(String text, Player player, double secondsProgress, double secondsDuration, boolean loadUp, Runnable onFinish)
 	{
 		double healthChangePerSecond = WITHER_HEALTH / secondsDuration;
-		double progress = WITHER_HEALTH * secondsProgress / secondsDuration;
+		double progress = healthChangePerSecond * secondsProgress;
 		
 		displayLoadingBar(text, player, progress, healthChangePerSecond, 20L, loadUp, onFinish);
 	}

@@ -116,15 +116,21 @@ public class DefuseGame extends TeamGame<GameLobby, GameMenu, DefuseGameMap, Def
 		{
 			Round round = getRound();
 			RoundPhase roundPhase = round.getPhase();
+			Long time = null;
 			
-			if(roundPhase == RoundPhase.STARTED || roundPhase == RoundPhase.PREPARING)
+			if(roundPhase == RoundPhase.PREPARING)
+				time = Round.SPAWN_TIME;
+			else if(roundPhase == RoundPhase.STARTED)
+				time = Round.ROUND_TIME;
+			
+			if(time != null)
 			{
 				long nowMillis = System.currentTimeMillis();
 				long ranAtMillis = round.getRanAt();
 				long differenceMillis = nowMillis - ranAtMillis;
-				double difference = differenceMillis / 20D;
+				double difference = differenceMillis * 20D / 1000D;
 				
-				HeadsUpDisplay.displayLoadingBar(getWitherTitle(), player, difference, Round.ROUND_TIME, false, () -> {
+				HeadsUpDisplay.displayLoadingBar(getWitherTitle(), player, difference, time / 20D, false, () -> {
 					HeadsUpDisplay.displayTextBar(getWitherTitle(), player);
 				});
 				

@@ -144,7 +144,7 @@ public class MSConfig
 	
 	public static Location getSpawnLocation()
 	{
-		return lazySpawnLocation != null ? lazySpawnLocation : (lazySpawnLocation = spawn.getLocation(world));
+		return lazySpawnLocation != null ? lazySpawnLocation : (lazySpawnLocation = spawn.getLocation(world).add(0.5, 0.5, 0.5));
 	}
 	
 	public static String getMySQLIP()

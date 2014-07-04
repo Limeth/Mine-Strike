@@ -5,6 +5,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -144,13 +146,15 @@ public class MineStrike extends JavaPlugin
 	public static void info(String string)
 	{
 		logger.log(Level.INFO, MSConstant.CONSOLE_PREFIX + string);
-		//Bukkit.getConsoleSender().sendMessage(MSConstant.CONSOLE_PREFIX + string);
 	}
 	
 	public static void warn(String string)
 	{
 		logger.log(Level.WARNING, MSConstant.CONSOLE_PREFIX + string);
-		//Bukkit.getConsoleSender().sendMessage(MSConstant.CONSOLE_PREFIX + ChatColor.WHITE + "[!] " + ChatColor.RED + string);
+		
+		for(Player player : Bukkit.getOnlinePlayers())
+			if(player.hasPermission("MineStrike.warn"))
+				player.sendMessage(MSConstant.CONSOLE_PREFIX + ChatColor.RED + "[!] " + ChatColor.RESET + string);
 	}
 	
 	public static MySQLService getService()
