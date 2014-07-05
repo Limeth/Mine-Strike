@@ -8,6 +8,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 
 public enum Translation
 {
+	ERROR("&c&lAn error occured.", "&c&lNastala chyba."),
 	GAME_POLL_HEADER_VOTING("&a&lMap Poll &8| &e{1}s", "&a&lHlasování o mapu &8| &e{1}s"),
 	GAME_POLL_HEADER_CHANGING("&2&lChanging in &8| &6{1}s", "&2&lZmena za &8| &6{1}s"),
 	GAME_POLL_VOTE_SUCCESS("&aYou have voted for map &e&l{1}&a.", "&aHlasoval(a) jste pro mapu &e&l{1}&a."),
@@ -22,6 +23,10 @@ public enum Translation
 	GAME_SHOP_ERROR_AWAY("&cYou are not in the shopping zone.", "&cNejste v nakupovací zóne."),
 	GAME_SHOP_ERROR_UNAVAILABLE_MAP("&cShopping not available on this map.", "&cNakupování na této mape není dostupné."),
 	GAME_SHOP_ERROR_UNAVAILABLE_GAME("&cYou can not purchase any equipment in this game type.", "&cV tomto herním módu nelze nakupovat vybavení."),
+	GAME_BOMB_RECEIVED("&c&lYou have the bomb, plant it at a bombsite.", "&c&lMás bombu, aktivuj ji na stanovisti."),
+	GAME_BOMB_INVALIDPLACEMENT("&cThe bomb must be planted at a bombsite.", "&cBomba musí byt polozena na stanovisti."),
+	GAME_BOMB_PLANTED("&c&lThe bomb has been planted!", "&c&lBomba byla polozena!"),
+	GAME_BOMB_DEFUSED("&e&lThe bomb has been defused.", "&e&lBomba byla zneskodnena."),
 	;
 	
 	public static final String ENGLISH_NAME = "en", CZECH_NAME = "cz", DEFAULT_LANGUAGE_NAME = ENGLISH_NAME;

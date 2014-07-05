@@ -218,6 +218,12 @@ public class Region
 		return higher.getZ() - lower.getZ() + 1;
 	}
 	
+	public void moveTo(Point point)
+	{
+		higher.subtract(lower).add(point);
+		lower = point;
+	}
+	
 	public void add(Point point)
 	{
 		lower.add(point);

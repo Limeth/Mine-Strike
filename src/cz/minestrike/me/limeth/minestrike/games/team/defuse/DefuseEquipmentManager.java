@@ -2,11 +2,13 @@ package cz.minestrike.me.limeth.minestrike.games.team.defuse;
 
 import java.util.ArrayList;
 
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
+import org.bukkit.inventory.meta.ItemMeta;
 
 import cz.minestrike.me.limeth.minestrike.MSConstant;
 import cz.minestrike.me.limeth.minestrike.MSPlayer;
@@ -33,10 +35,18 @@ public class DefuseEquipmentManager implements EquipmentManager
 		ItemStack boughtKit = new ItemStack(Material.DIAMOND_PICKAXE);
 		boughtKit.addUnsafeEnchantment(Enchantment.DIG_SPEED, 2);
 		DEFUSE_KIT_BOUGHT = new SimpleEquipment(boughtKit, 400, MSConstant.MOVEMENT_SPEED_DEFAULT);
+		
+		ItemStack bomb = new ItemStack(Material.OBSIDIAN);
+		ItemMeta bombIM = bomb.getItemMeta();
+		
+		bombIM.setDisplayName(ChatColor.YELLOW + "" + ChatColor.BOLD + "C4");
+		bomb.setItemMeta(bombIM);
+		
+		BOMB = new SimpleEquipment(bomb, 0, MSConstant.MOVEMENT_SPEED_DEFAULT);
 	}
 	
-	public static final Equipment DEFUSE_KIT_DEFAULT, DEFUSE_KIT_BOUGHT;
-	public static final int INDEX_GUN_PRIMARY = 0, INDEX_GUN_SECONDARY = 1, INDEX_GRENADES = 2, INDEX_DEFUSE_KIT = 7, INDEX_KNIFE = 8, GRENADE_AMOUNT = 3;
+	public static final SimpleEquipment DEFUSE_KIT_DEFAULT, DEFUSE_KIT_BOUGHT, BOMB;
+	public static final int INDEX_GUN_PRIMARY = 0, INDEX_GUN_SECONDARY = 1, INDEX_GRENADES = 2, INDEX_EXTRA = 7, INDEX_KNIFE = 8, GRENADE_AMOUNT = 3;
 	private final DefuseGame game;
 	
 	public DefuseEquipmentManager(DefuseGame game)
@@ -65,6 +75,15 @@ public class DefuseEquipmentManager implements EquipmentManager
 		
 		if(team == Team.COUNTER_TERRORISTS)
 			equipDefuseKit(msPlayer, false);
+	}
+	
+	public void equipBomb(MSPlayer msPlayer)
+	{
+		Player player = msPlayer.getPlayer();
+		PlayerInventory inv = player.getInventory();
+		ItemStack item = BOMB.newItemStack(msPlayer, null); //TODO equipment custom
+		
+		inv.setItem(INDEX_EXTRA, item);
 	}
 	
 	public void equipKnife(MSPlayer msPlayer)
@@ -226,14 +245,14 @@ public class DefuseEquipmentManager implements EquipmentManager
 		Equipment kit = bought ? DEFUSE_KIT_BOUGHT : DEFUSE_KIT_DEFAULT;
 		ItemStack item = kit.newItemStack(msPlayer, null); //TODO customization
 		
-		inv.setItem(INDEX_DEFUSE_KIT, item);
+		inv.setItem(INDEX_EXTRA, item);
 	}
 	
 	public boolean hasBoughtDefuseKit(MSPlayer msPlayer)
 	{
 		Player player = msPlayer.getPlayer();
 		PlayerInventory inv = player.getInventory();
-		ItemStack kit = inv.getItem(INDEX_DEFUSE_KIT);
+		ItemStack kit = inv.getItem(INDEX_EXTRA);
 		
 		return DEFUSE_KIT_BOUGHT.equals(kit);
 	}
@@ -269,7 +288,7 @@ public class DefuseEquipmentManager implements EquipmentManager
 			
 			return GrenadeType.valueOf(is);
 		}
-		else if(slot == INDEX_DEFUSE_KIT)
+		else if(slot == INDEX_EXTRA)
 			return hasBoughtDefuseKit(msPlayer) ? DEFUSE_KIT_BOUGHT : DEFUSE_KIT_DEFAULT;
 		else if(slot == INDEX_KNIFE)
 			return Knife.KNIFE;

@@ -15,6 +15,7 @@ import org.bukkit.craftbukkit.libs.com.google.gson.JsonElement;
 import org.bukkit.craftbukkit.libs.com.google.gson.JsonObject;
 import org.bukkit.craftbukkit.libs.com.google.gson.JsonParser;
 
+import cz.minestrike.me.limeth.minestrike.areas.DirectedPoint;
 import cz.minestrike.me.limeth.minestrike.areas.Point;
 import cz.minestrike.me.limeth.minestrike.renderers.MapPollRenderer;
 
@@ -23,7 +24,7 @@ public class MSConfig
 	public static final File FILE = new File("plugins/MineStrike/config.json");
 	public static final File SERVER_PROPERTIES = new File("server.properties");
 	private static World world;
-	private static Point spawn;
+	private static DirectedPoint spawn;
 	private static String languageName, mysqlIP, mysqlDatabase, mysqlUsername, mysqlPassword, mysqlTablePlayers;
 	private static int mysqlPort;
 	private static Location lazySpawnLocation;
@@ -49,7 +50,7 @@ public class MSConfig
 		
 		languageName = root.get("language").getAsString();
 		world = Bukkit.getWorld(root.get("world").getAsString());
-		spawn = builder.fromJson(root.get("spawn"), Point.class);
+		spawn = builder.fromJson(root.get("spawn"), DirectedPoint.class);
 		
 		JsonObject mysql = root.get("mysql").getAsJsonObject();
 		mysqlIP = mysql.get("ip").getAsString();
@@ -87,7 +88,7 @@ public class MSConfig
 
 		root.addProperty("language", Translation.DEFAULT_LANGUAGE_NAME);
 		root.addProperty("world", getDefaultWorld());
-		root.add("spawn", gson.toJsonTree(new Point(-1024, 96, -1024)));
+		root.add("spawn", gson.toJsonTree(new DirectedPoint(-1024, 96, -1024, 0f, 0f)));
 		
 		JsonObject mysql = new JsonObject();
 		

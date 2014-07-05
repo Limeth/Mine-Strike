@@ -1,6 +1,8 @@
 package cz.minestrike.me.limeth.minestrike.listeners.msPlayer;
 
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map.Entry;
 
@@ -61,8 +63,84 @@ public class MSListenerManager implements Listener
 		{
 			return inventoryEventExecutor;
 		}
+		else if(ReflectionEventExecutor.isApplicable(eventClass))
+		{
+			return ReflectionEventExecutor.valueOf(eventClass);
+		}
 		else
 			return null;
+	}
+	
+	private static final class ReflectionEventExecutor extends MSPlayerEventExecutor<Event>
+	{
+		private static final HashMap<Class<? extends Event>, ReflectionEventExecutor> map = new HashMap<Class<? extends Event>, ReflectionEventExecutor>();
+		private final Method method;
+		
+		private ReflectionEventExecutor(Class<? extends Event> clazz)
+		{
+			try
+			{
+				this.method = clazz.getDeclaredMethod("getPlayer");
+			}
+			catch(NoSuchMethodException | SecurityException e)
+			{
+				throw new IllegalArgumentException(e);
+			};
+		}
+		
+		public static ReflectionEventExecutor valueOf(Class<? extends Event> clazz)
+		{
+			ReflectionEventExecutor value = map.get(clazz);
+			
+			if(value == null)
+			{
+				map.put(clazz, value = new ReflectionEventExecutor(clazz));
+			}
+			
+			return value;
+		}
+		
+		public static boolean isApplicable(Class<? extends Event> clazz)
+		{
+			Method method;
+			
+			try
+			{
+				method = clazz.getDeclaredMethod("getPlayer");
+			}
+			catch(NoSuchMethodException | SecurityException e)
+			{
+				return false;
+			}
+//			
+//			if(!method.isAccessible())
+//				return false;
+//			
+			Class<?> returnType = method.getReturnType();
+			
+			return returnType == Player.class;
+		}
+		
+		@Override
+		protected Player getPlayer(Event event)
+		{
+			try
+			{
+				return (Player) method.invoke(event);
+			}
+			catch(IllegalAccessException | IllegalArgumentException | InvocationTargetException e)
+			{
+				e.printStackTrace();
+			}
+			
+			return null;
+		}
+
+		@Override
+		public String toString()
+		{
+			return "ReflectionEventExecutor [method=" + method + "]";
+		}
 	}
 	
 	private final EventExecutor playerEventExecutor = new MSPlayerEventExecutor<PlayerEvent>() {

@@ -59,4 +59,9 @@ public class SimpleEquipment implements Equipment
 		
 		return item.getItemMeta().getDisplayName();
 	}
+	
+	public ItemStack getOriginalItemStack()
+	{
+		return item;
+	}
 }

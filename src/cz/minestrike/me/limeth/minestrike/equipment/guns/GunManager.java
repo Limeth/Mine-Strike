@@ -13,13 +13,19 @@ import net.minecraft.server.v1_7_R1.MovingObjectPosition;
 import net.minecraft.server.v1_7_R1.Vec3D;
 import net.minecraft.server.v1_7_R1.World;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.craftbukkit.v1_7_R1.entity.CraftPlayer;
+import org.bukkit.entity.Damageable;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.plugin.PluginManager;
 import org.bukkit.util.Vector;
 
 import cz.minestrike.me.limeth.minestrike.MSPlayer;
@@ -231,15 +237,34 @@ public class GunManager
 				if(!(rawBukkitVictim instanceof LivingEntity))
 					return;
 				
+				ItemStack inHand = bukkitPlayer.getItemInHand();
+				Gun gun = Gun.tryParse(inHand);
+				
+				if(gun == null)
+					continue;
+				
+				GunType type = gun.getType();
 				double damageDivision = Math.pow(2, i);
 				LivingEntity bukkitVictim = (LivingEntity) rawBukkitVictim;
 				Location victimLoc = bukkitVictim.getLocation();
 				double height = mop.entity.boundingBox.e - mop.entity.boundingBox.b;
 				Location effectLoc = victimLoc.clone().add(0, height / 2, 0);
-				double damage = 5 / damageDivision;
+				double damage = type.getDamage() / damageDivision;
+				EntityDamageByEntityEvent event = new EntityDamageByEntityEvent(bukkitPlayer, bukkitVictim, DamageCause.CUSTOM, damage);
+				PluginManager pm = Bukkit.getPluginManager();
 				
+				pm.callEvent(event);
+				
+				if(event.isCancelled())
+					continue;
+				
+				double victimHealth = ((Damageable) bukkitVictim).getHealth() - damage;
+				
+				if(victimHealth < 0)
+					victimHealth = 0;
+				
+				bukkitVictim.setHealth(victimHealth);
 				ParticleEffect.displayBlockCrack(effectLoc, Material.REDSTONE_BLOCK.getId(), (byte) 0, 0, 0, 0, 1.5F, 20);
-				bukkitVictim.damage(damage/*TODO, bukkitPlayer*/);//.playEffect(EntityEffect.HURT);
 			}
 		}
 		

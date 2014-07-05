@@ -20,6 +20,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.util.Vector;
 
+import ca.wacos.nametagedit.NametagAPI;
 import cz.minestrike.me.limeth.minestrike.areas.Structure;
 import cz.minestrike.me.limeth.minestrike.areas.schemes.Scheme;
 import cz.minestrike.me.limeth.minestrike.equipment.Equipment;
@@ -224,6 +225,60 @@ public class MSPlayer implements Record
 			playerStructure.redirect(event, this);
 		else
 			MSLobbyListener.getInstance().redirect(event, this);
+	}
+	
+	public void updateNameTag()
+	{
+		String prefix = getPrefix();
+		String suffix = getSuffix();
+		
+		NametagAPI.setNametagHard(playerName, prefix, suffix);
+	}
+	
+	public void updatePrefix()
+	{
+		String prefix = getPrefix();
+		
+		NametagAPI.setPrefix(playerName, prefix);
+	}
+	
+	public String getPrefix()
+	{
+		String prefix = "";
+		String rankPrefix = getRankPrefix();
+		
+		if(rankPrefix != null)
+			prefix += rankPrefix;
+		
+		String gamePrefix = hasGame() ? game.getPrefix(this) : null;
+		
+		if(gamePrefix != null)
+			prefix += gamePrefix;
+		
+		return prefix;
+	}
+	
+	public String getRankPrefix()
+	{
+		return "[Rank] ";
+	}
+	
+	public void updateSuffix()
+	{
+		String suffix = getSuffix();
+		
+		NametagAPI.setSuffix(playerName, suffix);
+	}
+	
+	public String getSuffix()
+	{
+		String suffix = "";
+		String gameSuffix = hasGame() ? game.getSuffix(this) : null;
+		
+		if(gameSuffix != null)
+			suffix += gameSuffix;
+		
+		return suffix;
 	}
 	
 	public float updateMovementSpeed()

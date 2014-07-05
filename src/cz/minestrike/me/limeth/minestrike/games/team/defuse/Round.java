@@ -8,16 +8,16 @@ import org.bukkit.event.EventHandler;
 import cz.minestrike.me.limeth.minestrike.MSPlayer;
 import cz.minestrike.me.limeth.minestrike.MineStrike;
 import cz.minestrike.me.limeth.minestrike.areas.schemes.GameLobby;
-import cz.minestrike.me.limeth.minestrike.areas.schemes.GameMenu;
 import cz.minestrike.me.limeth.minestrike.events.ArenaJoinEvent;
 import cz.minestrike.me.limeth.minestrike.games.GamePhase;
 import cz.minestrike.me.limeth.minestrike.games.GamePhaseType;
+import cz.minestrike.me.limeth.minestrike.games.team.TeamGameMenu;
 import cz.minestrike.me.limeth.minestrike.games.team.defuse.DefuseGame.RoundEndReason;
 import cz.minestrike.me.limeth.minestrike.listeners.msPlayer.MSGameListener;
 
-public class Round extends GamePhase<GameLobby, GameMenu, DefuseGameMap, DefuseEquipmentManager>
+public class Round extends GamePhase<GameLobby, TeamGameMenu, DefuseGameMap, DefuseEquipmentManager>
 {
-	public static final long SPAWN_TIME = 10 * 20, ROUND_TIME = 20 * 60 * 5, END_TIME = 5 * 20, VOTE_TIME = 10 * 20;
+	public static final long BOMB_TIME = 60 * 20, SPAWN_TIME = 10 * 20, ROUND_TIME = 20 * 60 * 5, END_TIME = 5 * 20, VOTE_TIME = 10 * 20;
 
 	private final Runnable prepareRunnable = new Runnable() {
 		@Override
@@ -50,6 +50,15 @@ public class Round extends GamePhase<GameLobby, GameMenu, DefuseGameMap, DefuseE
 			setRanAt(System.currentTimeMillis());
 			setPhase(RoundPhase.ENDED);
 			getGame().roundEnd(RoundEndReason.TIME_OUT);
+		}
+	};
+	private final Runnable explodeRunnable = new Runnable() {
+		@Override
+		public void run()
+		{
+			setRanAt(System.currentTimeMillis());
+			setPhase(RoundPhase.ENDED);
+			getGame().roundEnd(RoundEndReason.EXPLODED);
 		}
 	};
 	private final Runnable voteRunnable = new Runnable() {
@@ -102,6 +111,14 @@ public class Round extends GamePhase<GameLobby, GameMenu, DefuseGameMap, DefuseE
 		taskId = Bukkit.getScheduler().scheduleSyncDelayedTask(MineStrike.getInstance(), voteRunnable, VOTE_TIME);
 	}
 	
+	public void startExplodeRunnable()
+	{
+		if(hasTask())
+			cancelTask();
+		
+		taskId = Bukkit.getScheduler().scheduleSyncDelayedTask(MineStrike.getInstance(), explodeRunnable, BOMB_TIME);
+	}
+	
 	private void cancelTask()
 	{
 		if(!hasTask())
@@ -127,7 +144,7 @@ public class Round extends GamePhase<GameLobby, GameMenu, DefuseGameMap, DefuseE
 
 	public static enum RoundPhase
 	{
-		PREPARING, STARTED, ENDED;
+		PREPARING, STARTED, PLANTED, ENDED;
 		
 		public RoundPhase getNext()
 		{
@@ -177,7 +194,7 @@ public class Round extends GamePhase<GameLobby, GameMenu, DefuseGameMap, DefuseE
 		public void onArenaJoin(ArenaJoinEvent event, MSPlayer msPlayer)
 		{
 			DefuseGame game = getGame();
-			GamePhase<GameLobby, GameMenu, DefuseGameMap, DefuseEquipmentManager> phase = game.getPhase();
+			GamePhase<GameLobby, TeamGameMenu, DefuseGameMap, DefuseEquipmentManager> phase = game.getPhase();
 			
 			if(phase instanceof Round)
 			{

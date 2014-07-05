@@ -78,7 +78,6 @@ public abstract class Game<Lo extends GameLobby, Me extends GameMenu, Ma extends
 		Collections.shuffle(this.maps);
 	}
 	
-	public abstract boolean joinArena(MSPlayer msPlayer, Team team);
 	public abstract void start();
 	public abstract Predicate<MSPlayer> isPlayerPlaying();
 	
@@ -94,6 +93,14 @@ public abstract class Game<Lo extends GameLobby, Me extends GameMenu, Ma extends
 		msPlayer.setPlayerState(PlayerState.LOBBY_GAME);
 		msPlayer.setPlayerStructure(lobbyStructure);
 		msPlayer.spawn(true);
+	}
+	
+	public void quitArena(MSPlayer msPlayer)
+	{
+		if(owner != null && owner.equals(msPlayer))
+			joinLobby(msPlayer);
+		else
+			joinMenu(msPlayer);
 	}
 	
 	@SuppressWarnings("deprecation")
@@ -377,6 +384,16 @@ public abstract class Game<Lo extends GameLobby, Me extends GameMenu, Ma extends
 	public boolean hasJoined(MSPlayer msPlayer)
 	{
 		return this.equals(msPlayer.getGame()) && players.contains(msPlayer);
+	}
+	
+	public String getPrefix(MSPlayer msPlayer)
+	{
+		return null;
+	}
+	
+	public String getSuffix(MSPlayer msPlayer)
+	{
+		return null;
 	}
 	
 /*	public void setupPlot()

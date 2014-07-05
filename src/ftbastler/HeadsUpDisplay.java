@@ -297,11 +297,16 @@ public class HeadsUpDisplay
 		runnable.runTaskTimer(MineStrike.getInstance(), delay, delay);
 	}
 
-	public static void displayLoadingBar(String text, Player player, double secondsProgress, double secondsDuration, boolean loadUp, Runnable onFinish)
+	public static void displayLoadingBar(String text, Player player, double progress, double duration, boolean loadUp, Runnable onFinish)
 	{
-		double healthChangePerSecond = WITHER_HEALTH / secondsDuration;
-		double progress = healthChangePerSecond * secondsProgress;
+		long period = (long) (duration / WITHER_HEALTH);
 		
-		displayLoadingBar(text, player, progress, healthChangePerSecond, 20L, loadUp, onFinish);
+		if(period <= 0)
+			period = 1;
+		
+		double healthChange = (period * WITHER_HEALTH) / duration;
+		progress *= healthChange;
+		
+		displayLoadingBar(text, player, progress, healthChange, period, loadUp, onFinish);
 	}
 }

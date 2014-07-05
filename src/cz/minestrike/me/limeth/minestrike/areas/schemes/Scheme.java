@@ -68,13 +68,35 @@ public abstract class Scheme
 	{
 		ArrayList<SchemeCommandHandler> commands = new ArrayList<SchemeCommandHandler>();
 		
+		commands.add(COMMAND_MOVE);
 		commands.add(COMMAND_REGION_SET);
 		commands.add(COMMAND_HIGHLIGHT);
 		
 		return commands;
 	}
 	
-	private static final SchemeCommandHandler COMMAND_HIGHLIGHT = new SchemeCommandHandler("highlight", "ms scheme select [Scheme] highlight", "highlights selected scheme") {
+	private static final SchemeCommandHandler COMMAND_MOVE = new SchemeCommandHandler("move", "ms scheme select [Scheme] move", "moves the selected scheme") {
+		@Override
+		public void execute(CommandSender sender, Scheme scheme, String[] args)
+		{
+			if(!(sender instanceof Player))
+			{
+				sender.sendMessage("Players only.");
+				return;
+			}
+			
+			Player player = (Player) sender;
+			Location loc = player.getLocation();
+			Point playerPoint = Point.valueOf(loc);
+			Region region = scheme.getRegion();
+			String id = scheme.getId();
+			
+			region.moveTo(playerPoint);
+			player.sendMessage(ChatColor.GREEN + "Scheme '" + id + "' moved.");
+		}
+	};
+	
+	private static final SchemeCommandHandler COMMAND_HIGHLIGHT = new SchemeCommandHandler("highlight", "ms scheme select [Scheme] highlight", "highlights the selected scheme") {
 		@Override
 		public void execute(CommandSender sender, Scheme scheme, String[] args)
 		{

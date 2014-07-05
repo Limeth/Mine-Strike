@@ -1,22 +1,26 @@
 package cz.minestrike.me.limeth.minestrike.games.team.defuse;
 
+import java.util.Set;
 import java.util.function.Predicate;
 
 import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.World;
+import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.plugin.PluginManager;
 
 import cz.minestrike.me.limeth.minestrike.MSConstant;
 import cz.minestrike.me.limeth.minestrike.MSPlayer;
+import cz.minestrike.me.limeth.minestrike.Translation;
 import cz.minestrike.me.limeth.minestrike.areas.Point;
 import cz.minestrike.me.limeth.minestrike.areas.RegionList;
 import cz.minestrike.me.limeth.minestrike.areas.Structure;
 import cz.minestrike.me.limeth.minestrike.areas.schemes.GameLobby;
-import cz.minestrike.me.limeth.minestrike.areas.schemes.GameMenu;
 import cz.minestrike.me.limeth.minestrike.events.ArenaJoinEvent;
 import cz.minestrike.me.limeth.minestrike.events.GameQuitEvent.GameQuitReason;
 import cz.minestrike.me.limeth.minestrike.events.GameSpawnEvent;
@@ -27,17 +31,22 @@ import cz.minestrike.me.limeth.minestrike.games.MoneyAward;
 import cz.minestrike.me.limeth.minestrike.games.PlayerState;
 import cz.minestrike.me.limeth.minestrike.games.Team;
 import cz.minestrike.me.limeth.minestrike.games.team.TeamGame;
+import cz.minestrike.me.limeth.minestrike.games.team.TeamGameMenu;
 import cz.minestrike.me.limeth.minestrike.games.team.defuse.Round.RoundPhase;
 import cz.minestrike.me.limeth.minestrike.listeners.msPlayer.MSGameListener;
 import cz.minestrike.me.limeth.minestrike.listeners.msPlayer.MSShoppingListener;
 import cz.minestrike.me.limeth.minestrike.util.collections.FilledArrayList;
 import ftbastler.HeadsUpDisplay;
 
-public class DefuseGame extends TeamGame<GameLobby, GameMenu, DefuseGameMap, DefuseEquipmentManager>
+public class DefuseGame extends TeamGame<GameLobby, TeamGameMenu, DefuseGameMap, DefuseEquipmentManager>
 {
 	public static final String CUSTOM_DATA_DEAD = "MineStrike.game.dead", CUSTOM_DATA_BALANCE = "MineStrike.game.balance";
 	public static final int MONEY_CAP = 10000, REQUIRED_ROUNDS = 8;
 	private int tScore, ctScore;
+	private int winsInRow;
+	private Team lastWinner;
+	private Block bombBlock;
+	private boolean bombGiven;
 	private MSGameListener<DefuseGame> defuseGameListener;
 	private MSGameListener<DefuseGame> shoppingListener;
 	
@@ -65,7 +74,13 @@ public class DefuseGame extends TeamGame<GameLobby, GameMenu, DefuseGameMap, Def
 	public void start()
 	{
 		Round round = new Round(this);
+		winsInRow = 0;
+		lastWinner = null;
 		
+		for(MSPlayer player : getPlayingPlayers())
+			setBalance(player, MoneyAward.START_CASUAL.getAmount());
+		
+		setBombBlock(null);
 		setScore(0, 0);
 		setPhase(round);
 	}
@@ -89,6 +104,9 @@ public class DefuseGame extends TeamGame<GameLobby, GameMenu, DefuseGameMap, Def
 			showWitherBar(msPlayer);
 		}
 		
+		bombGiven = false;
+		giveBomb();
+		
 		broadcast("Preparing round...");
 		
 		return true;
@@ -107,6 +125,78 @@ public class DefuseGame extends TeamGame<GameLobby, GameMenu, DefuseGameMap, Def
 		return true;
 	}
 	
+	@SuppressWarnings("deprecation")
+	public void giveBomb()
+	{
+		Set<MSPlayer> terrorists = getPlayingPlayers(p -> { return getTeam(p) == Team.TERRORISTS; });
+		int terroristsAmount = terrorists.size();
+		
+		if(terroristsAmount > 0)
+		{
+			int randomIndex = MSConstant.RANDOM.nextInt(terroristsAmount);
+			DefuseEquipmentManager mgr = getEquipmentManager();
+			int i = 0;
+			MSPlayer carrier = null;
+			
+			for(MSPlayer terrorist : terrorists)
+			{
+				if(i >= randomIndex)
+				{
+					carrier = terrorist;
+					break;
+				}
+				
+				i++;
+			}
+			
+			Player player = carrier.getPlayer();
+			
+			bombGiven = true;
+			mgr.equipBomb(carrier);
+			player.updateInventory();
+			carrier.sendMessage(Translation.GAME_BOMB_RECEIVED.getMessage());
+		}
+		else
+			bombGiven = false;
+	}
+	
+	public void plant(Block block)
+	{
+		Validate.notNull(block, "The block cannot be null!");
+		
+		Round round = getRound();
+		bombBlock = block;
+		
+		round.setRanAt(System.currentTimeMillis());
+		round.setPhase(RoundPhase.PLANTED);
+		round.startExplodeRunnable();
+		
+		for(MSPlayer msPlayer : getPlayingPlayers())
+			showWitherBar(msPlayer);
+		
+		broadcast(Translation.GAME_BOMB_PLANTED.getMessage());
+	}
+	
+	public void defuse()
+	{
+		Round round = getRound();
+		
+		round.cancel();
+		roundEnd(RoundEndReason.DEFUSED);
+		broadcast(Translation.GAME_BOMB_DEFUSED.getMessage());
+	}
+	
+	public void explode()
+	{
+		double x = bombBlock.getX() + 0.5;
+		double y = bombBlock.getY() + 0.5;
+		double z = bombBlock.getZ() + 0.5;
+		World world = bombBlock.getWorld();
+		
+		bombBlock.setType(Material.AIR);
+		world.createExplosion(x, y, z, MSConstant.BOMB_POWER, false, false);
+	}
+	
 	public void showWitherBar(MSPlayer msPlayer)
 	{
 		Player player = msPlayer.getPlayer();
@@ -122,6 +212,8 @@ public class DefuseGame extends TeamGame<GameLobby, GameMenu, DefuseGameMap, Def
 				time = Round.SPAWN_TIME;
 			else if(roundPhase == RoundPhase.STARTED)
 				time = Round.ROUND_TIME;
+			else if(roundPhase == RoundPhase.PLANTED)
+				time = Round.BOMB_TIME;
 			
 			if(time != null)
 			{
@@ -130,7 +222,7 @@ public class DefuseGame extends TeamGame<GameLobby, GameMenu, DefuseGameMap, Def
 				long differenceMillis = nowMillis - ranAtMillis;
 				double difference = differenceMillis * 20D / 1000D;
 				
-				HeadsUpDisplay.displayLoadingBar(getWitherTitle(), player, difference, time / 20D, false, () -> {
+				HeadsUpDisplay.displayLoadingBar(getWitherTitle(), player, difference, time, false, () -> {
 					HeadsUpDisplay.displayTextBar(getWitherTitle(), player);
 				});
 				
@@ -168,7 +260,30 @@ public class DefuseGame extends TeamGame<GameLobby, GameMenu, DefuseGameMap, Def
 				
 				addBalance(team, reward);
 			}
+			
+			Team victorTeam = reason.getVictorTeam();
+			Team lostTeam = victorTeam.getOppositeTeam();
+			MoneyAward lostAward;
+			
+			if(lostTeam != lastWinner)
+				winsInRow++;
+			else
+				winsInRow = 1;
+			
+			switch(winsInRow)
+			{
+			case 1: lostAward = MoneyAward.LOSS_FIRST; break;
+			case 2: lostAward = MoneyAward.LOSS_SECOND; break;
+			case 3: lostAward = MoneyAward.LOSS_THIRD; break;
+			case 4: lostAward = MoneyAward.LOSS_FOURTH; break;
+			default: lostAward = MoneyAward.LOSS_FIFTH; break;
+			}
+			
+			addBalance(lostTeam, lostAward.getAmount());
 		}
+		
+		if(reason == RoundEndReason.EXPLODED)
+			explode();
 		
 		Team victorTeam = reason.getVictorTeam();
 		int newScore = addScore(victorTeam, 1);
@@ -228,6 +343,11 @@ public class DefuseGame extends TeamGame<GameLobby, GameMenu, DefuseGameMap, Def
 			return false;
 		}
 		
+		boolean passed = super.joinArena(msPlayer, team);
+		
+		if(!passed)
+			return false;
+		
 		if(!hasPhase())
 			start();
 		
@@ -235,7 +355,12 @@ public class DefuseGame extends TeamGame<GameLobby, GameMenu, DefuseGameMap, Def
 		showWitherBar(msPlayer);
 		
 		if(team != null)
+		{
 			msPlayer.sendMessage(ChatColor.GRAY + "You have joined the " + team.getColoredName() + ChatColor.GRAY + ".");
+			
+			if(!isBombGiven() && team == Team.TERRORISTS)
+				giveBomb();
+		}
 		else
 			msPlayer.sendMessage(ChatColor.GRAY + "You have joined the spectators.");
 		
@@ -250,7 +375,7 @@ public class DefuseGame extends TeamGame<GameLobby, GameMenu, DefuseGameMap, Def
 	
 	public Round getRound()
 	{
-		GamePhase<GameLobby, GameMenu, DefuseGameMap, DefuseEquipmentManager> phase = getPhase();
+		GamePhase<GameLobby, TeamGameMenu, DefuseGameMap, DefuseEquipmentManager> phase = getPhase();
 		
 		if(!(phase instanceof Round))
 			throw new RuntimeException("The current phase isn't an instance of Round");
@@ -367,8 +492,8 @@ public class DefuseGame extends TeamGame<GameLobby, GameMenu, DefuseGameMap, Def
 		}
 		else if(playerState == PlayerState.MENU_GAME)
 		{
-			Structure<GameMenu> menuStructure = getMenuStructure();
-			GameMenu menu = menuStructure.getScheme();
+			Structure<TeamGameMenu> menuStructure = getMenuStructure();
+			TeamGameMenu menu = menuStructure.getScheme();
 			spawnLocation = menuStructure.getAbsoluteLocation(menu.getSpawnPoint());
 		}
 		else if(playerState == PlayerState.JOINED_GAME)
@@ -489,7 +614,46 @@ public class DefuseGame extends TeamGame<GameLobby, GameMenu, DefuseGameMap, Def
 	{
 		this.ctScore = ctScore;
 	}
+	
+	public boolean isBombPlaced()
+	{
+		return bombBlock != null;
+	}
+	
+	public Block getBombBlock()
+	{
+		return bombBlock;
+	}
 
+	public void setBombBlock(Block bombBlock)
+	{
+		this.bombBlock = bombBlock;
+	}
+	public int getWinsInRow()
+	{
+		return winsInRow;
+	}
+
+	public void setWinsInRow(int winsInRow)
+	{
+		this.winsInRow = winsInRow;
+	}
+
+	public Team getLastWinner()
+	{
+		return lastWinner;
+	}
+
+	public void setLastWinner(Team lastWinner)
+	{
+		this.lastWinner = lastWinner;
+	}
+	
+	public boolean isBombGiven()
+	{
+		return bombGiven;
+	}
+	
 	public static enum RoundEndReason
 	{
 		TIME_OUT(Team.COUNTER_TERRORISTS, 0, MoneyAward.WIN_DEFUSE_TIME.getAmount()),

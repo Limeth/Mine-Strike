@@ -71,12 +71,8 @@ public class MSInventoryListener<T extends Game<?, ?, ?, ?>> extends MSGameListe
 			else if(item.equals(MSConstant.QUIT_MENU_ITEM))
 			{
 				T game = getGame();
-				MSPlayer owner = game.getOwner();
 				
-				if(owner != null && owner.equals(msPlayer))
-					game.joinLobby(msPlayer);
-				else
-					game.joinMenu(msPlayer);
+				game.quitArena(msPlayer);
 			}
 	}
 }
