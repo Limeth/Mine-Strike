@@ -4,12 +4,12 @@ import org.bukkit.inventory.ItemStack;
 
 import cz.minestrike.me.limeth.minestrike.MSConstant;
 import cz.minestrike.me.limeth.minestrike.MSPlayer;
-import cz.minestrike.me.limeth.minestrike.equipment.Equipment;
-import cz.minestrike.me.limeth.minestrike.equipment.EquipmentCustomization;
+import cz.minestrike.me.limeth.minestrike.equipment.EquipmentManager.EquipmentDeserializer;
+import cz.minestrike.me.limeth.minestrike.equipment.EquipmentType;
 import cz.minestrike.me.limeth.minestrike.games.MoneyAward;
 
 
-public enum GunType implements Equipment
+public enum GunType implements EquipmentType
 {
 	//{{Pistols
 	DEAGLE("Desert Eagle", false, false, 2.3F, 1.864F, 63, 0.81F, 0.225F, 2, MoneyAward.KILL_OTHER_COMPETITIVE.getAmount(), MoneyAward.KILL_OTHER_CASUAL.getAmount(), 230, 7, 35, 800, 4096, false, 0.4F, 0.55F, 2, 3.78F, 7.7F, 72.23F, 48.1F, 1.966F, 0.73F, 152, 0.449927F, 0.8112F, 60, 48.2F, 18, 1),
@@ -383,9 +383,9 @@ public enum GunType implements Equipment
 	}
 
 	@Override
-	public ItemStack newItemStack(MSPlayer msPlayer, EquipmentCustomization customization)
+	public ItemStack newItemStack(MSPlayer msPlayer)
 	{
-		return new Gun(msPlayer, this).createItemStack(customization);
+		return new Gun(msPlayer, this).newItemStack(msPlayer);
 	}
 
 	@Override
@@ -404,5 +404,16 @@ public enum GunType implements Equipment
 	public String getDisplayName()
 	{
 		return name;
+	}
+	
+	public String getId()
+	{
+		return "GUN_" + name();
+	}
+	
+	@Override
+	public EquipmentDeserializer getDeserializer()
+	{
+		return Gun.DESERIALIZER;
 	}
 }

@@ -3,29 +3,29 @@ package cz.minestrike.me.limeth.minestrike.equipment;
 import org.bukkit.inventory.ItemStack;
 
 import cz.minestrike.me.limeth.minestrike.MSPlayer;
+import cz.minestrike.me.limeth.minestrike.equipment.EquipmentManager.EquipmentDeserializer;
 
-public class SimpleEquipment implements Equipment
+public class SimpleEquipmentType implements EquipmentType
 {
+	private final String id;
 	private final ItemStack item;
 	private final int price;
 	private final float speed;
+	private final EquipmentDeserializer deserializer;
 	
-	public SimpleEquipment(ItemStack item, int price, float speed)
+	public SimpleEquipmentType(String id, ItemStack item, int price, float speed, EquipmentDeserializer deserializer)
 	{
+		this.id = id;
 		this.item = item;
 		this.price = price;
 		this.speed = speed;
+		this.deserializer = deserializer;
 	}
 
 	@Override
-	public ItemStack newItemStack(MSPlayer msPlayer, EquipmentCustomization customization)
+	public ItemStack newItemStack(MSPlayer msPlayer)
 	{
-		ItemStack item = this.item.clone();
-		
-		if(customization != null)
-			customization.apply(item);
-		
-		return item;
+		return this.item.clone();
 	}
 
 	@Override
@@ -63,5 +63,16 @@ public class SimpleEquipment implements Equipment
 	public ItemStack getOriginalItemStack()
 	{
 		return item;
+	}
+
+	@Override
+	public String getId()
+	{
+		return id;
+	}
+
+	public EquipmentDeserializer getDeserializer()
+	{
+		return deserializer;
 	}
 }

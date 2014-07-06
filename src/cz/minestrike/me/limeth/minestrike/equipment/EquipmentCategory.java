@@ -21,40 +21,40 @@ import cz.minestrike.me.limeth.minestrike.util.PlayerUtil;
 
 public enum EquipmentCategory
 {
-	PISTOLS("Pistols", new ItemStack(Material.FIREWORK_CHARGE), new Equipment[] {
+	PISTOLS("Pistols", new ItemStack(Material.FIREWORK_CHARGE), new EquipmentType[] {
 				GunType.GLOCK, GunType.P250, GunType.DEAGLE, GunType.ELITE, GunType.TEC9, GunType.CZ75
-			}, new Equipment[]  {//TODO add usp-s support
+			}, new EquipmentType[]  {//TODO add usp-s support
 				GunType.P2000, GunType.P250, GunType.DEAGLE, GunType.ELITE, GunType.FIVESEVEN, GunType.CZ75
 			}), //TODO change to custom textures
-	HEAVY("Heavy", new ItemStack(Material.FIREWORK_CHARGE), new Equipment[] {
+	HEAVY("Heavy", new ItemStack(Material.FIREWORK_CHARGE), new EquipmentType[] {
 				GunType.NOVA, GunType.XM1014, GunType.SAWEDOFF, GunType.M249, GunType.NEGEV
-			}, new Equipment[] {
+			}, new EquipmentType[] {
 				GunType.NOVA, GunType.XM1014, GunType.MAG7, GunType.M249, GunType.NEGEV
 			}),
-	SMGS("SMGs", new ItemStack(Material.FIREWORK_CHARGE), new Equipment[] {
+	SMGS("SMGs", new ItemStack(Material.FIREWORK_CHARGE), new EquipmentType[] {
 				GunType.MAC10, GunType.MP7, GunType.UMP45, GunType.BIZON, GunType.P90
-			}, new Equipment[] {
+			}, new EquipmentType[] {
 				GunType.MP9, GunType.MP7, GunType.UMP45, GunType.BIZON, GunType.P90
 			}),
-	RIFLES("Rifles", new ItemStack(Material.FIREWORK_CHARGE), new Equipment[] {
+	RIFLES("Rifles", new ItemStack(Material.FIREWORK_CHARGE), new EquipmentType[] {
 				GunType.GALIL_AR, GunType.AK_47, GunType.SSG_08, GunType.SG_556, GunType.AWP, GunType.G3SG1
-			}, new Equipment[] {
+			}, new EquipmentType[] {
 				GunType.FAMAS, GunType.M4A4, GunType.SSG_08, GunType.AUG, GunType.AWP, GunType.SCAR_20
 			}),
-	GEAR("Gear", new ItemStack(Material.LEATHER_CHESTPLATE), new Equipment[] {
+	GEAR("Gear", new ItemStack(Material.LEATHER_CHESTPLATE), new EquipmentType[] {
 				
-			}, new Equipment[] {
+			}, new EquipmentType[] {
 				
 			}),
-	GRENADES("Grenades", new ItemStack(Material.POTION), new Equipment[] {
+	GRENADES("Grenades", new ItemStack(Material.POTION), new EquipmentType[] {
 				GrenadeType.INCENDIARY, GrenadeType.DECOY, GrenadeType.EXPLOSIVE, GrenadeType.FLASH, GrenadeType.SMOKE
 			});
 	
 	private final String name;
 	private final ItemStack icon;
-	private final Equipment[] tEquipment, ctEquipment;
+	private final EquipmentType[] tEquipment, ctEquipment;
 	
-	private EquipmentCategory(String name, ItemStack icon, Equipment[] tEquipment, Equipment[] ctEquipment)
+	private EquipmentCategory(String name, ItemStack icon, EquipmentType[] tEquipment, EquipmentType[] ctEquipment)
 	{
 		this.name = name;
 		this.icon = icon;
@@ -67,7 +67,7 @@ public enum EquipmentCategory
 		icon.setItemMeta(iconMeta);
 	}
 	
-	private EquipmentCategory(String name, ItemStack icon, Equipment... equipment)
+	private EquipmentCategory(String name, ItemStack icon, EquipmentType... equipment)
 	{
 		this(name, icon, equipment, equipment);
 	}
@@ -111,7 +111,7 @@ public enum EquipmentCategory
 	public void openInventory(MSPlayer msPlayer)
 	{
 		Player player = msPlayer.getPlayer();
-		Equipment[] equipment = getEquipment(msPlayer);
+		EquipmentType[] equipment = getEquipment(msPlayer);
 		Inventory inv = Bukkit.createInventory(player, PlayerUtil.INVENTORY_WIDTH * 4, MSConstant.INVENTORY_NAME_PREFIX + name);
 		
 		for(int i = 0; i < inv.getSize(); i++)
@@ -127,7 +127,7 @@ public enum EquipmentCategory
 			int absX = x + relX;
 			int absY = 1 + relY;
 			int index = absX + absY * MSConstant.INVENTORY_WIDTH;
-			ItemStack item = equipment[i].newItemStack(msPlayer, null);
+			ItemStack item = equipment[i].newItemStack(msPlayer);
 			
 			inv.setItem(index, item);
 		}
@@ -135,9 +135,9 @@ public enum EquipmentCategory
 		player.openInventory(inv);
 	}
 	
-	public Equipment getEquipment(MSPlayer msPlayer, int x, int y)
+	public EquipmentType getEquipment(MSPlayer msPlayer, int x, int y)
 	{
-		Equipment[] equipment = getEquipment(msPlayer);
+		EquipmentType[] equipment = getEquipment(msPlayer);
 		int width = (int) Math.ceil(equipment.length / 2D);
 		int startX = 4 - (width / 2);
 		
@@ -152,12 +152,12 @@ public enum EquipmentCategory
 		return equipment[index];
 	}
 	
-	public Equipment getEquipment(MSPlayer msPlayer, int inventoryIndex)
+	public EquipmentType getEquipment(MSPlayer msPlayer, int inventoryIndex)
 	{
 		return getEquipment(msPlayer, inventoryIndex % MSConstant.INVENTORY_WIDTH, inventoryIndex / MSConstant.INVENTORY_WIDTH);
 	}
 	
-	public Equipment[] getEquipment(MSPlayer msPlayer)
+	public EquipmentType[] getEquipment(MSPlayer msPlayer)
 	{
 		Game<?, ?, ?, ?> game = msPlayer.getGame();
 		
@@ -172,7 +172,7 @@ public enum EquipmentCategory
 		}
 	}
 	
-	public Equipment[] getEquipment(Team team)
+	public EquipmentType[] getEquipment(Team team)
 	{
 		if(team == null)
 			throw new IllegalArgumentException("The team cannot be null!");
@@ -184,25 +184,25 @@ public enum EquipmentCategory
 			throw new IllegalArgumentException("Unknown team " + team + "!");
 	}
 	
-	public Equipment[] getEquipment()
+	public EquipmentType[] getEquipment()
 	{
-		HashSet<Equipment> set = new HashSet<Equipment>();
+		HashSet<EquipmentType> set = new HashSet<EquipmentType>();
 		
-		for(Equipment e : tEquipment)
+		for(EquipmentType e : tEquipment)
 			set.add(e);
 		
-		for(Equipment e : ctEquipment)
+		for(EquipmentType e : ctEquipment)
 			set.add(e);
 		
-		return set.toArray(new Equipment[set.size()]);
+		return set.toArray(new EquipmentType[set.size()]);
 	}
 
-	public Equipment[] getTerroristsEquipment()
+	public EquipmentType[] getTerroristsEquipment()
 	{
 		return tEquipment;
 	}
 
-	public Equipment[] getCounterTerroristsEquipment()
+	public EquipmentType[] getCounterTerroristsEquipment()
 	{
 		return ctEquipment;
 	}

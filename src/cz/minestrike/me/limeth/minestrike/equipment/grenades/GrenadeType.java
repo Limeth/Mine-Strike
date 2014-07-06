@@ -27,14 +27,15 @@ import cz.minestrike.me.limeth.minestrike.MSConstant;
 import cz.minestrike.me.limeth.minestrike.MSPlayer;
 import cz.minestrike.me.limeth.minestrike.MineStrike;
 import cz.minestrike.me.limeth.minestrike.equipment.Equipment;
-import cz.minestrike.me.limeth.minestrike.equipment.EquipmentCustomization;
+import cz.minestrike.me.limeth.minestrike.equipment.EquipmentManager.EquipmentDeserializer;
+import cz.minestrike.me.limeth.minestrike.equipment.EquipmentType;
 import cz.minestrike.me.limeth.minestrike.games.Game;
 import cz.minestrike.me.limeth.minestrike.games.Team;
 import cz.minestrike.me.limeth.minestrike.games.TeamValue;
 import cz.minestrike.me.limeth.minestrike.games.team.TeamGame;
 import darkBlade12.ParticleEffect;
 
-public enum GrenadeType implements Equipment
+public enum GrenadeType implements EquipmentType
 {
 	EXPLOSIVE(ChatColor.RED + "HE Grenade", 1, new TeamValue<Integer>(300), 240F, 16460, 40)
 	{
@@ -328,14 +329,9 @@ public enum GrenadeType implements Equipment
 		return trigger;
 	}
 	
-	public ItemStack newItemStack(MSPlayer msPlayer, EquipmentCustomization customization)
+	public ItemStack newItemStack(MSPlayer msPlayer)
 	{
-		ItemStack is = new ItemStack(Material.POTION, 1, (short) color);
-		
-		if(customization != null)
-			customization.apply(is);
-		
-		return is;
+		return new ItemStack(Material.POTION, 1, (short) color);
 	}
 	
 	public int getPrice(MSPlayer msPlayer)
@@ -373,5 +369,17 @@ public enum GrenadeType implements Equipment
 	public int getMaxAmount()
 	{
 		return maxAmount;
+	}
+	
+	@Override
+	public String getId()
+	{
+		return "GRENADE_" + name();
+	}
+	
+	@Override
+	public EquipmentDeserializer getDeserializer()
+	{
+		return Equipment.DESERIALIZER;
 	}
 }

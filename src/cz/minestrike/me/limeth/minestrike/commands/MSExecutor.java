@@ -26,6 +26,7 @@ import com.sk89q.worldedit.WorldEdit;
 import com.sk89q.worldedit.regions.RegionSelector;
 
 import cz.minestrike.me.limeth.minestrike.MSConfig;
+import cz.minestrike.me.limeth.minestrike.MSPlayer;
 import cz.minestrike.me.limeth.minestrike.areas.Plot;
 import cz.minestrike.me.limeth.minestrike.areas.Point;
 import cz.minestrike.me.limeth.minestrike.areas.Region;
@@ -34,8 +35,6 @@ import cz.minestrike.me.limeth.minestrike.areas.schemes.GameMap;
 import cz.minestrike.me.limeth.minestrike.areas.schemes.Scheme;
 import cz.minestrike.me.limeth.minestrike.areas.schemes.SchemeManager;
 import cz.minestrike.me.limeth.minestrike.areas.schemes.SchemeType;
-import cz.minestrike.me.limeth.minestrike.equipment.EquipmentCustomization;
-import cz.minestrike.me.limeth.minestrike.equipment.guns.Gun;
 import cz.minestrike.me.limeth.minestrike.equipment.guns.GunType;
 import cz.minestrike.me.limeth.minestrike.games.Game;
 import cz.minestrike.me.limeth.minestrike.games.GameManager;
@@ -422,9 +421,8 @@ public class MSExecutor implements CommandExecutor
 					color = Color.fromRGB(new Random().nextInt(256 * 256 * 256));
 				}
 				
-				String playerName = player.getName();
-				Gun gun = new Gun(playerName, gunType, EquipmentCustomization.builder().withColor(color).build());
-				ItemStack is = gun.createItemStack();
+				MSPlayer msPlayer = MSPlayer.get(player);
+				ItemStack is = gunType.newItemStack(msPlayer);
 				PlayerInventory inv = player.getInventory();
 				
 				inv.addItem(is);

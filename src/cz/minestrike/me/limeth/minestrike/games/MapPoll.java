@@ -27,7 +27,7 @@ import cz.minestrike.me.limeth.minestrike.Translation;
 import cz.minestrike.me.limeth.minestrike.areas.schemes.GameLobby;
 import cz.minestrike.me.limeth.minestrike.areas.schemes.GameMap;
 import cz.minestrike.me.limeth.minestrike.areas.schemes.GameMenu;
-import cz.minestrike.me.limeth.minestrike.equipment.EquipmentManager;
+import cz.minestrike.me.limeth.minestrike.equipment.EquipmentProvider;
 import cz.minestrike.me.limeth.minestrike.events.GameEquipEvent;
 import cz.minestrike.me.limeth.minestrike.listeners.msPlayer.MSGameListener;
 import cz.minestrike.me.limeth.minestrike.renderers.MapPollRenderer;
@@ -36,7 +36,7 @@ import cz.minestrike.me.limeth.minestrike.util.RendererUtil;
 import cz.minestrike.me.limeth.minestrike.util.collections.FilledArrayList;
 import cz.minestrike.me.limeth.minestrike.util.collections.FilledHashMap;
 
-public class MapPoll<Lo extends GameLobby, Me extends GameMenu, Ma extends GameMap, EM extends EquipmentManager> extends GamePhase<Lo, Me, Ma, EM> implements Runnable
+public class MapPoll<Lo extends GameLobby, Me extends GameMenu, Ma extends GameMap, EM extends EquipmentProvider> extends GamePhase<Lo, Me, Ma, EM> implements Runnable
 {
 	public static final String OBJECTIVE_ID = "mapPoll";
 	public static final int SELECTED_MAX = 5, VOTING_SECONDS = 50 /* incl. changing */, CHANGING_SECONDS = 10; // + 10

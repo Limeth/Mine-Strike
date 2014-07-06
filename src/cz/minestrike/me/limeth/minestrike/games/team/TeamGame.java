@@ -5,14 +5,14 @@ import org.bukkit.event.Event;
 import cz.minestrike.me.limeth.minestrike.MSPlayer;
 import cz.minestrike.me.limeth.minestrike.areas.schemes.GameLobby;
 import cz.minestrike.me.limeth.minestrike.areas.schemes.GameMap;
-import cz.minestrike.me.limeth.minestrike.equipment.EquipmentManager;
+import cz.minestrike.me.limeth.minestrike.equipment.EquipmentProvider;
 import cz.minestrike.me.limeth.minestrike.events.GameQuitEvent.GameQuitReason;
 import cz.minestrike.me.limeth.minestrike.games.Game;
 import cz.minestrike.me.limeth.minestrike.games.GameType;
 import cz.minestrike.me.limeth.minestrike.games.Team;
 import cz.minestrike.me.limeth.minestrike.util.collections.FilledArrayList;
 
-public abstract class TeamGame<Lo extends GameLobby, Me extends TeamGameMenu, Ma extends GameMap, EM extends EquipmentManager> extends Game<Lo, Me, Ma, EM>
+public abstract class TeamGame<Lo extends GameLobby, Me extends TeamGameMenu, Ma extends GameMap, EM extends EquipmentProvider> extends Game<Lo, Me, Ma, EM>
 {
 	public static final String CUSTOM_DATA_TEAM = "MineStrike.game.team";
 	private TeamGameListener teamGameListener;

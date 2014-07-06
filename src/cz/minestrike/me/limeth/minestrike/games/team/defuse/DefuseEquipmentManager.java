@@ -15,26 +15,27 @@ import cz.minestrike.me.limeth.minestrike.MSPlayer;
 import cz.minestrike.me.limeth.minestrike.Translation;
 import cz.minestrike.me.limeth.minestrike.equipment.Equipment;
 import cz.minestrike.me.limeth.minestrike.equipment.EquipmentCategory;
-import cz.minestrike.me.limeth.minestrike.equipment.EquipmentManager;
+import cz.minestrike.me.limeth.minestrike.equipment.EquipmentProvider;
 import cz.minestrike.me.limeth.minestrike.equipment.EquipmentPurchaseException;
+import cz.minestrike.me.limeth.minestrike.equipment.EquipmentType;
 import cz.minestrike.me.limeth.minestrike.equipment.Knife;
-import cz.minestrike.me.limeth.minestrike.equipment.SimpleEquipment;
+import cz.minestrike.me.limeth.minestrike.equipment.SimpleEquipmentType;
 import cz.minestrike.me.limeth.minestrike.equipment.grenades.GrenadeType;
 import cz.minestrike.me.limeth.minestrike.equipment.guns.Gun;
 import cz.minestrike.me.limeth.minestrike.equipment.guns.GunType;
 import cz.minestrike.me.limeth.minestrike.games.Team;
 
-public class DefuseEquipmentManager implements EquipmentManager
+public class DefuseEquipmentManager implements EquipmentProvider
 {
 	static
 	{
 		ItemStack defaultKit = new ItemStack(Material.IRON_PICKAXE);
 		defaultKit.addUnsafeEnchantment(Enchantment.DIG_SPEED, 4);
-		DEFUSE_KIT_DEFAULT = new SimpleEquipment(defaultKit, 0, MSConstant.MOVEMENT_SPEED_DEFAULT);
+		DEFUSE_KIT_DEFAULT = new SimpleEquipmentType("KIT_DEFAULT", defaultKit, 0, MSConstant.MOVEMENT_SPEED_DEFAULT, Equipment.DESERIALIZER);
 		
 		ItemStack boughtKit = new ItemStack(Material.DIAMOND_PICKAXE);
 		boughtKit.addUnsafeEnchantment(Enchantment.DIG_SPEED, 2);
-		DEFUSE_KIT_BOUGHT = new SimpleEquipment(boughtKit, 400, MSConstant.MOVEMENT_SPEED_DEFAULT);
+		DEFUSE_KIT_BOUGHT = new SimpleEquipmentType("KIT_BOUGHT", boughtKit, 400, MSConstant.MOVEMENT_SPEED_DEFAULT, Equipment.DESERIALIZER);
 		
 		ItemStack bomb = new ItemStack(Material.OBSIDIAN);
 		ItemMeta bombIM = bomb.getItemMeta();
@@ -42,10 +43,10 @@ public class DefuseEquipmentManager implements EquipmentManager
 		bombIM.setDisplayName(ChatColor.YELLOW + "" + ChatColor.BOLD + "C4");
 		bomb.setItemMeta(bombIM);
 		
-		BOMB = new SimpleEquipment(bomb, 0, MSConstant.MOVEMENT_SPEED_DEFAULT);
+		BOMB = new SimpleEquipmentType("BOMB", bomb, 0, MSConstant.MOVEMENT_SPEED_DEFAULT, Equipment.DESERIALIZER);
 	}
 	
-	public static final SimpleEquipment DEFUSE_KIT_DEFAULT, DEFUSE_KIT_BOUGHT, BOMB;
+	public static final SimpleEquipmentType DEFUSE_KIT_DEFAULT, DEFUSE_KIT_BOUGHT, BOMB;
 	public static final int INDEX_GUN_PRIMARY = 0, INDEX_GUN_SECONDARY = 1, INDEX_GRENADES = 2, INDEX_EXTRA = 7, INDEX_KNIFE = 8, GRENADE_AMOUNT = 3;
 	private final DefuseGame game;
 	
@@ -119,7 +120,7 @@ public class DefuseEquipmentManager implements EquipmentManager
 		int slot = primary ? INDEX_GUN_PRIMARY : INDEX_GUN_SECONDARY;
 		Player player = msPlayer.getPlayer();
 		PlayerInventory inv = player.getInventory();
-		ItemStack item = gun.createItemStack();
+		ItemStack item = gun.newItemStack();
 		
 		inv.setItem(slot, item);
 	}
@@ -242,7 +243,7 @@ public class DefuseEquipmentManager implements EquipmentManager
 	{
 		Player player = msPlayer.getPlayer();
 		PlayerInventory inv = player.getInventory();
-		Equipment kit = bought ? DEFUSE_KIT_BOUGHT : DEFUSE_KIT_DEFAULT;
+		EquipmentType kit = bought ? DEFUSE_KIT_BOUGHT : DEFUSE_KIT_DEFAULT;
 		ItemStack item = kit.newItemStack(msPlayer, null); //TODO customization
 		
 		inv.setItem(INDEX_EXTRA, item);
@@ -258,7 +259,7 @@ public class DefuseEquipmentManager implements EquipmentManager
 	}
 
 	@Override
-	public Equipment getCurrentlyEquipped(MSPlayer msPlayer)
+	public EquipmentType getCurrentlyEquipped(MSPlayer msPlayer)
 	{
 		Player player = msPlayer.getPlayer();
 		PlayerInventory inv = player.getInventory();
@@ -297,7 +298,7 @@ public class DefuseEquipmentManager implements EquipmentManager
 	}
 
 	@Override
-	public void purchase(MSPlayer msPlayer, Equipment equipment) throws EquipmentPurchaseException
+	public void purchase(MSPlayer msPlayer, EquipmentType equipment) throws EquipmentPurchaseException
 	{
 		int price = equipment.getPrice(msPlayer);
 		DefuseGame game = getGame();

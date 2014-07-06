@@ -6,7 +6,7 @@ import org.bukkit.inventory.meta.FireworkEffectMeta;
 
 import cz.minestrike.me.limeth.minestrike.MSConstant;
 
-public class Knife extends SimpleEquipment
+public class Knife extends SimpleEquipmentType
 {
 	static
 	{
@@ -25,6 +25,6 @@ public class Knife extends SimpleEquipment
 	
 	private Knife()
 	{
-		super(ITEM, 0, MSConstant.MOVEMENT_SPEED_DEFAULT);
+		super("KNIFE", ITEM, 0, MSConstant.MOVEMENT_SPEED_DEFAULT, Equipment.DESERIALIZER);
 	}
 }

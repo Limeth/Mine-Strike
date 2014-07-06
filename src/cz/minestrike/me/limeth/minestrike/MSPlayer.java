@@ -23,8 +23,11 @@ import org.bukkit.util.Vector;
 import ca.wacos.nametagedit.NametagAPI;
 import cz.minestrike.me.limeth.minestrike.areas.Structure;
 import cz.minestrike.me.limeth.minestrike.areas.schemes.Scheme;
-import cz.minestrike.me.limeth.minestrike.equipment.Equipment;
+import cz.minestrike.me.limeth.minestrike.equipment.Container;
 import cz.minestrike.me.limeth.minestrike.equipment.EquipmentManager;
+import cz.minestrike.me.limeth.minestrike.equipment.EquipmentProvider;
+import cz.minestrike.me.limeth.minestrike.equipment.EquipmentType;
+import cz.minestrike.me.limeth.minestrike.equipment.GameContainer;
 import cz.minestrike.me.limeth.minestrike.equipment.guns.Firing;
 import cz.minestrike.me.limeth.minestrike.equipment.guns.Gun;
 import cz.minestrike.me.limeth.minestrike.equipment.guns.GunManager;
@@ -191,10 +194,11 @@ public class MSPlayer implements Record
 		Bukkit.getScheduler().cancelTask(MOVEMENT_LOOP_ID);
 	}
 	
+	private final HashMap<String, Object> customData = new HashMap<String, Object>();
 	private final String playerName;
 	private RecordData data;
 	private Player player;
-	private final HashMap<String, Object> customData = new HashMap<String, Object>();
+	private Container lazyInventoryContainer, gameContainer;
 	private Location lastLocation;
 	private GunTask gunTask;
 	private PlayerState playerState;
@@ -214,6 +218,7 @@ public class MSPlayer implements Record
 		this.playerName = playerName;
 		this.data = data;
 		this.playerState = PlayerState.LOBBY_SERVER;
+		this.gameContainer = new GameContainer();
 	}
 	
 	public void redirectEvent(Event event)
@@ -295,8 +300,8 @@ public class MSPlayer implements Record
 	{
 		if(hasGame())
 		{
-			EquipmentManager em = game.getEquipmentManager();
-			Equipment equipment = em.getCurrentlyEquipped(this);
+			EquipmentProvider em = game.getEquipmentManager();
+			EquipmentType equipment = em.getCurrentlyEquipped(this);
 			
 			if(equipment != null)
 				return equipment.getMovementSpeed(this);
@@ -399,7 +404,7 @@ public class MSPlayer implements Record
 		
 		gun.setReloading(true);
 		
-		ItemStack is = gun.createItemStack();
+		ItemStack is = gun.newItemStack(this);
 		
 		inv.setItem(slot, is);
 		setGunTask(new Reloading(this, slot, gunType).startLoop());
@@ -700,5 +705,21 @@ public class MSPlayer implements Record
 	public HashMap<String, Object> getCustomData()
 	{
 		return customData;
+	}
+
+	public Container getInventoryContainer()
+	{
+		if(lazyInventoryContainer == null)
+		{
+			String string = data.get(String.class, "inventory");
+			lazyInventoryContainer = EquipmentManager.fromGson(string); //TODO
+		}
+		
+		return lazyInventoryContainer;
+	}
+
+	public Container getGameContainer()
+	{
+		return gameContainer;
 	}
 }

@@ -70,7 +70,7 @@ public class Reloading extends GunTask
 		
 		gun.setReloading(true);
 		
-		ItemStack is = gun.createItemStack();
+		ItemStack is = gun.newItemStack(msPlayer);
 		
 		msPlayer.getPlayer().setItemInHand(is);
 		
@@ -94,7 +94,7 @@ public class Reloading extends GunTask
 		
 		gun.setReloading(false);
 		
-		is = gun.createItemStack();
+		is = gun.newItemStack(msPlayer);
 		
 		inv.setItem(slotId, is);
 	}
@@ -119,7 +119,7 @@ public class Reloading extends GunTask
 		gun.setLoadedBullets(loadedBullets + reloadedBullets);
 		gun.setReloading(false);
 		
-		ItemStack is = gun.createItemStack();
+		ItemStack is = gun.newItemStack(msPlayer);
 		
 		player.setItemInHand(is);
 	//	gunType.onReloadComplete(msPlayer);

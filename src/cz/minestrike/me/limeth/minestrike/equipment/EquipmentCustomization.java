@@ -1,123 +1,183 @@
 package cz.minestrike.me.limeth.minestrike.equipment;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.bukkit.Color;
 import org.bukkit.FireworkEffect;
+import org.bukkit.configuration.serialization.ConfigurationSerializable;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.FireworkEffectMeta;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import cz.minestrike.me.limeth.minestrike.util.LoreAttribute;
+import com.google.common.collect.ImmutableList;
+
 import cz.minestrike.me.limeth.minestrike.util.LoreAttributes;
 
-public class EquipmentCustomization
-{ 
+public class EquipmentCustomization implements ConfigurationSerializable
+{
+	private final String name, skin;
 	private final Color color;
-	private final String skin;
+	private final ImmutableList<String> lore;
 	
-	public EquipmentCustomization(Color color, String skin)
+	private EquipmentCustomization(String name, String skin, Color color, ImmutableList<String> lore)
 	{
-		this.color = color;
+		this.name = name;
 		this.skin = skin;
+		this.color = color;
+		this.lore = lore;
 	}
 	
-	public static EquipmentCustomization parse(ItemStack is)
+	public static class EquipmentCustomizationBuilder
 	{
-		LoreAttributes attr = LoreAttributes.extract(is);
-		LoreAttribute skinAttr = attr.get("skin");
-		String skin = skinAttr == null ? null : skinAttr.getValue(String.class);
-		Color color = null;
-		
-		if(is.hasItemMeta())
-		{
-			ItemMeta im = is.getItemMeta();
-			
-			if(im instanceof FireworkEffectMeta)
-			{
-				FireworkEffectMeta fem = (FireworkEffectMeta) im;
-				
-				if(fem.hasEffect())
-				{
-					FireworkEffect effect = fem.getEffect();
-					List<Color> colors = effect.getColors();
-					
-					for(Color curColor : colors)
-						if(color == null)
-							color = curColor;
-						else
-							color = color.mixColors(curColor);
-				}
-			}
-		}
-		
-		return new EquipmentCustomization(color, skin);
-	}
-	
-	public void apply(ItemStack is)
-	{
-		if(skin != null)
-		{
-			LoreAttributes.TEMP_ATTRIBUTES.clear();
-			LoreAttributes.TEMP_ATTRIBUTES.put("skin", skin);
-			LoreAttributes.TEMP_ATTRIBUTES.apply(is);
-		}
-		
-		if(color != null && is instanceof FireworkEffectMeta)
-		{
-			FireworkEffectMeta fem = (FireworkEffectMeta) is.getItemMeta();
-			
-			fem.setEffect(FireworkEffect.builder().withColor(color).build());
-		}
-	}
-	
-	public boolean hasColor()
-	{
-		return color != null;
-	}
-	
-	public Color getColor()
-	{
-		return color;
-	}
-	
-	public boolean hasSkin()
-	{
-		return skin != null;
-	}
-	
-	public String getSkin()
-	{
-		return skin;
-	}
-	
-	public static Builder builder()
-	{
-		return new Builder();
-	}
-	
-	public static class Builder
-	{
+		private String name, skin;
 		private Color color;
-		private String skin;
+		private ImmutableList.Builder<String> lore = ImmutableList.builder();
 		
-		private Builder() {}
+		private EquipmentCustomizationBuilder() {}
 		
-		public Builder withColor(Color color)
+		public EquipmentCustomization build()
 		{
-			this.color = color;
+			return new EquipmentCustomization(name, skin, color, lore.build());
+		}
+		
+		public EquipmentCustomizationBuilder name(String name)
+		{
+			this.name = name;
 			return this;
 		}
 		
-		public Builder withSkin(String skin)
+		public EquipmentCustomizationBuilder skin(String skin)
 		{
 			this.skin = skin;
 			return this;
 		}
 		
-		public EquipmentCustomization build()
+		public EquipmentCustomizationBuilder color(Color color)
 		{
-			return new EquipmentCustomization(color, skin);
+			this.color = color;
+			return this;
 		}
+		
+		public EquipmentCustomizationBuilder addLore(String... lines)
+		{
+			lore.add(lines);
+			return this;
+		}
+		
+		public EquipmentCustomizationBuilder addLore(Collection<String> lines)
+		{
+			lore.addAll(lines);
+			return this;
+		}
+	}
+	
+	public static EquipmentCustomizationBuilder builder()
+	{
+		return new EquipmentCustomizationBuilder();
+	}
+	
+	public void apply(EquipmentType equipment, ItemStack itemStack)
+	{
+		ItemMeta im = itemStack.getItemMeta();
+		
+		if(name != null)
+			im.setDisplayName(name);
+		
+		if(lore.size() > 0)
+		{
+			List<String> newLore;
+			
+			if(im.hasLore())
+				newLore = im.getLore();
+			else
+				newLore = new ArrayList<String>();
+			
+			newLore.addAll(lore);
+			im.setLore(lore);
+		}
+		
+		if(color != null && im instanceof FireworkEffectMeta)
+		{
+			FireworkEffectMeta fem = (FireworkEffectMeta) im;
+			
+			fem.setEffect(FireworkEffect.builder().withColor(color).build());
+		}
+		
+		if(skin != null)
+		{
+			LoreAttributes.TEMP_ATTRIBUTES.clear();
+			LoreAttributes.TEMP_ATTRIBUTES.put("skin", skin);
+			LoreAttributes.TEMP_ATTRIBUTES.apply(itemStack);
+		}
+		
+		itemStack.setItemMeta(im);
+	}
+	
+	@SuppressWarnings("unchecked")
+	public static EquipmentCustomization deserialize(Map<String, Object> map)
+	{
+		EquipmentCustomizationBuilder builder = builder();
+		
+		if(map.containsKey("name"))
+			builder.name((String) map.get("name"));
+		
+		if(map.containsKey("skin"))
+			builder.skin((String) map.get("skin"));
+		
+		if(map.containsKey("color"))
+			builder.color(Color.deserialize((Map<String, Object>) map.get("color")));
+		
+		if(map.containsKey("lore"))
+		{
+			List<String> list = (List<String>) map.get("lore");
+			
+			builder.addLore(list);
+		}
+		
+		return builder.build();
+	}
+	
+	@Override
+	public Map<String, Object> serialize()
+	{
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		
+		if(name != null)
+			map.put("name", name);
+		
+		if(skin != null)
+			map.put("skin", skin);
+		
+		if(color != null)
+			map.put("color", color.serialize());
+		
+		if(lore.size() > 0)
+			map.put("lore", lore);
+		
+		return map;
+	}
+
+	public String getName()
+	{
+		return name;
+	}
+
+	public String getSkin()
+	{
+		return skin;
+	}
+
+	public Color getColor()
+	{
+		return color;
+	}
+
+	public ImmutableList<String> getLore()
+	{
+		return lore;
 	}
 }

@@ -85,7 +85,7 @@ public class Firing extends GunTask
 		
 		gun.decreaseLoadedBullets();
 		
-		ItemStack itemStack = gun.createItemStack();//TODO try editing instead of creating a new one
+		ItemStack itemStack = gun.newItemStack(msPlayer);//TODO try editing instead of creating a new one
 		
 		player.setItemInHand(itemStack);
 		

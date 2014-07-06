@@ -9,13 +9,13 @@ import cz.minestrike.me.limeth.minestrike.MSPlayer;
 import cz.minestrike.me.limeth.minestrike.areas.schemes.GameLobby;
 import cz.minestrike.me.limeth.minestrike.areas.schemes.GameMap;
 import cz.minestrike.me.limeth.minestrike.areas.schemes.GameMenu;
-import cz.minestrike.me.limeth.minestrike.equipment.EquipmentManager;
+import cz.minestrike.me.limeth.minestrike.equipment.EquipmentProvider;
 import cz.minestrike.me.limeth.minestrike.games.Team;
 import cz.minestrike.me.limeth.minestrike.listeners.msPlayer.MSGameListener;
 
-public class TeamGameListener extends MSGameListener<TeamGame<? extends GameLobby, ? extends GameMenu, ? extends GameMap, ? extends EquipmentManager>>
+public class TeamGameListener extends MSGameListener<TeamGame<? extends GameLobby, ? extends GameMenu, ? extends GameMap, ? extends EquipmentProvider>>
 {
-	public TeamGameListener(TeamGame<? extends GameLobby, ? extends GameMenu, ? extends GameMap, ? extends EquipmentManager> game)
+	public TeamGameListener(TeamGame<? extends GameLobby, ? extends GameMenu, ? extends GameMap, ? extends EquipmentProvider> game)
 	{
 		super(game);
 	}
@@ -28,7 +28,7 @@ public class TeamGameListener extends MSGameListener<TeamGame<? extends GameLobb
 		if(!(damagerEntity instanceof Player))
 			return;
 		
-		TeamGame<? extends GameLobby, ? extends GameMenu, ? extends GameMap, ? extends EquipmentManager> game = getGame();
+		TeamGame<? extends GameLobby, ? extends GameMenu, ? extends GameMap, ? extends EquipmentProvider> game = getGame();
 		Player damager = (Player) damagerEntity;
 		MSPlayer msDamager = MSPlayer.get(damager);
 		Team damagerTeam = game.getTeam(msDamager);
