@@ -12,6 +12,7 @@ import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.inventory.ItemStack;
 
 import cz.minestrike.me.limeth.minestrike.MSPlayer;
+import cz.minestrike.me.limeth.minestrike.MineStrike;
 import cz.minestrike.me.limeth.minestrike.equipment.grenades.Grenade;
 import cz.minestrike.me.limeth.minestrike.equipment.grenades.GrenadeType;
 import cz.minestrike.me.limeth.minestrike.equipment.guns.Gun;
@@ -83,6 +84,12 @@ public class InteractionListener implements Listener
 		Player player = event.getPlayer();
 		MSPlayer msPlayer = MSPlayer.get(player);
 		Location loc = msPlayer.spawn(false);
+		
+		if(loc == null)
+		{
+			MineStrike.warn("Cannot spawn at null location!");
+			return;
+		}
 		
 		event.setRespawnLocation(loc);
 	}

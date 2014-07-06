@@ -10,6 +10,7 @@ import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
@@ -331,6 +332,11 @@ public class MapPoll<Lo extends GameLobby, Me extends GameMenu, Ma extends GameM
 		@EventHandler
 		public void onPlayerInteract(PlayerInteractEvent event, MSPlayer msPlayer)
 		{
+			Action action = event.getAction();
+			
+			if(action == Action.PHYSICAL)
+				return;
+			
 			if(!isVoteable())
 				return;
 			

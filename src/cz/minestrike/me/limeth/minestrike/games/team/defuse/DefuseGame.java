@@ -193,8 +193,17 @@ public class DefuseGame extends TeamGame<GameLobby, TeamGameMenu, DefuseGameMap,
 		double z = bombBlock.getZ() + 0.5;
 		World world = bombBlock.getWorld();
 		
-		bombBlock.setType(Material.AIR);
+		removeBomb();
 		world.createExplosion(x, y, z, MSConstant.BOMB_POWER, false, false);
+	}
+	
+	public void removeBomb()
+	{
+		if(bombBlock == null)
+			return;
+		
+		bombBlock.setType(Material.AIR);
+		bombBlock = null;
 	}
 	
 	public void showWitherBar(MSPlayer msPlayer)
@@ -240,7 +249,14 @@ public class DefuseGame extends TeamGame<GameLobby, TeamGameMenu, DefuseGameMap,
 	
 	public String getWitherTitle()
 	{
-		return ChatColor.BLUE + "" + ctScore + ChatColor.DARK_GRAY + " | " + ChatColor.GOLD + tScore;
+		String middle;
+		
+		if(isBombPlaced())
+			middle = ChatColor.DARK_GRAY + " | " + Translation.GAME_BOMB_PLANTED.getMessage() + ChatColor.DARK_GRAY + " | ";
+		else
+			middle = ChatColor.DARK_GRAY + " | ";
+		
+		return ChatColor.BLUE + "" + ctScore + middle + ChatColor.GOLD + tScore;
 	}
 	
 	public void roundEnd(RoundEndReason reason)
@@ -284,6 +300,8 @@ public class DefuseGame extends TeamGame<GameLobby, TeamGameMenu, DefuseGameMap,
 		
 		if(reason == RoundEndReason.EXPLODED)
 			explode();
+		
+		removeBomb();
 		
 		Team victorTeam = reason.getVictorTeam();
 		int newScore = addScore(victorTeam, 1);

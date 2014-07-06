@@ -43,6 +43,9 @@ public class DefuseGameListener extends MSGameListener<DefuseGame>
 		
 		game.setDead(msPlayer, true);
 		
+		if(team == Team.TERRORISTS && game.isBombPlaced())
+			return;
+		
 		if(game.isDead(team))
 		{
 			RoundEndReason endReason = team == Team.TERRORISTS ? RoundEndReason.T_KILLED : RoundEndReason.CT_KILLED;
@@ -51,6 +54,7 @@ public class DefuseGameListener extends MSGameListener<DefuseGame>
 		}
 	}
 	
+	@SuppressWarnings("deprecation")
 	@EventHandler
 	public void onBlockPlace(BlockPlaceEvent event, MSPlayer msPlayer)
 	{
@@ -77,6 +81,9 @@ public class DefuseGameListener extends MSGameListener<DefuseGame>
 		
 		if(!bombSites.isInside(relLoc))
 		{
+			Player player = msPlayer.getPlayer();
+			
+			player.updateInventory();
 			msPlayer.sendMessage(Translation.GAME_BOMB_INVALIDPLACEMENT.getMessage());
 			return;
 		}

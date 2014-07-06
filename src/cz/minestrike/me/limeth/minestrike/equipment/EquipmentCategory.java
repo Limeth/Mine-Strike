@@ -3,10 +3,12 @@ package cz.minestrike.me.limeth.minestrike.equipment;
 import java.util.HashSet;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
 import cz.minestrike.me.limeth.minestrike.MSConstant;
 import cz.minestrike.me.limeth.minestrike.MSPlayer;
@@ -58,6 +60,11 @@ public enum EquipmentCategory
 		this.icon = icon;
 		this.tEquipment = tEquipment;
 		this.ctEquipment = ctEquipment;
+		
+		ItemMeta iconMeta = icon.getItemMeta();
+		
+		iconMeta.setDisplayName(ChatColor.BOLD + name);
+		icon.setItemMeta(iconMeta);
 	}
 	
 	private EquipmentCategory(String name, ItemStack icon, Equipment... equipment)
@@ -138,6 +145,9 @@ public enum EquipmentCategory
 		y -= 1;
 		
 		int index = x + y * width;
+		
+		if(index < 0 || index >= equipment.length)
+			return null;
 		
 		return equipment[index];
 	}
