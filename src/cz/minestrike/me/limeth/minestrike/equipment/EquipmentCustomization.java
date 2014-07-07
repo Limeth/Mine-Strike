@@ -80,7 +80,7 @@ public class EquipmentCustomization implements ConfigurationSerializable
 		return new EquipmentCustomizationBuilder();
 	}
 	
-	public void apply(EquipmentType equipment, ItemStack itemStack)
+	public void apply(Equipment equipment, ItemStack itemStack)
 	{
 		ItemMeta im = itemStack.getItemMeta();
 		

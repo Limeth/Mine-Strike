@@ -1,5 +1,6 @@
 package cz.minestrike.me.limeth.minestrike.listeners;
 
+import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -9,6 +10,9 @@ import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
+import org.bukkit.scheduler.BukkitScheduler;
+
+import cz.minestrike.me.limeth.minestrike.MineStrike;
 
 public class PermissionListener implements Listener
 {
@@ -33,15 +37,25 @@ public class PermissionListener implements Listener
 	@EventHandler
 	public void onPlayerRespawn(PlayerRespawnEvent event)
 	{
-		Player player = event.getPlayer();
+		final Player player = event.getPlayer();
+		BukkitScheduler scheduler = Bukkit.getScheduler();
+		Runnable runnable = new Runnable() {
+
+			@Override
+			public void run()
+			{
+				player.setFoodLevel(5);
+			}
+			
+		};
 		
-		player.setFoodLevel(5);
+		scheduler.scheduleSyncDelayedTask(MineStrike.getInstance(), runnable);
 	}
 	
 	@EventHandler
 	public void onFoodLevelChange(FoodLevelChangeEvent event)
 	{
-		event.setCancelled(true);
+		event.setFoodLevel(5);
 	}
 	
 	@EventHandler

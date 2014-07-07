@@ -1,9 +1,13 @@
 package cz.minestrike.me.limeth.minestrike.games.team.defuse;
 
+import java.util.HashMap;
+
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
+import org.bukkit.scheduler.BukkitScheduler;
 
 import cz.minestrike.me.limeth.minestrike.MSPlayer;
 import cz.minestrike.me.limeth.minestrike.MineStrike;
@@ -28,7 +32,10 @@ public class Round extends GamePhase<GameLobby, TeamGameMenu, DefuseGameMap, Def
 			boolean cont = getGame().roundPrepare();
 
 			if(cont)
+			{
 				taskId = Bukkit.getScheduler().scheduleSyncDelayedTask(MineStrike.getInstance(), startRunnable, SPAWN_TIME);
+				new PreparationCheckRunnable().start(5L);
+			}
 		}
 	};
 	private final Runnable startRunnable = new Runnable() {
@@ -217,6 +224,44 @@ public class Round extends GamePhase<GameLobby, TeamGameMenu, DefuseGameMap, Def
 					
 					player.setWalkSpeed(0);
 				}
+			}
+		}
+	}
+	
+	private class PreparationCheckRunnable implements Runnable
+	{
+		private final HashMap<MSPlayer, Location> ORIGIN = new HashMap<MSPlayer, Location>();
+		public Integer preparationCheckTaskId;
+		
+		public int start(long frequency)
+		{
+			return preparationCheckTaskId = Bukkit.getScheduler().scheduleSyncRepeatingTask(MineStrike.getInstance(), this, 0L, frequency);
+		}
+		
+		@Override
+		public void run()
+		{
+			DefuseGame game = getGame();
+			
+			for(MSPlayer msPlayer : game.getPlayingPlayers())
+			{
+				Player player = msPlayer.getPlayer();
+				Location origin = ORIGIN.get(msPlayer);
+				Location loc = player.getLocation();
+				
+				if(origin == null)
+					ORIGIN.put(msPlayer, loc);
+				else if(origin.distanceSquared(loc) > 0)
+					msPlayer.teleport(origin, false);
+			}
+			
+			if(phase != RoundPhase.PREPARING && preparationCheckTaskId != null)
+			{
+				BukkitScheduler scheduler = Bukkit.getScheduler();
+				
+				scheduler.cancelTask(preparationCheckTaskId);
+				
+				preparationCheckTaskId = null;
 			}
 		}
 	}

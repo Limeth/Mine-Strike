@@ -33,7 +33,6 @@ import cz.minestrike.me.limeth.minestrike.areas.schemes.GameMap;
 import cz.minestrike.me.limeth.minestrike.areas.schemes.GameMenu;
 import cz.minestrike.me.limeth.minestrike.equipment.Equipment;
 import cz.minestrike.me.limeth.minestrike.equipment.EquipmentProvider;
-import cz.minestrike.me.limeth.minestrike.equipment.EquipmentType;
 import cz.minestrike.me.limeth.minestrike.games.Game;
 import darkBlade12.ParticleEffect;
 
@@ -246,18 +245,13 @@ public class GunManager
 				
 				Game<? extends GameLobby, ? extends GameMenu, ? extends GameMap, ? extends EquipmentProvider> game = msPlayer.getGame();
 				EquipmentProvider ep = game.getEquipmentManager();
-				Equipment<? extends EquipmentType> equipment = ep.getCurrentlyEquipped(msPlayer);
+				Equipment equipment = ep.getCurrentlyEquipped(msPlayer);
 				
-				if(equipment == null)
-					continue;
-				
-				EquipmentType equipmentType = equipment.getType();
-				
-				if(!(equipmentType instanceof GunType))
-					continue;
+				if(!(equipment instanceof Gun))
+					return;
 				
 				Gun gun = (Gun) equipment;
-				GunType type = gun.getType();
+				GunType type = gun.getEquipment();
 				double damageDivision = Math.pow(2, i);
 				LivingEntity bukkitVictim = (LivingEntity) rawBukkitVictim;
 				Location victimLoc = bukkitVictim.getLocation();

@@ -27,14 +27,13 @@ import cz.minestrike.me.limeth.minestrike.MSConstant;
 import cz.minestrike.me.limeth.minestrike.MSPlayer;
 import cz.minestrike.me.limeth.minestrike.MineStrike;
 import cz.minestrike.me.limeth.minestrike.equipment.Equipment;
-import cz.minestrike.me.limeth.minestrike.equipment.EquipmentType;
 import cz.minestrike.me.limeth.minestrike.games.Game;
 import cz.minestrike.me.limeth.minestrike.games.Team;
 import cz.minestrike.me.limeth.minestrike.games.TeamValue;
 import cz.minestrike.me.limeth.minestrike.games.team.TeamGame;
 import darkBlade12.ParticleEffect;
 
-public enum GrenadeType implements EquipmentType
+public enum GrenadeType implements Equipment
 {
 	EXPLOSIVE(ChatColor.RED + "HE Grenade", 1, new TeamValue<Integer>(300), 240F, 16460, 40)
 	{
@@ -333,7 +332,7 @@ public enum GrenadeType implements EquipmentType
 		return new ItemStack(Material.POTION, 1, (short) color);
 	}
 	
-	public int getPrice(MSPlayer msPlayer)
+	public Integer getPrice(MSPlayer msPlayer)
 	{
 		Game<?, ?, ?, ?> game = msPlayer.getGame();
 		
@@ -376,10 +375,21 @@ public enum GrenadeType implements EquipmentType
 		return "GRENADE_" + name();
 	}
 	
-	@SuppressWarnings("rawtypes")
 	@Override
 	public Class<? extends Equipment> getEquipmentClass()
 	{
 		return Equipment.class;
+	}
+	
+	@Override
+	public Equipment getSource()
+	{
+		return this;
+	}
+	
+	@Override
+	public String toString()
+	{
+		return getId();
 	}
 }

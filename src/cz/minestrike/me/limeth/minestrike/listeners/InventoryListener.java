@@ -12,7 +12,6 @@ import org.bukkit.inventory.PlayerInventory;
 import cz.minestrike.me.limeth.minestrike.MSPlayer;
 import cz.minestrike.me.limeth.minestrike.equipment.Container;
 import cz.minestrike.me.limeth.minestrike.equipment.Equipment;
-import cz.minestrike.me.limeth.minestrike.equipment.EquipmentType;
 import cz.minestrike.me.limeth.minestrike.equipment.guns.Gun;
 
 public class InventoryListener implements Listener
@@ -25,7 +24,7 @@ public class InventoryListener implements Listener
 		Container hotbarContainer = msPlayer.getHotbarContainer();
 		PlayerInventory inv = player.getInventory();
 		int slot = inv.getHeldItemSlot();
-		Equipment<? extends EquipmentType> equipment = hotbarContainer.getItem(slot);
+		Equipment equipment = hotbarContainer.getItem(slot);
 		
 		if(equipment == null || !(equipment instanceof Gun))
 			return;

@@ -11,7 +11,6 @@ import com.google.common.base.Preconditions;
 import cz.minestrike.me.limeth.minestrike.MSPlayer;
 import cz.minestrike.me.limeth.minestrike.equipment.Container;
 import cz.minestrike.me.limeth.minestrike.equipment.Equipment;
-import cz.minestrike.me.limeth.minestrike.equipment.EquipmentType;
 
 public abstract class GunTask implements Runnable
 {
@@ -52,13 +51,13 @@ public abstract class GunTask implements Runnable
 		PlayerInventory inv = player.getInventory();
 		Container hotbarContainer = msPlayer.getHotbarContainer();
 		int slot = inv.getHeldItemSlot();
-		Equipment<? extends EquipmentType> equipment = hotbarContainer.getItem(slot);
+		Equipment equipment = hotbarContainer.getItem(slot);
 		
 		if(equipment == null || !(equipment instanceof Gun))
 			return null;
 		
 		Gun gun = (Gun) equipment;
-		GunType gunType = gun.getType();
+		GunType gunType = gun.getEquipment();
 		
 		if(gunType != this.gunType)
 			return null;

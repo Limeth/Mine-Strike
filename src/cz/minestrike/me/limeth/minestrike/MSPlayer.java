@@ -30,7 +30,6 @@ import cz.minestrike.me.limeth.minestrike.equipment.Container;
 import cz.minestrike.me.limeth.minestrike.equipment.Equipment;
 import cz.minestrike.me.limeth.minestrike.equipment.EquipmentManager;
 import cz.minestrike.me.limeth.minestrike.equipment.EquipmentProvider;
-import cz.minestrike.me.limeth.minestrike.equipment.EquipmentType;
 import cz.minestrike.me.limeth.minestrike.equipment.HotbarContainer;
 import cz.minestrike.me.limeth.minestrike.equipment.ScalableContainer;
 import cz.minestrike.me.limeth.minestrike.equipment.guns.Firing;
@@ -306,11 +305,11 @@ public class MSPlayer implements Record
 		if(hasGame())
 		{
 			EquipmentProvider em = game.getEquipmentManager();
-			Equipment<? extends EquipmentType> equipment = em.getCurrentlyEquipped(this);
+			Equipment equipment = em.getCurrentlyEquipped(this);
 			
 			if(equipment != null)
 			{
-				EquipmentType type = equipment.getType();
+				Equipment type = equipment.getSource();
 				float speed = type.getMovementSpeed(this);
 				
 				return speed;
@@ -373,7 +372,7 @@ public class MSPlayer implements Record
 		if(!gun.isLoaded())
 			return;
 		
-		GunType gunType = gun.getType();
+		GunType gunType = gun.getEquipment();
 		
 		if(gunType.isLoadingContinuously() && gunTask instanceof Reloading)
 		{
@@ -407,7 +406,7 @@ public class MSPlayer implements Record
 	
 	public void reload(Gun gun)
 	{
-		GunType gunType = gun.getType();
+		GunType gunType = gun.getEquipment();
 		Player player = getPlayer();
 		PlayerInventory inv = player.getInventory();
 		int slot = inv.getHeldItemSlot();
@@ -723,7 +722,7 @@ public class MSPlayer implements Record
 		{
 			lazyInventoryContainer = new ScalableContainer();
 			String string = data.get(String.class, "inventory");
-			Equipment<EquipmentType>[] equipment = EquipmentManager.fromGson(string);
+			Equipment[] equipment = EquipmentManager.fromGson(string);
 			
 			for(int i = 0; i < equipment.length; i++)
 				lazyInventoryContainer.setItem(i, equipment[i]);

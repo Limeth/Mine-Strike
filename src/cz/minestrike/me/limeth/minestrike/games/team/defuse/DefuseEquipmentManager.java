@@ -2,25 +2,22 @@ package cz.minestrike.me.limeth.minestrike.games.team.defuse;
 
 import java.util.ArrayList;
 
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
-import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
-import org.bukkit.inventory.meta.ItemMeta;
 
 import cz.minestrike.me.limeth.minestrike.MSConstant;
 import cz.minestrike.me.limeth.minestrike.MSPlayer;
 import cz.minestrike.me.limeth.minestrike.Translation;
 import cz.minestrike.me.limeth.minestrike.equipment.Container;
+import cz.minestrike.me.limeth.minestrike.equipment.CustomizedEquipment;
 import cz.minestrike.me.limeth.minestrike.equipment.Equipment;
 import cz.minestrike.me.limeth.minestrike.equipment.EquipmentCategory;
 import cz.minestrike.me.limeth.minestrike.equipment.EquipmentProvider;
 import cz.minestrike.me.limeth.minestrike.equipment.EquipmentPurchaseException;
-import cz.minestrike.me.limeth.minestrike.equipment.EquipmentType;
 import cz.minestrike.me.limeth.minestrike.equipment.Knife;
-import cz.minestrike.me.limeth.minestrike.equipment.SimpleEquipmentType;
+import cz.minestrike.me.limeth.minestrike.equipment.SimpleEquipment;
 import cz.minestrike.me.limeth.minestrike.equipment.grenades.GrenadeType;
 import cz.minestrike.me.limeth.minestrike.equipment.guns.Gun;
 import cz.minestrike.me.limeth.minestrike.equipment.guns.GunType;
@@ -31,23 +28,23 @@ public class DefuseEquipmentManager implements EquipmentProvider
 	static
 	{
 		ItemStack defaultKit = new ItemStack(Material.IRON_PICKAXE);
-		defaultKit.addUnsafeEnchantment(Enchantment.DIG_SPEED, 4);
-		DEFUSE_KIT_DEFAULT = new SimpleEquipmentType("KIT_DEFAULT", defaultKit, 0, MSConstant.MOVEMENT_SPEED_DEFAULT);
+//		defaultKit.addUnsafeEnchantment(Enchantment.DIG_SPEED, 4);
+		DEFUSE_KIT_DEFAULT = new SimpleEquipment("KIT_DEFAULT", defaultKit, 0, MSConstant.MOVEMENT_SPEED_DEFAULT);
 		
 		ItemStack boughtKit = new ItemStack(Material.DIAMOND_PICKAXE);
-		boughtKit.addUnsafeEnchantment(Enchantment.DIG_SPEED, 2);
-		DEFUSE_KIT_BOUGHT = new SimpleEquipmentType("KIT_BOUGHT", boughtKit, 400, MSConstant.MOVEMENT_SPEED_DEFAULT);
+//		boughtKit.addUnsafeEnchantment(Enchantment.DIG_SPEED, 2);
+		DEFUSE_KIT_BOUGHT = new SimpleEquipment("KIT_BOUGHT", boughtKit, 400, MSConstant.MOVEMENT_SPEED_DEFAULT);
 		
 		ItemStack bomb = new ItemStack(Material.OBSIDIAN);
-		ItemMeta bombIM = bomb.getItemMeta();
-		
-		bombIM.setDisplayName(ChatColor.YELLOW + "" + ChatColor.BOLD + "C4");
-		bomb.setItemMeta(bombIM);
-		
-		BOMB = new SimpleEquipmentType("BOMB", bomb, 0, MSConstant.MOVEMENT_SPEED_DEFAULT);
+//		ItemMeta bombIM = bomb.getItemMeta();
+//		
+//		bombIM.setDisplayName(ChatColor.YELLOW + "" + ChatColor.BOLD + "C4");
+//		bomb.setItemMeta(bombIM);
+//		
+		BOMB = new SimpleEquipment("BOMB", bomb, 0, MSConstant.MOVEMENT_SPEED_DEFAULT);
 	}
 	
-	public static final SimpleEquipmentType DEFUSE_KIT_DEFAULT, DEFUSE_KIT_BOUGHT, BOMB;
+	public static final SimpleEquipment DEFUSE_KIT_DEFAULT, DEFUSE_KIT_BOUGHT, BOMB;
 	public static final int INDEX_GUN_PRIMARY = 0, INDEX_GUN_SECONDARY = 1, INDEX_GRENADES = 2, INDEX_EXTRA = 7, INDEX_KNIFE = 8, GRENADE_AMOUNT = 3;
 	private final DefuseGame game;
 	
@@ -68,8 +65,9 @@ public class DefuseEquipmentManager implements EquipmentProvider
 		if(!hasSecondary)
 		{
 			GunType pistolType = getDefaultPistol(msPlayer);
-			Gun pistol = new Gun(msPlayer, pistolType);
-			
+			Gun pistol = new Gun(pistolType);
+
+			pistol.setOwnerName(msPlayer.getName());
 			setGun(msPlayer, pistol);
 		}
 		
@@ -84,7 +82,7 @@ public class DefuseEquipmentManager implements EquipmentProvider
 		Container gameContainer = msPlayer.getHotbarContainer();
 		Player player = msPlayer.getPlayer();
 		PlayerInventory inv = player.getInventory();
-		Equipment<EquipmentType> equipment = new Equipment<EquipmentType>(BOMB, null); //TODO custom
+		CustomizedEquipment<Equipment> equipment = new CustomizedEquipment<Equipment>(BOMB, null); //TODO custom
 		ItemStack item = equipment.newItemStack(msPlayer);
 		
 		gameContainer.setItem(INDEX_EXTRA, equipment);
@@ -96,7 +94,7 @@ public class DefuseEquipmentManager implements EquipmentProvider
 		Container gameContainer = msPlayer.getHotbarContainer();
 		Player player = msPlayer.getPlayer();
 		PlayerInventory inv = player.getInventory();
-		Equipment<EquipmentType> equipment = new Equipment<EquipmentType>(Knife.KNIFE, null); //TODO custom
+		CustomizedEquipment<Equipment> equipment = new CustomizedEquipment<Equipment>(Knife.KNIFE, null); //TODO custom
 		ItemStack item = equipment.newItemStack(msPlayer);
 		
 		gameContainer.setItem(INDEX_KNIFE, equipment);
@@ -122,7 +120,7 @@ public class DefuseEquipmentManager implements EquipmentProvider
 	
 	public void setGun(MSPlayer msPlayer, Gun gun)
 	{
-		GunType gunType = gun.getType();
+		GunType gunType = gun.getEquipment();
 		boolean primary = gunType.isPrimary();
 		int slot = primary ? INDEX_GUN_PRIMARY : INDEX_GUN_SECONDARY;
 		Container gameContainer = msPlayer.getHotbarContainer();
@@ -138,7 +136,7 @@ public class DefuseEquipmentManager implements EquipmentProvider
 	{
 		Container gameContainer = msPlayer.getHotbarContainer();
 		int slot = primary ? INDEX_GUN_PRIMARY : INDEX_GUN_SECONDARY;
-		Equipment<? extends EquipmentType> equipment = gameContainer.getItem(slot);
+		Equipment equipment = gameContainer.getItem(slot);
 		
 		if(!(equipment instanceof Gun))
 			return null;
@@ -165,7 +163,7 @@ public class DefuseEquipmentManager implements EquipmentProvider
 	
 	public int getGrenadeAmount(MSPlayer msPlayer)
 	{
-		ArrayList<Equipment<GrenadeType>> grenades = getGrenades(msPlayer);
+		ArrayList<GrenadeType> grenades = getGrenades(msPlayer);
 		int amount = 0;
 		
 		for(int i = 0; i < grenades.size(); i++)
@@ -187,11 +185,11 @@ public class DefuseEquipmentManager implements EquipmentProvider
 			throw new RuntimeException(e);
 		}
 		
-		ArrayList<Equipment<GrenadeType>> grenades = getGrenades(msPlayer);
+		ArrayList<GrenadeType> grenades = getGrenades(msPlayer);
 		
 		for(int i = 0; i < grenades.size(); i++)
 		{
-			Equipment<GrenadeType> current = grenades.get(i);
+			GrenadeType current = grenades.get(i);
 			
 			if(current != null)
 				continue;
@@ -200,7 +198,7 @@ public class DefuseEquipmentManager implements EquipmentProvider
 			Player player = msPlayer.getPlayer();
 			PlayerInventory inv = player.getInventory();
 			int slot = i + INDEX_GRENADES;
-			Equipment<GrenadeType> equipment = new Equipment<GrenadeType>(type, null); //TODO custom
+			CustomizedEquipment<GrenadeType> equipment = new CustomizedEquipment<GrenadeType>(type, null); //TODO custom
 			ItemStack item = equipment.newItemStack(msPlayer);
 			
 			gameContainer.setItem(slot, equipment);
@@ -213,21 +211,19 @@ public class DefuseEquipmentManager implements EquipmentProvider
 	
 	public void checkGrenadeAddition(MSPlayer msPlayer, GrenadeType type) throws Exception
 	{
-		ArrayList<Equipment<GrenadeType>> grenades = getGrenades(msPlayer);
+		ArrayList<GrenadeType> grenades = getGrenades(msPlayer);
 		boolean full = true;
 		int typeAmount = 0;
 		
 		for(int i = 0; i < grenades.size(); i++)
 		{
-			Equipment<GrenadeType> equipment = grenades.get(i);
+			GrenadeType curType = grenades.get(i);
 			
-			if(equipment == null)
+			if(curType == null)
 			{
 				full = false;
 				continue;
 			}
-			
-			GrenadeType curType = equipment.getType();
 			
 			if(type == curType)
 				typeAmount++;
@@ -240,24 +236,23 @@ public class DefuseEquipmentManager implements EquipmentProvider
 	}
 
 	@Override
-	public ArrayList<Equipment<GrenadeType>> getGrenades(MSPlayer msPlayer)
+	public ArrayList<GrenadeType> getGrenades(MSPlayer msPlayer)
 	{
-		ArrayList<Equipment<GrenadeType>> grenades = new ArrayList<Equipment<GrenadeType>>();
+		ArrayList<GrenadeType> grenades = new ArrayList<GrenadeType>();
 		Container gameContainer = msPlayer.getHotbarContainer();
 		
 		for(int i = 0; i < GRENADE_AMOUNT; i++)
 		{
 			int slot = i + INDEX_GRENADES;
-			Equipment<? extends EquipmentType> equipment = gameContainer.getItem(slot);
+			Equipment equipment = gameContainer.getItem(slot);
 			
-			if(equipment == null || !(equipment.getType() instanceof GrenadeType))
+			if(equipment == null || !(equipment.getSource() instanceof GrenadeType))
 			{
 				grenades.add(null);
 				continue;
 			}
 			
-			@SuppressWarnings("unchecked")
-			Equipment<GrenadeType> grenadeEquipment = (Equipment<GrenadeType>) equipment;
+			GrenadeType grenadeEquipment = (GrenadeType) equipment.getSource();
 			
 			grenades.add(grenadeEquipment);
 		}
@@ -270,8 +265,8 @@ public class DefuseEquipmentManager implements EquipmentProvider
 		Container gameContainer = msPlayer.getHotbarContainer();
 		Player player = msPlayer.getPlayer();
 		PlayerInventory inv = player.getInventory();
-		EquipmentType kit = bought ? DEFUSE_KIT_BOUGHT : DEFUSE_KIT_DEFAULT;
-		Equipment<EquipmentType> equipment = new Equipment<EquipmentType>(kit, null); //TODO custom
+		Equipment kit = bought ? DEFUSE_KIT_BOUGHT : DEFUSE_KIT_DEFAULT;
+		CustomizedEquipment<Equipment> equipment = new CustomizedEquipment<Equipment>(kit, null); //TODO custom
 		ItemStack item = equipment.newItemStack(msPlayer); //TODO customization
 		
 		gameContainer.setItem(INDEX_EXTRA, equipment);
@@ -281,26 +276,26 @@ public class DefuseEquipmentManager implements EquipmentProvider
 	public boolean hasBoughtDefuseKit(MSPlayer msPlayer)
 	{
 		Container gameContainer = msPlayer.getHotbarContainer();
-		Equipment<? extends EquipmentType> equipment = gameContainer.getItem(INDEX_EXTRA);
-		EquipmentType type = equipment.getType();
+		Equipment equipment = gameContainer.getItem(INDEX_EXTRA);
+		Equipment type = equipment.getSource();
 		
 		return DEFUSE_KIT_BOUGHT.equals(type);
 	}
 
 	@Override
-	public Equipment<? extends EquipmentType> getCurrentlyEquipped(MSPlayer msPlayer)
+	public Equipment getCurrentlyEquipped(MSPlayer msPlayer)
 	{
 		Container gameContainer = msPlayer.getHotbarContainer();
 		Player player = msPlayer.getPlayer();
 		PlayerInventory inv = player.getInventory();
 		int slot = inv.getHeldItemSlot();
-		Equipment<? extends EquipmentType> equipment = gameContainer.getItem(slot);
+		Equipment equipment = gameContainer.getItem(slot);
 		
 		return equipment;
 	}
 
 	@Override
-	public void purchase(MSPlayer msPlayer, EquipmentType equipment) throws EquipmentPurchaseException
+	public void purchase(MSPlayer msPlayer, Equipment equipment) throws EquipmentPurchaseException
 	{
 		int price = equipment.getPrice(msPlayer);
 		DefuseGame game = getGame();
@@ -324,8 +319,9 @@ public class DefuseEquipmentManager implements EquipmentProvider
 		else if(equipment instanceof GunType)
 		{
 			GunType gunType = (GunType) equipment;
-			Gun gun = new Gun(msPlayer, gunType);
+			Gun gun = new Gun(gunType);
 			
+			gun.setOwnerName(msPlayer.getName());
 			setGun(msPlayer, gun);
 		}
 		else

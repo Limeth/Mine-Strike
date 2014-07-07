@@ -19,7 +19,7 @@ import cz.minestrike.me.limeth.minestrike.Translation;
 import cz.minestrike.me.limeth.minestrike.equipment.EquipmentCategory;
 import cz.minestrike.me.limeth.minestrike.equipment.EquipmentProvider;
 import cz.minestrike.me.limeth.minestrike.equipment.EquipmentPurchaseException;
-import cz.minestrike.me.limeth.minestrike.equipment.EquipmentType;
+import cz.minestrike.me.limeth.minestrike.equipment.Equipment;
 import cz.minestrike.me.limeth.minestrike.events.GameEquipEvent;
 import cz.minestrike.me.limeth.minestrike.events.ShopOpenEvent;
 import cz.minestrike.me.limeth.minestrike.games.Game;
@@ -81,7 +81,7 @@ public class MSShoppingListener<T extends Game<?, ?, ?, ?>> extends MSGameListen
 		
 		if(openCat != null && slot < topInv.getSize())
 		{
-			EquipmentType equipment = openCat.getEquipment(msPlayer, slot);
+			Equipment equipment = openCat.getEquipment(msPlayer, slot);
 			
 			if(equipment == null)
 				return;

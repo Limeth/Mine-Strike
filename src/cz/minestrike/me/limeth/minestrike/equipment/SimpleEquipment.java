@@ -4,14 +4,14 @@ import org.bukkit.inventory.ItemStack;
 
 import cz.minestrike.me.limeth.minestrike.MSPlayer;
 
-public class SimpleEquipmentType implements EquipmentType
+public class SimpleEquipment implements Equipment
 {
 	private final String id;
 	private final ItemStack item;
-	private final int price;
+	private final Integer price;
 	private final float speed;
 	
-	public SimpleEquipmentType(String id, ItemStack item, int price, float speed)
+	public SimpleEquipment(String id, ItemStack item, Integer price, float speed)
 	{
 		this.id = id;
 		this.item = item;
@@ -26,7 +26,7 @@ public class SimpleEquipmentType implements EquipmentType
 	}
 
 	@Override
-	public int getPrice(MSPlayer msPlayer)
+	public Integer getPrice(MSPlayer msPlayer)
 	{
 		return price;
 	}
@@ -68,10 +68,21 @@ public class SimpleEquipmentType implements EquipmentType
 		return id;
 	}
 	
-	@SuppressWarnings("rawtypes")
 	@Override
 	public Class<? extends Equipment> getEquipmentClass()
 	{
 		return Equipment.class;
+	}
+	
+	@Override
+	public Equipment getSource()
+	{
+		return this;
+	}
+	
+	@Override
+	public String toString()
+	{
+		return getId();
 	}
 }

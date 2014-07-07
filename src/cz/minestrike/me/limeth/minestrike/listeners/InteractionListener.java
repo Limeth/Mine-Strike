@@ -18,7 +18,6 @@ import cz.minestrike.me.limeth.minestrike.MSPlayer;
 import cz.minestrike.me.limeth.minestrike.MineStrike;
 import cz.minestrike.me.limeth.minestrike.equipment.Container;
 import cz.minestrike.me.limeth.minestrike.equipment.Equipment;
-import cz.minestrike.me.limeth.minestrike.equipment.EquipmentType;
 import cz.minestrike.me.limeth.minestrike.equipment.grenades.Grenade;
 import cz.minestrike.me.limeth.minestrike.equipment.grenades.GrenadeType;
 import cz.minestrike.me.limeth.minestrike.equipment.guns.Gun;
@@ -74,7 +73,7 @@ public class InteractionListener implements Listener
 			int slot = inv.getHeldItemSlot();
 			MSPlayer msPlayer = MSPlayer.get(event.getPlayer());
 			Container hotbarContainer = msPlayer.getHotbarContainer();
-			Equipment<? extends EquipmentType> equipment = hotbarContainer.getItem(slot);
+			Equipment equipment = hotbarContainer.getItem(slot);
 			
 			if(equipment != null && equipment instanceof Gun)
 			{

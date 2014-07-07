@@ -7,8 +7,7 @@ import cz.minestrike.me.limeth.minestrike.MSPlayer;
 
 public class HotbarContainer implements Container
 {
-	@SuppressWarnings("unchecked")
-	private final Equipment<? extends EquipmentType>[] contents = new Equipment[MSConstant.INVENTORY_WIDTH];
+	private final Equipment[] contents = new Equipment[MSConstant.INVENTORY_WIDTH];
 	
 	@Override
 	public int getSize()
@@ -17,7 +16,7 @@ public class HotbarContainer implements Container
 	}
 
 	@Override
-	public Equipment<? extends EquipmentType>[] getContents()
+	public Equipment[] getContents()
 	{
 		return contents;
 	}
@@ -30,13 +29,13 @@ public class HotbarContainer implements Container
 	}
 	
 	@Override
-	public void setItem(int index, Equipment<? extends EquipmentType> equipment)
+	public void setItem(int index, Equipment equipment)
 	{
 		contents[index] = equipment;
 	}
 	
 	@Override
-	public Equipment<? extends EquipmentType> getItem(int index)
+	public Equipment getItem(int index)
 	{
 		return contents[index];
 	}

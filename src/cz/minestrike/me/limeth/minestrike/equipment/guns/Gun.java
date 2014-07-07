@@ -7,30 +7,26 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.FireworkEffectMeta;
 
 import cz.minestrike.me.limeth.minestrike.MSPlayer;
-import cz.minestrike.me.limeth.minestrike.equipment.Equipment;
+import cz.minestrike.me.limeth.minestrike.equipment.CustomizedEquipment;
 import cz.minestrike.me.limeth.minestrike.equipment.EquipmentCustomization;
 import cz.minestrike.me.limeth.minestrike.util.LoreAttributes;
 import cz.minestrike.me.limeth.minestrike.util.RandomString;
 
-public class Gun extends Equipment<GunType>
+public class Gun extends CustomizedEquipment<GunType>
 {
 	public static final Material GUN_MATERIAL = Material.FIREWORK_CHARGE;
 	private static final RandomString RANDOM_STRING = new RandomString(8);
-	private final String ownerName;
-	private String name;
+	private String ownerName;
 	private Integer kills;
 	private int loadedBullets, unusedBullets;
 	private boolean reloading;
 	
-	public Gun(String ownerName, GunType type, String name, EquipmentCustomization customization, Integer kills, int loadedBullets, int unusedBullets, boolean reloading)
+	public Gun(GunType type, EquipmentCustomization customization, Integer kills, int loadedBullets, int unusedBullets, boolean reloading)
 	{
 		super(type, customization);
 		
-		Validate.notNull(ownerName, "The name of the owner cannot be null!");
 		Validate.notNull(type, "The type of the gun cannot be null!");
 		
-		this.ownerName = ownerName;
-		this.name = name;
 		this.kills = kills;
 		this.reloading = reloading;
 		
@@ -38,81 +34,35 @@ public class Gun extends Equipment<GunType>
 		this.setUnusedBullets(unusedBullets);
 	}
 	
-	public Gun(String ownerName, GunType type, EquipmentCustomization customization)
+	public Gun(GunType type, EquipmentCustomization customization, Integer kills)
 	{
-		this(ownerName, type, null, customization, null, type.getClipSize(), type.getSpareCapacity(), false);
+		this(type, customization, kills, type.getClipSize(), type.getSpareCapacity(), false);
 	}
 	
-	public Gun(String ownerName, GunType type)
+	public Gun(GunType type, EquipmentCustomization customization)
 	{
-		this(ownerName, type, null);
+		this(type, customization, null);
 	}
 	
-	public Gun(MSPlayer msPlayer, GunType type)
+	public Gun(GunType type)
 	{
-		this(msPlayer.getName(), type);
+		this(type, null);
 	}
-	
-/*	public static Gun parse(ItemStack is)
-	{
-		Validate.notNull(is, "The gun ItemStack cannot be null!");
-		
-		Material type = is.getType();
-		
-		if(type != GUN_MATERIAL)
-			throw new IllegalArgumentException("The ItemStack's type isn't " + GUN_MATERIAL);
-		
-		LoreAttributes attributes = LoreAttributes.extract(is);
-		String ownerName = attributes.get("Owner").valueToString();
-		GunType gunType = GunType.valueOf(attributes.get("Type").valueToString());
-		int loadedBullets = attributes.get("Loaded bullets").valueToInteger();
-		int unusedBullets = attributes.get("Unused bullets").valueToInteger();
-		String name = null;
-		Integer kills = null;
-		
-		LoreAttribute nameAttribute = attributes.get("Name");
-		LoreAttribute killsAttribute = attributes.get("Kills");
-		LoreAttribute reloadingAttribute = attributes.get("Reloading");
-		
-		if(nameAttribute != null)
-			name = nameAttribute.valueToString();
-		
-		if(killsAttribute != null)
-			kills = killsAttribute.valueToInteger();
-		
-		boolean reloading = reloadingAttribute == null ? false : reloadingAttribute.valueToBoolean();
-		EquipmentCustomization customization = null;//TODO EquipmentCustomization.parse(is);
-		
-		return new Gun(ownerName, gunType, name, customization, kills, loadedBullets, unusedBullets, reloading);
-	}
-	
-	public static Gun tryParse(ItemStack is)
-	{
-		try
-		{
-			return parse(is);
-		}
-		catch(Exception e)
-		{
-			return null;
-		}
-	}*/
 	
 	public LoreAttributes createAttributes()
 	{
 		LoreAttributes attributes = new LoreAttributes();
-		GunType type = getType();
+		GunType type = getEquipment();
 		
 		if(reloading)
 			attributes.put("Reloading", true);
 		
-		if(name != null)
-			attributes.put("Name", name);
-		
 		if(kills != null)
 			attributes.put("StatTrak", kills);
 		
-		attributes.put("Owner", ownerName);
+		if(ownerName != null)
+			attributes.put("Owner", ownerName);
+		
 		attributes.put("Type", type.name());
 		attributes.put("Loaded bullets", loadedBullets);
 		attributes.put("Unused bullets", unusedBullets);
@@ -137,24 +87,31 @@ public class Gun extends Equipment<GunType>
 		
 		Validate.isTrue(material == GUN_MATERIAL, "The ItemStack is not of type " + GUN_MATERIAL + "!");
 		
-		createAttributes().apply(is);
-		
-		FireworkEffectMeta fem = (FireworkEffectMeta) is.getItemMeta();
-		String displayName = buildDisplayName(true);
 		EquipmentCustomization customization = getCustomization();
-		GunType type = getType();
+		GunType type = getEquipment();
+		String customName;
+		
+		if(customization != null)
+		{
+			customization.apply(type, is);
+			
+			customName = customization.getName();
+		}
+		else
+			customName = null;
+		
+		createAttributes().apply(is);
+		String displayName = buildDisplayName(true, customName);
+		FireworkEffectMeta fem = (FireworkEffectMeta) is.getItemMeta();
 		
 		fem.setDisplayName(displayName);
 		is.setItemMeta(fem);
-		
-		if(customization != null)
-			customization.apply(type, is);
 	}
 	
-	public String buildDisplayName(boolean showBulletAmount)
+	public String buildDisplayName(boolean showBulletAmount, String customName)
 	{
-		GunType type = getType();
-		String result = ChatColor.RESET + (name == null ? type.getName() : name + ChatColor.GRAY + " (" + type.getName() + ChatColor.GRAY + ")");
+		GunType type = getEquipment();
+		String result = ChatColor.RESET + (customName == null ? type.getName() : customName + ChatColor.GRAY + " (" + type.getName() + ChatColor.GRAY + ")");
 		
 		if(kills != null)
 			result += ChatColor.GOLD + " ×" + ChatColor.RESET + kills;
@@ -190,7 +147,7 @@ public class Gun extends Equipment<GunType>
 	
 	public void refresh()
 	{
-		GunType type = getType();
+		GunType type = getEquipment();
 		
 		loadedBullets = type.getClipSize();
 		unusedBullets = type.getSpareCapacity();
@@ -203,7 +160,7 @@ public class Gun extends Equipment<GunType>
 	
 	public boolean canBeReloaded()
 	{
-		GunType type = getType();
+		GunType type = getEquipment();
 		
 		return loadedBullets < type.getClipSize() && unusedBullets > 0;
 	}
@@ -215,7 +172,7 @@ public class Gun extends Equipment<GunType>
 
 	public final void setLoadedBullets(int loadedBullets)
 	{
-		GunType type = getType();
+		GunType type = getEquipment();
 		
 		if(loadedBullets > type.getClipSize())
 			throw new IllegalArgumentException("Gun " + type + " can't have more than " + type.getClipSize() + " loaded bullets.");
@@ -235,7 +192,7 @@ public class Gun extends Equipment<GunType>
 
 	public final void setUnusedBullets(int unusedBullets)
 	{
-		GunType type = getType();
+		GunType type = getEquipment();
 		
 		if(unusedBullets > type.getSpareCapacity())
 			throw new IllegalArgumentException("Gun " + type + " can't have more than " + type.getSpareCapacity() + " unused bullets.");
@@ -247,15 +204,10 @@ public class Gun extends Equipment<GunType>
 	{
 		return ownerName;
 	}
-
-	public String getName()
+	
+	public void setOwnerName(String ownerName)
 	{
-		return name;
-	}
-
-	public void setName(String name)
-	{
-		this.name = name;
+		this.ownerName = ownerName;
 	}
 
 	public Integer getKills()
@@ -276,5 +228,18 @@ public class Gun extends Equipment<GunType>
 	public void setReloading(boolean reloading)
 	{
 		this.reloading = reloading;
+	}
+	
+	@SuppressWarnings("rawtypes")
+	@Override
+	public Class<? extends CustomizedEquipment> getEquipmentClass()
+	{
+		return Gun.class;
+	}
+
+	@Override
+	public String toString()
+	{
+		return "Gun [gunType=" + getSource() + ", shooterName=" + ownerName + ", kills=" + kills + ", loadedBullets=" + loadedBullets + ", unusedBullets=" + unusedBullets + ", reloading=" + reloading + ", customization=" + getCustomization() + "]";
 	}
 }

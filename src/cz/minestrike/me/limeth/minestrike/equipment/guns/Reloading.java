@@ -11,7 +11,6 @@ import cz.minestrike.me.limeth.minestrike.MSPlayer;
 import cz.minestrike.me.limeth.minestrike.MineStrike;
 import cz.minestrike.me.limeth.minestrike.equipment.Container;
 import cz.minestrike.me.limeth.minestrike.equipment.Equipment;
-import cz.minestrike.me.limeth.minestrike.equipment.EquipmentType;
 
 public class Reloading extends GunTask
 {
@@ -85,7 +84,7 @@ public class Reloading extends GunTask
 		Player player = msPlayer.getPlayer();
 		PlayerInventory inv = player.getInventory();
 		Container hotbarContainer = msPlayer.getHotbarContainer();
-		Equipment<? extends EquipmentType> equipment = hotbarContainer.getItem(slotId);
+		Equipment equipment = hotbarContainer.getItem(slotId);
 		
 		if(equipment == null || !(equipment instanceof Gun))
 			return;
@@ -95,7 +94,7 @@ public class Reloading extends GunTask
 		if(!gun.isReloading())
 			return;
 		
-		GunType gunType = gun.getType();
+		GunType gunType = gun.getEquipment();
 		
 		if(gunType != this.gunType)
 			return;

@@ -10,37 +10,40 @@ import org.bukkit.craftbukkit.libs.com.google.gson.JsonParseException;
 import org.bukkit.craftbukkit.libs.com.google.gson.JsonSerializationContext;
 import org.bukkit.craftbukkit.libs.com.google.gson.JsonSerializer;
 
+import cz.minestrike.me.limeth.minestrike.equipment.CustomizedEquipment;
 import cz.minestrike.me.limeth.minestrike.equipment.Equipment;
 import cz.minestrike.me.limeth.minestrike.equipment.EquipmentCustomization;
 import cz.minestrike.me.limeth.minestrike.equipment.EquipmentManager;
-import cz.minestrike.me.limeth.minestrike.equipment.EquipmentType;
 
-public class EquipmentAdapter implements
-	JsonSerializer<Equipment<? extends EquipmentType>>,
-	JsonDeserializer<Equipment<? extends EquipmentType>>
+public class CustomizedEquipmentAdapter implements
+	JsonSerializer<CustomizedEquipment<? extends Equipment>>,
+	JsonDeserializer<CustomizedEquipment<? extends Equipment>>
 {
-	public static final EquipmentAdapter INSTANCE = new EquipmentAdapter();
+	public static final CustomizedEquipmentAdapter INSTANCE = new CustomizedEquipmentAdapter();
 	
-	private EquipmentAdapter() {}
+	private CustomizedEquipmentAdapter() {}
 	
 	@Override
-	public Equipment<? extends EquipmentType> deserialize(JsonElement target, Type type, JsonDeserializationContext context) throws JsonParseException
+	public CustomizedEquipment<? extends Equipment> deserialize(JsonElement target, Type type, JsonDeserializationContext context) throws JsonParseException
 	{
 		JsonObject object = (JsonObject) target;
-		String typeId = object.get("typeId").getAsString();
-		EquipmentType equipmentType = EquipmentManager.getType(typeId);
-		EquipmentCustomization customization = context.deserialize(object.get("customization"), EquipmentCustomization.class);
+		String typeId = object.get("id").getAsString();
+		Equipment equipmentType = EquipmentManager.getEquipment(typeId);
+		JsonElement customizationElement = object.get("customization");
+		EquipmentCustomization customization = customizationElement == null || customizationElement.isJsonNull() ? null : context.deserialize(customizationElement, EquipmentCustomization.class);
+		boolean equipped = object.get("equipped").getAsBoolean();
 		
-		return new Equipment<EquipmentType>(equipmentType, customization);
+		return new CustomizedEquipment<Equipment>(equipmentType, customization, equipped);
 	}
 
 	@Override
-	public JsonElement serialize(Equipment<? extends EquipmentType> target, Type type, JsonSerializationContext context)
+	public JsonElement serialize(CustomizedEquipment<? extends Equipment> target, Type type, JsonSerializationContext context)
 	{
 		JsonObject object = new JsonObject();
 		
-		object.addProperty("typeId", target.getType().getId());
+		object.addProperty("id", target.getSource().getId());
 		object.add("customization", context.serialize(target.getCustomization()));
+		object.addProperty("equipped", target.isEquipped());
 		
 		return object;
 	}

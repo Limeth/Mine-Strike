@@ -25,12 +25,17 @@ public class GunAdapter implements JsonSerializer<Gun>, JsonDeserializer<Gun>
 	public Gun deserialize(JsonElement target, Type type, JsonDeserializationContext context) throws JsonParseException
 	{
 		JsonObject object = (JsonObject) target;
-		String owner = object.get("owner").getAsString();
-		String typeId = object.get("typeId").getAsString();
-		GunType equipmentType = (GunType) EquipmentManager.getType(typeId);
+		String typeId = object.get("id").getAsString();
+		GunType equipmentType = (GunType) EquipmentManager.getEquipment(typeId);
 		EquipmentCustomization customization = context.deserialize(object.get("customization"), EquipmentCustomization.class);
+		boolean equipped = object.get("equipped").getAsBoolean();
+		JsonElement killsElement = object.get("kills");
+		Integer kills = killsElement == null || killsElement.isJsonNull() ? null : killsElement.getAsInt();
+		Gun gun = new Gun(equipmentType, customization, kills);
 		
-		return new Gun(owner, equipmentType, customization);
+		gun.setEquipped(equipped);
+		
+		return gun;
 	}
 
 	@Override
@@ -38,9 +43,10 @@ public class GunAdapter implements JsonSerializer<Gun>, JsonDeserializer<Gun>
 	{
 		JsonObject object = new JsonObject();
 		
-		object.addProperty("typeId", target.getType().getId());
-		object.addProperty("owner", target.getOwnerName());
+		object.addProperty("id", target.getSource().getId());
 		object.add("customization", context.serialize(target.getCustomization()));
+		object.addProperty("equipped", target.isEquipped());
+		object.addProperty("kills", target.getKills());
 		
 		return object;
 	}

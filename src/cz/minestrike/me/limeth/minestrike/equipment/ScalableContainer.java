@@ -7,7 +7,7 @@ import org.bukkit.inventory.ItemStack;
 
 import cz.minestrike.me.limeth.minestrike.MSPlayer;
 
-public class ScalableContainer extends ArrayList<Equipment<? extends EquipmentType>> implements Container
+public class ScalableContainer extends ArrayList<Equipment> implements Container
 {
 	private static final long serialVersionUID = -3664492331537095431L;
 
@@ -17,15 +17,14 @@ public class ScalableContainer extends ArrayList<Equipment<? extends EquipmentTy
 		return size();
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
-	public Equipment<EquipmentType>[] getContents()
+	public Equipment[] getContents()
 	{
 		return toArray(new Equipment[size()]);
 	}
 
 	@Override
-	public void setItem(int index, Equipment<? extends EquipmentType> equipment)
+	public void setItem(int index, Equipment equipment)
 	{
 		if(index >= size())
 		{
@@ -39,7 +38,7 @@ public class ScalableContainer extends ArrayList<Equipment<? extends EquipmentTy
 	}
 
 	@Override
-	public Equipment<? extends EquipmentType> getItem(int index)
+	public Equipment getItem(int index)
 	{
 		return get(index);
 	}
@@ -49,7 +48,7 @@ public class ScalableContainer extends ArrayList<Equipment<? extends EquipmentTy
 	{
 		for(int i = 0; i < size() && i < inv.getSize(); i++)
 		{
-			Equipment<? extends EquipmentType> equipment = get(i);
+			Equipment equipment = get(i);
 			ItemStack item = equipment != null ? equipment.newItemStack(msPlayer) : null;
 			
 			inv.setItem(i, item);

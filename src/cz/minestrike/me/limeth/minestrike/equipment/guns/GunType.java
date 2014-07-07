@@ -4,12 +4,12 @@ import org.bukkit.inventory.ItemStack;
 
 import cz.minestrike.me.limeth.minestrike.MSConstant;
 import cz.minestrike.me.limeth.minestrike.MSPlayer;
+import cz.minestrike.me.limeth.minestrike.equipment.CustomizedEquipment;
 import cz.minestrike.me.limeth.minestrike.equipment.Equipment;
-import cz.minestrike.me.limeth.minestrike.equipment.EquipmentType;
 import cz.minestrike.me.limeth.minestrike.games.MoneyAward;
 
 
-public enum GunType implements EquipmentType
+public enum GunType implements Equipment
 {
 	//{{Pistols
 	DEAGLE("Desert Eagle", false, false, 2.3F, 1.864F, 63, 0.81F, 0.225F, 2, MoneyAward.KILL_OTHER_COMPETITIVE.getAmount(), MoneyAward.KILL_OTHER_CASUAL.getAmount(), 230, 7, 35, 800, 4096, false, 0.4F, 0.55F, 2, 3.78F, 7.7F, 72.23F, 48.1F, 1.966F, 0.73F, 152, 0.449927F, 0.8112F, 60, 48.2F, 18, 1),
@@ -385,11 +385,11 @@ public enum GunType implements EquipmentType
 	@Override
 	public ItemStack newItemStack(MSPlayer msPlayer)
 	{
-		return new Gun(msPlayer, this).newItemStack(msPlayer);
+		return new Gun(this).newItemStack(msPlayer);
 	}
 
 	@Override
-	public int getPrice(MSPlayer msPlayer)
+	public Integer getPrice(MSPlayer msPlayer)
 	{
 		return price;
 	}
@@ -413,8 +413,20 @@ public enum GunType implements EquipmentType
 	
 	@SuppressWarnings("rawtypes")
 	@Override
-	public Class<? extends Equipment> getEquipmentClass()
+	public Class<? extends CustomizedEquipment> getEquipmentClass()
 	{
 		return Gun.class;
+	}
+	
+	@Override
+	public Equipment getSource()
+	{
+		return this;
+	}
+	
+	@Override
+	public String toString()
+	{
+		return getId();
 	}
 }
