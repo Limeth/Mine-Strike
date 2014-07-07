@@ -180,4 +180,10 @@ public class EquipmentCustomization implements ConfigurationSerializable
 	{
 		return lore;
 	}
+
+	@Override
+	public String toString()
+	{
+		return "EquipmentCustomization [name=" + name + ", skin=" + skin + ", color=" + color + ", lore=" + lore + "]";
+	}
 }

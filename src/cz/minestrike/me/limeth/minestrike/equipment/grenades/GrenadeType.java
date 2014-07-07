@@ -27,7 +27,6 @@ import cz.minestrike.me.limeth.minestrike.MSConstant;
 import cz.minestrike.me.limeth.minestrike.MSPlayer;
 import cz.minestrike.me.limeth.minestrike.MineStrike;
 import cz.minestrike.me.limeth.minestrike.equipment.Equipment;
-import cz.minestrike.me.limeth.minestrike.equipment.EquipmentManager.EquipmentDeserializer;
 import cz.minestrike.me.limeth.minestrike.equipment.EquipmentType;
 import cz.minestrike.me.limeth.minestrike.games.Game;
 import cz.minestrike.me.limeth.minestrike.games.Team;
@@ -377,9 +376,10 @@ public enum GrenadeType implements EquipmentType
 		return "GRENADE_" + name();
 	}
 	
+	@SuppressWarnings("rawtypes")
 	@Override
-	public EquipmentDeserializer getDeserializer()
+	public Class<? extends Equipment> getEquipmentClass()
 	{
-		return Equipment.DESERIALIZER;
+		return Equipment.class;
 	}
 }

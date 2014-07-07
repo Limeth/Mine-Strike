@@ -4,7 +4,7 @@ import org.bukkit.inventory.ItemStack;
 
 import cz.minestrike.me.limeth.minestrike.MSConstant;
 import cz.minestrike.me.limeth.minestrike.MSPlayer;
-import cz.minestrike.me.limeth.minestrike.equipment.EquipmentManager.EquipmentDeserializer;
+import cz.minestrike.me.limeth.minestrike.equipment.Equipment;
 import cz.minestrike.me.limeth.minestrike.equipment.EquipmentType;
 import cz.minestrike.me.limeth.minestrike.games.MoneyAward;
 
@@ -411,9 +411,10 @@ public enum GunType implements EquipmentType
 		return "GUN_" + name();
 	}
 	
+	@SuppressWarnings("rawtypes")
 	@Override
-	public EquipmentDeserializer getDeserializer()
+	public Class<? extends Equipment> getEquipmentClass()
 	{
-		return Gun.DESERIALIZER;
+		return Gun.class;
 	}
 }

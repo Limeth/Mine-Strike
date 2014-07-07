@@ -24,11 +24,17 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.util.Vector;
 
 import cz.minestrike.me.limeth.minestrike.MSPlayer;
+import cz.minestrike.me.limeth.minestrike.areas.schemes.GameLobby;
+import cz.minestrike.me.limeth.minestrike.areas.schemes.GameMap;
+import cz.minestrike.me.limeth.minestrike.areas.schemes.GameMenu;
+import cz.minestrike.me.limeth.minestrike.equipment.Equipment;
+import cz.minestrike.me.limeth.minestrike.equipment.EquipmentProvider;
+import cz.minestrike.me.limeth.minestrike.equipment.EquipmentType;
+import cz.minestrike.me.limeth.minestrike.games.Game;
 import darkBlade12.ParticleEffect;
 
 public class GunManager
@@ -209,6 +215,7 @@ public class GunManager
 	@SuppressWarnings("deprecation")
 	private static void onBulletHit(MovingObjectPosition[] mops, Player bukkitPlayer)
 	{
+		MSPlayer msPlayer = MSPlayer.get(bukkitPlayer);
 		Location eyeLoc = bukkitPlayer.getEyeLocation();
 		org.bukkit.World bukkitWorld = eyeLoc.getWorld();
 		MovingObjectPosition lastMOP = mops[mops.length - 1];
@@ -237,12 +244,19 @@ public class GunManager
 				if(!(rawBukkitVictim instanceof LivingEntity))
 					return;
 				
-				ItemStack inHand = bukkitPlayer.getItemInHand();
-				Gun gun = Gun.tryParse(inHand);
+				Game<? extends GameLobby, ? extends GameMenu, ? extends GameMap, ? extends EquipmentProvider> game = msPlayer.getGame();
+				EquipmentProvider ep = game.getEquipmentManager();
+				Equipment<? extends EquipmentType> equipment = ep.getCurrentlyEquipped(msPlayer);
 				
-				if(gun == null)
+				if(equipment == null)
 					continue;
 				
+				EquipmentType equipmentType = equipment.getType();
+				
+				if(!(equipmentType instanceof GunType))
+					continue;
+				
+				Gun gun = (Gun) equipment;
 				GunType type = gun.getType();
 				double damageDivision = Math.pow(2, i);
 				LivingEntity bukkitVictim = (LivingEntity) rawBukkitVictim;

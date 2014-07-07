@@ -5,10 +5,10 @@ import org.bukkit.inventory.Inventory;
 import cz.minestrike.me.limeth.minestrike.MSConstant;
 import cz.minestrike.me.limeth.minestrike.MSPlayer;
 
-public class GameContainer implements Container
+public class HotbarContainer implements Container
 {
 	@SuppressWarnings("unchecked")
-	private final Equipment<EquipmentType>[] contents = new Equipment[MSConstant.INVENTORY_WIDTH];
+	private final Equipment<? extends EquipmentType>[] contents = new Equipment[MSConstant.INVENTORY_WIDTH];
 	
 	@Override
 	public int getSize()
@@ -17,19 +17,19 @@ public class GameContainer implements Container
 	}
 
 	@Override
-	public Equipment<EquipmentType>[] getContents()
+	public Equipment<? extends EquipmentType>[] getContents()
 	{
 		return contents;
 	}
 	
 	@Override
-	public void setItem(int index, Equipment<EquipmentType> equipment)
+	public void setItem(int index, Equipment<? extends EquipmentType> equipment)
 	{
 		contents[index] = equipment;
 	}
 	
 	@Override
-	public Equipment<EquipmentType> getItem(int index)
+	public Equipment<? extends EquipmentType> getItem(int index)
 	{
 		return contents[index];
 	}

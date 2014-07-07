@@ -10,6 +10,9 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 
 import cz.minestrike.me.limeth.minestrike.MSPlayer;
+import cz.minestrike.me.limeth.minestrike.equipment.Container;
+import cz.minestrike.me.limeth.minestrike.equipment.Equipment;
+import cz.minestrike.me.limeth.minestrike.equipment.EquipmentType;
 import cz.minestrike.me.limeth.minestrike.equipment.guns.Gun;
 
 public class InventoryListener implements Listener
@@ -18,24 +21,24 @@ public class InventoryListener implements Listener
 	public void onPlayerDropItem(PlayerDropItemEvent event)
 	{
 		Player player = event.getPlayer();
+		MSPlayer msPlayer = MSPlayer.get(player);
+		Container hotbarContainer = msPlayer.getHotbarContainer();
 		PlayerInventory inv = player.getInventory();
 		int slot = inv.getHeldItemSlot();
+		Equipment<? extends EquipmentType> equipment = hotbarContainer.getItem(slot);
+		
+		if(equipment == null || !(equipment instanceof Gun))
+			return;
+		
+		Gun gun = (Gun) equipment;
 		final Item item = event.getItemDrop();
 		ItemStack is = item.getItemStack();
-		Gun gun = Gun.tryParse(is);
 		
 		item.remove();
 		inv.setItem(slot, is);
 		
-		if(gun != null)
-		{
-			if(gun.canBeReloaded())
-			{
-				MSPlayer msPlayer = MSPlayer.get(player);
-				
-				msPlayer.reload(gun);
-			}
-		}
+		if(gun != null && gun.canBeReloaded())
+			msPlayer.reload(gun);
 	}
 	
 	@EventHandler

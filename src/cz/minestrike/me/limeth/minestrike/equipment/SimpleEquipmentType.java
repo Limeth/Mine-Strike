@@ -3,7 +3,6 @@ package cz.minestrike.me.limeth.minestrike.equipment;
 import org.bukkit.inventory.ItemStack;
 
 import cz.minestrike.me.limeth.minestrike.MSPlayer;
-import cz.minestrike.me.limeth.minestrike.equipment.EquipmentManager.EquipmentDeserializer;
 
 public class SimpleEquipmentType implements EquipmentType
 {
@@ -11,15 +10,13 @@ public class SimpleEquipmentType implements EquipmentType
 	private final ItemStack item;
 	private final int price;
 	private final float speed;
-	private final EquipmentDeserializer deserializer;
 	
-	public SimpleEquipmentType(String id, ItemStack item, int price, float speed, EquipmentDeserializer deserializer)
+	public SimpleEquipmentType(String id, ItemStack item, int price, float speed)
 	{
 		this.id = id;
 		this.item = item;
 		this.price = price;
 		this.speed = speed;
-		this.deserializer = deserializer;
 	}
 
 	@Override
@@ -70,9 +67,11 @@ public class SimpleEquipmentType implements EquipmentType
 	{
 		return id;
 	}
-
-	public EquipmentDeserializer getDeserializer()
+	
+	@SuppressWarnings("rawtypes")
+	@Override
+	public Class<? extends Equipment> getEquipmentClass()
 	{
-		return deserializer;
+		return Equipment.class;
 	}
 }

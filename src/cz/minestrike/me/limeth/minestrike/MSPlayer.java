@@ -22,12 +22,17 @@ import org.bukkit.util.Vector;
 
 import ca.wacos.nametagedit.NametagAPI;
 import cz.minestrike.me.limeth.minestrike.areas.Structure;
+import cz.minestrike.me.limeth.minestrike.areas.schemes.GameLobby;
+import cz.minestrike.me.limeth.minestrike.areas.schemes.GameMap;
+import cz.minestrike.me.limeth.minestrike.areas.schemes.GameMenu;
 import cz.minestrike.me.limeth.minestrike.areas.schemes.Scheme;
 import cz.minestrike.me.limeth.minestrike.equipment.Container;
+import cz.minestrike.me.limeth.minestrike.equipment.Equipment;
 import cz.minestrike.me.limeth.minestrike.equipment.EquipmentManager;
 import cz.minestrike.me.limeth.minestrike.equipment.EquipmentProvider;
 import cz.minestrike.me.limeth.minestrike.equipment.EquipmentType;
-import cz.minestrike.me.limeth.minestrike.equipment.GameContainer;
+import cz.minestrike.me.limeth.minestrike.equipment.HotbarContainer;
+import cz.minestrike.me.limeth.minestrike.equipment.ScalableContainer;
 import cz.minestrike.me.limeth.minestrike.equipment.guns.Firing;
 import cz.minestrike.me.limeth.minestrike.equipment.guns.Gun;
 import cz.minestrike.me.limeth.minestrike.equipment.guns.GunManager;
@@ -198,7 +203,7 @@ public class MSPlayer implements Record
 	private final String playerName;
 	private RecordData data;
 	private Player player;
-	private Container lazyInventoryContainer, gameContainer;
+	private Container lazyInventoryContainer, hotbarContainer;
 	private Location lastLocation;
 	private GunTask gunTask;
 	private PlayerState playerState;
@@ -209,7 +214,7 @@ public class MSPlayer implements Record
 	private boolean inAir;
 	
 	//Game stuff
-	private Game<?, ?, ?, ?> game;
+	private Game<? extends GameLobby, ? extends GameMenu, ? extends GameMap, ? extends EquipmentProvider> game;
 	
 	public MSPlayer(String playerName, RecordData data)
 	{
@@ -218,7 +223,7 @@ public class MSPlayer implements Record
 		this.playerName = playerName;
 		this.data = data;
 		this.playerState = PlayerState.LOBBY_SERVER;
-		this.gameContainer = new GameContainer();
+		this.hotbarContainer = new HotbarContainer();
 	}
 	
 	public void redirectEvent(Event event)
@@ -301,10 +306,15 @@ public class MSPlayer implements Record
 		if(hasGame())
 		{
 			EquipmentProvider em = game.getEquipmentManager();
-			EquipmentType equipment = em.getCurrentlyEquipped(this);
+			Equipment<? extends EquipmentType> equipment = em.getCurrentlyEquipped(this);
 			
 			if(equipment != null)
-				return equipment.getMovementSpeed(this);
+			{
+				EquipmentType type = equipment.getType();
+				float speed = type.getMovementSpeed(this);
+				
+				return speed;
+			}
 		}
 		
 		return MSConstant.MOVEMENT_SPEED_DEFAULT;
@@ -655,12 +665,12 @@ public class MSPlayer implements Record
 		return game != null;
 	}
 
-	public Game<?, ?, ?, ?> getGame()
+	public Game<? extends GameLobby, ? extends GameMenu, ? extends GameMap, ? extends EquipmentProvider> getGame()
 	{
 		return game;
 	}
 
-	public void setGame(Game<?, ?, ?, ?> game)
+	public void setGame(Game<? extends GameLobby, ? extends GameMenu, ? extends GameMap, ? extends EquipmentProvider> game)
 	{
 		this.game = game;
 	}
@@ -711,15 +721,19 @@ public class MSPlayer implements Record
 	{
 		if(lazyInventoryContainer == null)
 		{
+			lazyInventoryContainer = new ScalableContainer();
 			String string = data.get(String.class, "inventory");
-			lazyInventoryContainer = EquipmentManager.fromGson(string); //TODO
+			Equipment<EquipmentType>[] equipment = EquipmentManager.fromGson(string);
+			
+			for(int i = 0; i < equipment.length; i++)
+				lazyInventoryContainer.setItem(i, equipment[i]);
 		}
 		
 		return lazyInventoryContainer;
 	}
 
-	public Container getGameContainer()
+	public Container getHotbarContainer()
 	{
-		return gameContainer;
+		return hotbarContainer;
 	}
 }

@@ -16,6 +16,6 @@ public interface EquipmentProvider
 	public Gun getGun(MSPlayer msPlayer, boolean primary);
 	public void removeGun(MSPlayer msPlayer, boolean primary);
 	public boolean addGrenade(MSPlayer msPlayer, GrenadeType type);
-	public ArrayList<GrenadeType> getGrenades(MSPlayer msPlayer);
-	public EquipmentType getCurrentlyEquipped(MSPlayer msPlayer);
+	public ArrayList<Equipment<GrenadeType>> getGrenades(MSPlayer msPlayer);
+	public Equipment<? extends EquipmentType> getCurrentlyEquipped(MSPlayer msPlayer);
 }

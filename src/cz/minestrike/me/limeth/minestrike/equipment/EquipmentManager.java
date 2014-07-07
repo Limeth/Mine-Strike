@@ -6,9 +6,15 @@ import java.util.Map;
 import org.apache.commons.lang.Validate;
 import org.bukkit.craftbukkit.libs.com.google.gson.Gson;
 import org.bukkit.craftbukkit.libs.com.google.gson.GsonBuilder;
+import org.bukkit.craftbukkit.libs.com.google.gson.JsonArray;
 import org.bukkit.craftbukkit.libs.com.google.gson.JsonElement;
+import org.bukkit.craftbukkit.libs.com.google.gson.JsonParser;
 
 import cz.minestrike.me.limeth.minestrike.equipment.grenades.GrenadeType;
+import cz.minestrike.me.limeth.minestrike.equipment.gson.EquipmentAdapter;
+import cz.minestrike.me.limeth.minestrike.equipment.gson.EquipmentCustomizationAdapter;
+import cz.minestrike.me.limeth.minestrike.equipment.gson.GunAdapter;
+import cz.minestrike.me.limeth.minestrike.equipment.guns.Gun;
 import cz.minestrike.me.limeth.minestrike.equipment.guns.GunType;
 import cz.minestrike.me.limeth.minestrike.games.team.defuse.DefuseEquipmentManager;
 import cz.minestrike.me.limeth.minestrike.util.collections.FilledHashSet;
@@ -32,15 +38,6 @@ public class EquipmentManager
 		TYPE_DESERIALIZERS.add(DefuseEquipmentManager.DEFUSE_KIT_BOUGHT);
 	}
 	
-	public static Equipment<? extends EquipmentType> deserialize(Map<String, Object> map)
-	{
-		String typeId = (String) map.get("typeId");
-		EquipmentType type = EquipmentManager.getType(typeId);
-		EquipmentDeserializer deserializer = type.getDeserializer();
-		
-		return deserializer.deserialize(type, map);
-	}
-	
 	private static void addAll(Collection<EquipmentType> collection, EquipmentType... array)
 	{
 		for(EquipmentType object : array)
@@ -60,19 +57,47 @@ public class EquipmentManager
 	
 	public static String toGson(Equipment<EquipmentType>[] array)
 	{
-		GsonBuilder builder = new GsonBuilder();
+		GsonBuilder builder = new GsonBuilder()
+			.registerTypeAdapter(EquipmentCustomization.class, EquipmentCustomizationAdapter.INSTANCE)
+			.registerTypeAdapter(Equipment.class, EquipmentAdapter.INSTANCE)
+			.registerTypeAdapter(Gun.class, GunAdapter.INSTANCE);
 		Gson gson = builder.create();
 		
 		return gson.toJson(array);
 	}
 	
+	@SuppressWarnings("unchecked")
 	public static Equipment<EquipmentType>[] fromGson(String string)
 	{
-		GsonBuilder builder = new GsonBuilder();
+		JsonParser parser = new JsonParser();
+		GsonBuilder builder = new GsonBuilder()
+			.registerTypeAdapter(EquipmentCustomization.class, EquipmentCustomizationAdapter.INSTANCE)
+			.registerTypeAdapter(Equipment.class, EquipmentAdapter.INSTANCE)
+			.registerTypeAdapter(Gun.class, GunAdapter.INSTANCE);
 		Gson gson = builder.create();
-		JsonElement tree = gson.toJsonTree(string);
+		JsonElement rootElement = parser.parse(string);
 		
+		if(!(rootElement instanceof JsonArray))
+			return new Equipment[0];
 		
+		JsonArray rootArray = rootElement.getAsJsonArray();
+		int size = rootArray.size();
+		Equipment<EquipmentType>[] result = new Equipment[size];
+		int i = 0;
+		
+		for(JsonElement element : rootArray)
+		{
+			String typeId = element.getAsJsonObject().get("typeId").getAsString();
+			EquipmentType type = getType(typeId);
+			@SuppressWarnings("rawtypes")
+			Class<? extends Equipment> clazz = type.getEquipmentClass();
+			
+			result[i] = gson.fromJson(element, clazz);
+			
+			i++;
+		}
+		
+		return result;
 	}
 	
 	public static interface EquipmentDeserializer

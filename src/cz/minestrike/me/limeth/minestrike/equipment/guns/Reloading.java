@@ -9,6 +9,9 @@ import org.bukkit.inventory.PlayerInventory;
 
 import cz.minestrike.me.limeth.minestrike.MSPlayer;
 import cz.minestrike.me.limeth.minestrike.MineStrike;
+import cz.minestrike.me.limeth.minestrike.equipment.Container;
+import cz.minestrike.me.limeth.minestrike.equipment.Equipment;
+import cz.minestrike.me.limeth.minestrike.equipment.EquipmentType;
 
 public class Reloading extends GunTask
 {
@@ -81,10 +84,15 @@ public class Reloading extends GunTask
 	{
 		Player player = msPlayer.getPlayer();
 		PlayerInventory inv = player.getInventory();
-		ItemStack is = inv.getItem(slotId);
-		Gun gun = Gun.parse(is);
+		Container hotbarContainer = msPlayer.getHotbarContainer();
+		Equipment<? extends EquipmentType> equipment = hotbarContainer.getItem(slotId);
 		
-		if(gun == null || !gun.isReloading())
+		if(equipment == null || !(equipment instanceof Gun))
+			return;
+		
+		Gun gun = (Gun) equipment;
+		
+		if(!gun.isReloading())
 			return;
 		
 		GunType gunType = gun.getType();
@@ -94,7 +102,7 @@ public class Reloading extends GunTask
 		
 		gun.setReloading(false);
 		
-		is = gun.newItemStack(msPlayer);
+		ItemStack is = gun.newItemStack(msPlayer);
 		
 		inv.setItem(slotId, is);
 	}

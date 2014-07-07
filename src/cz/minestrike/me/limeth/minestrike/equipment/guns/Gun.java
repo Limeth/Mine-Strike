@@ -1,7 +1,5 @@
 package cz.minestrike.me.limeth.minestrike.equipment.guns;
 
-import java.util.Map;
-
 import org.apache.commons.lang.Validate;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -11,9 +9,6 @@ import org.bukkit.inventory.meta.FireworkEffectMeta;
 import cz.minestrike.me.limeth.minestrike.MSPlayer;
 import cz.minestrike.me.limeth.minestrike.equipment.Equipment;
 import cz.minestrike.me.limeth.minestrike.equipment.EquipmentCustomization;
-import cz.minestrike.me.limeth.minestrike.equipment.EquipmentManager.EquipmentDeserializer;
-import cz.minestrike.me.limeth.minestrike.equipment.EquipmentType;
-import cz.minestrike.me.limeth.minestrike.util.LoreAttribute;
 import cz.minestrike.me.limeth.minestrike.util.LoreAttributes;
 import cz.minestrike.me.limeth.minestrike.util.RandomString;
 
@@ -58,7 +53,7 @@ public class Gun extends Equipment<GunType>
 		this(msPlayer.getName(), type);
 	}
 	
-	public static Gun parse(ItemStack is)
+/*	public static Gun parse(ItemStack is)
 	{
 		Validate.notNull(is, "The gun ItemStack cannot be null!");
 		
@@ -86,7 +81,7 @@ public class Gun extends Equipment<GunType>
 			kills = killsAttribute.valueToInteger();
 		
 		boolean reloading = reloadingAttribute == null ? false : reloadingAttribute.valueToBoolean();
-		EquipmentCustomization customization = EquipmentCustomization.parse(is);
+		EquipmentCustomization customization = null;//TODO EquipmentCustomization.parse(is);
 		
 		return new Gun(ownerName, gunType, name, customization, kills, loadedBullets, unusedBullets, reloading);
 	}
@@ -101,7 +96,7 @@ public class Gun extends Equipment<GunType>
 		{
 			return null;
 		}
-	}
+	}*/
 	
 	public LoreAttributes createAttributes()
 	{
@@ -130,8 +125,6 @@ public class Gun extends Equipment<GunType>
 	public ItemStack newItemStack(MSPlayer msPlayer)
 	{
 		ItemStack is = new ItemStack(GUN_MATERIAL);
-		EquipmentCustomization customization = getCustomization();
-		GunType type = getType();
 		
 		apply(is);
 		
@@ -281,24 +274,5 @@ public class Gun extends Equipment<GunType>
 	public void setReloading(boolean reloading)
 	{
 		this.reloading = reloading;
-	}
-	
-	@SuppressWarnings("unchecked")
-	public static final EquipmentDeserializer DESERIALIZER = (EquipmentType type, Map<String, Object> map) ->
-	{
-		String ownerName = (String) map.get("owner");
-		EquipmentCustomization customization = EquipmentCustomization.deserialize((Map<String, Object>) map.get("customization"));
-		
-		return new Gun(ownerName, (GunType) type, customization);
-	};
-	
-	@Override
-	public Map<String, Object> serialize()
-	{
-		Map<String, Object> map = super.serialize();
-		
-		map.put("owner", ownerName);
-		
-		return map;
 	}
 }

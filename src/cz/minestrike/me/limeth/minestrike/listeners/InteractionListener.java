@@ -10,9 +10,13 @@ import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.PlayerInventory;
 
 import cz.minestrike.me.limeth.minestrike.MSPlayer;
 import cz.minestrike.me.limeth.minestrike.MineStrike;
+import cz.minestrike.me.limeth.minestrike.equipment.Container;
+import cz.minestrike.me.limeth.minestrike.equipment.Equipment;
+import cz.minestrike.me.limeth.minestrike.equipment.EquipmentType;
 import cz.minestrike.me.limeth.minestrike.equipment.grenades.Grenade;
 import cz.minestrike.me.limeth.minestrike.equipment.grenades.GrenadeType;
 import cz.minestrike.me.limeth.minestrike.equipment.guns.Gun;
@@ -44,25 +48,38 @@ public class InteractionListener implements Listener
 			
 			event.setCancelled(true);
 			
-			if(action != Action.LEFT_CLICK_BLOCK && action != Action.LEFT_CLICK_AIR)
+			if(action != Action.RIGHT_CLICK_BLOCK && action != Action.RIGHT_CLICK_AIR)
 				return;
 			
 			Player player = event.getPlayer();
+			PlayerInventory inv = player.getInventory();
+			int slot = inv.getHeldItemSlot();
+			MSPlayer msPlayer = MSPlayer.get(event.getPlayer());
+			Container hotbarContainer = msPlayer.getHotbarContainer();
 			
 			Grenade.throwGrenade(grenadeType, player, 1);
 			player.setItemInHand(null);
+			hotbarContainer.setItem(slot, null);
 			return;
 		}
 		
-		Gun gun = Gun.tryParse(item);
+		Action action = event.getAction();
 		
-		if(gun != null)
+		if(action == Action.RIGHT_CLICK_BLOCK || action == Action.RIGHT_CLICK_AIR)
 		{
+			Player player = event.getPlayer();
+			PlayerInventory inv = player.getInventory();
+			int slot = inv.getHeldItemSlot();
 			MSPlayer msPlayer = MSPlayer.get(event.getPlayer());
-			Action action = event.getAction();
+			Container hotbarContainer = msPlayer.getHotbarContainer();
+			Equipment<? extends EquipmentType> equipment = hotbarContainer.getItem(slot);
 			
-			if(action == Action.RIGHT_CLICK_BLOCK || action == Action.RIGHT_CLICK_AIR)
+			if(equipment != null && equipment instanceof Gun)
+			{
+				Gun gun = (Gun) equipment;
+				
 				msPlayer.pressTrigger(gun);
+			}
 		}
 	}
 	

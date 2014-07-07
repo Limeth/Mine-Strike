@@ -25,6 +25,6 @@ public class Knife extends SimpleEquipmentType
 	
 	private Knife()
 	{
-		super("KNIFE", ITEM, 0, MSConstant.MOVEMENT_SPEED_DEFAULT, Equipment.DESERIALIZER);
+		super("KNIFE", ITEM, 0, MSConstant.MOVEMENT_SPEED_DEFAULT);
 	}
 }

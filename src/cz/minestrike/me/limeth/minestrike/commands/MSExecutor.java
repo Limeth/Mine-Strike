@@ -3,10 +3,8 @@ package cz.minestrike.me.limeth.minestrike.commands;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Random;
 
 import org.bukkit.ChatColor;
-import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -392,7 +390,6 @@ public class MSExecutor implements CommandExecutor
 			{
 				String raw = args[1].toUpperCase();
 				GunType gunType;
-				Color color;
 				
 				try
 				{
@@ -402,23 +399,6 @@ public class MSExecutor implements CommandExecutor
 				{
 					sender.sendMessage(ChatColor.RED + "GunType " + raw + " not found!");
 					return true;
-				}
-				
-				if(args.length >= 3)
-				{
-					try
-					{
-						color = Color.fromRGB(Integer.parseInt(args[2], 16));
-					}
-					catch(Exception e)
-					{
-						sender.sendMessage(ChatColor.RED + "Unknown color " + args[2] + "!");
-						return true;
-					}
-				}
-				else
-				{
-					color = Color.fromRGB(new Random().nextInt(256 * 256 * 256));
 				}
 				
 				MSPlayer msPlayer = MSPlayer.get(player);
