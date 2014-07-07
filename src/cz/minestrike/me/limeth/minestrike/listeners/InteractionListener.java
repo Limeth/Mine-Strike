@@ -1,5 +1,7 @@
 package cz.minestrike.me.limeth.minestrike.listeners;
 
+import java.util.List;
+
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -88,11 +90,14 @@ public class InteractionListener implements Listener
 	{
 		Player player = event.getEntity();
 		MSPlayer msPlayer = MSPlayer.get(player);
+		Container hotbarContainer = msPlayer.getHotbarContainer();
+		List<ItemStack> drops = event.getDrops();
 		
 		event.setKeepLevel(true);
 		event.setDroppedExp(0);
-		event.getDrops().clear();
+		drops.clear();
 		msPlayer.respawnDelayed();
+		hotbarContainer.clear();
 	}
 	
 	@EventHandler

@@ -19,7 +19,8 @@ public class Equipment<T extends EquipmentType>
 	{
 		ItemStack is = type.newItemStack(msPlayer);
 		
-		customization.apply(type, is);
+		if(customization != null)
+			customization.apply(type, is);
 		
 		return is;
 	}

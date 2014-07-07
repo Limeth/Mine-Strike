@@ -146,7 +146,9 @@ public class Gun extends Equipment<GunType>
 		
 		fem.setDisplayName(displayName);
 		is.setItemMeta(fem);
-		customization.apply(type, is);
+		
+		if(customization != null)
+			customization.apply(type, is);
 	}
 	
 	public String buildDisplayName(boolean showBulletAmount)

@@ -7,6 +7,7 @@ import cz.minestrike.me.limeth.minestrike.MSPlayer;
 public interface Container
 {
 	public int getSize();
+	public void clear();
 	public Equipment<? extends EquipmentType>[] getContents();
 	public void setItem(int index, Equipment<? extends EquipmentType> equipment);
 	public Equipment<? extends EquipmentType> getItem(int index);

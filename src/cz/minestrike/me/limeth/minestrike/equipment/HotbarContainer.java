@@ -23,6 +23,13 @@ public class HotbarContainer implements Container
 	}
 	
 	@Override
+	public void clear()
+	{
+		for(int i = 0; i < contents.length; i++)
+			contents[i] = null;
+	}
+	
+	@Override
 	public void setItem(int index, Equipment<? extends EquipmentType> equipment)
 	{
 		contents[index] = equipment;

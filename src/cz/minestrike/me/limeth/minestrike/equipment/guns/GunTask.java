@@ -3,17 +3,15 @@ package cz.minestrike.me.limeth.minestrike.equipment.guns;
 import javax.annotation.Nonnull;
 
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.PlayerInventory;
 
 import com.google.common.base.Preconditions;
 
 import cz.minestrike.me.limeth.minestrike.MSPlayer;
-import cz.minestrike.me.limeth.minestrike.areas.schemes.GameLobby;
-import cz.minestrike.me.limeth.minestrike.areas.schemes.GameMap;
-import cz.minestrike.me.limeth.minestrike.areas.schemes.GameMenu;
+import cz.minestrike.me.limeth.minestrike.equipment.Container;
 import cz.minestrike.me.limeth.minestrike.equipment.Equipment;
-import cz.minestrike.me.limeth.minestrike.equipment.EquipmentProvider;
 import cz.minestrike.me.limeth.minestrike.equipment.EquipmentType;
-import cz.minestrike.me.limeth.minestrike.games.Game;
 
 public abstract class GunTask implements Runnable
 {
@@ -50,9 +48,11 @@ public abstract class GunTask implements Runnable
 	
 	protected Gun parseGunIfSelected()
 	{
-		Game<? extends GameLobby, ? extends GameMenu, ? extends GameMap, ? extends EquipmentProvider> game = msPlayer.getGame();
-		EquipmentProvider ep = game.getEquipmentManager();
-		Equipment<? extends EquipmentType> equipment = ep.getCurrentlyEquipped(msPlayer);
+		Player player = msPlayer.getPlayer();
+		PlayerInventory inv = player.getInventory();
+		Container hotbarContainer = msPlayer.getHotbarContainer();
+		int slot = inv.getHeldItemSlot();
+		Equipment<? extends EquipmentType> equipment = hotbarContainer.getItem(slot);
 		
 		if(equipment == null || !(equipment instanceof Gun))
 			return null;

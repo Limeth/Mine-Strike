@@ -220,11 +220,16 @@ public class DefuseEquipmentManager implements EquipmentProvider
 		for(int i = 0; i < grenades.size(); i++)
 		{
 			Equipment<GrenadeType> equipment = grenades.get(i);
+			
+			if(equipment == null)
+			{
+				full = false;
+				continue;
+			}
+			
 			GrenadeType curType = equipment.getType();
 			
-			if(curType == null)
-				full = false;
-			else if(type == curType)
+			if(type == curType)
 				typeAmount++;
 		}
 		
@@ -244,10 +249,12 @@ public class DefuseEquipmentManager implements EquipmentProvider
 		{
 			int slot = i + INDEX_GRENADES;
 			Equipment<? extends EquipmentType> equipment = gameContainer.getItem(slot);
-			EquipmentType type = equipment.getType();
 			
-			if(!(type instanceof GrenadeType))
+			if(equipment == null || !(equipment.getType() instanceof GrenadeType))
+			{
+				grenades.add(null);
 				continue;
+			}
 			
 			@SuppressWarnings("unchecked")
 			Equipment<GrenadeType> grenadeEquipment = (Equipment<GrenadeType>) equipment;
