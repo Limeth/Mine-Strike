@@ -3,6 +3,9 @@ package cz.minestrike.me.limeth.minestrike;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Set;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 import net.minecraft.server.v1_7_R1.EnumClientCommand;
 import net.minecraft.server.v1_7_R1.PacketPlayInClientCommand;
@@ -16,8 +19,11 @@ import org.bukkit.block.Block;
 import org.bukkit.craftbukkit.v1_7_R1.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
+import org.bukkit.plugin.PluginManager;
 import org.bukkit.util.Vector;
 
 import ca.wacos.nametagedit.NametagAPI;
@@ -72,6 +78,11 @@ public class MSPlayer implements Record
 	public static HashSet<MSPlayer> getOnlinePlayers()
 	{
 		return ONLINE_PLAYERS;
+	}
+	
+	public static Set<MSPlayer> getOnlinePlayers(Predicate<? super MSPlayer> predicate)
+	{
+		return ONLINE_PLAYERS.stream().filter(predicate).collect(Collectors.toSet());
 	}
 	
 	public static boolean remove(Player player)
@@ -207,6 +218,8 @@ public class MSPlayer implements Record
 	private GunTask gunTask;
 	private PlayerState playerState;
 	private Structure<? extends Scheme> playerStructure;
+	private MSPlayer lastDamageSource;
+	private Equipment lastDamageWeapon;
 	private float recoil;
 	private long recoilSetTime, jumpTime, landTime;
 	private double speed;
@@ -234,6 +247,14 @@ public class MSPlayer implements Record
 			playerStructure.redirect(event, this);
 		else
 			MSLobbyListener.getInstance().redirect(event, this);
+	}
+	
+	public String getNameTag()
+	{
+		String prefix = getPrefix();
+		String suffix = getSuffix();
+		
+		return (prefix != null ? prefix : "") + playerName + (suffix != null ? suffix : "");
 	}
 	
 	public void updateNameTag()
@@ -505,6 +526,23 @@ public class MSPlayer implements Record
 			inv.setItem(i, null);
 	}
 	
+	public void damage(double amount, MSPlayer damager, Equipment weapon)
+	{
+		Player bukkitVictim = getPlayer();
+		Player bukkitDamager = damager.getPlayer();
+		EntityDamageByEntityEvent event = new EntityDamageByEntityEvent(bukkitDamager, bukkitVictim, DamageCause.CUSTOM, amount);
+		PluginManager pm = Bukkit.getPluginManager();
+		
+		pm.callEvent(event);
+		
+		if(event.isCancelled())
+			return;
+		
+		setLastDamageSource(damager);
+		setLastDamageWeapon(weapon);
+		player.damage(amount);
+	}
+	
 	public void teleport(Location loc, boolean loadChunks)
 	{
 		if(loadChunks)
@@ -734,5 +772,25 @@ public class MSPlayer implements Record
 	public Container getHotbarContainer()
 	{
 		return hotbarContainer;
+	}
+
+	public MSPlayer getLastDamageSource()
+	{
+		return lastDamageSource;
+	}
+
+	public void setLastDamageSource(MSPlayer lastDamageSource)
+	{
+		this.lastDamageSource = lastDamageSource;
+	}
+
+	public Equipment getLastDamageWeapon()
+	{
+		return lastDamageWeapon;
+	}
+
+	public void setLastDamageWeapon(Equipment lastDamageWeapon)
+	{
+		this.lastDamageWeapon = lastDamageWeapon;
 	}
 }

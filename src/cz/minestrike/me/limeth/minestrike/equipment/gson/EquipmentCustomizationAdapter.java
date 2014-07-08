@@ -40,15 +40,26 @@ public class EquipmentCustomizationAdapter implements
 		if(object.has("color"))
 			builder.color(Color.fromRGB(object.get("color").getAsInt()));
 		
-		if(object.has("lore"))
+		if(object.has("preLore"))
 		{
-			JsonArray lore = object.get("lore").getAsJsonArray();
+			JsonArray lore = object.get("preLore").getAsJsonArray();
 			List<String> list = new ArrayList<String>();
 			
 			for(JsonElement element : lore)
 				list.add(element.getAsString());
 			
-			builder.addLore(list);
+			builder.addPreLore(list);
+		}
+		
+		if(object.has("postLore"))
+		{
+			JsonArray lore = object.get("postLore").getAsJsonArray();
+			List<String> list = new ArrayList<String>();
+			
+			for(JsonElement element : lore)
+				list.add(element.getAsString());
+			
+			builder.addPostLore(list);
 		}
 		
 		return builder.build();
@@ -68,8 +79,11 @@ public class EquipmentCustomizationAdapter implements
 		if(target.getColor() != null)
 			object.addProperty("color", target.getColor().asRGB());
 		
-		if(target.getLore().size() > 0)
-			object.add("lore", context.serialize(target.getLore()));
+		if(target.getPreLore().size() > 0)
+			object.add("preLore", context.serialize(target.getPreLore()));
+		
+		if(target.getPostLore().size() > 0)
+			object.add("postLore", context.serialize(target.getPostLore()));
 		
 		return object;
 	}

@@ -71,7 +71,12 @@ public class Point implements Cloneable
 	
 	public Location getLocation(World world)
 	{
-		return new Location(world, x + 0.5, y + 0.5, z + 0.5);
+		return new Location(world, x, y, z);
+	}
+	
+	public Location getLocation(World world, double offsetX, double offsetY, double offsetZ)
+	{
+		return getLocation(world).add(offsetX, offsetY, offsetZ);
 	}
 	
 	public Block getBlock(World world)

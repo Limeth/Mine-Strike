@@ -2,10 +2,13 @@ package cz.minestrike.me.limeth.minestrike.games.team.defuse;
 
 import java.util.ArrayList;
 
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
+import org.bukkit.inventory.meta.ItemMeta;
 
 import cz.minestrike.me.limeth.minestrike.MSConstant;
 import cz.minestrike.me.limeth.minestrike.MSPlayer;
@@ -23,24 +26,24 @@ import cz.minestrike.me.limeth.minestrike.equipment.guns.Gun;
 import cz.minestrike.me.limeth.minestrike.equipment.guns.GunType;
 import cz.minestrike.me.limeth.minestrike.games.Team;
 
-public class DefuseEquipmentManager implements EquipmentProvider
+public class DefuseEquipmentProvider implements EquipmentProvider
 {
 	static
 	{
 		ItemStack defaultKit = new ItemStack(Material.IRON_PICKAXE);
-//		defaultKit.addUnsafeEnchantment(Enchantment.DIG_SPEED, 4);
+		defaultKit.addUnsafeEnchantment(Enchantment.DIG_SPEED, 4);
 		DEFUSE_KIT_DEFAULT = new SimpleEquipment("KIT_DEFAULT", defaultKit, 0, MSConstant.MOVEMENT_SPEED_DEFAULT);
 		
 		ItemStack boughtKit = new ItemStack(Material.DIAMOND_PICKAXE);
-//		boughtKit.addUnsafeEnchantment(Enchantment.DIG_SPEED, 2);
+		boughtKit.addUnsafeEnchantment(Enchantment.DIG_SPEED, 2);
 		DEFUSE_KIT_BOUGHT = new SimpleEquipment("KIT_BOUGHT", boughtKit, 400, MSConstant.MOVEMENT_SPEED_DEFAULT);
 		
 		ItemStack bomb = new ItemStack(Material.OBSIDIAN);
-//		ItemMeta bombIM = bomb.getItemMeta();
-//		
-//		bombIM.setDisplayName(ChatColor.YELLOW + "" + ChatColor.BOLD + "C4");
-//		bomb.setItemMeta(bombIM);
-//		
+		ItemMeta bombIM = bomb.getItemMeta();
+		
+		bombIM.setDisplayName(ChatColor.YELLOW + "" + ChatColor.BOLD + "C4");
+		bomb.setItemMeta(bombIM);
+		
 		BOMB = new SimpleEquipment("BOMB", bomb, 0, MSConstant.MOVEMENT_SPEED_DEFAULT);
 	}
 	
@@ -48,7 +51,7 @@ public class DefuseEquipmentManager implements EquipmentProvider
 	public static final int INDEX_GUN_PRIMARY = 0, INDEX_GUN_SECONDARY = 1, INDEX_GRENADES = 2, INDEX_EXTRA = 7, INDEX_KNIFE = 8, GRENADE_AMOUNT = 3;
 	private final DefuseGame game;
 	
-	public DefuseEquipmentManager(DefuseGame game)
+	public DefuseEquipmentProvider(DefuseGame game)
 	{
 		this.game = game;
 	}

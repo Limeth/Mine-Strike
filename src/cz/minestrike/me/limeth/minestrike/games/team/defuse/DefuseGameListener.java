@@ -59,7 +59,7 @@ public class DefuseGameListener extends MSGameListener<DefuseGame>
 	public void onBlockPlace(BlockPlaceEvent event, MSPlayer msPlayer)
 	{
 		ItemStack item = event.getItemInHand();
-		ItemStack bomb = DefuseEquipmentManager.BOMB.getOriginalItemStack();
+		ItemStack bomb = DefuseEquipmentProvider.BOMB.getOriginalItemStack();
 		Material type = item.getType();
 		Material bombType = bomb.getType();
 		

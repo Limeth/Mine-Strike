@@ -13,18 +13,12 @@ import net.minecraft.server.v1_7_R1.MovingObjectPosition;
 import net.minecraft.server.v1_7_R1.Vec3D;
 import net.minecraft.server.v1_7_R1.World;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.craftbukkit.v1_7_R1.entity.CraftPlayer;
-import org.bukkit.entity.Damageable;
-import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
-import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
-import org.bukkit.plugin.PluginManager;
 import org.bukkit.util.Vector;
 
 import cz.minestrike.me.limeth.minestrike.MSPlayer;
@@ -44,18 +38,18 @@ public class GunManager
 	
 	public static void showTrace(Location from, Location to)
 	{
-		double stepSize = 0.2;
+		double stepSize = 1;
 		
 		Vector difference = to.clone().subtract(from).toVector();
 		double diffLength = difference.length();
 		Vector step = difference.clone().multiply(stepSize / diffLength);
-		Location currentLocation = from.clone();
+		Location currentLocation = from.clone().add(step.clone().multiply(Math.random()));
 		org.bukkit.World world = from.getWorld();
 		Block fromBlock = from.getBlock();
 		Material fromType = fromBlock.getType();
 		boolean inWater = fromType == Material.WATER || fromType == Material.STATIONARY_WATER;
 		
-		while(currentLocation.distance(to) > stepSize)
+		while(currentLocation.distanceSquared(to) > stepSize * stepSize)
 		{
 			currentLocation.add(step);
 			
@@ -240,7 +234,7 @@ public class GunManager
 			{
 				org.bukkit.entity.Entity rawBukkitVictim = mop.entity.getBukkitEntity();
 				
-				if(!(rawBukkitVictim instanceof LivingEntity))
+				if(!(rawBukkitVictim instanceof Player))
 					return;
 				
 				Game<? extends GameLobby, ? extends GameMenu, ? extends GameMap, ? extends EquipmentProvider> game = msPlayer.getGame();
@@ -253,25 +247,14 @@ public class GunManager
 				Gun gun = (Gun) equipment;
 				GunType type = gun.getEquipment();
 				double damageDivision = Math.pow(2, i);
-				LivingEntity bukkitVictim = (LivingEntity) rawBukkitVictim;
+				Player bukkitVictim = (Player) rawBukkitVictim;
+				MSPlayer msVictim = MSPlayer.get(bukkitVictim);
 				Location victimLoc = bukkitVictim.getLocation();
 				double height = mop.entity.boundingBox.e - mop.entity.boundingBox.b;
 				Location effectLoc = victimLoc.clone().add(0, height / 2, 0);
 				double damage = type.getDamage() / damageDivision;
-				EntityDamageByEntityEvent event = new EntityDamageByEntityEvent(bukkitPlayer, bukkitVictim, DamageCause.CUSTOM, damage);
-				PluginManager pm = Bukkit.getPluginManager();
 				
-				pm.callEvent(event);
-				
-				if(event.isCancelled())
-					continue;
-				
-				double victimHealth = ((Damageable) bukkitVictim).getHealth() - damage;
-				
-				if(victimHealth < 0)
-					victimHealth = 0;
-				
-				bukkitVictim.setHealth(victimHealth);
+				msVictim.damage(damage, msPlayer, gun);
 				ParticleEffect.displayBlockCrack(effectLoc, Material.REDSTONE_BLOCK.getId(), (byte) 0, 0, 0, 0, 1.5F, 20);
 			}
 		}

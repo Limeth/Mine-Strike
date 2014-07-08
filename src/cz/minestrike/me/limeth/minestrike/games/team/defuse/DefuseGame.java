@@ -14,6 +14,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.plugin.PluginManager;
 
+import cz.minestrike.me.limeth.minestrike.MSConfig;
 import cz.minestrike.me.limeth.minestrike.MSConstant;
 import cz.minestrike.me.limeth.minestrike.MSPlayer;
 import cz.minestrike.me.limeth.minestrike.Translation;
@@ -38,7 +39,7 @@ import cz.minestrike.me.limeth.minestrike.listeners.msPlayer.MSShoppingListener;
 import cz.minestrike.me.limeth.minestrike.util.collections.FilledArrayList;
 import ftbastler.HeadsUpDisplay;
 
-public class DefuseGame extends TeamGame<GameLobby, TeamGameMenu, DefuseGameMap, DefuseEquipmentManager>
+public class DefuseGame extends TeamGame<GameLobby, TeamGameMenu, DefuseGameMap, DefuseEquipmentProvider>
 {
 	public static final String CUSTOM_DATA_DEAD = "MineStrike.game.dead", CUSTOM_DATA_BALANCE = "MineStrike.game.balance";
 	public static final int MONEY_CAP = 10000, REQUIRED_ROUNDS = 8;
@@ -91,6 +92,9 @@ public class DefuseGame extends TeamGame<GameLobby, TeamGameMenu, DefuseGameMap,
 		super.redirect(event, msPlayer);
 		defuseGameListener.redirect(event, msPlayer);
 		shoppingListener.redirect(event, msPlayer);
+		
+		if(getPhaseType() == GamePhaseType.RUNNING)
+			getRound().redirect(event, msPlayer);
 	}
 	
 	public boolean roundPrepare()
@@ -134,7 +138,7 @@ public class DefuseGame extends TeamGame<GameLobby, TeamGameMenu, DefuseGameMap,
 		if(terroristsAmount > 0)
 		{
 			int randomIndex = MSConstant.RANDOM.nextInt(terroristsAmount);
-			DefuseEquipmentManager mgr = getEquipmentManager();
+			DefuseEquipmentProvider mgr = getEquipmentManager();
 			int i = 0;
 			MSPlayer carrier = null;
 			
@@ -393,7 +397,7 @@ public class DefuseGame extends TeamGame<GameLobby, TeamGameMenu, DefuseGameMap,
 	
 	public Round getRound()
 	{
-		GamePhase<GameLobby, TeamGameMenu, DefuseGameMap, DefuseEquipmentManager> phase = getPhase();
+		GamePhase<GameLobby, TeamGameMenu, DefuseGameMap, DefuseEquipmentProvider> phase = getPhase();
 		
 		if(!(phase instanceof Round))
 			throw new RuntimeException("The current phase isn't an instance of Round");
@@ -500,19 +504,19 @@ public class DefuseGame extends TeamGame<GameLobby, TeamGameMenu, DefuseGameMap,
 		
 		teleport = event.isTeleport();
 		PlayerState playerState = msPlayer.getPlayerState();
-		Location spawnLocation;
+		Point spawnPoint;
 		
 		if(playerState == PlayerState.LOBBY_GAME)
 		{
 			Structure<GameLobby> lobbyStructure = getLobbyStructure();
 			GameLobby lobby = lobbyStructure.getScheme();
-			spawnLocation = lobbyStructure.getAbsoluteLocation(lobby.getSpawnLocation());
+			spawnPoint = lobbyStructure.getAbsolutePoint(lobby.getSpawnLocation());
 		}
 		else if(playerState == PlayerState.MENU_GAME)
 		{
 			Structure<TeamGameMenu> menuStructure = getMenuStructure();
 			TeamGameMenu menu = menuStructure.getScheme();
-			spawnLocation = menuStructure.getAbsoluteLocation(menu.getSpawnPoint());
+			spawnPoint = menuStructure.getAbsolutePoint(menu.getSpawnPoint());
 		}
 		else if(playerState == PlayerState.JOINED_GAME)
 		{
@@ -524,22 +528,26 @@ public class DefuseGame extends TeamGame<GameLobby, TeamGameMenu, DefuseGameMap,
 			{
 				RegionList spawnRegion = map.getSpawn(team);
 				Point base = map.getBase();
-				spawnLocation = mapStructure.getAbsoluteLocation(spawnRegion.getRandomSpawnablePoint(base, MSConstant.RANDOM));
+				spawnPoint = mapStructure.getAbsolutePoint(spawnRegion.getRandomSpawnablePoint(base, MSConstant.RANDOM));
 				
-				if(spawnLocation == null)
+				if(spawnPoint == null)
 				{
 					msPlayer.sendMessage(ChatColor.RED + "Spawnpoint obscured!");
 					return null;
 				}
 			}
 			else
-				spawnLocation = mapStructure.getAbsoluteLocation(map.getSpectatorSpawn());
+			{
+				spawnPoint = mapStructure.getAbsolutePoint(map.getSpectatorSpawn());
+			}
 		}
 		else
 		{
 			quit(msPlayer, GameQuitReason.ERROR_INVALID_PLAYER_STATE, true);
 			return null;
 		}
+		
+		Location spawnLocation = spawnPoint.getLocation(MSConfig.getWorld(), 0.5, 0, 0.5);
 		
 		if(teleport)
 			msPlayer.teleport(spawnLocation);

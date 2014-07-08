@@ -157,6 +157,12 @@ public class MineStrike extends JavaPlugin
 				player.sendMessage(MSConstant.CONSOLE_PREFIX + ChatColor.RED + "[!] " + ChatColor.RESET + string);
 	}
 	
+	public static void broadcastToLobby(String string)
+	{
+		for(MSPlayer msPlayer : MSPlayer.getOnlinePlayers(p -> { return !p.hasGame(); }))
+			msPlayer.sendMessage(string);
+	}
+	
 	public static MySQLService getService()
 	{
 		return service;

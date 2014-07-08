@@ -27,8 +27,9 @@ import cz.minestrike.me.limeth.minestrike.areas.schemes.GameMap;
 import cz.minestrike.me.limeth.minestrike.areas.schemes.GameMenu;
 import cz.minestrike.me.limeth.minestrike.areas.schemes.Scheme;
 import cz.minestrike.me.limeth.minestrike.areas.schemes.SchemeManager;
-import cz.minestrike.me.limeth.minestrike.equipment.EquipmentProvider;
 import cz.minestrike.me.limeth.minestrike.equipment.EquipmentManagerInitializationException;
+import cz.minestrike.me.limeth.minestrike.equipment.EquipmentProvider;
+import cz.minestrike.me.limeth.minestrike.events.ArenaQuitEvent;
 import cz.minestrike.me.limeth.minestrike.events.GameEquipEvent;
 import cz.minestrike.me.limeth.minestrike.events.GameJoinEvent;
 import cz.minestrike.me.limeth.minestrike.events.GameQuitEvent;
@@ -95,12 +96,22 @@ public abstract class Game<Lo extends GameLobby, Me extends GameMenu, Ma extends
 		msPlayer.spawn(true);
 	}
 	
-	public void quitArena(MSPlayer msPlayer)
+	public boolean quitArena(MSPlayer msPlayer)
 	{
+		ArenaQuitEvent event = new ArenaQuitEvent(this, msPlayer);
+		PluginManager pm = Bukkit.getPluginManager();
+		
+		pm.callEvent(event);
+		
+		if(event.isCancelled())
+			return false;
+		
 		if(owner != null && owner.equals(msPlayer))
 			joinLobby(msPlayer);
 		else
 			joinMenu(msPlayer);
+		
+		return true;
 	}
 	
 	@SuppressWarnings("deprecation")

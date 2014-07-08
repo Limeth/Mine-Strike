@@ -43,7 +43,6 @@ public class SquareBitSet
 		
 		for(int x = 0; x < width; x++)
 			for(int z = 0; z < depth; z++)
-			{
 				for(int y = 0; y < height - 1; y++)
 				{
 					int absX = minX + x;
@@ -68,7 +67,6 @@ public class SquareBitSet
 					
 					break;
 				}
-			}
 		
 		return set;
 	}

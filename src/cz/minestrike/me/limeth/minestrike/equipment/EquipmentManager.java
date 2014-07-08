@@ -19,7 +19,7 @@ import cz.minestrike.me.limeth.minestrike.equipment.gson.EquipmentCustomizationA
 import cz.minestrike.me.limeth.minestrike.equipment.gson.GunAdapter;
 import cz.minestrike.me.limeth.minestrike.equipment.guns.Gun;
 import cz.minestrike.me.limeth.minestrike.equipment.guns.GunType;
-import cz.minestrike.me.limeth.minestrike.games.team.defuse.DefuseEquipmentManager;
+import cz.minestrike.me.limeth.minestrike.games.team.defuse.DefuseEquipmentProvider;
 import cz.minestrike.me.limeth.minestrike.util.collections.FilledHashSet;
 
 public class EquipmentManager
@@ -41,9 +41,9 @@ public class EquipmentManager
 		TYPES.add(Knife.KNIFE);
 		
 		//Defuse
-		TYPES.add(DefuseEquipmentManager.BOMB);
-		TYPES.add(DefuseEquipmentManager.DEFUSE_KIT_DEFAULT);
-		TYPES.add(DefuseEquipmentManager.DEFUSE_KIT_BOUGHT);
+		TYPES.add(DefuseEquipmentProvider.BOMB);
+		TYPES.add(DefuseEquipmentProvider.DEFUSE_KIT_DEFAULT);
+		TYPES.add(DefuseEquipmentProvider.DEFUSE_KIT_BOUGHT);
 		
 		//Cases
 		addAll(TYPES, Case.values());

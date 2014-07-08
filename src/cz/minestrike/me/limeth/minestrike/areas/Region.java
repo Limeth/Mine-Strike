@@ -69,10 +69,15 @@ public class Region
 		int absRandomIndex = 0;
 		int found = 0;
 		
-		while(absRandomIndex < set.getArea() && found < randomIndex)
+		while(absRandomIndex < set.getArea())
 		{
 			if(set.get(absRandomIndex))
+			{
 				found++;
+				
+				if(found > randomIndex)
+					break;
+			}
 			
 			absRandomIndex++;
 		}

@@ -42,9 +42,9 @@ public class Structure<T extends Scheme> implements MSListenerRedirector
 		return plot.getAbsoluteLocation(relative);
 	}
 	
-	public Location getAbsoluteLocation(Point relative)
+	public Point getAbsolutePoint(Point relative)
 	{
-		return plot.getAbsoluteLocation(relative);
+		return plot.getAbsolutePoint(relative);
 	}
 	
 	public Location getRelativeLocation(Location absolute)
@@ -52,9 +52,9 @@ public class Structure<T extends Scheme> implements MSListenerRedirector
 		return plot.getRelativeLocation(absolute);
 	}
 	
-	public Location getRelativeLocation(Point absolute)
+	public Point getRelativePoint(Point absolute)
 	{
-		return plot.getRelativeLocation(absolute);
+		return plot.getRelativePoint(absolute);
 	}
 
 	public T getScheme()

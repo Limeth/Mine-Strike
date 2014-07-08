@@ -4,12 +4,12 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 
 import cz.minestrike.me.limeth.minestrike.equipment.EquipmentProvider;
-import cz.minestrike.me.limeth.minestrike.games.team.defuse.DefuseEquipmentManager;
+import cz.minestrike.me.limeth.minestrike.games.team.defuse.DefuseEquipmentProvider;
 import cz.minestrike.me.limeth.minestrike.games.team.defuse.DefuseGame;
 
 public enum GameType
 {
-	DEFUSE(DefuseGame.class, DefuseEquipmentManager.class);
+	DEFUSE(DefuseGame.class, DefuseEquipmentProvider.class);
 	
 	private final Class<? extends Game<?, ?, ?, ?>> clazz;
 	private final Class<? extends EquipmentProvider> equipmentManagerClazz;

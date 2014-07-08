@@ -89,27 +89,22 @@ public class Gun extends CustomizedEquipment<GunType>
 		
 		EquipmentCustomization customization = getCustomization();
 		GunType type = getEquipment();
-		String customName;
 		
 		if(customization != null)
-		{
 			customization.apply(type, is);
-			
-			customName = customization.getName();
-		}
-		else
-			customName = null;
 		
 		createAttributes().apply(is);
-		String displayName = buildDisplayName(true, customName);
+		String displayName = buildDisplayName(true);
 		FireworkEffectMeta fem = (FireworkEffectMeta) is.getItemMeta();
 		
 		fem.setDisplayName(displayName);
 		is.setItemMeta(fem);
 	}
 	
-	public String buildDisplayName(boolean showBulletAmount, String customName)
+	public String buildDisplayName(boolean showBulletAmount)
 	{
+		EquipmentCustomization customization = getCustomization();
+		String customName = customization != null ? customization.getName() : null;
 		GunType type = getEquipment();
 		String result = ChatColor.RESET + (customName == null ? type.getName() : customName + ChatColor.GRAY + " (" + type.getName() + ChatColor.GRAY + ")");
 		
@@ -228,6 +223,12 @@ public class Gun extends CustomizedEquipment<GunType>
 	public void setReloading(boolean reloading)
 	{
 		this.reloading = reloading;
+	}
+	
+	@Override
+	public String getDisplayName()
+	{
+		return buildDisplayName(false);
 	}
 	
 	@SuppressWarnings("rawtypes")

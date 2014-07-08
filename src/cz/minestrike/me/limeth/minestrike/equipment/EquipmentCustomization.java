@@ -2,13 +2,10 @@ package cz.minestrike.me.limeth.minestrike.equipment;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.bukkit.Color;
 import org.bukkit.FireworkEffect;
-import org.bukkit.configuration.serialization.ConfigurationSerializable;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.FireworkEffectMeta;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -17,31 +14,34 @@ import com.google.common.collect.ImmutableList;
 
 import cz.minestrike.me.limeth.minestrike.util.LoreAttributes;
 
-public class EquipmentCustomization implements ConfigurationSerializable
+public class EquipmentCustomization
 {
 	private final String name, skin;
 	private final Color color;
-	private final ImmutableList<String> lore;
+	private final ImmutableList<String> preLore;
+	private final ImmutableList<String> postLore;
 	
-	private EquipmentCustomization(String name, String skin, Color color, ImmutableList<String> lore)
+	private EquipmentCustomization(String name, String skin, Color color, ImmutableList<String> preLore, ImmutableList<String> postLore)
 	{
 		this.name = name;
 		this.skin = skin;
 		this.color = color;
-		this.lore = lore;
+		this.preLore = preLore;
+		this.postLore = postLore;
 	}
 	
 	public static class EquipmentCustomizationBuilder
 	{
 		private String name, skin;
 		private Color color;
-		private ImmutableList.Builder<String> lore = ImmutableList.builder();
+		private ImmutableList.Builder<String> preLore = ImmutableList.builder();
+		private ImmutableList.Builder<String> postLore = ImmutableList.builder();
 		
 		private EquipmentCustomizationBuilder() {}
 		
 		public EquipmentCustomization build()
 		{
-			return new EquipmentCustomization(name, skin, color, lore.build());
+			return new EquipmentCustomization(name, skin, color, preLore.build(), postLore.build());
 		}
 		
 		public EquipmentCustomizationBuilder name(String name)
@@ -62,15 +62,27 @@ public class EquipmentCustomization implements ConfigurationSerializable
 			return this;
 		}
 		
-		public EquipmentCustomizationBuilder addLore(String... lines)
+		public EquipmentCustomizationBuilder addPreLore(String... lines)
 		{
-			lore.add(lines);
+			preLore.add(lines);
 			return this;
 		}
 		
-		public EquipmentCustomizationBuilder addLore(Collection<String> lines)
+		public EquipmentCustomizationBuilder addPreLore(Collection<String> lines)
 		{
-			lore.addAll(lines);
+			preLore.addAll(lines);
+			return this;
+		}
+		
+		public EquipmentCustomizationBuilder addPostLore(String... lines)
+		{
+			postLore.add(lines);
+			return this;
+		}
+		
+		public EquipmentCustomizationBuilder addPostLore(Collection<String> lines)
+		{
+			postLore.addAll(lines);
 			return this;
 		}
 	}
@@ -85,9 +97,14 @@ public class EquipmentCustomization implements ConfigurationSerializable
 		ItemMeta im = itemStack.getItemMeta();
 		
 		if(name != null)
-			im.setDisplayName(name);
+		{
+			String currentName = im.hasDisplayName() ? im.getDisplayName() : "";
+			String newName = name.replaceAll("%NAME%", currentName);
+			
+			im.setDisplayName(newName);
+		}
 		
-		if(lore.size() > 0)
+		if(postLore.size() > 0)
 		{
 			List<String> newLore;
 			
@@ -96,8 +113,21 @@ public class EquipmentCustomization implements ConfigurationSerializable
 			else
 				newLore = new ArrayList<String>();
 			
-			newLore.addAll(lore);
-			im.setLore(lore);
+			newLore.addAll(postLore);
+			im.setLore(newLore);
+		}
+		
+		if(preLore.size() > 0)
+		{
+			List<String> newLore;
+			
+			if(im.hasLore())
+				newLore = im.getLore();
+			else
+				newLore = new ArrayList<String>();
+			
+			newLore.addAll(preLore);
+			im.setLore(newLore);
 		}
 		
 		if(color != null && im instanceof FireworkEffectMeta)
@@ -116,50 +146,6 @@ public class EquipmentCustomization implements ConfigurationSerializable
 		
 		itemStack.setItemMeta(im);
 	}
-	
-	@SuppressWarnings("unchecked")
-	public static EquipmentCustomization deserialize(Map<String, Object> map)
-	{
-		EquipmentCustomizationBuilder builder = builder();
-		
-		if(map.containsKey("name"))
-			builder.name((String) map.get("name"));
-		
-		if(map.containsKey("skin"))
-			builder.skin((String) map.get("skin"));
-		
-		if(map.containsKey("color"))
-			builder.color(Color.deserialize((Map<String, Object>) map.get("color")));
-		
-		if(map.containsKey("lore"))
-		{
-			List<String> list = (List<String>) map.get("lore");
-			
-			builder.addLore(list);
-		}
-		
-		return builder.build();
-	}
-	
-	@Override
-	public Map<String, Object> serialize()
-	{
-		HashMap<String, Object> map = new HashMap<String, Object>();
-		
-		if(name != null)
-			map.put("name", name);
-		
-		if(skin != null)
-			map.put("skin", skin);
-		
-		if(color != null)
-			map.put("color", color.serialize());
-		
-		if(lore.size() > 0)
-			map.put("lore", lore);
-		
-		return map;
-	}
 
 	public String getName()
 	{
@@ -176,14 +162,19 @@ public class EquipmentCustomization implements ConfigurationSerializable
 		return color;
 	}
 
-	public ImmutableList<String> getLore()
+	public ImmutableList<String> getPostLore()
 	{
-		return lore;
+		return postLore;
+	}
+
+	public ImmutableList<String> getPreLore()
+	{
+		return preLore;
 	}
 
 	@Override
 	public String toString()
 	{
-		return "EquipmentCustomization [name=" + name + ", skin=" + skin + ", color=" + color + ", lore=" + lore + "]";
+		return "EquipmentCustomization [name=" + name + ", skin=" + skin + ", color=" + color + ", preLore=" + preLore + ", postLore=" + postLore + "]";
 	}
 }

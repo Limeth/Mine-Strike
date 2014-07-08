@@ -12,6 +12,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import cz.minestrike.me.limeth.minestrike.MSConstant;
 import cz.minestrike.me.limeth.minestrike.MSPlayer;
+import cz.minestrike.me.limeth.minestrike.Translation;
 import cz.minestrike.me.limeth.minestrike.equipment.grenades.GrenadeType;
 import cz.minestrike.me.limeth.minestrike.equipment.guns.GunType;
 import cz.minestrike.me.limeth.minestrike.games.Game;
@@ -127,7 +128,16 @@ public enum EquipmentCategory
 			int absX = x + relX;
 			int absY = 1 + relY;
 			int index = absX + absY * MSConstant.INVENTORY_WIDTH;
+			Integer price = equipment[i].getPrice(msPlayer);
 			ItemStack item = equipment[i].newItemStack(msPlayer);
+			
+			if(price != null)
+			{
+				EquipmentCustomization customization = EquipmentCustomization.builder()
+						.name(Translation.GAME_SHOP_ICONPRICE.getMessage(price)).build();
+				
+				customization.apply(equipment[i], item);
+			}
 			
 			inv.setItem(index, item);
 		}

@@ -13,13 +13,15 @@ import cz.minestrike.me.limeth.minestrike.MSPlayer;
 import cz.minestrike.me.limeth.minestrike.MineStrike;
 import cz.minestrike.me.limeth.minestrike.areas.schemes.GameLobby;
 import cz.minestrike.me.limeth.minestrike.events.ArenaJoinEvent;
+import cz.minestrike.me.limeth.minestrike.events.ArenaQuitEvent;
 import cz.minestrike.me.limeth.minestrike.games.GamePhase;
 import cz.minestrike.me.limeth.minestrike.games.GamePhaseType;
 import cz.minestrike.me.limeth.minestrike.games.team.TeamGameMenu;
 import cz.minestrike.me.limeth.minestrike.games.team.defuse.DefuseGame.RoundEndReason;
 import cz.minestrike.me.limeth.minestrike.listeners.msPlayer.MSGameListener;
+import cz.minestrike.me.limeth.minestrike.listeners.msPlayer.MSListener;
 
-public class Round extends GamePhase<GameLobby, TeamGameMenu, DefuseGameMap, DefuseEquipmentManager>
+public class Round extends GamePhase<GameLobby, TeamGameMenu, DefuseGameMap, DefuseEquipmentProvider>
 {
 	public static final long BOMB_TIME = 60 * 20, SPAWN_TIME = 10 * 20, ROUND_TIME = 20 * 60 * 5, END_TIME = 5 * 20, VOTE_TIME = 10 * 20;
 
@@ -85,6 +87,7 @@ public class Round extends GamePhase<GameLobby, TeamGameMenu, DefuseGameMap, Def
 	};
 	
 	private final MSGameListener<DefuseGame> listener;
+	private PreparationCheckRunnable checker;
 	private RoundPhase phase;
 	private Integer taskId;
 	private Long ranAt;
@@ -178,6 +181,9 @@ public class Round extends GamePhase<GameLobby, TeamGameMenu, DefuseGameMap, Def
 	public void redirect(Event event, MSPlayer msPlayer)
 	{
 		listener.redirect(event, msPlayer);
+		
+		if(checker != null)
+			checker.redirect(event, msPlayer);
 	}
 	
 	public Long getRanAt()
@@ -201,7 +207,7 @@ public class Round extends GamePhase<GameLobby, TeamGameMenu, DefuseGameMap, Def
 		public void onArenaJoin(ArenaJoinEvent event, MSPlayer msPlayer)
 		{
 			DefuseGame game = getGame();
-			GamePhase<GameLobby, TeamGameMenu, DefuseGameMap, DefuseEquipmentManager> phase = game.getPhase();
+			GamePhase<GameLobby, TeamGameMenu, DefuseGameMap, DefuseEquipmentProvider> phase = game.getPhase();
 			
 			if(phase instanceof Round)
 			{
@@ -228,13 +234,14 @@ public class Round extends GamePhase<GameLobby, TeamGameMenu, DefuseGameMap, Def
 		}
 	}
 	
-	private class PreparationCheckRunnable implements Runnable
+	private class PreparationCheckRunnable extends MSListener implements Runnable
 	{
 		private final HashMap<MSPlayer, Location> ORIGIN = new HashMap<MSPlayer, Location>();
 		public Integer preparationCheckTaskId;
 		
 		public int start(long frequency)
 		{
+			checker = this;
 			return preparationCheckTaskId = Bukkit.getScheduler().scheduleSyncRepeatingTask(MineStrike.getInstance(), this, 0L, frequency);
 		}
 		
@@ -262,7 +269,31 @@ public class Round extends GamePhase<GameLobby, TeamGameMenu, DefuseGameMap, Def
 				scheduler.cancelTask(preparationCheckTaskId);
 				
 				preparationCheckTaskId = null;
+				checker = null;
 			}
+		}
+		
+		@EventHandler
+		public void onArenaJoin(ArenaJoinEvent event,final MSPlayer msPlayer)
+		{
+			Bukkit.getScheduler().scheduleSyncDelayedTask(MineStrike.getInstance(), new Runnable() {
+
+				@Override
+				public void run()
+				{
+					Player player = msPlayer.getPlayer();
+					Location loc = player.getLocation();
+					
+					ORIGIN.put(msPlayer, loc);
+				}
+				
+			});
+		}
+		
+		@EventHandler
+		public void onArenaQuit(ArenaQuitEvent event, MSPlayer msPlayer)
+		{
+			ORIGIN.remove(msPlayer);
 		}
 	}
 }

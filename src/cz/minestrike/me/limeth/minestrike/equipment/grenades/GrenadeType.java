@@ -18,6 +18,7 @@ import org.bukkit.craftbukkit.v1_7_R1.CraftWorld;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.ThrownPotion;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitScheduler;
@@ -329,7 +330,13 @@ public enum GrenadeType implements Equipment
 	
 	public ItemStack newItemStack(MSPlayer msPlayer)
 	{
-		return new ItemStack(Material.POTION, 1, (short) color);
+		ItemStack is = new ItemStack(Material.POTION, 1, (short) color);
+		ItemMeta im = is.getItemMeta();
+		
+		im.setDisplayName(getDisplayName());
+		is.setItemMeta(im);
+		
+		return is;
 	}
 	
 	public Integer getPrice(MSPlayer msPlayer)

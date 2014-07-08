@@ -53,9 +53,9 @@ public class Plot<T extends Scheme>
 		return relative == null ? null : getLocation().clone().add(relative);
 	}
 	
-	public Location getAbsoluteLocation(Point relative)
+	public Point getAbsolutePoint(Point relative)
 	{
-		return relative == null ? null : getAbsoluteLocation(relative.getLocation(MSConfig.getWorld()));
+		return relative == null ? null : Point.valueOf(getLocation()).add(relative);
 	}
 	
 	public Location getRelativeLocation(Location absolute)
@@ -63,9 +63,9 @@ public class Plot<T extends Scheme>
 		return absolute == null ? null : absolute.clone().subtract(getLocation());
 	}
 	
-	public Location getRelativeLocation(Point absolute)
+	public Point getRelativePoint(Point absolute)
 	{
-		return absolute == null ? null : getRelativeLocation(absolute.getLocation(MSConfig.getWorld()));
+		return absolute == null ? null : absolute.clone().subtract(Point.valueOf(getLocation()));
 	}
 	
 	public Scheme getScheme()

@@ -39,10 +39,15 @@ public abstract class TeamGame<Lo extends GameLobby, Me extends TeamGameMenu, Ma
 		return true;
 	}
 	
-	public void quitArena(MSPlayer msPlayer)
+	public boolean quitArena(MSPlayer msPlayer)
 	{
-		super.quitArena(msPlayer);
+		boolean success = super.quitArena(msPlayer);
+		
+		if(!success)
+			return false;
+		
 		msPlayer.updateNameTag();
+		return true;
 	}
 	
 	public Game<Lo, Me, Ma, EM> setup()

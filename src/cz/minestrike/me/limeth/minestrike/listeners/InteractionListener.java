@@ -16,11 +16,17 @@ import org.bukkit.inventory.PlayerInventory;
 
 import cz.minestrike.me.limeth.minestrike.MSPlayer;
 import cz.minestrike.me.limeth.minestrike.MineStrike;
+import cz.minestrike.me.limeth.minestrike.Translation;
+import cz.minestrike.me.limeth.minestrike.areas.schemes.GameLobby;
+import cz.minestrike.me.limeth.minestrike.areas.schemes.GameMap;
+import cz.minestrike.me.limeth.minestrike.areas.schemes.GameMenu;
 import cz.minestrike.me.limeth.minestrike.equipment.Container;
 import cz.minestrike.me.limeth.minestrike.equipment.Equipment;
+import cz.minestrike.me.limeth.minestrike.equipment.EquipmentProvider;
 import cz.minestrike.me.limeth.minestrike.equipment.grenades.Grenade;
 import cz.minestrike.me.limeth.minestrike.equipment.grenades.GrenadeType;
 import cz.minestrike.me.limeth.minestrike.equipment.guns.Gun;
+import cz.minestrike.me.limeth.minestrike.games.Game;
 
 public class InteractionListener implements Listener
 {
@@ -91,12 +97,40 @@ public class InteractionListener implements Listener
 		MSPlayer msPlayer = MSPlayer.get(player);
 		Container hotbarContainer = msPlayer.getHotbarContainer();
 		List<ItemStack> drops = event.getDrops();
+		Game<? extends GameLobby, ? extends GameMenu, ? extends GameMap, ? extends EquipmentProvider> game = msPlayer.getGame();
+		
+		if(game != null)
+		{
+			MSPlayer msKiller = msPlayer.getLastDamageSource();
+			String message;
+			
+			if(msKiller != null)
+			{
+				Equipment weapon = msPlayer.getLastDamageWeapon();
+				
+				if(weapon != null)
+				{
+					message = Translation.GAME_DEATH_WEAPONSOURCE.getMessage(msPlayer.getNameTag(), msKiller.getNameTag(), weapon.getDisplayName());
+					
+					msPlayer.setLastDamageWeapon(null);
+				}
+				else
+					message = Translation.GAME_DEATH_SOURCE.getMessage(msPlayer.getNameTag(), msKiller.getNameTag());
+				
+				msPlayer.setLastDamageSource(null);
+			}
+			else
+				message = Translation.GAME_DEATH_UNKNOWN.getMessage(msPlayer.getNameTag());
+			
+			game.broadcast(message);
+		}
 		
 		event.setKeepLevel(true);
 		event.setDroppedExp(0);
 		drops.clear();
 		msPlayer.respawnDelayed();
 		hotbarContainer.clear();
+		event.setDeathMessage(null);
 	}
 	
 	@EventHandler
