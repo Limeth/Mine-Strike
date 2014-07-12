@@ -9,46 +9,29 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryView;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.plugin.PluginManager;
 
 import cz.minestrike.me.limeth.minestrike.MSConstant;
 import cz.minestrike.me.limeth.minestrike.MSPlayer;
 import cz.minestrike.me.limeth.minestrike.MineStrike;
 import cz.minestrike.me.limeth.minestrike.Translation;
+import cz.minestrike.me.limeth.minestrike.equipment.Equipment;
 import cz.minestrike.me.limeth.minestrike.equipment.EquipmentCategory;
+import cz.minestrike.me.limeth.minestrike.equipment.EquipmentCategoryEntry;
 import cz.minestrike.me.limeth.minestrike.equipment.EquipmentProvider;
 import cz.minestrike.me.limeth.minestrike.equipment.EquipmentPurchaseException;
-import cz.minestrike.me.limeth.minestrike.equipment.Equipment;
-import cz.minestrike.me.limeth.minestrike.events.GameEquipEvent;
+import cz.minestrike.me.limeth.minestrike.equipment.InventoryContainer;
 import cz.minestrike.me.limeth.minestrike.events.ShopOpenEvent;
 import cz.minestrike.me.limeth.minestrike.games.Game;
 import cz.minestrike.me.limeth.minestrike.games.PlayerState;
 import cz.minestrike.me.limeth.minestrike.util.PlayerUtil;
+import cz.minestrike.me.limeth.minestrike.util.collections.FilledArrayList;
 
 public class MSShoppingListener<T extends Game<?, ?, ?, ?>> extends MSGameListener<T>
 {
 	public MSShoppingListener(T game)
 	{
 		super(game);
-	}
-	
-	@EventHandler
-	public void onGameEquip(GameEquipEvent event, MSPlayer msPlayer)
-	{
-		Player player = event.getPlayer();
-		PlayerInventory inv = player.getInventory();
-		EquipmentCategory[] categories = EquipmentCategory.values();
-		
-		for(int i = 0; i < categories.length; i++)
-		{
-			EquipmentCategory category = categories[i];
-			ItemStack icon = category.getIcon();
-			int x = 6 + i % 2;
-			int y = i / 2;
-			
-			PlayerUtil.setItem(inv, x, y, icon);
-		}
 	}
 	
 	@EventHandler
@@ -75,18 +58,21 @@ public class MSShoppingListener<T extends Game<?, ?, ?, ?>> extends MSGameListen
 		if(state != PlayerState.JOINED_GAME)
 			return;
 		
+		Game<?, ?, ?, ?> game = getGame();
 		Inventory topInv = view.getTopInventory();
 		int slot = event.getRawSlot();
-		EquipmentCategory openCat = EquipmentCategory.getByInventory(topInv);
+		FilledArrayList<EquipmentCategory> categories = game.getEquipmentCategories();
+		EquipmentCategory openCat = EquipmentCategory.getByInventory(categories, topInv);
 		
 		if(openCat != null && slot < topInv.getSize())
 		{
-			Equipment equipment = openCat.getEquipment(msPlayer, slot);
+			EquipmentCategoryEntry entry = openCat.getEntry(msPlayer, slot);
 			
-			if(equipment == null)
+			if(entry == null)
 				return;
 			
-			Game<?, ?, ?, ?> game = getGame();
+			InventoryContainer invContainer = msPlayer.getInventoryContainer();
+			Equipment equipment = invContainer.getEquippedEquipment(entry);
 			EquipmentProvider em = game.getEquipmentManager();
 			
 			try
@@ -122,12 +108,10 @@ public class MSShoppingListener<T extends Game<?, ?, ?, ?>> extends MSGameListen
 			if(index < 0)
 				return;
 			
-			EquipmentCategory[] categories = EquipmentCategory.values();
-			
-			if(index >= categories.length)
+			if(index >= categories.size())
 				return;
 			
-			EquipmentCategory cat = categories[index];
+			EquipmentCategory cat = categories.get(index);
 			
 			if(cat == null)
 				return;

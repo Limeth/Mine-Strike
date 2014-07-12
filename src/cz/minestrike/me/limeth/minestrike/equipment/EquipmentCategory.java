@@ -1,14 +1,13 @@
 package cz.minestrike.me.limeth.minestrike.equipment;
 
+import java.util.Collection;
 import java.util.HashSet;
 
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 
 import cz.minestrike.me.limeth.minestrike.MSConstant;
 import cz.minestrike.me.limeth.minestrike.MSPlayer;
@@ -18,71 +17,88 @@ import cz.minestrike.me.limeth.minestrike.equipment.guns.GunType;
 import cz.minestrike.me.limeth.minestrike.games.Game;
 import cz.minestrike.me.limeth.minestrike.games.Team;
 import cz.minestrike.me.limeth.minestrike.games.team.TeamGame;
+import cz.minestrike.me.limeth.minestrike.util.LoreAttributes;
 import cz.minestrike.me.limeth.minestrike.util.PlayerUtil;
 
-public enum EquipmentCategory
+public class EquipmentCategory
 {
-	PISTOLS("Pistols", new ItemStack(Material.FIREWORK_CHARGE), new Equipment[] {
-				GunType.GLOCK, GunType.P250, GunType.DEAGLE, GunType.ELITE, GunType.TEC9, GunType.CZ75
-			}, new Equipment[]  {//TODO add usp-s support
-				GunType.P2000, GunType.P250, GunType.DEAGLE, GunType.ELITE, GunType.FIVESEVEN, GunType.CZ75
-			}), //TODO change to custom textures
-	HEAVY("Heavy", new ItemStack(Material.FIREWORK_CHARGE), new Equipment[] {
-				GunType.NOVA, GunType.XM1014, GunType.SAWEDOFF, GunType.M249, GunType.NEGEV
-			}, new Equipment[] {
-				GunType.NOVA, GunType.XM1014, GunType.MAG7, GunType.M249, GunType.NEGEV
-			}),
-	SMGS("SMGs", new ItemStack(Material.FIREWORK_CHARGE), new Equipment[] {
-				GunType.MAC10, GunType.MP7, GunType.UMP45, GunType.BIZON, GunType.P90
-			}, new Equipment[] {
-				GunType.MP9, GunType.MP7, GunType.UMP45, GunType.BIZON, GunType.P90
-			}),
-	RIFLES("Rifles", new ItemStack(Material.FIREWORK_CHARGE), new Equipment[] {
-				GunType.GALIL_AR, GunType.AK_47, GunType.SSG_08, GunType.SG_556, GunType.AWP, GunType.G3SG1
-			}, new Equipment[] {
-				GunType.FAMAS, GunType.M4A4, GunType.SSG_08, GunType.AUG, GunType.AWP, GunType.SCAR_20
-			}),
-	GEAR("Gear", new ItemStack(Material.LEATHER_CHESTPLATE), new Equipment[] {
+	public static final EquipmentCategory PISTOLS = new EquipmentCategory("PISTOLS", Translation.EQUIPMENT_CATEGORY_PISTOLS, new ItemStack(Material.FIREWORK_CHARGE), new EquipmentCategoryEntry[] {
+				e(GunType.GLOCK), e(GunType.P250, GunType.CZ75), e(GunType.DEAGLE), e(GunType.ELITE),
+				e(GunType.TEC9)
+			}, new EquipmentCategoryEntry[]  {
+				e(GunType.P2000, GunType.USP_S), e(GunType.P250, GunType.CZ75), e(GunType.DEAGLE),
+				e(GunType.ELITE), e(GunType.FIVESEVEN), e(GunType.CZ75)
+			});
+	public static final EquipmentCategory HEAVY = new EquipmentCategory("HEAVY", Translation.EQUIPMENT_CATEGORY_HEAVY, new ItemStack(Material.FIREWORK_CHARGE), new EquipmentCategoryEntry[] {
+				e(GunType.NOVA), e(GunType.XM1014), e(GunType.SAWEDOFF), e(GunType.M249),
+				e(GunType.NEGEV)
+			}, new EquipmentCategoryEntry[] {
+				e(GunType.NOVA), e(GunType.XM1014), e(GunType.MAG7), e(GunType.M249), e(GunType.NEGEV)
+			});
+	public static final EquipmentCategory SMGS = new EquipmentCategory("SMGS", Translation.EQUIPMENT_CATEGORY_SMGS, new ItemStack(Material.FIREWORK_CHARGE), new EquipmentCategoryEntry[] {
+				e(GunType.MAC10), e(GunType.MP7), e(GunType.UMP45), e(GunType.BIZON), e(GunType.P90)
+			}, new EquipmentCategoryEntry[] {
+				e(GunType.MP9), e(GunType.MP7), e(GunType.UMP45), e(GunType.BIZON), e(GunType.P90)
+			});
+	public static final EquipmentCategory RIFLES = new EquipmentCategory("RIFLES", Translation.EQUIPMENT_CATEGORY_RIFLES, new ItemStack(Material.FIREWORK_CHARGE), new EquipmentCategoryEntry[] {
+				e(GunType.GALIL_AR), e(GunType.AK_47), e(GunType.SSG_08), e(GunType.SG_556),
+				e(GunType.AWP), e(GunType.G3SG1)
+			}, new EquipmentCategoryEntry[] {
+				e(GunType.FAMAS), e(GunType.M4A4, GunType.M4A1_S), e(GunType.SSG_08),
+				e(GunType.AUG), e(GunType.AWP), e(GunType.SCAR_20)
+			});
+	public static final EquipmentCategory GEAR = new EquipmentCategory("GEAR", Translation.EQUIPMENT_CATEGORY_GEAR, new ItemStack(Material.LEATHER_CHESTPLATE), new EquipmentCategoryEntry[] {
 				
-			}, new Equipment[] {
+			}, new EquipmentCategoryEntry[] {
 				
-			}),
-	GRENADES("Grenades", new ItemStack(Material.POTION), new Equipment[] {
-				GrenadeType.INCENDIARY, GrenadeType.DECOY, GrenadeType.EXPLOSIVE, GrenadeType.FLASH, GrenadeType.SMOKE
+			});
+	public static final EquipmentCategory GRENADES = new EquipmentCategory("GRENADES", Translation.EQUIPMENT_CATEGORY_GRENADES, new ItemStack(Material.POTION), new EquipmentCategoryEntry[] {
+				e(GrenadeType.INCENDIARY), e(GrenadeType.DECOY), e(GrenadeType.EXPLOSIVE), e(GrenadeType.FLASH), e(GrenadeType.SMOKE)
 			});
 	
-	private final String name;
+	private final String id;
+	private final Translation translation;
 	private final ItemStack icon;
-	private final Equipment[] tEquipment, ctEquipment;
+	private final EquipmentCategoryEntry[] tEquipment, ctEquipment;
 	
-	private EquipmentCategory(String name, ItemStack icon, Equipment[] tEquipment, Equipment[] ctEquipment)
+	public EquipmentCategory(String id, Translation translation, ItemStack icon, EquipmentCategoryEntry[] tEquipment, EquipmentCategoryEntry[] ctEquipment)
 	{
-		this.name = name;
+		this.id = id;
+		this.translation = translation;
 		this.icon = icon;
 		this.tEquipment = tEquipment;
 		this.ctEquipment = ctEquipment;
 		
-		ItemMeta iconMeta = icon.getItemMeta();
-		
-		iconMeta.setDisplayName(ChatColor.BOLD + name);
-		icon.setItemMeta(iconMeta);
+		LoreAttributes.TEMP_ATTRIBUTES.clear();
+		LoreAttributes.extract(icon, LoreAttributes.TEMP_ATTRIBUTES);
+		LoreAttributes.TEMP_ATTRIBUTES.put("id", id);
+		LoreAttributes.TEMP_ATTRIBUTES.apply(icon);
 	}
 	
-	private EquipmentCategory(String name, ItemStack icon, Equipment... equipment)
+	public EquipmentCategory(String id, Translation translation, ItemStack icon, EquipmentCategoryEntry... equipment)
 	{
-		this(name, icon, equipment, equipment);
+		this(id, translation, icon, equipment, equipment);
 	}
 	
-	public static EquipmentCategory getByName(String name)
+	public static EquipmentCategory getById(Collection<EquipmentCategory> categories, String id)
 	{
-		for(EquipmentCategory cat : values())
-			if(cat.name.equals(name))
+		for(EquipmentCategory cat : categories)
+			if(cat.id.equals(id))
 				return cat;
 		
 		return null;
 	}
 	
-	public static EquipmentCategory getByInventory(Inventory inv)
+	public static EquipmentCategory getByName(Collection<EquipmentCategory> categories, String name)
+	{
+		for(EquipmentCategory cat : categories)
+			if(cat.getName().equals(name))
+				return cat;
+		
+		return null;
+	}
+	
+	public static EquipmentCategory getByInventory(Collection<EquipmentCategory> categories, Inventory inv)
 	{
 		String title = inv.getTitle();
 		int prefixLength = MSConstant.INVENTORY_NAME_PREFIX.length();
@@ -92,12 +108,12 @@ public enum EquipmentCategory
 		
 		String name = title.substring(prefixLength);
 		
-		return getByName(name);
+		return getByName(categories, name);
 	}
 	
-	public static EquipmentCategory getByIcon(ItemStack icon)
+	public static EquipmentCategory getByIcon(Collection<EquipmentCategory> categories, ItemStack icon)
 	{
-		for(EquipmentCategory cat : values())
+		for(EquipmentCategory cat : categories)
 			if(cat.getIcon().equals(icon))
 				return cat;
 		
@@ -111,32 +127,36 @@ public enum EquipmentCategory
 
 	public void openInventory(MSPlayer msPlayer)
 	{
+		String name = getName();
 		Player player = msPlayer.getPlayer();
-		Equipment[] equipment = getEquipment(msPlayer);
+		EquipmentCategoryEntry[] entries = getEntries(msPlayer);
 		Inventory inv = Bukkit.createInventory(player, PlayerUtil.INVENTORY_WIDTH * 4, MSConstant.INVENTORY_NAME_PREFIX + name);
 		
 		for(int i = 0; i < inv.getSize(); i++)
 			inv.setItem(i, MSConstant.BACKGROUND_ITEM);
 		
-		int width = (int) Math.ceil(equipment.length / 2D);
+		int width = (int) Math.ceil(entries.length / 2D);
 		int x = 4 - (width / 2);
 		
-		for(int i = 0; i < equipment.length; i++)
+		for(int i = 0; i < entries.length; i++)
 		{
 			int relX = i % width;
 			int relY = i / width;
 			int absX = x + relX;
 			int absY = 1 + relY;
 			int index = absX + absY * MSConstant.INVENTORY_WIDTH;
-			Integer price = equipment[i].getPrice(msPlayer);
-			ItemStack item = equipment[i].newItemStack(msPlayer);
+			EquipmentCategoryEntry entry = entries[i];
+			InventoryContainer invContainer = msPlayer.getInventoryContainer();
+			Equipment equipment = invContainer.getEquippedEquipment(entry);
+			Integer price = equipment.getPrice(msPlayer);
+			ItemStack item = equipment.newItemStack(msPlayer);
 			
 			if(price != null)
 			{
 				EquipmentCustomization customization = EquipmentCustomization.builder()
 						.name(Translation.GAME_SHOP_ICONPRICE.getMessage(price)).build();
 				
-				customization.apply(equipment[i], item);
+				customization.apply(equipment, item);
 			}
 			
 			inv.setItem(index, item);
@@ -145,9 +165,9 @@ public enum EquipmentCategory
 		player.openInventory(inv);
 	}
 	
-	public Equipment getEquipment(MSPlayer msPlayer, int x, int y)
+	public EquipmentCategoryEntry getEntry(MSPlayer msPlayer, int x, int y)
 	{
-		Equipment[] equipment = getEquipment(msPlayer);
+		EquipmentCategoryEntry[] equipment = getEntries(msPlayer);
 		int width = (int) Math.ceil(equipment.length / 2D);
 		int startX = 4 - (width / 2);
 		
@@ -162,27 +182,27 @@ public enum EquipmentCategory
 		return equipment[index];
 	}
 	
-	public Equipment getEquipment(MSPlayer msPlayer, int inventoryIndex)
+	public EquipmentCategoryEntry getEntry(MSPlayer msPlayer, int inventoryIndex)
 	{
-		return getEquipment(msPlayer, inventoryIndex % MSConstant.INVENTORY_WIDTH, inventoryIndex / MSConstant.INVENTORY_WIDTH);
+		return getEntry(msPlayer, inventoryIndex % MSConstant.INVENTORY_WIDTH, inventoryIndex / MSConstant.INVENTORY_WIDTH);
 	}
 	
-	public Equipment[] getEquipment(MSPlayer msPlayer)
+	public EquipmentCategoryEntry[] getEntries(MSPlayer msPlayer)
 	{
 		Game<?, ?, ?, ?> game = msPlayer.getGame();
 		
 		if(!(game instanceof TeamGame))
-			return getEquipment();
+			return getEntries();
 		else
 		{
 			TeamGame<?, ?, ?, ?> teamGame = (TeamGame<?, ?, ?, ?>) game;
 			Team team = teamGame.getTeam(msPlayer);
 			
-			return getEquipment(team);
+			return getEntries(team);
 		}
 	}
 	
-	public Equipment[] getEquipment(Team team)
+	public EquipmentCategoryEntry[] getEntries(Team team)
 	{
 		if(team == null)
 			throw new IllegalArgumentException("The team cannot be null!");
@@ -194,31 +214,46 @@ public enum EquipmentCategory
 			throw new IllegalArgumentException("Unknown team " + team + "!");
 	}
 	
-	public Equipment[] getEquipment()
+	public EquipmentCategoryEntry[] getEntries()
 	{
-		HashSet<Equipment> set = new HashSet<Equipment>();
+		HashSet<EquipmentCategoryEntry> set = new HashSet<EquipmentCategoryEntry>();
 		
-		for(Equipment e : tEquipment)
+		for(EquipmentCategoryEntry e : tEquipment)
 			set.add(e);
 		
-		for(Equipment e : ctEquipment)
+		for(EquipmentCategoryEntry e : ctEquipment)
 			set.add(e);
 		
-		return set.toArray(new Equipment[set.size()]);
+		return set.toArray(new EquipmentCategoryEntry[set.size()]);
 	}
 
-	public Equipment[] getTerroristsEquipment()
+	public EquipmentCategoryEntry[] getTerroristsEquipment()
 	{
 		return tEquipment;
 	}
 
-	public Equipment[] getCounterTerroristsEquipment()
+	public EquipmentCategoryEntry[] getCounterTerroristsEquipment()
 	{
 		return ctEquipment;
 	}
+	
+	private static EquipmentCategoryEntry e(Equipment... equipment)
+	{
+		return EquipmentCategoryEntry.valueOf(equipment);
+	}
 
+	public Translation getTranslation()
+	{
+		return translation;
+	}
+
+	public String getId()
+	{
+		return id;
+	}
+	
 	public String getName()
 	{
-		return name;
+		return translation.getMessage();
 	}
 }

@@ -15,9 +15,12 @@ import org.bukkit.craftbukkit.libs.com.google.gson.annotations.Expose;
 import org.bukkit.entity.Damageable;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.scoreboard.Scoreboard;
 
+import cz.minestrike.me.limeth.minestrike.MSConstant;
 import cz.minestrike.me.limeth.minestrike.MSPlayer;
 import cz.minestrike.me.limeth.minestrike.MineStrike;
 import cz.minestrike.me.limeth.minestrike.areas.PlotManager;
@@ -27,6 +30,7 @@ import cz.minestrike.me.limeth.minestrike.areas.schemes.GameMap;
 import cz.minestrike.me.limeth.minestrike.areas.schemes.GameMenu;
 import cz.minestrike.me.limeth.minestrike.areas.schemes.Scheme;
 import cz.minestrike.me.limeth.minestrike.areas.schemes.SchemeManager;
+import cz.minestrike.me.limeth.minestrike.equipment.EquipmentCategory;
 import cz.minestrike.me.limeth.minestrike.equipment.EquipmentManagerInitializationException;
 import cz.minestrike.me.limeth.minestrike.equipment.EquipmentProvider;
 import cz.minestrike.me.limeth.minestrike.events.ArenaQuitEvent;
@@ -34,8 +38,11 @@ import cz.minestrike.me.limeth.minestrike.events.GameEquipEvent;
 import cz.minestrike.me.limeth.minestrike.events.GameJoinEvent;
 import cz.minestrike.me.limeth.minestrike.events.GameQuitEvent;
 import cz.minestrike.me.limeth.minestrike.events.GameQuitEvent.GameQuitReason;
+import cz.minestrike.me.limeth.minestrike.listeners.msPlayer.MSGameListener;
 import cz.minestrike.me.limeth.minestrike.listeners.msPlayer.MSInventoryListener;
 import cz.minestrike.me.limeth.minestrike.listeners.msPlayer.MSListenerRedirector;
+import cz.minestrike.me.limeth.minestrike.listeners.msPlayer.MSShoppingListener;
+import cz.minestrike.me.limeth.minestrike.util.PlayerUtil;
 import cz.minestrike.me.limeth.minestrike.util.SoundManager;
 import cz.minestrike.me.limeth.minestrike.util.collections.FilledArrayList;
 
@@ -57,6 +64,7 @@ public abstract class Game<Lo extends GameLobby, Me extends GameMenu, Ma extends
 	private Structure<Ma> mapStructure;
 	private GamePhase<Lo, Me, Ma, EM> phase;
 	private MSInventoryListener<Game<Lo, Me, Ma, EM>> inventoryListener;
+	private MSGameListener<Game<Lo, Me, Ma, EM>> shoppingListener;
 	private EM equipmentManager;
 	private Scoreboard scoreboard;
 	
@@ -82,6 +90,7 @@ public abstract class Game<Lo extends GameLobby, Me extends GameMenu, Ma extends
 	
 	public abstract void start();
 	public abstract Predicate<MSPlayer> isPlayerPlaying();
+	public abstract FilledArrayList<EquipmentCategory> getEquipmentCategories();
 	
 	public void joinMenu(MSPlayer msPlayer)
 	{
@@ -120,8 +129,29 @@ public abstract class Game<Lo extends GameLobby, Me extends GameMenu, Ma extends
 	{
 		GameEquipEvent event = new GameEquipEvent(this, msPlayer, force);
 		PluginManager pm = Bukkit.getPluginManager();
-		
 		Player player = msPlayer.getPlayer();
+		PlayerInventory inv = player.getInventory();
+		FilledArrayList<EquipmentCategory> categories = getEquipmentCategories();
+		
+		for(int rel = 0; rel < PlayerUtil.INVENTORY_WIDTH * 3; rel++)
+		{
+			int abs = rel + PlayerUtil.INVENTORY_WIDTH;
+			
+			inv.setItem(abs, MSConstant.BACKGROUND_ITEM);
+		}
+		
+		PlayerUtil.setItem(inv, 1, 1, MSConstant.QUIT_SERVER_ITEM);
+		PlayerUtil.setItem(inv, 2, 1, MSConstant.QUIT_MENU_ITEM);
+		
+		for(int i = 0; i < categories.size(); i++)
+		{
+			EquipmentCategory category = categories.get(i);
+			ItemStack icon = category.getIcon();
+			int x = 6 + i % 2;
+			int y = i / 2;
+			
+			PlayerUtil.setItem(inv, x, y, icon);
+		}
 		
 		pm.callEvent(event);
 		equipmentManager.equip(msPlayer);
@@ -144,6 +174,7 @@ public abstract class Game<Lo extends GameLobby, Me extends GameMenu, Ma extends
 	public void redirect(Event event, MSPlayer msPlayer)
 	{
 		inventoryListener.redirect(event, msPlayer);
+		shoppingListener.redirect(event, msPlayer);
 		
 		if(hasPhase())
 			phase.redirect(event, msPlayer);
@@ -195,6 +226,7 @@ public abstract class Game<Lo extends GameLobby, Me extends GameMenu, Ma extends
 			setMap(maps.get(maps.size() - 1)); //TODO move to start
 		
 		inventoryListener = new MSInventoryListener<Game<Lo, Me, Ma, EM>>(this);
+		shoppingListener = new MSShoppingListener<Game<Lo, Me, Ma, EM>>(this);
 		players = new HashSet<MSPlayer>();
 		invited = open ? null : new HashSet<String>();
 		scoreboard = Bukkit.getScoreboardManager().getNewScoreboard();

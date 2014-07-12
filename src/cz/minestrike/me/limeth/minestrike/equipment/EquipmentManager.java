@@ -2,6 +2,7 @@ package cz.minestrike.me.limeth.minestrike.equipment;
 
 import java.util.Collection;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.commons.lang.Validate;
 import org.bukkit.craftbukkit.libs.com.google.gson.Gson;
@@ -120,6 +121,12 @@ public class EquipmentManager
 		}
 		
 		return result;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public static Set<Equipment> getEquipment()
+	{
+		return (Set<Equipment>) TYPES.clone();
 	}
 	
 	public static interface EquipmentDeserializer

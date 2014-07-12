@@ -5,96 +5,20 @@ import java.util.List;
 
 import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-public class LoreAttributes
-{
-	public static final LoreAttributes TEMP_ATTRIBUTES = new LoreAttributes();
-	private final List<LoreAttribute> attributes;
-	
-	public LoreAttributes(List<LoreAttribute> attributes)
-	{
-		this.attributes = attributes;
-	}
-	
-	public LoreAttributes()
-	{
-		this(new LinkedList<LoreAttribute>());
-	}
-	
-	public static LoreAttributes deserialize(List<String> lore)
-	{
-		Validate.notNull(lore, "The lore cannot be null!");
-		
-		LinkedList<LoreAttribute> attributes = new LinkedList<LoreAttribute>();
-		
-		for(String serialized : lore)
-		{
-			LoreAttribute attribute = LoreAttribute.tryDeserialize(serialized);
-			
-			if(attribute != null)
-				attributes.add(attribute);
-		}
-		
-		return new LoreAttributes(attributes);
-	}
-	
-	public static LoreAttributes extract(ItemStack itemStack)
-	{
-		Validate.notNull(itemStack, "The ItemStack must not be null!");
-		
-		boolean loreMissing = false;
-		ItemMeta im = null;
-		
-		if(itemStack.hasItemMeta())
-		{
-			im = itemStack.getItemMeta();
-			
-			if(!im.hasLore())
-				loreMissing = true;
-		}
-		else
-			loreMissing = true;
-		
-		if(loreMissing)
-			return new LoreAttributes();
-		
-		List<String> lore = im.getLore();
-		LinkedList<String> attributesOnly = new LinkedList<String>();
-		
-		for(String raw : lore)
-		{
-			if(!raw.startsWith(LoreAttribute.PREFIX))
-				continue;
-			
-			String trimmed = raw.substring(LoreAttribute.PREFIX.length());
-			
-			attributesOnly.add(trimmed);
-		}
-		
-		return deserialize(attributesOnly);
-	}
-	
-	@Override
-	public String toString()
-	{
-		return "LoreAttributes [attributes=" + attributes + "]";
-	}
+import com.sun.xml.internal.ws.encoding.soap.DeserializationException;
 
-	public List<String> serialize()
-	{
-		LinkedList<String> lore = new LinkedList<String>();
-		
-		if(attributes == null)
-			return lore;
-		
-		for(LoreAttribute attribute : attributes)
-			if(attribute != null)
-				lore.add(attribute.serialize());
-		
-		return lore;
-	}
+import cz.minestrike.me.limeth.minestrike.util.collections.FilledArrayList;
+import cz.minestrike.me.limeth.minestrike.util.collections.FilledHashMap;
+
+public class LoreAttributes extends FilledHashMap<String, String>
+{
+	private static final long serialVersionUID = 1213430168558558623L;
+	public static final String DIVIDING_SEQUENCE = ": ", PREFIX = ChatColor.DARK_GRAY + "»";
+	public static final LoreAttributes TEMP_ATTRIBUTES = new LoreAttributes();
 	
 	public void apply(ItemStack itemStack)
 	{
@@ -115,97 +39,131 @@ public class LoreAttributes
 		if(lore == null)
 			lore = new LinkedList<String>();
 		
-		LoreAttributes past = extract(itemStack);
+		TEMP_ATTRIBUTES.clear();
+		extract(itemStack, TEMP_ATTRIBUTES);
 		
-		for(LoreAttribute attribute : past.attributes)
-			lore.remove(LoreAttribute.PREFIX + attribute.serialize());
+		for(String serialized : TEMP_ATTRIBUTES.serialize())
+			lore.remove(serialized);
 		
 		List<String> addition = serialize();
-		
-		for(int i = 0; i < addition.size(); i++)
-			addition.set(i, LoreAttribute.PREFIX + addition.get(i));
 		
 		lore.addAll(addition);
 		im.setLore(lore);
 		itemStack.setItemMeta(im);
 	}
 	
-	public void clear()
+	public static void extract(ItemStack itemStack, LoreAttributes result)
 	{
-		attributes.clear();
-	}
-	
-	public LoreAttribute get(String key)
-	{
-		if(key == null)
-			return null;
+		Validate.notNull(itemStack, "The ItemStack must not be null!");
+		Validate.notNull(result, "The result cannot be null!");
 		
-		for(LoreAttribute attribute : attributes)
-			if(attribute != null && key.equals(attribute.getKey()))
-				return attribute;
+		boolean loreMissing = false;
+		ItemMeta im = null;
 		
-		return null;
-	}
-	
-	public LoreAttribute put(String key, Object value)
-	{
-		LoreAttribute current = get(key);
-		
-		if(current != null)
-			current.setValue(value);
+		if(itemStack.hasItemMeta())
+		{
+			im = itemStack.getItemMeta();
+			
+			if(!im.hasLore())
+				loreMissing = true;
+		}
 		else
+			loreMissing = true;
+		
+		if(loreMissing)
+			return;
+		
+		List<String> lore = im.getLore();
+		
+		result.deserialize(lore);
+	}
+	
+	private void deserialize(List<String> lore)
+	{
+		Validate.notNull(lore, "The lore cannot be null!");
+		
+		for(String serialized : lore)
+			tryDeserialize(serialized);
+	}
+	
+	private void deserialize(String serialized)
+	{
+		if(!serialized.startsWith(PREFIX))
+			throw new DeserializationException("Incorrect format, missing \"" + PREFIX + "\" at the start. (" + serialized + ")");
+		
+		String[] args = serialized.substring(PREFIX.length()).split(DIVIDING_SEQUENCE, 2);
+		
+		if(args.length != 2)
+			throw new DeserializationException("Incorrect format, missing \": \". (" + serialized + ")");
+		
+		put(args[0], args[1]);
+	}
+	
+	private void tryDeserialize(String serialized)
+	{
+		try
 		{
-			current = new LoreAttribute(key, value);
+			deserialize(serialized);
+		}
+		catch(Exception e)
+		{
+			return;
+		}
+	}
+	
+	private String serialize(String key, String value)
+	{
+		return PREFIX + key + DIVIDING_SEQUENCE + value;
+	}
+
+	private List<String> serialize()
+	{
+		FilledArrayList<String> lore = new FilledArrayList<String>();
+		
+		for(Entry<String, String> attribute : this.entrySet())
+		{
+			String key = attribute.getKey();
+			String value = attribute.getValue();
+			String serialized = serialize(key, value);
 			
-			attributes.add(current);
+			lore.add(serialized);
 		}
 		
-		return current;
+		return lore;
 	}
 	
-	public boolean containsKey(String key)
+	public Boolean getAsBoolean(String key)
 	{
-		if(key == null)
-			return false;
-		
-		for(LoreAttribute attribute : attributes)
-			if(attribute != null && key.equals(attribute.getKey()))
-				return true;
-		
-		return false;
+		return Boolean.parseBoolean(get(key));
 	}
 	
-	public boolean contains(LoreAttribute attribute)
+	public Byte getAsByte(String key)
 	{
-		return attributes.contains(attribute);
+		return Byte.parseByte(get(key));
 	}
 	
-	public boolean remove(String key)
+	public Short getAsShort(String key)
 	{
-		if(key == null)
-			return false;
-		
-		for(int i = 0; i < attributes.size(); i++)
-		{
-			LoreAttribute attribute = attributes.get(i);
-			
-			if(attribute != null && key.equals(attribute.getKey()))
-			{
-				attributes.remove(attribute);
-				return true;
-			}
-		}
-		
-		return false;
+		return Short.parseShort(get(key));
 	}
 	
-	public boolean remove(LoreAttribute attribute)
+	public Integer getAsInt(String key)
 	{
-		return attributes.remove(attribute);
+		return Integer.parseInt(get(key));
 	}
 	
-	public List<LoreAttribute> getAttributes()
+	public Long getAsLong(String key)
 	{
-		return attributes;
+		return Long.parseLong(get(key));
+	}
+	
+	public Float getAsFloat(String key)
+	{
+		return Float.parseFloat(get(key));
+	}
+	
+	public Double getAsDouble(String key)
+	{
+		return Double.parseDouble(get(key));
 	}
 }

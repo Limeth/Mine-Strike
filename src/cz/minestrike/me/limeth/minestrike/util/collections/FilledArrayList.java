@@ -50,4 +50,15 @@ public class FilledArrayList<T> extends ArrayList<T>
 		
 		return super.set(paramInt, paramE);
 	}
+	
+	@Override
+	public Object clone()
+	{
+		FilledArrayList<T> list = new FilledArrayList<T>();
+		
+		for(T element : this)
+			list.add(element);
+		
+		return list;
+	}
 }

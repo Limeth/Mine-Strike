@@ -7,12 +7,10 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryView;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.PlayerInventory;
 
 import cz.minestrike.me.limeth.minestrike.MSConstant;
 import cz.minestrike.me.limeth.minestrike.MSPlayer;
 import cz.minestrike.me.limeth.minestrike.MineStrike;
-import cz.minestrike.me.limeth.minestrike.events.GameEquipEvent;
 import cz.minestrike.me.limeth.minestrike.events.GameQuitEvent.GameQuitReason;
 import cz.minestrike.me.limeth.minestrike.games.Game;
 import cz.minestrike.me.limeth.minestrike.games.PlayerState;
@@ -23,23 +21,6 @@ public class MSInventoryListener<T extends Game<?, ?, ?, ?>> extends MSGameListe
 	public MSInventoryListener(T game)
 	{
 		super(game);
-	}
-	
-	@EventHandler
-	public void onGameEquip(GameEquipEvent event, MSPlayer msPlayer)
-	{
-		Player player = event.getPlayer();
-		PlayerInventory inv = player.getInventory();
-		
-		for(int rel = 0; rel < PlayerUtil.INVENTORY_WIDTH * 3; rel++)
-		{
-			int abs = rel + PlayerUtil.INVENTORY_WIDTH;
-			
-			inv.setItem(abs, MSConstant.BACKGROUND_ITEM);
-		}
-		
-		PlayerUtil.setItem(inv, 1, 1, MSConstant.QUIT_SERVER_ITEM);
-		PlayerUtil.setItem(inv, 2, 1, MSConstant.QUIT_MENU_ITEM);
 	}
 	
 	@EventHandler

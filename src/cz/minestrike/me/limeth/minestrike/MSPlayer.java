@@ -33,12 +33,11 @@ import cz.minestrike.me.limeth.minestrike.areas.schemes.GameMap;
 import cz.minestrike.me.limeth.minestrike.areas.schemes.GameMenu;
 import cz.minestrike.me.limeth.minestrike.areas.schemes.Scheme;
 import cz.minestrike.me.limeth.minestrike.equipment.ArmorContainer;
-import cz.minestrike.me.limeth.minestrike.equipment.Container;
 import cz.minestrike.me.limeth.minestrike.equipment.Equipment;
 import cz.minestrike.me.limeth.minestrike.equipment.EquipmentManager;
 import cz.minestrike.me.limeth.minestrike.equipment.EquipmentProvider;
 import cz.minestrike.me.limeth.minestrike.equipment.HotbarContainer;
-import cz.minestrike.me.limeth.minestrike.equipment.ScalableContainer;
+import cz.minestrike.me.limeth.minestrike.equipment.InventoryContainer;
 import cz.minestrike.me.limeth.minestrike.equipment.guns.Firing;
 import cz.minestrike.me.limeth.minestrike.equipment.guns.Gun;
 import cz.minestrike.me.limeth.minestrike.equipment.guns.GunManager;
@@ -215,7 +214,8 @@ public class MSPlayer implements Record
 	private final String playerName;
 	private RecordData data;
 	private Player player;
-	private Container lazyInventoryContainer, hotbarContainer;
+	private InventoryContainer lazyInventoryContainer;
+	private HotbarContainer hotbarContainer;
 	private ArmorContainer armorContainer;
 	private Location lastLocation;
 	private GunTask gunTask;
@@ -765,11 +765,11 @@ public class MSPlayer implements Record
 		return customData;
 	}
 
-	public Container getInventoryContainer()
+	public InventoryContainer getInventoryContainer()
 	{
 		if(lazyInventoryContainer == null)
 		{
-			lazyInventoryContainer = new ScalableContainer();
+			lazyInventoryContainer = new InventoryContainer();
 			String string = data.get(String.class, "inventory");
 			Equipment[] equipment = EquipmentManager.fromGson(string);
 			
@@ -780,7 +780,7 @@ public class MSPlayer implements Record
 		return lazyInventoryContainer;
 	}
 
-	public Container getHotbarContainer()
+	public HotbarContainer getHotbarContainer()
 	{
 		return hotbarContainer;
 	}

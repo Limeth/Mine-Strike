@@ -9,6 +9,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 public enum Translation
 {
 	ERROR("&c&lAn error occured.", "&c&lNastala chyba."),
+	RELOAD("Press &lQ", "Stisknete &lQ"),
 	
 	GAME_POLL_HEADER_VOTING("&a&lMap Poll &8| &e{1}s", "&a&lHlasování o mapu &8| &e{1}s"),
 	GAME_POLL_HEADER_CHANGING("&2&lChanging in &8| &6{1}s", "&2&lZmena za &8| &6{1}s"),
@@ -33,6 +34,12 @@ public enum Translation
 	GAME_DEATH_SOURCE("&7Player &r{1}&7 was killed by &r{2}&7.", "&7Hrác &r{1}&7 byl zabit hrácem &r{2}&7."),
 	GAME_DEATH_WEAPONSOURCE("&7Player &r{1}&7 was killed using &r{3}&7 by &r{2}&7.", "&7Hrác &r{1}&7 byl zabit pomocí &r{3}&7 hrácem &r{2}&7."),
 	
+	EQUIPMENT_CATEGORY_PISTOLS("Pistols", "Pistole"),
+	EQUIPMENT_CATEGORY_HEAVY("Heavy", "Tezké"),
+	EQUIPMENT_CATEGORY_SMGS("SMGs", "Samopaly"),
+	EQUIPMENT_CATEGORY_RIFLES("Rifles", "Pusky"),
+	EQUIPMENT_CATEGORY_GEAR("Gear", "Vystroj"),
+	EQUIPMENT_CATEGORY_GRENADES("Grenades", "Granáty"),
 	EQUIPMENT_RARITY_COMMON("Common", "Bezny"),
 	EQUIPMENT_RARITY_VALUABLE("Valuable", "Cenny"),
 	EQUIPMENT_RARITY_RARE("Rare", "Vzácny"),

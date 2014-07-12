@@ -7,6 +7,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.FireworkEffectMeta;
 
 import cz.minestrike.me.limeth.minestrike.MSPlayer;
+import cz.minestrike.me.limeth.minestrike.Translation;
 import cz.minestrike.me.limeth.minestrike.equipment.CustomizedEquipment;
 import cz.minestrike.me.limeth.minestrike.equipment.EquipmentCustomization;
 import cz.minestrike.me.limeth.minestrike.util.LoreAttributes;
@@ -55,17 +56,17 @@ public class Gun extends CustomizedEquipment<GunType>
 		GunType type = getEquipment();
 		
 		if(reloading)
-			attributes.put("Reloading", true);
+			attributes.put("Reloading", Boolean.toString(true));
 		
 		if(kills != null)
-			attributes.put("StatTrak", kills);
+			attributes.put("StatTrak", Integer.toString(kills));
 		
 		if(ownerName != null)
 			attributes.put("Owner", ownerName);
 		
 		attributes.put("Type", type.name());
-		attributes.put("Loaded bullets", loadedBullets);
-		attributes.put("Unused bullets", unusedBullets);
+		attributes.put("Loaded bullets", Integer.toString(loadedBullets));
+		attributes.put("Unused bullets", Integer.toString(unusedBullets));
 		attributes.put("Seed", RANDOM_STRING.nextString());
 		
 		return attributes;
@@ -131,8 +132,10 @@ public class Gun extends CustomizedEquipment<GunType>
 			
 			if(reloading)
 				ammoLabel = loadedColor + "●●●";
-			else
+			else if(loadedBullets > 0 || unusedBullets <= 0)
 				ammoLabel = loadedColor + "" + loadedBullets + ChatColor.DARK_GRAY + " | " + ChatColor.WHITE + unusedBullets;
+			else
+				ammoLabel = loadedColor + Translation.RELOAD.getMessage();
 			
 			result += ChatColor.DARK_GRAY + "   < " + ammoLabel + ChatColor.DARK_GRAY + " >";
 		}

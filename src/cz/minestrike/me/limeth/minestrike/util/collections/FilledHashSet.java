@@ -9,6 +9,16 @@ public class FilledHashSet<T> extends HashSet<T>
 {
 	private static final long serialVersionUID = -8259476755692745283L;
 	
+	public FilledHashSet()
+	{
+		super();
+	}
+	
+	public FilledHashSet(Collection<? extends T> coll)
+	{
+		super(coll);
+	}
+	
 	@Override
 	public boolean add(T paramE)
 	{

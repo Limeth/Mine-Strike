@@ -17,8 +17,10 @@ import cz.minestrike.me.limeth.minestrike.equipment.Container;
 import cz.minestrike.me.limeth.minestrike.equipment.CustomizedEquipment;
 import cz.minestrike.me.limeth.minestrike.equipment.Equipment;
 import cz.minestrike.me.limeth.minestrike.equipment.EquipmentCategory;
+import cz.minestrike.me.limeth.minestrike.equipment.EquipmentCategoryEntry;
 import cz.minestrike.me.limeth.minestrike.equipment.EquipmentProvider;
 import cz.minestrike.me.limeth.minestrike.equipment.EquipmentPurchaseException;
+import cz.minestrike.me.limeth.minestrike.equipment.InventoryContainer;
 import cz.minestrike.me.limeth.minestrike.equipment.SimpleEquipment;
 import cz.minestrike.me.limeth.minestrike.equipment.grenades.GrenadeType;
 import cz.minestrike.me.limeth.minestrike.equipment.guns.Gun;
@@ -67,9 +69,8 @@ public class DefuseEquipmentProvider implements EquipmentProvider
 		
 		if(!hasSecondary)
 		{
-			GunType pistolType = getDefaultPistol(msPlayer);
-			Gun pistol = new Gun(pistolType);
-
+			Gun pistol = getDefaultPistol(msPlayer);
+			
 			pistol.setOwnerName(msPlayer.getName());
 			setGun(msPlayer, pistol);
 		}
@@ -104,9 +105,25 @@ public class DefuseEquipmentProvider implements EquipmentProvider
 		inv.setItem(INDEX_KNIFE, item);
 	}
 	
-	private GunType getDefaultPistol(MSPlayer msPlayer)
+	private Gun getDefaultPistol(MSPlayer msPlayer)
 	{
-		return (GunType) EquipmentCategory.PISTOLS.getEquipment(msPlayer)[0]; //TODO support for more pistols
+		InventoryContainer invContainer = msPlayer.getInventoryContainer();
+		EquipmentCategoryEntry firstPistolsEntry = EquipmentCategory.PISTOLS.getEntries(msPlayer)[0];
+		Equipment equipment = invContainer.getEquippedEquipment(firstPistolsEntry);
+		Gun pistol;
+		
+		if(equipment instanceof Gun)
+		{
+			pistol = (Gun) equipment;
+			
+			pistol.refresh();
+		}
+		else if(equipment instanceof GunType)
+			pistol = new Gun((GunType) equipment);
+		else
+			throw new RuntimeException(equipment + " is not a gun.");
+		
+		return pistol;
 	}
 	
 	private boolean refreshGun(MSPlayer msPlayer, boolean primary)
