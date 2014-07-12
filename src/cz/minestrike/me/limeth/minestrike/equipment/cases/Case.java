@@ -85,4 +85,10 @@ public enum Case implements Equipment
 	{
 		return MSConstant.MOVEMENT_SPEED_DEFAULT;
 	}
+	
+	@Override
+	public String getSoundDraw()
+	{
+		return null;
+	}
 }

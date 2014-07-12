@@ -19,11 +19,11 @@ import cz.minestrike.me.limeth.minestrike.equipment.Equipment;
 import cz.minestrike.me.limeth.minestrike.equipment.EquipmentCategory;
 import cz.minestrike.me.limeth.minestrike.equipment.EquipmentProvider;
 import cz.minestrike.me.limeth.minestrike.equipment.EquipmentPurchaseException;
-import cz.minestrike.me.limeth.minestrike.equipment.Knife;
 import cz.minestrike.me.limeth.minestrike.equipment.SimpleEquipment;
 import cz.minestrike.me.limeth.minestrike.equipment.grenades.GrenadeType;
 import cz.minestrike.me.limeth.minestrike.equipment.guns.Gun;
 import cz.minestrike.me.limeth.minestrike.equipment.guns.GunType;
+import cz.minestrike.me.limeth.minestrike.equipment.simple.Knife;
 import cz.minestrike.me.limeth.minestrike.games.Team;
 
 public class DefuseEquipmentProvider implements EquipmentProvider
@@ -32,11 +32,11 @@ public class DefuseEquipmentProvider implements EquipmentProvider
 	{
 		ItemStack defaultKit = new ItemStack(Material.IRON_PICKAXE);
 		defaultKit.addUnsafeEnchantment(Enchantment.DIG_SPEED, 4);
-		DEFUSE_KIT_DEFAULT = new SimpleEquipment("KIT_DEFAULT", defaultKit, 0, MSConstant.MOVEMENT_SPEED_DEFAULT);
+		DEFUSE_KIT_DEFAULT = new SimpleEquipment("KIT_DEFAULT", defaultKit, 0, MSConstant.MOVEMENT_SPEED_DEFAULT, "projectsurvive:counterstrike.weapons.movement");
 		
 		ItemStack boughtKit = new ItemStack(Material.DIAMOND_PICKAXE);
 		boughtKit.addUnsafeEnchantment(Enchantment.DIG_SPEED, 2);
-		DEFUSE_KIT_BOUGHT = new SimpleEquipment("KIT_BOUGHT", boughtKit, 400, MSConstant.MOVEMENT_SPEED_DEFAULT);
+		DEFUSE_KIT_BOUGHT = new SimpleEquipment("KIT_BOUGHT", boughtKit, 400, MSConstant.MOVEMENT_SPEED_DEFAULT, "projectsurvive:counterstrike.weapons.movement");
 		
 		ItemStack bomb = new ItemStack(Material.OBSIDIAN);
 		ItemMeta bombIM = bomb.getItemMeta();
@@ -44,7 +44,7 @@ public class DefuseEquipmentProvider implements EquipmentProvider
 		bombIM.setDisplayName(ChatColor.YELLOW + "" + ChatColor.BOLD + "C4");
 		bomb.setItemMeta(bombIM);
 		
-		BOMB = new SimpleEquipment("BOMB", bomb, 0, MSConstant.MOVEMENT_SPEED_DEFAULT);
+		BOMB = new SimpleEquipment("BOMB", bomb, 0, MSConstant.MOVEMENT_SPEED_DEFAULT, "projectsurvive:counterstrike.weapons.c4.c4_draw");
 	}
 	
 	public static final SimpleEquipment DEFUSE_KIT_DEFAULT, DEFUSE_KIT_BOUGHT, BOMB;

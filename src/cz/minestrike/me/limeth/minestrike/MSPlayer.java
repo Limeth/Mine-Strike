@@ -32,6 +32,7 @@ import cz.minestrike.me.limeth.minestrike.areas.schemes.GameLobby;
 import cz.minestrike.me.limeth.minestrike.areas.schemes.GameMap;
 import cz.minestrike.me.limeth.minestrike.areas.schemes.GameMenu;
 import cz.minestrike.me.limeth.minestrike.areas.schemes.Scheme;
+import cz.minestrike.me.limeth.minestrike.equipment.ArmorContainer;
 import cz.minestrike.me.limeth.minestrike.equipment.Container;
 import cz.minestrike.me.limeth.minestrike.equipment.Equipment;
 import cz.minestrike.me.limeth.minestrike.equipment.EquipmentManager;
@@ -47,6 +48,7 @@ import cz.minestrike.me.limeth.minestrike.equipment.guns.Reloading;
 import cz.minestrike.me.limeth.minestrike.games.Game;
 import cz.minestrike.me.limeth.minestrike.games.PlayerState;
 import cz.minestrike.me.limeth.minestrike.listeners.msPlayer.lobby.MSLobbyListener;
+import cz.minestrike.me.limeth.minestrike.util.SoundManager;
 import cz.minestrike.me.limeth.storagemanager.Record;
 import cz.minestrike.me.limeth.storagemanager.RecordData;
 import cz.minestrike.me.limeth.storagemanager.RecordStructure;
@@ -214,6 +216,7 @@ public class MSPlayer implements Record
 	private RecordData data;
 	private Player player;
 	private Container lazyInventoryContainer, hotbarContainer;
+	private ArmorContainer armorContainer;
 	private Location lastLocation;
 	private GunTask gunTask;
 	private PlayerState playerState;
@@ -236,6 +239,7 @@ public class MSPlayer implements Record
 		this.data = data;
 		this.playerState = PlayerState.LOBBY_SERVER;
 		this.hotbarContainer = new HotbarContainer();
+		this.armorContainer = new ArmorContainer();
 	}
 	
 	public void redirectEvent(Event event)
@@ -448,7 +452,9 @@ public class MSPlayer implements Record
 			return;
 		
 		Location location = player.getEyeLocation();
+		String shootSound = type.getSoundShooting();
 		
+		SoundManager.play(shootSound, location, Bukkit.getOnlinePlayers());
 		GunManager.shoot(location, this, type);
 	}
 	
@@ -526,10 +532,14 @@ public class MSPlayer implements Record
 			inv.setItem(i, null);
 	}
 	
-	public void damage(double amount, MSPlayer damager, Equipment weapon)
+	public void damage(double amount, MSPlayer damager, Equipment weapon, BodyPart bodyPart)
 	{
+		if(bodyPart != null)
+			amount = bodyPart.modifyDamage(amount);
+		
 		Player bukkitVictim = getPlayer();
 		Player bukkitDamager = damager.getPlayer();
+		amount = armorContainer.reduceDamage(amount, weapon, bodyPart, false);
 		EntityDamageByEntityEvent event = new EntityDamageByEntityEvent(bukkitDamager, bukkitVictim, DamageCause.CUSTOM, amount);
 		PluginManager pm = Bukkit.getPluginManager();
 		
@@ -538,6 +548,7 @@ public class MSPlayer implements Record
 		if(event.isCancelled())
 			return;
 		
+		armorContainer.reduceDamage(amount, weapon, bodyPart, true);
 		setLastDamageSource(damager);
 		setLastDamageWeapon(weapon);
 		player.damage(amount);
@@ -792,5 +803,10 @@ public class MSPlayer implements Record
 	public void setLastDamageWeapon(Equipment lastDamageWeapon)
 	{
 		this.lastDamageWeapon = lastDamageWeapon;
+	}
+	
+	public ArmorContainer getArmorContainer()
+	{
+		return armorContainer;
 	}
 }

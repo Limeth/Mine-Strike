@@ -1,5 +1,6 @@
 package cz.minestrike.me.limeth.minestrike.listeners;
 
+import org.bukkit.Location;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -13,6 +14,7 @@ import cz.minestrike.me.limeth.minestrike.MSPlayer;
 import cz.minestrike.me.limeth.minestrike.equipment.Container;
 import cz.minestrike.me.limeth.minestrike.equipment.Equipment;
 import cz.minestrike.me.limeth.minestrike.equipment.guns.Gun;
+import cz.minestrike.me.limeth.minestrike.util.SoundManager;
 
 public class InventoryListener implements Listener
 {
@@ -45,8 +47,19 @@ public class InventoryListener implements Listener
 	{
 		Player player = event.getPlayer();
 		MSPlayer msPlayer = MSPlayer.get(player);
+		Container hotbarContainer = msPlayer.getHotbarContainer();
+		int newIndex = event.getNewSlot();
+		Equipment newEquipment = hotbarContainer.getItem(newIndex);
 		
 		if(msPlayer.hasGunTask())
 			msPlayer.getGunTask().cancel();
+		
+		if(newEquipment != null)
+		{
+			Location loc = player.getEyeLocation();
+			String sound = newEquipment.getSoundDraw();
+			
+			SoundManager.play(sound, loc, player);
+		}
 	}
 }

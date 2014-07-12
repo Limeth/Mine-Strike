@@ -11,6 +11,7 @@ public interface Equipment
 	public Equipment getSource();
 	public ItemStack newItemStack(MSPlayer msPlayer);
 	public String getDisplayName();
+	public String getSoundDraw();
 	public Integer getPrice(MSPlayer msPlayer);
 	public float getMovementSpeed(MSPlayer msPlayer);
 }

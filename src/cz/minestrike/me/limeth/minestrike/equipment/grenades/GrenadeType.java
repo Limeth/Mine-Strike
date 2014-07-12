@@ -1,5 +1,7 @@
 package cz.minestrike.me.limeth.minestrike.equipment.grenades;
 
+import java.util.List;
+
 import net.minecraft.server.v1_7_R1.Block;
 import net.minecraft.server.v1_7_R1.BlockHalfTransparent;
 import net.minecraft.server.v1_7_R1.BlockTransparent;
@@ -15,6 +17,7 @@ import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.World;
 import org.bukkit.craftbukkit.v1_7_R1.CraftWorld;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.ThrownPotion;
 import org.bukkit.inventory.ItemStack;
@@ -27,17 +30,23 @@ import org.bukkit.util.Vector;
 import cz.minestrike.me.limeth.minestrike.MSConstant;
 import cz.minestrike.me.limeth.minestrike.MSPlayer;
 import cz.minestrike.me.limeth.minestrike.MineStrike;
+import cz.minestrike.me.limeth.minestrike.equipment.DamageSource;
 import cz.minestrike.me.limeth.minestrike.equipment.Equipment;
 import cz.minestrike.me.limeth.minestrike.games.Game;
 import cz.minestrike.me.limeth.minestrike.games.Team;
 import cz.minestrike.me.limeth.minestrike.games.TeamValue;
 import cz.minestrike.me.limeth.minestrike.games.team.TeamGame;
+import cz.minestrike.me.limeth.minestrike.util.SoundManager;
 import darkBlade12.ParticleEffect;
 
-public enum GrenadeType implements Equipment
+public enum GrenadeType implements Equipment, DamageSource
 {
-	EXPLOSIVE(ChatColor.RED + "HE Grenade", 1, new TeamValue<Integer>(300), 240F, 16460, 40)
+	EXPLOSIVE(ChatColor.RED + "HE Grenade", 1, new TeamValue<Integer>(300), 240F, 16460, 40, "projectsurvive:counterstrike.weapons.hegrenade.he_draw")
 	{
+		public static final double RANGE = 6;
+		public static final float DAMAGE = 96 * 20 / MSConstant.CS_MAX_HEALTH,
+				ARMOR_DAMAGE_RATIO = 57F / (float) DAMAGE;
+		
 		@Override
 		public boolean onExplosion(Grenade grenade)
 		{
@@ -45,19 +54,45 @@ public enum GrenadeType implements Equipment
 			
 			entityGrenade.die();
 			
+			MSPlayer msShooter = grenade.getShooter();
 			ThrownPotion potion = grenade.getEntity();
 			Location loc = potion.getLocation();
-			org.bukkit.World world = loc.getWorld();
 			Location effectLoc = loc.clone().add(0, 0.5, 0);
+			List<Entity> targetEntities = potion.getNearbyEntities(RANGE, RANGE, RANGE);
 			
 			ParticleEffect.LAVA.display(effectLoc, 0.5F, 0.5F, 0.5F, 1, 100);
 			ParticleEffect.LARGE_SMOKE.display(effectLoc, 0, 0, 0, 1, 25);
-			world.playSound(effectLoc, Sound.EXPLODE, 8F, 1F);
+			SoundManager.play("projectsurvive:counterstrike.weapons.hegrenade.explode", loc, Bukkit.getOnlinePlayers());
+			
+			for(Entity targetEntity : targetEntities)
+			{
+				if(!(targetEntity instanceof Player))
+					continue;
+				
+				Location targetLoc = targetEntity.getLocation();
+				double distance = loc.distance(targetLoc);
+				
+				if(distance > RANGE)
+					continue;
+				
+				double damageModifier = (RANGE - distance) / RANGE;
+				double damage = DAMAGE * damageModifier;
+				Player target = (Player) targetEntity;
+				MSPlayer msTarget = MSPlayer.get(target);
+				
+				msTarget.damage(damage, msShooter, this, null);
+			}
 			
 			return false;
 		}
+		
+		@Override
+		public float getArmorDamageRatio()
+		{
+			return ARMOR_DAMAGE_RATIO;
+		}
 	},
-	INCENDIARY(ChatColor.GOLD + "Incendiary Grenade", 1, new TeamValue<Integer>(400, 600, 500), 250F, 16453, GrenadeExplosionTrigger.LANDING)
+	INCENDIARY(ChatColor.GOLD + "Incendiary Grenade", 1, new TeamValue<Integer>(400, 600, 500), 250F, 16453, GrenadeExplosionTrigger.LANDING, "projectsurvive:counterstrike.weapons.incgrenade.inc_grenade_draw")
 	{
 		private static final int yawSteps = 30, pitchSteps = 30, duration = 20 * 8;
 		
@@ -68,10 +103,9 @@ public enum GrenadeType implements Equipment
 			
 			ThrownPotion entity = grenade.getEntity();
 			Location loc = entity.getLocation();
-			World world = loc.getWorld();
 			IncendiaryEffect effect = new IncendiaryEffect();
 			
-			world.playSound(loc, Sound.GLASS, 4F, (float) (0.5 + 0.5 * Math.random()));
+			SoundManager.play("projectsurvive:counterstrike.weapons.incgrenade.inc_grenade_detonate", loc, Bukkit.getOnlinePlayers());
 			
 			for(int pitchStep = 0; pitchStep < pitchSteps; pitchStep++)
 				for(int yawStep = 0; yawStep < yawSteps; yawStep++)
@@ -93,7 +127,7 @@ public enum GrenadeType implements Equipment
 			return false;
 		}
 	},
-	DECOY(ChatColor.GRAY + "Decoy Grenade", 1, new TeamValue<Integer>(50), 250F, 16450, GrenadeExplosionTrigger.STABILIZATION)
+	DECOY(ChatColor.GRAY + "Decoy Grenade", 1, new TeamValue<Integer>(50), 250F, 16450, GrenadeExplosionTrigger.STABILIZATION, "projectsurvive:counterstrike.weapons.decoy.decoy_draw")
 	{
 		@Override
 		public boolean onExplosion(Grenade grenade)
@@ -103,7 +137,7 @@ public enum GrenadeType implements Equipment
 			return false; //TODO true
 		}
 	},
-	SMOKE(ChatColor.GREEN + "Smoke Grenade", 1, new TeamValue<Integer>(300), 245F, 16452, GrenadeExplosionTrigger.STABILIZATION)
+	SMOKE(ChatColor.GREEN + "Smoke Grenade", 1, new TeamValue<Integer>(300), 245F, 16452, GrenadeExplosionTrigger.STABILIZATION, "projectsurvive:counterstrike.weapons.smokegrenade.smokegrenade_draw")
 	{
 		@Override
 		public boolean onExplosion(final Grenade grenade)
@@ -112,9 +146,8 @@ public enum GrenadeType implements Equipment
 			MineStrike mineStrike = MineStrike.getInstance();
 			ThrownPotion entity = grenade.getEntity();
 			Location loc = entity.getLocation();
-			World world = loc.getWorld();
 			
-			world.playSound(loc, Sound.FIREWORK_BLAST, 4F, (float) (1.5 + 0.5 * Math.random()));
+			SoundManager.play("projectsurvive:counterstrike.weapons.smokegrenade.sg_explode", loc, Bukkit.getOnlinePlayers());
 			
 			for(int i = 0; i < 20 * 8; i += 1)
 			{
@@ -158,7 +191,7 @@ public enum GrenadeType implements Equipment
 			return true;
 		}
 	},
-	FLASH(ChatColor.AQUA + "Flashbang", 2, new TeamValue<Integer>(200), 240, 16419, 40)
+	FLASH(ChatColor.AQUA + "Flashbang", 2, new TeamValue<Integer>(200), 240, 16419, 40, "projectsurvive:counterstrike.weapons.flashbang.flashbang_draw")
 	{
 		private static final double maxDistance = 32;
 		private static final double maxDuration = 6; //seconds
@@ -169,15 +202,11 @@ public enum GrenadeType implements Equipment
 			EntityGrenade entityGrenade = grenade.getNMSEntity();
 			ThrownPotion potion = grenade.getEntity();
 			Location loc = potion.getLocation();
-			org.bukkit.World world = loc.getWorld();
 			
 			entityGrenade.die();
 			ParticleEffect.FIREWORKS_SPARK.display(loc, 0, 0, 0, 0.75F, 50);
-			
-			for(int i = 0; i < 10; i++)
-				((CraftWorld) world).playSound(loc, Sound.ORB_PICKUP, 8F, 0.5F + 1.5F * (float) (Math.random()));
-			
-			flashPlayers(loc, Bukkit.getOnlinePlayers()); //TODO only players in game
+			SoundManager.play("projectsurvive:counterstrike.weapons.flashbang.flashbang_explode", loc, Bukkit.getOnlinePlayers());
+			flashPlayers(loc, Bukkit.getOnlinePlayers());
 			return false;
 		}
 		
@@ -263,14 +292,14 @@ public enum GrenadeType implements Equipment
 		}
 	};
 	
-	private final String name;
+	private final String name, soundDraw;
 	private final TeamValue<Integer> price;
 	private final float movementSpeed;
 	private final int color, maxAmount;
 	private final Long ticksUntilExplosion;
 	private final GrenadeExplosionTrigger trigger;
 	
-	private GrenadeType(String name, int maxAmount, TeamValue<Integer> price, float movementSpeed, int color, long ticksUntilExplosion)
+	private GrenadeType(String name, int maxAmount, TeamValue<Integer> price, float movementSpeed, int color, long ticksUntilExplosion, String soundDraw)
 	{
 		this.name = name;
 		this.maxAmount = maxAmount;
@@ -279,9 +308,10 @@ public enum GrenadeType implements Equipment
 		this.color = color;
 		this.ticksUntilExplosion = ticksUntilExplosion;
 		this.trigger = GrenadeExplosionTrigger.TIMEOUT;
+		this.soundDraw = soundDraw;
 	}
 	
-	private GrenadeType(String name, int maxAmount, TeamValue<Integer> price, float movementSpeed, int color, GrenadeExplosionTrigger trigger)
+	private GrenadeType(String name, int maxAmount, TeamValue<Integer> price, float movementSpeed, int color, GrenadeExplosionTrigger trigger, String soundDraw)
 	{
 		this.name = name;
 		this.maxAmount = maxAmount;
@@ -290,6 +320,7 @@ public enum GrenadeType implements Equipment
 		this.color = color;
 		ticksUntilExplosion = null;
 		this.trigger = trigger;
+		this.soundDraw = soundDraw;
 	}
 	
 	public static GrenadeType valueOf(ItemStack is)
@@ -398,5 +429,17 @@ public enum GrenadeType implements Equipment
 	public String toString()
 	{
 		return getId();
+	}
+	
+	@Override
+	public float getArmorDamageRatio()
+	{
+		return 1;
+	}
+	
+	@Override
+	public String getSoundDraw()
+	{
+		return soundDraw;
 	}
 }

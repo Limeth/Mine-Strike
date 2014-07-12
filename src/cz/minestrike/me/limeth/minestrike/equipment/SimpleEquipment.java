@@ -10,13 +10,15 @@ public class SimpleEquipment implements Equipment
 	private final ItemStack item;
 	private final Integer price;
 	private final float speed;
+	private final String soundDraw;
 	
-	public SimpleEquipment(String id, ItemStack item, Integer price, float speed)
+	public SimpleEquipment(String id, ItemStack item, Integer price, float speed, String soundDraw)
 	{
 		this.id = id;
 		this.item = item;
 		this.price = price;
 		this.speed = speed;
+		this.soundDraw = soundDraw;
 	}
 
 	@Override
@@ -35,6 +37,12 @@ public class SimpleEquipment implements Equipment
 	public float getMovementSpeed(MSPlayer msPlayer)
 	{
 		return speed;
+	}
+	
+	@Override
+	public String getSoundDraw()
+	{
+		return soundDraw;
 	}
 	
 	@Override

@@ -36,6 +36,7 @@ import cz.minestrike.me.limeth.minestrike.events.GameQuitEvent;
 import cz.minestrike.me.limeth.minestrike.events.GameQuitEvent.GameQuitReason;
 import cz.minestrike.me.limeth.minestrike.listeners.msPlayer.MSInventoryListener;
 import cz.minestrike.me.limeth.minestrike.listeners.msPlayer.MSListenerRedirector;
+import cz.minestrike.me.limeth.minestrike.util.SoundManager;
 import cz.minestrike.me.limeth.minestrike.util.collections.FilledArrayList;
 
 public abstract class Game<Lo extends GameLobby, Me extends GameMenu, Ma extends GameMap, EM extends EquipmentProvider> implements MSListenerRedirector
@@ -423,6 +424,26 @@ public abstract class Game<Lo extends GameLobby, Me extends GameMenu, Ma extends
 		this.plot = null;
 	}*/
 	
+	public Set<Player> getBukkitPlayers(Predicate<? super MSPlayer> condition)
+	{
+		HashSet<Player> players = new HashSet<Player>();
+		
+		for(MSPlayer player : getPlayers(condition))
+			players.add(player.getPlayer());
+		
+		return players;
+	}
+	
+	public Set<Player> getBukkitPlayers()
+	{
+		HashSet<Player> players = new HashSet<Player>();
+		
+		for(MSPlayer player : getPlayers())
+			players.add(player.getPlayer());
+		
+		return players;
+	}
+	
 	public Set<MSPlayer> getPlayers(Predicate<? super MSPlayer> condition)
 	{
 		return players.stream().filter(condition).collect(Collectors.toSet());
@@ -431,6 +452,45 @@ public abstract class Game<Lo extends GameLobby, Me extends GameMenu, Ma extends
 	public HashSet<MSPlayer> getPlayers()
 	{
 		return players;
+	}
+	
+	public void playSound(String path, Location loc, float volume, float pitch)
+	{
+		Set<Player> bukkitPlayers = getBukkitPlayers();
+		
+		SoundManager.play(path, loc, volume, pitch, bukkitPlayers.toArray(new Player[bukkitPlayers.size()]));
+	}
+	
+	public void playSound(String path, Location loc, float volume)
+	{
+		playSound(path, loc, volume, 1);
+	}
+	
+	public void playSound(String path, Location loc)
+	{
+		playSound(path, loc, 1);
+	}
+	
+	public void playSound(String path, float volume, float pitch)
+	{
+		Set<Player> bukkitPlayers = getBukkitPlayers();
+		
+		for(Player player : bukkitPlayers)
+		{
+			Location loc = player.getEyeLocation();
+			
+			SoundManager.play(path, loc, volume, pitch, player);
+		}
+	}
+	
+	public void playSound(String path, float volume)
+	{
+		playSound(path, volume, 1);
+	}
+	
+	public void playSound(String path)
+	{
+		playSound(path, 1);
 	}
 	
 	public boolean canJoin(String playerName)

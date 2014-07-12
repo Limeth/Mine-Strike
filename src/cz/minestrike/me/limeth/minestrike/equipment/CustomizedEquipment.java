@@ -87,6 +87,12 @@ public class CustomizedEquipment<T extends Equipment> implements Equipment
 	{
 		return equipment.getMovementSpeed(msPlayer);
 	}
+	
+	@Override
+	public String getSoundDraw()
+	{
+		return equipment.getSoundDraw();
+	}
 
 	public boolean isEquipped()
 	{

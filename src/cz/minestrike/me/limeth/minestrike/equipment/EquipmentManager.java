@@ -19,6 +19,7 @@ import cz.minestrike.me.limeth.minestrike.equipment.gson.EquipmentCustomizationA
 import cz.minestrike.me.limeth.minestrike.equipment.gson.GunAdapter;
 import cz.minestrike.me.limeth.minestrike.equipment.guns.Gun;
 import cz.minestrike.me.limeth.minestrike.equipment.guns.GunType;
+import cz.minestrike.me.limeth.minestrike.equipment.simple.Knife;
 import cz.minestrike.me.limeth.minestrike.games.team.defuse.DefuseEquipmentProvider;
 import cz.minestrike.me.limeth.minestrike.util.collections.FilledHashSet;
 

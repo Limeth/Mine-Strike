@@ -178,6 +178,7 @@ public class DefuseGame extends TeamGame<GameLobby, TeamGameMenu, DefuseGameMap,
 		for(MSPlayer msPlayer : getPlayingPlayers())
 			showWitherBar(msPlayer);
 		
+		playSound("projectsurvive:counterstrike.radio.bombpl");
 		broadcast(Translation.GAME_BOMB_PLANTED.getMessage());
 	}
 	
@@ -186,6 +187,7 @@ public class DefuseGame extends TeamGame<GameLobby, TeamGameMenu, DefuseGameMap,
 		Round round = getRound();
 		
 		round.cancel();
+		playSound("projectsurvive:counterstrike.radio.bombdef");
 		roundEnd(RoundEndReason.DEFUSED);
 		broadcast(Translation.GAME_BOMB_DEFUSED.getMessage());
 	}
@@ -317,6 +319,9 @@ public class DefuseGame extends TeamGame<GameLobby, TeamGameMenu, DefuseGameMap,
 			player.setWalkSpeed(0);
 		}
 		
+		String winSound = victorTeam.getWinSound();
+		
+		playSound(winSound);
 		broadcast("Round ended. Victor team: " + victorTeam);
 		
 		if(newScore >= REQUIRED_ROUNDS)

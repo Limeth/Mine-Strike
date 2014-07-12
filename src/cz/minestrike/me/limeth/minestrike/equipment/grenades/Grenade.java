@@ -7,29 +7,30 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.craftbukkit.v1_7_R1.CraftWorld;
 import org.bukkit.craftbukkit.v1_7_R1.entity.CraftThrownPotion;
-import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Player;
 import org.bukkit.entity.ThrownPotion;
 import org.bukkit.util.Vector;
 
+import cz.minestrike.me.limeth.minestrike.MSPlayer;
 import cz.minestrike.me.limeth.minestrike.MineStrike;
 
 public class Grenade
 {
 	private final GrenadeType type;
-	private LivingEntity shooter;
+	private MSPlayer msShooter;
 	private EntityGrenade nmsEntity;
 	private boolean exploded;
 	private Integer taskId;
 	
-	public Grenade(GrenadeType type, LivingEntity shooter)
+	public Grenade(GrenadeType type, MSPlayer msShooter)
 	{
 		this.type = type;
-		this.shooter = shooter;
+		this.msShooter = msShooter;
 	}
 	
-	public static Grenade throwGrenade(GrenadeType type, LivingEntity shooter, Location loc, Vector vec)
+	public static Grenade throwGrenade(GrenadeType type, MSPlayer msShooter, Location loc, Vector vec)
 	{
-		Grenade grenade = new Grenade(type, shooter);
+		Grenade grenade = new Grenade(type, msShooter);
 		int color = type.getColor();
 		GrenadeExplosionTrigger trigger = type.getTrigger();
 		WorldServer nmsWorld = ((CraftWorld) loc.getWorld()).getHandle();
@@ -51,15 +52,16 @@ public class Grenade
 		return grenade;
 	}
 
-	public static Grenade throwGrenade(GrenadeType type, LivingEntity shooter, double force)
+	public static Grenade throwGrenade(GrenadeType type, MSPlayer msShooter, double force)
 	{
+		Player shooter = msShooter.getPlayer();
 		Location loc = shooter.getEyeLocation().clone();
 		Vector movementVec = shooter.getVelocity();
 		Vector vec = loc.getDirection().clone().add(movementVec);
 		
 		loc.add(vec).multiply(force);
 		
-		return throwGrenade(type, shooter, loc, vec);
+		return throwGrenade(type, msShooter, loc, vec);
 	}
 	
 	public int startCountdown(long ticks)
@@ -118,14 +120,14 @@ public class Grenade
 		return taskId;
 	}
 	
-	public LivingEntity getShooter()
+	public MSPlayer getShooter()
 	{
-		return shooter;
+		return msShooter;
 	}
 
-	public void setShooter(LivingEntity shooter)
+	public void setShooter(MSPlayer msShooter)
 	{
-		this.shooter = shooter;
+		this.msShooter = msShooter;
 	}
 
 	public boolean hasExploded()

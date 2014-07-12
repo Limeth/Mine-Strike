@@ -61,10 +61,10 @@ public class InteractionListener implements Listener
 			Player player = event.getPlayer();
 			PlayerInventory inv = player.getInventory();
 			int slot = inv.getHeldItemSlot();
-			MSPlayer msPlayer = MSPlayer.get(event.getPlayer());
+			MSPlayer msPlayer = MSPlayer.get(player);
 			Container hotbarContainer = msPlayer.getHotbarContainer();
 			
-			Grenade.throwGrenade(grenadeType, player, 1);
+			Grenade.throwGrenade(grenadeType, msPlayer, 1);
 			player.setItemInHand(null);
 			hotbarContainer.setItem(slot, null);
 			return;

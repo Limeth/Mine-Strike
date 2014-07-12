@@ -2,6 +2,10 @@ package cz.minestrike.me.limeth.minestrike.areas.schemes;
 
 import java.util.ArrayList;
 
+import net.minecraft.server.v1_7_R1.NBTTagCompound;
+import net.minecraft.server.v1_7_R1.TileEntity;
+import net.minecraft.server.v1_7_R1.WorldServer;
+
 import org.apache.commons.lang.Validate;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -9,6 +13,7 @@ import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.command.CommandSender;
 import org.bukkit.craftbukkit.libs.com.google.gson.annotations.Expose;
+import org.bukkit.craftbukkit.v1_7_R1.CraftWorld;
 import org.bukkit.entity.Player;
 
 import com.sk89q.worldedit.IncompleteRegionException;
@@ -172,22 +177,51 @@ public abstract class Scheme
 	@SuppressWarnings("deprecation")
 	public void build(World destWorld, Point destPoint)
 	{
-		World srcWorld = MSConfig.getWorld();
+		CraftWorld world = (CraftWorld) MSConfig.getWorld();
+		WorldServer nmsWorld = world.getHandle();
 		
 		for(int x = 0; x < region.getWidth(); x++)
 			for(int y = 0; y < region.getHeight(); y++)
 				for(int z = 0; z < region.getDepth(); z++)
 				{
-					Block srcBlock = srcWorld.getBlockAt(region.getLower().getX() + x, region.getLower().getY() + y, region.getLower().getZ() + z);
-					Block destBlock = destWorld.getBlockAt(destPoint.getX() + x, destPoint.getY() + y, destPoint.getZ() + z);
-					int srcId = srcBlock.getTypeId();
-					int destId = destBlock.getTypeId();
-					byte srcData = srcBlock.getData();
-					byte destData = destBlock.getData();
+					int srcX = region.getLower().getX() + x;
+					int srcY = region.getLower().getY() + y;
+					int srcZ = region.getLower().getZ() + z;
+					int destX = destPoint.getX() + x;
+					int destY = destPoint.getY() + y;
+					int destZ = destPoint.getZ() + z;
+					Block srcBlock = world.getBlockAt(srcX, srcY, srcZ);
+					Block destBlock = world.getBlockAt(destX, destY, destZ);
+					TileEntity srcTileEntity = nmsWorld.getTileEntity(srcX, srcY, srcZ);
 					
-					if(srcId != destId || srcData != destData)
-						destBlock.setTypeIdAndData(srcId, srcData, false);
+					destBlock.setTypeIdAndData(srcBlock.getType().getId(), srcBlock.getData(), false);
+					
+					if(srcTileEntity != null)
+						try
+						{
+							TileEntity cloneTileEntity = cloneTileEntity(srcTileEntity);
+							
+							System.out.println(cloneTileEntity);
+							
+							nmsWorld.setTileEntity(destX, destY, destZ, cloneTileEntity);
+						}
+						catch(Exception e)
+						{
+							e.printStackTrace();
+						}
 				}
+	}
+	
+	public static TileEntity cloneTileEntity(TileEntity value) throws InstantiationException, IllegalAccessException
+	{
+		NBTTagCompound compound = new NBTTagCompound();
+		Class<? extends TileEntity> clazz = value.getClass();
+		TileEntity clone = clazz.newInstance();
+		
+		value.b(compound);
+		clone.a(compound);
+		
+		return clone;
 	}
 	
 	public void build(Location loc)
@@ -223,7 +257,7 @@ public abstract class Scheme
 		
 		this.region = region;
 	}
-	
+
 	public <T extends Scheme> MSStructureListener<T> newStructureListener(Structure<T> structure)
 	{
 		return null;

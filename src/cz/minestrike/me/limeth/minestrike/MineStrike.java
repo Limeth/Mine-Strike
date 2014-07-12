@@ -1,5 +1,7 @@
 package cz.minestrike.me.limeth.minestrike;
 
+import java.io.File;
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -23,6 +25,7 @@ import cz.minestrike.me.limeth.minestrike.listeners.InventoryListener;
 import cz.minestrike.me.limeth.minestrike.listeners.PermissionListener;
 import cz.minestrike.me.limeth.minestrike.listeners.msPlayer.MSListenerManager;
 import cz.minestrike.me.limeth.minestrike.listeners.msPlayer.lobby.MSLobbyListener;
+import cz.minestrike.me.limeth.minestrike.util.SoundManager;
 import cz.minestrike.me.limeth.storagemanager.mysql.MySQLService;
 
 public class MineStrike extends JavaPlugin
@@ -31,6 +34,14 @@ public class MineStrike extends JavaPlugin
 	private static MySQLService service;
 	private static MSListenerManager msListenerManager;
 	private static Logger logger;
+	
+	public static void main(String[] args) throws IOException
+	{
+		String soundsPath = "/home/limeth/.minecraft/resourcepacks/Mine-Strike_1.0.3/assets/projectsurvive/sounds";
+		String gson = SoundManager.buildSoundsJson(new File(soundsPath), new File(soundsPath, "counterstrike/player/vo"), "record");
+		
+		System.out.println(gson);
+	}
 	
 	@Override
 	public void onEnable()

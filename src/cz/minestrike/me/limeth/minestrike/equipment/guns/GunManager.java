@@ -21,6 +21,7 @@ import org.bukkit.craftbukkit.v1_7_R1.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
+import cz.minestrike.me.limeth.minestrike.BodyPart;
 import cz.minestrike.me.limeth.minestrike.MSPlayer;
 import cz.minestrike.me.limeth.minestrike.areas.schemes.GameLobby;
 import cz.minestrike.me.limeth.minestrike.areas.schemes.GameMap;
@@ -142,8 +143,7 @@ public class GunManager
 				{
 					AxisAlignedBB axisalignedbb = entity1.boundingBox.grow(victimMargin,
 							victimMargin, victimMargin);
-					MovingObjectPosition movingobjectposition1 = axisalignedbb
-							.a(vec3d, vec3d1);
+					MovingObjectPosition movingobjectposition1 = getIntersectionPoint(axisalignedbb, vec3d, vec3d1);
 
 					if(movingobjectposition1 != null)
 					{
@@ -155,7 +155,9 @@ public class GunManager
 							entity = entity1;
 							d0 = curDistance;
 						}*/
-						hitDistances.put(new MovingObjectPosition(entity1, vec3d1), curDistance);
+						MovingObjectPosition entityMOP = new MovingObjectPosition(entity1, movingobjectposition1.pos);
+						
+						hitDistances.put(entityMOP, curDistance);
 					}
 				}
 			}
@@ -204,6 +206,100 @@ public class GunManager
 			showTrace(location, location.clone().add(direction));
 		}
 	}
+	
+	public static MovingObjectPosition getIntersectionPoint(AxisAlignedBB bb, Vec3D paramVec3D1, Vec3D paramVec3D2)
+	{
+	    Vec3D localVec3D1 = paramVec3D1.b(paramVec3D2, bb.a);
+	    Vec3D localVec3D2 = paramVec3D1.b(paramVec3D2, bb.d);
+
+	    Vec3D localVec3D3 = paramVec3D1.c(paramVec3D2, bb.b);
+	    Vec3D localVec3D4 = paramVec3D1.c(paramVec3D2, bb.e);
+
+	    Vec3D localVec3D5 = paramVec3D1.d(paramVec3D2, bb.c);
+	    Vec3D localVec3D6 = paramVec3D1.d(paramVec3D2, bb.f);
+	    
+	    Vec3D[] vectors = new Vec3D[]
+	    		{
+	    		localVec3D1,
+	    		localVec3D2,
+	    		localVec3D3,
+	    		localVec3D4,
+	    		localVec3D5,
+	    		localVec3D6
+	    		};
+	    
+	    Vec3D result = null;
+	    Double minDistance = null;
+	    
+	    for(Vec3D vector : vectors)
+	    {
+	    	if(vector == null)
+	    		continue;
+	    	
+	    	double distance = vector.distanceSquared(paramVec3D1);
+	    	
+	    	if(result == null || distance < minDistance)
+	    	{
+	    		result = vector;
+	    		minDistance = distance;
+	    	}
+	    }
+	    
+	    return result != null ? new MovingObjectPosition(0, 0, 0, -1, result) : null;
+
+/*	    System.out.println("1: " + localVec3D1);
+	    System.out.println("2: " + localVec3D2);
+	    System.out.println("3: " + localVec3D3);
+	    System.out.println("4: " + localVec3D4);
+	    System.out.println("5: " + localVec3D5);
+	    System.out.println("6: " + localVec3D6);
+	    
+	    try
+	    {
+		    
+		    Method b = AxisAlignedBB.class.getDeclaredMethod("b", Vec3D.class);
+		    Method c = AxisAlignedBB.class.getDeclaredMethod("b", Vec3D.class);
+		    Method d = AxisAlignedBB.class.getDeclaredMethod("b", Vec3D.class);
+		    
+		    b.setAccessible(true);
+		    c.setAccessible(true);
+		    d.setAccessible(true);
+		    
+		    if (!(Boolean) b.invoke(bb, localVec3D1)) localVec3D1 = null;
+		    if (!(Boolean) b.invoke(bb, localVec3D2)) localVec3D2 = null;
+		    if (!(Boolean) c.invoke(bb, localVec3D3)) localVec3D3 = null;
+		    if (!(Boolean) c.invoke(bb, localVec3D4)) localVec3D4 = null;
+		    if (!(Boolean) d.invoke(bb, localVec3D5)) localVec3D5 = null;
+		    if (!(Boolean) d.invoke(bb, localVec3D6)) localVec3D6 = null;
+		    
+	    }
+	    catch(Exception e)
+	    {
+	    	throw new RuntimeException(e);
+	    }
+
+	    Vec3D localVec3D7 = null;
+
+	    if ((localVec3D1 != null) && ((localVec3D7 == null) || (paramVec3D1.distanceSquared(localVec3D1) < paramVec3D1.distanceSquared(localVec3D7)))) localVec3D7 = localVec3D1;
+	    if ((localVec3D2 != null) && ((localVec3D7 == null) || (paramVec3D1.distanceSquared(localVec3D2) < paramVec3D1.distanceSquared(localVec3D7)))) localVec3D7 = localVec3D2;
+	    if ((localVec3D3 != null) && ((localVec3D7 == null) || (paramVec3D1.distanceSquared(localVec3D3) < paramVec3D1.distanceSquared(localVec3D7)))) localVec3D7 = localVec3D3;
+	    if ((localVec3D4 != null) && ((localVec3D7 == null) || (paramVec3D1.distanceSquared(localVec3D4) < paramVec3D1.distanceSquared(localVec3D7)))) localVec3D7 = localVec3D4;
+	    if ((localVec3D5 != null) && ((localVec3D7 == null) || (paramVec3D1.distanceSquared(localVec3D5) < paramVec3D1.distanceSquared(localVec3D7)))) localVec3D7 = localVec3D5;
+	    if ((localVec3D6 != null) && ((localVec3D7 == null) || (paramVec3D1.distanceSquared(localVec3D6) < paramVec3D1.distanceSquared(localVec3D7)))) localVec3D7 = localVec3D6;
+
+	    if (localVec3D7 == null) return null;
+
+	    int i = -1;
+
+	    if (localVec3D7 == localVec3D1) i = 4;
+	    if (localVec3D7 == localVec3D2) i = 5;
+	    if (localVec3D7 == localVec3D3) i = 0;
+	    if (localVec3D7 == localVec3D4) i = 1;
+	    if (localVec3D7 == localVec3D5) i = 2;
+	    if (localVec3D7 == localVec3D6) i = 3;
+
+	    return new MovingObjectPosition(0, 0, 0, i, localVec3D7);*/
+	}
 
 	@SuppressWarnings("deprecation")
 	private static void onBulletHit(MovingObjectPosition[] mops, Player bukkitPlayer)
@@ -219,13 +315,12 @@ public class GunManager
 			
 			if(mop.type == EnumMovingObjectType.BLOCK)
 			{
-				Location blockLoc = new Location(bukkitWorld, mop.b, mop.c, mop.d);
-				Block block = bukkitWorld.getBlockAt(blockLoc);
+				Location hitLoc = new Location(bukkitWorld, mop.b, mop.c, mop.d);
+				Block block = bukkitWorld.getBlockAt(hitLoc);
 				Material type = block.getType();
 				int id = type.getId();
 				byte data = block.getData();
 				Sound sound = getDigSound(type);
-				Location hitLoc = new Location(bukkitWorld, mop.pos.c, mop.pos.d, mop.pos.e);
 				
 				ParticleEffect.displayBlockDust(hitLoc, id, data, 0, 0, 0, 0.1F, 25);
 				bukkitWorld.playSound(hitLoc, sound, 1F, (float) (1 + Math.random()));
@@ -249,17 +344,20 @@ public class GunManager
 				double damageDivision = Math.pow(2, i);
 				Player bukkitVictim = (Player) rawBukkitVictim;
 				MSPlayer msVictim = MSPlayer.get(bukkitVictim);
-				Location victimLoc = bukkitVictim.getLocation();
-				double height = mop.entity.boundingBox.e - mop.entity.boundingBox.b;
-				Location effectLoc = victimLoc.clone().add(0, height / 2, 0);
+				Location effectLoc = new Location(bukkitWorld, mop.pos.c, mop.pos.d, mop.pos.e);
 				double damage = type.getDamage() / damageDivision;
+				double hitY = mop.pos.d;
+				double victimY = mop.entity.locY;
+				double relHitY = hitY - victimY;
+				BodyPart bodyPart = BodyPart.getByY(relHitY);
 				
-				msVictim.damage(damage, msPlayer, gun);
+				msVictim.damage(damage, msPlayer, gun, bodyPart);
 				ParticleEffect.displayBlockCrack(effectLoc, Material.REDSTONE_BLOCK.getId(), (byte) 0, 0, 0, 0, 1.5F, 20);
 			}
 		}
 		
 		Location endLoc = new Location(bukkitWorld, lastMOP.pos.c, lastMOP.pos.d, lastMOP.pos.e);
+		
 		showTrace(eyeLoc, endLoc);
 	}
 	
