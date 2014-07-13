@@ -73,6 +73,13 @@ public class MineStrike extends JavaPlugin
 	@Override
 	public void onDisable()
 	{
+		for(MSPlayer msPlayer : MSPlayer.getOnlinePlayers())
+		{
+			Player player = msPlayer.getPlayer();
+			
+			player.kickPlayer(Translation.KICK_RESTARTING.getMessage());
+		}
+		
 		if(instance == null)
 			return;
 		
@@ -112,10 +119,10 @@ public class MineStrike extends JavaPlugin
 	private void loadData() throws Exception
 	{
 		MSConfig.load();
+		Translation.load();
 		SchemeManager.loadSchemes();
 		PlotManager.loadPlots();
 		GameManager.loadGames();
-		Translation.load();
 	}
 	
 	private void saveData() throws Exception

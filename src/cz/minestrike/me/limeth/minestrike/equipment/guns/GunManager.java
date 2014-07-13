@@ -1,5 +1,6 @@
 package cz.minestrike.me.limeth.minestrike.equipment.guns;
 
+import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -218,6 +219,30 @@ public class GunManager
 	    Vec3D localVec3D5 = paramVec3D1.d(paramVec3D2, bb.c);
 	    Vec3D localVec3D6 = paramVec3D1.d(paramVec3D2, bb.f);
 	    
+	    try
+	    {
+		    
+		    Method b = AxisAlignedBB.class.getDeclaredMethod("b", Vec3D.class);
+		    Method c = AxisAlignedBB.class.getDeclaredMethod("c", Vec3D.class);
+		    Method d = AxisAlignedBB.class.getDeclaredMethod("d", Vec3D.class);
+		    
+		    b.setAccessible(true);
+		    c.setAccessible(true);
+		    d.setAccessible(true);
+		    
+		    if (!(Boolean) b.invoke(bb, localVec3D1)) localVec3D1 = null;
+		    if (!(Boolean) b.invoke(bb, localVec3D2)) localVec3D2 = null;
+		    if (!(Boolean) c.invoke(bb, localVec3D3)) localVec3D3 = null;
+		    if (!(Boolean) c.invoke(bb, localVec3D4)) localVec3D4 = null;
+		    if (!(Boolean) d.invoke(bb, localVec3D5)) localVec3D5 = null;
+		    if (!(Boolean) d.invoke(bb, localVec3D6)) localVec3D6 = null;
+		    
+	    }
+	    catch(Exception e)
+	    {
+	    	throw new RuntimeException(e);
+	    }
+	    
 	    Vec3D[] vectors = new Vec3D[]
 	    		{
 	    		localVec3D1,
@@ -315,8 +340,8 @@ public class GunManager
 			
 			if(mop.type == EnumMovingObjectType.BLOCK)
 			{
-				Location hitLoc = new Location(bukkitWorld, mop.b, mop.c, mop.d);
-				Block block = bukkitWorld.getBlockAt(hitLoc);
+				Location hitLoc = new Location(bukkitWorld, mop.pos.c, mop.pos.d, mop.pos.e);
+				Block block = bukkitWorld.getBlockAt(mop.b, mop.c, mop.d);
 				Material type = block.getType();
 				int id = type.getId();
 				byte data = block.getData();

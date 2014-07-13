@@ -28,6 +28,11 @@ public class TeamGameListener extends MSGameListener<TeamGame<? extends GameLobb
 		if(!(damagerEntity instanceof Player))
 			return;
 		
+		Player victim = msVictim.getPlayer();
+		
+		if(victim.equals(damagerEntity))
+			return;
+		
 		TeamGame<? extends GameLobby, ? extends GameMenu, ? extends GameMap, ? extends EquipmentProvider> game = getGame();
 		Player damager = (Player) damagerEntity;
 		MSPlayer msDamager = MSPlayer.get(damager);

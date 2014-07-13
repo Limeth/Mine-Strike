@@ -213,7 +213,7 @@ public class MSPlayer implements Record
 	
 	private final HashMap<String, Object> customData = new HashMap<String, Object>();
 	private final String playerName;
-	private RecordData data;
+	private RecordData lazyData;
 	private Player player;
 	private InventoryContainer lazyInventoryContainer;
 	private HotbarContainer hotbarContainer;
@@ -237,7 +237,7 @@ public class MSPlayer implements Record
 		data.set("username", playerName);
 		
 		this.playerName = playerName;
-		this.data = data;
+		this.lazyData = data;
 		this.playerState = PlayerState.LOBBY_SERVER;
 		this.hotbarContainer = new HotbarContainer();
 		this.armorContainer = new ArmorContainer();
@@ -512,7 +512,13 @@ public class MSPlayer implements Record
 	{
 		MySQLService service = MineStrike.getService();
 		
-		service.save(data, MSConfig.getMySQLTablePlayers());
+		service.save(getData(), MSConfig.getMySQLTablePlayers());
+	}
+	
+	public void clearContainers()
+	{
+		hotbarContainer.clear();
+		armorContainer.clear();
 	}
 	
 	public void clearInventory()
@@ -540,7 +546,7 @@ public class MSPlayer implements Record
 		
 		Player bukkitVictim = getPlayer();
 		Player bukkitDamager = damager.getPlayer();
-		amount = armorContainer.reduceDamage(amount, weapon, bodyPart, false);
+		amount = armorContainer.reduceDamage(this, amount, weapon, bodyPart, false);
 		EntityDamageByEntityEvent event = new EntityDamageByEntityEvent(bukkitDamager, bukkitVictim, DamageCause.CUSTOM, amount);
 		PluginManager pm = Bukkit.getPluginManager();
 		
@@ -549,7 +555,7 @@ public class MSPlayer implements Record
 		if(event.isCancelled())
 			return;
 		
-		armorContainer.reduceDamage(amount, weapon, bodyPart, true);
+		armorContainer.reduceDamage(this, amount, weapon, bodyPart, true);
 		setLastDamageSource(damager);
 		setLastDamageWeapon(weapon);
 		player.damage(amount);
@@ -723,15 +729,48 @@ public class MSPlayer implements Record
 	{
 		this.game = game;
 	}
-
+	
+	public void set(String key, Object value)
+	{
+		lazyData.set(key, value);
+	}
+	
+	public <T> T get(Class<T> clazz, String key)
+	{
+		if(key.equals("inventory"))
+			updateData();
+		
+		return lazyData.get(clazz, key);
+	}
+	
+	public <T> T get(Class<T> clazz, String key, T ifNull)
+	{
+		if(key.equals("inventory"))
+			updateData();
+		
+		return lazyData.get(clazz, key, ifNull);
+	}
+	
 	public RecordData getData()
 	{
-		return data;
+		updateData();
+		
+		return lazyData;
+	}
+	
+	private void updateData()
+	{
+		InventoryContainer invContainer = getInventoryContainer();
+		Equipment[] equipment = invContainer.getContents();
+		String gsonEquipment = EquipmentManager.toGson(equipment);
+		
+		lazyData.set("inventory", gsonEquipment);
 	}
 
 	public void setData(RecordData data)
 	{
-		this.data = data;
+		lazyInventoryContainer = null;
+		this.lazyData = data;
 	}
 
 	public PlayerState getPlayerState()
@@ -771,7 +810,7 @@ public class MSPlayer implements Record
 		if(lazyInventoryContainer == null)
 		{
 			lazyInventoryContainer = new InventoryContainer();
-			String string = data.get(String.class, "inventory");
+			String string = lazyData.get(String.class, "inventory", "");
 			Equipment[] equipment = EquipmentManager.fromGson(string);
 			
 			for(int i = 0; i < equipment.length; i++)

@@ -62,7 +62,7 @@ public abstract class Game<Lo extends GameLobby, Me extends GameMenu, Ma extends
 	private GamePhase<Lo, Me, Ma, EM> phase;
 	private MSInventoryListener<Game<Lo, Me, Ma, EM>> inventoryListener;
 	private MSGameListener<Game<Lo, Me, Ma, EM>> shoppingListener;
-	private EM equipmentManager;
+	private EM equipmentProvider;
 	private Scoreboard scoreboard;
 	
 	public Game(GameType gameType, String id, String name, MSPlayer owner, boolean open, String lobbyId, String menuId, FilledArrayList<String> maps)
@@ -87,7 +87,6 @@ public abstract class Game<Lo extends GameLobby, Me extends GameMenu, Ma extends
 	
 	public abstract void start();
 	public abstract Predicate<MSPlayer> isPlayerPlaying();
-	public abstract FilledArrayList<EquipmentCategory> getEquipmentCategories();
 	
 	public void joinMenu(MSPlayer msPlayer)
 	{
@@ -128,7 +127,7 @@ public abstract class Game<Lo extends GameLobby, Me extends GameMenu, Ma extends
 		PluginManager pm = Bukkit.getPluginManager();
 		Player player = msPlayer.getPlayer();
 		PlayerInventory inv = player.getInventory();
-		FilledArrayList<EquipmentCategory> categories = getEquipmentCategories();
+		FilledArrayList<EquipmentCategory> categories = equipmentProvider.getEquipmentCategories();
 		
 		for(int rel = 0; rel < PlayerUtil.INVENTORY_WIDTH * 3; rel++)
 		{
@@ -151,7 +150,7 @@ public abstract class Game<Lo extends GameLobby, Me extends GameMenu, Ma extends
 		}
 		
 		pm.callEvent(event);
-		equipmentManager.equip(msPlayer);
+		equipmentProvider.equip(msPlayer);
 		player.setFireTicks(0);
 		player.setHealth(((Damageable) player).getMaxHealth());
 		player.updateInventory();
@@ -213,7 +212,7 @@ public abstract class Game<Lo extends GameLobby, Me extends GameMenu, Ma extends
 		if(maps.size() <= 0)
 			throw new RuntimeException("Map list is empty");
 		
-		if(equipmentManager == null)
+		if(equipmentProvider == null)
 			initEquipmentManager();
 		
 		lobbyStructure = PlotManager.registerStructure(lobby);
@@ -236,7 +235,7 @@ public abstract class Game<Lo extends GameLobby, Me extends GameMenu, Ma extends
 	{
 		try
 		{
-			equipmentManager = (EM) type.newEquipmentManager(this);
+			equipmentProvider = (EM) type.newEquipmentManager(this);
 		}
 		catch(Exception e) { throw new EquipmentManagerInitializationException(e, getClass(), type); }
 	}
@@ -685,7 +684,7 @@ public abstract class Game<Lo extends GameLobby, Me extends GameMenu, Ma extends
 	
 	public EM getEquipmentProvider()
 	{
-		return equipmentManager;
+		return equipmentProvider;
 	}
 	
 	@Override

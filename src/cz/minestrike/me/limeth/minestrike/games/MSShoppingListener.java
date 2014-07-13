@@ -56,10 +56,11 @@ public class MSShoppingListener<T extends Game<?, ?, ?, ?>> extends MSGameListen
 		if(state != PlayerState.JOINED_GAME)
 			return;
 		
-		Game<?, ?, ?, ?> game = getGame();
+		Game<?, ?, ?, ? extends EquipmentProvider> game = getGame();
 		Inventory topInv = view.getTopInventory();
 		int slot = event.getRawSlot();
-		FilledArrayList<EquipmentCategory> categories = game.getEquipmentCategories();
+		EquipmentProvider ep = game.getEquipmentProvider();
+		FilledArrayList<EquipmentCategory> categories = ep.getEquipmentCategories();
 		EquipmentCategory openCat = EquipmentCategory.getByInventory(categories, topInv);
 		
 		if(openCat != null && slot < topInv.getSize())

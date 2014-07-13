@@ -61,5 +61,7 @@ public class InventoryListener implements Listener
 			
 			SoundManager.play(sound, loc, player);
 		}
+		
+		msPlayer.updateMovementSpeed();
 	}
 }

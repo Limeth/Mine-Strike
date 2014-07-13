@@ -1,5 +1,7 @@
 package cz.minestrike.me.limeth.minestrike.equipment;
 
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.PlayerInventory;
@@ -9,6 +11,7 @@ import cz.minestrike.me.limeth.minestrike.MSPlayer;
 import cz.minestrike.me.limeth.minestrike.equipment.guns.GunType;
 import cz.minestrike.me.limeth.minestrike.equipment.simple.Helmet;
 import cz.minestrike.me.limeth.minestrike.equipment.simple.Kevlar;
+import cz.minestrike.me.limeth.minestrike.util.SoundManager;
 
 
 public class ArmorContainer implements Container
@@ -68,10 +71,16 @@ public class ArmorContainer implements Container
 			throw new IllegalArgumentException("The inventory must be a PlayerInventory.");
 		
 		PlayerInventory pInv = (PlayerInventory) inv;
-		Player player = msPlayer.getPlayer();
 		
 		pInv.setChestplate(kevlar != null ? kevlar.newItemStack(msPlayer) : null);
 		pInv.setHelmet(helmet != null ? helmet.newItemStack(msPlayer) : null);
+		applyKevlarDurability(msPlayer);
+	}
+	
+	public void applyKevlarDurability(MSPlayer msPlayer)
+	{
+		Player player = msPlayer.getPlayer();
+		
 		player.setExp(kevlarDurability > 1 ? 1 : kevlarDurability);
 	}
 
@@ -81,20 +90,36 @@ public class ArmorContainer implements Container
 		apply(msPlayer.getPlayer().getInventory(), msPlayer);
 	}
 	
-	public double reduceDamage(double damage, Equipment equipment, BodyPart bodyPart, boolean damageKevlar)
+	public double reduceDamage(MSPlayer msPlayer, double damage, Equipment equipment, BodyPart bodyPart, boolean damageArmor)
 	{
 		Float weaponArmorRatio = getWeaponArmorRatio(equipment, bodyPart);
 		
 		if(weaponArmorRatio != null)
 		{
-			if(damageKevlar && (bodyPart == BodyPart.CHEST || bodyPart == BodyPart.ABDOMEN))
+			if(damageArmor)
 			{
-				float armorCost = weaponArmorRatio / 2;
+				Location eyeLoc = msPlayer.getPlayer().getEyeLocation();
+				String hitSound = bodyPart.getHitSoundArmored();
 				
-				decreaseKevlarDurability(armorCost);
+				if(bodyPart == BodyPart.CHEST || bodyPart == BodyPart.ABDOMEN)
+				{
+					float armorCost = weaponArmorRatio / 2;
+					
+					decreaseKevlarDurability(armorCost);
+					applyKevlarDurability(msPlayer);
+				}
+				
+				SoundManager.play(hitSound, eyeLoc, Bukkit.getOnlinePlayers());
 			}
 			
 			damage *= weaponArmorRatio;
+		}
+		else if(damageArmor)
+		{
+			Location eyeLoc = msPlayer.getPlayer().getEyeLocation();
+			String hitSound = bodyPart != null ? bodyPart.getHitSound() : BodyPart.CHEST.getHitSound();
+			
+			SoundManager.play(hitSound, eyeLoc, Bukkit.getOnlinePlayers());
 		}
 		
 		return damage;

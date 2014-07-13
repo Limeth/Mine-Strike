@@ -259,7 +259,12 @@ public class Round extends GamePhase<GameLobby, TeamGameMenu, DefuseGameMap, Def
 				if(origin == null)
 					ORIGIN.put(msPlayer, loc);
 				else if(origin.distanceSquared(loc) > 0)
+				{
+					origin.setYaw(loc.getYaw());
+					origin.setPitch(loc.getPitch());
+					
 					msPlayer.teleport(origin, false);
+				}
 			}
 			
 			if(phase != RoundPhase.PREPARING && preparationCheckTaskId != null)

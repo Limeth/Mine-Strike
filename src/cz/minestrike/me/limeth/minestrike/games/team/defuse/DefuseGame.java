@@ -3,8 +3,6 @@ package cz.minestrike.me.limeth.minestrike.games.team.defuse;
 import java.util.Set;
 import java.util.function.Predicate;
 
-import net.minecraft.util.org.apache.commons.lang3.ArrayUtils;
-
 import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -24,8 +22,6 @@ import cz.minestrike.me.limeth.minestrike.areas.Point;
 import cz.minestrike.me.limeth.minestrike.areas.RegionList;
 import cz.minestrike.me.limeth.minestrike.areas.Structure;
 import cz.minestrike.me.limeth.minestrike.areas.schemes.GameLobby;
-import cz.minestrike.me.limeth.minestrike.equipment.EquipmentCategory;
-import cz.minestrike.me.limeth.minestrike.equipment.EquipmentCategoryEntry;
 import cz.minestrike.me.limeth.minestrike.events.ArenaJoinEvent;
 import cz.minestrike.me.limeth.minestrike.events.GameQuitEvent.GameQuitReason;
 import cz.minestrike.me.limeth.minestrike.events.GameSpawnEvent;
@@ -44,31 +40,8 @@ import ftbastler.HeadsUpDisplay;
 
 public class DefuseGame extends TeamGame<GameLobby, TeamGameMenu, DefuseGameMap, DefuseEquipmentProvider>
 {
-	static
-	{
-		FilledArrayList<EquipmentCategory> categories = new FilledArrayList<EquipmentCategory>();
-		
-		categories.add(EquipmentCategory.PISTOLS);
-		categories.add(EquipmentCategory.HEAVY);
-		categories.add(EquipmentCategory.SMGS);
-		categories.add(EquipmentCategory.RIFLES);
-		
-		EquipmentCategoryEntry[] gearCTOriginal = EquipmentCategory.GEAR.getCounterTerroristsEquipment();
-		EquipmentCategoryEntry[] gearTOriginal = EquipmentCategory.GEAR.getTerroristsEquipment();
-		EquipmentCategoryEntry[] gearCTNew = new EquipmentCategoryEntry[]
-				{ EquipmentCategoryEntry.valueOf(DefuseEquipmentProvider.DEFUSE_KIT_BOUGHT) };
-		EquipmentCategoryEntry[] gearCT = ArrayUtils.addAll(gearCTOriginal, gearCTNew);
-		EquipmentCategory gear = new EquipmentCategory(EquipmentCategory.GEAR.getId(), EquipmentCategory.GEAR.getTranslation(), EquipmentCategory.GEAR.getIcon(), gearTOriginal, gearCT);
-		
-		categories.add(gear);
-		categories.add(EquipmentCategory.GRENADES);
-		
-		EQUIPMENT_CATEGORIES = categories;
-	}
-	
 	public static final String CUSTOM_DATA_DEAD = "MineStrike.game.dead", CUSTOM_DATA_BALANCE = "MineStrike.game.balance";
 	public static final int MONEY_CAP = 10000, REQUIRED_ROUNDS = 8;
-	private static FilledArrayList<EquipmentCategory> EQUIPMENT_CATEGORIES;
 	private int tScore, ctScore;
 	private int winsInRow;
 	private Team lastWinner;
@@ -103,7 +76,10 @@ public class DefuseGame extends TeamGame<GameLobby, TeamGameMenu, DefuseGameMap,
 		lastWinner = null;
 		
 		for(MSPlayer player : getPlayingPlayers())
+		{
+			player.clearContainers();
 			setBalance(player, MoneyAward.START_CASUAL.getAmount());
+		}
 		
 		setBombBlock(null);
 		setScore(0, 0);
@@ -118,13 +94,6 @@ public class DefuseGame extends TeamGame<GameLobby, TeamGameMenu, DefuseGameMap,
 		
 		if(getPhaseType() == GamePhaseType.RUNNING)
 			getRound().redirect(event, msPlayer);
-	}
-	
-	@SuppressWarnings("unchecked")
-	@Override
-	public FilledArrayList<EquipmentCategory> getEquipmentCategories()
-	{
-		return (FilledArrayList<EquipmentCategory>) EQUIPMENT_CATEGORIES.clone();
 	}
 	
 	public boolean roundPrepare()

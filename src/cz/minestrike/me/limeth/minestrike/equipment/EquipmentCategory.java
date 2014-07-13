@@ -4,10 +4,12 @@ import java.util.Collection;
 import java.util.HashSet;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
 import cz.minestrike.me.limeth.minestrike.MSConstant;
 import cz.minestrike.me.limeth.minestrike.MSPlayer;
@@ -122,6 +124,12 @@ public class EquipmentCategory
 	
 	public ItemStack getIcon()
 	{
+		ItemStack icon = this.icon.clone();
+		ItemMeta im = icon.getItemMeta();
+		
+		im.setDisplayName(ChatColor.BOLD + getName());
+		icon.setItemMeta(im);
+		
 		return icon;
 	}
 
@@ -167,19 +175,22 @@ public class EquipmentCategory
 	
 	public EquipmentCategoryEntry getEntry(MSPlayer msPlayer, int x, int y)
 	{
-		EquipmentCategoryEntry[] equipment = getEntries(msPlayer);
-		int width = (int) Math.ceil(equipment.length / 2D);
+		EquipmentCategoryEntry[] entries = getEntries(msPlayer);
+		int width = (int) Math.ceil(entries.length / 2D);
 		int startX = 4 - (width / 2);
+		
+		if(x >= startX + width)
+			return null;
 		
 		x -= startX;
 		y -= 1;
 		
 		int index = x + y * width;
 		
-		if(index < 0 || index >= equipment.length)
+		if(index < 0 || index >= entries.length)
 			return null;
 		
-		return equipment[index];
+		return entries[index];
 	}
 	
 	public EquipmentCategoryEntry getEntry(MSPlayer msPlayer, int inventoryIndex)

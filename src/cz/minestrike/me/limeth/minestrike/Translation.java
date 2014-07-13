@@ -10,6 +10,7 @@ public enum Translation
 {
 	ERROR("&c&lAn error occured.", "&c&lNastala chyba."),
 	RELOAD("Press &lQ", "Stisknete &lQ"),
+	KICK_RESTARTING("&8\u00BB&9MINE&f-&6STRIKE&8\u00AB&f   \nServer is restarting...", "&8\u00BB&9MINE&f-&6STRIKE&8\u00AB&f   \nProbíhá restart serveru..."),
 	
 	GAME_POLL_HEADER_VOTING("&a&lMap Poll &8| &e{1}s", "&a&lHlasování o mapu &8| &e{1}s"),
 	GAME_POLL_HEADER_CHANGING("&2&lChanging in &8| &6{1}s", "&2&lZmena za &8| &6{1}s"),
@@ -34,6 +35,8 @@ public enum Translation
 	GAME_DEATH_SOURCE("&7Player &r{1}&7 was killed by &r{2}&7.", "&7Hrác &r{1}&7 byl zabit hrácem &r{2}&7."),
 	GAME_DEATH_WEAPONSOURCE("&7Player &r{1}&7 was killed using &r{3}&7 by &r{2}&7.", "&7Hrác &r{1}&7 byl zabit pomocí &r{3}&7 hrácem &r{2}&7."),
 	
+	EQUIPMENT_DEFUSEKIT_DEFAULT("&rDefuse Kit", "&rNáradí"),
+	EQUIPMENT_DEFUSEKIT_BOUGHT("&aAdvanced Defuse Kit", "&aPokrocilé Náradí"),
 	EQUIPMENT_CATEGORY_PISTOLS("Pistols", "Pistole"),
 	EQUIPMENT_CATEGORY_HEAVY("Heavy", "Tezké"),
 	EQUIPMENT_CATEGORY_SMGS("SMGs", "Samopaly"),

@@ -4,9 +4,11 @@ import java.util.ArrayList;
 
 import cz.minestrike.me.limeth.minestrike.MSPlayer;
 import cz.minestrike.me.limeth.minestrike.equipment.Equipment;
+import cz.minestrike.me.limeth.minestrike.equipment.EquipmentCategory;
 import cz.minestrike.me.limeth.minestrike.equipment.EquipmentPurchaseException;
 import cz.minestrike.me.limeth.minestrike.equipment.grenades.GrenadeType;
 import cz.minestrike.me.limeth.minestrike.equipment.guns.Gun;
+import cz.minestrike.me.limeth.minestrike.util.collections.FilledArrayList;
 
 public interface EquipmentProvider
 {
@@ -24,5 +26,7 @@ public interface EquipmentProvider
 	public float getKevlarDurability(MSPlayer msPlayer);
 	public void setHelmet(MSPlayer msPlayer, boolean equipped);
 	public boolean hasHelmet(MSPlayer msPlayer);
+	public void equipKevlarAndHelmet(MSPlayer msPlayer);
 	public Equipment getCurrentlyEquipped(MSPlayer msPlayer);
+	public FilledArrayList<EquipmentCategory> getEquipmentCategories();
 }
