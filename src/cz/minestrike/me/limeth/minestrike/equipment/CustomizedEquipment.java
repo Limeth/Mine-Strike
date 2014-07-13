@@ -103,4 +103,10 @@ public class CustomizedEquipment<T extends Equipment> implements Equipment
 	{
 		this.equipped = equipped;
 	}
+	
+	@Override
+	public boolean purchase(MSPlayer msPlayer)
+	{
+		return equipment.purchase(msPlayer);
+	}
 }

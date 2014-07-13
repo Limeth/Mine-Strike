@@ -168,7 +168,7 @@ public class DefuseGame extends TeamGame<GameLobby, TeamGameMenu, DefuseGameMap,
 		if(terroristsAmount > 0)
 		{
 			int randomIndex = MSConstant.RANDOM.nextInt(terroristsAmount);
-			DefuseEquipmentProvider mgr = getEquipmentManager();
+			DefuseEquipmentProvider mgr = getEquipmentProvider();
 			int i = 0;
 			MSPlayer carrier = null;
 			

@@ -3,7 +3,6 @@ package cz.minestrike.me.limeth.minestrike.games;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 
-import cz.minestrike.me.limeth.minestrike.equipment.EquipmentProvider;
 import cz.minestrike.me.limeth.minestrike.games.team.defuse.DefuseEquipmentProvider;
 import cz.minestrike.me.limeth.minestrike.games.team.defuse.DefuseGame;
 

@@ -91,4 +91,10 @@ public enum Case implements Equipment
 	{
 		return null;
 	}
+	
+	@Override
+	public boolean purchase(MSPlayer msPlayer)
+	{
+		return true;
+	}
 }

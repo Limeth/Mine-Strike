@@ -32,16 +32,13 @@ import cz.minestrike.me.limeth.minestrike.areas.schemes.Scheme;
 import cz.minestrike.me.limeth.minestrike.areas.schemes.SchemeManager;
 import cz.minestrike.me.limeth.minestrike.equipment.EquipmentCategory;
 import cz.minestrike.me.limeth.minestrike.equipment.EquipmentManagerInitializationException;
-import cz.minestrike.me.limeth.minestrike.equipment.EquipmentProvider;
 import cz.minestrike.me.limeth.minestrike.events.ArenaQuitEvent;
 import cz.minestrike.me.limeth.minestrike.events.GameEquipEvent;
 import cz.minestrike.me.limeth.minestrike.events.GameJoinEvent;
 import cz.minestrike.me.limeth.minestrike.events.GameQuitEvent;
 import cz.minestrike.me.limeth.minestrike.events.GameQuitEvent.GameQuitReason;
 import cz.minestrike.me.limeth.minestrike.listeners.msPlayer.MSGameListener;
-import cz.minestrike.me.limeth.minestrike.listeners.msPlayer.MSInventoryListener;
 import cz.minestrike.me.limeth.minestrike.listeners.msPlayer.MSListenerRedirector;
-import cz.minestrike.me.limeth.minestrike.listeners.msPlayer.MSShoppingListener;
 import cz.minestrike.me.limeth.minestrike.util.PlayerUtil;
 import cz.minestrike.me.limeth.minestrike.util.SoundManager;
 import cz.minestrike.me.limeth.minestrike.util.collections.FilledArrayList;
@@ -686,7 +683,7 @@ public abstract class Game<Lo extends GameLobby, Me extends GameMenu, Ma extends
 		this.menuId = menuId;
 	}
 	
-	public EM getEquipmentManager()
+	public EM getEquipmentProvider()
 	{
 		return equipmentManager;
 	}

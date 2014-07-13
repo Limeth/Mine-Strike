@@ -5,6 +5,8 @@ import java.util.HashSet;
 
 import org.apache.commons.lang.Validate;
 
+import com.avaje.ebeaninternal.server.lib.util.NotFoundException;
+
 import cz.minestrike.me.limeth.minestrike.equipment.guns.GunType;
 import cz.minestrike.me.limeth.minestrike.util.collections.FilledHashSet;
 
@@ -12,7 +14,10 @@ public class EquipmentCategoryEntry
 {
 	static
 	{
+		VALUES = new HashSet<EquipmentCategoryEntry>();
+		
 		register(GunType.P2000, GunType.USP_S);
+		register(GunType.P250, GunType.CZ75);
 		register(GunType.M4A4, GunType.M4A1_S);
 		
 		for(Equipment equipment : EquipmentManager.getEquipment())
@@ -23,7 +28,7 @@ public class EquipmentCategoryEntry
 			catch(Exception e) {}
 	}
 	
-	private static final HashSet<EquipmentCategoryEntry> VALUES = new HashSet<EquipmentCategoryEntry>();
+	private static final HashSet<EquipmentCategoryEntry> VALUES;
 	private final FilledHashSet<Equipment> sourceEquipment;
 	private final Equipment defaultEquipment;
 	
@@ -49,11 +54,13 @@ public class EquipmentCategoryEntry
 	
 	public static EquipmentCategoryEntry valueOf(Equipment... sourceEquipment)
 	{
+		FilledHashSet<Equipment> sourceEquipmentSet = new FilledHashSet<Equipment>(Arrays.asList(sourceEquipment));;
+		
 		for(EquipmentCategoryEntry entry : VALUES)
-			if(entry.sourceEquipment.equals(sourceEquipment))
+			if(entry.sourceEquipment.equals(sourceEquipmentSet))
 				return entry;
 		
-		return null;
+		throw new NotFoundException("Category entry for " + Arrays.toString(sourceEquipment) + " not found.");
 	}
 	
 	public static EquipmentCategoryEntry getContaining(Equipment sourceEquipment)
@@ -73,5 +80,11 @@ public class EquipmentCategoryEntry
 	public Equipment getDefaultEquipment()
 	{
 		return defaultEquipment;
+	}
+
+	@Override
+	public String toString()
+	{
+		return "EquipmentCategoryEntry [sourceEquipment=" + sourceEquipment + ", defaultEquipment=" + defaultEquipment + "]";
 	}
 }

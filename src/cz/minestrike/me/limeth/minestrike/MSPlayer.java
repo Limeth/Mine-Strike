@@ -35,7 +35,6 @@ import cz.minestrike.me.limeth.minestrike.areas.schemes.Scheme;
 import cz.minestrike.me.limeth.minestrike.equipment.ArmorContainer;
 import cz.minestrike.me.limeth.minestrike.equipment.Equipment;
 import cz.minestrike.me.limeth.minestrike.equipment.EquipmentManager;
-import cz.minestrike.me.limeth.minestrike.equipment.EquipmentProvider;
 import cz.minestrike.me.limeth.minestrike.equipment.HotbarContainer;
 import cz.minestrike.me.limeth.minestrike.equipment.InventoryContainer;
 import cz.minestrike.me.limeth.minestrike.equipment.guns.Firing;
@@ -44,6 +43,7 @@ import cz.minestrike.me.limeth.minestrike.equipment.guns.GunManager;
 import cz.minestrike.me.limeth.minestrike.equipment.guns.GunTask;
 import cz.minestrike.me.limeth.minestrike.equipment.guns.GunType;
 import cz.minestrike.me.limeth.minestrike.equipment.guns.Reloading;
+import cz.minestrike.me.limeth.minestrike.games.EquipmentProvider;
 import cz.minestrike.me.limeth.minestrike.games.Game;
 import cz.minestrike.me.limeth.minestrike.games.PlayerState;
 import cz.minestrike.me.limeth.minestrike.listeners.msPlayer.lobby.MSLobbyListener;
@@ -73,6 +73,7 @@ public class MSPlayer implements Record
 																.addColumn(new RecordStructureColumn(Integer.class, "balance"))
 																.addColumn(new RecordStructureColumn(Integer.class, "level"))
 																.addColumn(new RecordStructureColumn(Long.class, "playtime"))
+																.addColumn(new RecordStructureColumn(String.class, "inventory", (int) Short.MAX_VALUE))
 																.build();
 	private static Integer MOVEMENT_LOOP_ID;
 	
@@ -329,7 +330,7 @@ public class MSPlayer implements Record
 	{
 		if(hasGame())
 		{
-			EquipmentProvider em = game.getEquipmentManager();
+			EquipmentProvider em = game.getEquipmentProvider();
 			Equipment equipment = em.getCurrentlyEquipped(this);
 			
 			if(equipment != null)

@@ -14,6 +14,8 @@ import cz.minestrike.me.limeth.minestrike.MSPlayer;
 import cz.minestrike.me.limeth.minestrike.Translation;
 import cz.minestrike.me.limeth.minestrike.equipment.grenades.GrenadeType;
 import cz.minestrike.me.limeth.minestrike.equipment.guns.GunType;
+import cz.minestrike.me.limeth.minestrike.equipment.simple.Kevlar;
+import cz.minestrike.me.limeth.minestrike.equipment.simple.KevlarAndHelmet;
 import cz.minestrike.me.limeth.minestrike.games.Game;
 import cz.minestrike.me.limeth.minestrike.games.Team;
 import cz.minestrike.me.limeth.minestrike.games.team.TeamGame;
@@ -27,7 +29,7 @@ public class EquipmentCategory
 				e(GunType.TEC9)
 			}, new EquipmentCategoryEntry[]  {
 				e(GunType.P2000, GunType.USP_S), e(GunType.P250, GunType.CZ75), e(GunType.DEAGLE),
-				e(GunType.ELITE), e(GunType.FIVESEVEN), e(GunType.CZ75)
+				e(GunType.ELITE), e(GunType.FIVESEVEN)
 			});
 	public static final EquipmentCategory HEAVY = new EquipmentCategory("HEAVY", Translation.EQUIPMENT_CATEGORY_HEAVY, new ItemStack(Material.FIREWORK_CHARGE), new EquipmentCategoryEntry[] {
 				e(GunType.NOVA), e(GunType.XM1014), e(GunType.SAWEDOFF), e(GunType.M249),
@@ -48,9 +50,7 @@ public class EquipmentCategory
 				e(GunType.AUG), e(GunType.AWP), e(GunType.SCAR_20)
 			});
 	public static final EquipmentCategory GEAR = new EquipmentCategory("GEAR", Translation.EQUIPMENT_CATEGORY_GEAR, new ItemStack(Material.LEATHER_CHESTPLATE), new EquipmentCategoryEntry[] {
-				
-			}, new EquipmentCategoryEntry[] {
-				
+				e(Kevlar.KEVLAR), e(KevlarAndHelmet.KEVLAR_AND_HELMET)
 			});
 	public static final EquipmentCategory GRENADES = new EquipmentCategory("GRENADES", Translation.EQUIPMENT_CATEGORY_GRENADES, new ItemStack(Material.POTION), new EquipmentCategoryEntry[] {
 				e(GrenadeType.INCENDIARY), e(GrenadeType.DECOY), e(GrenadeType.EXPLOSIVE), e(GrenadeType.FLASH), e(GrenadeType.SMOKE)

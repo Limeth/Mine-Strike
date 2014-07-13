@@ -22,10 +22,10 @@ import cz.minestrike.me.limeth.minestrike.areas.schemes.GameMap;
 import cz.minestrike.me.limeth.minestrike.areas.schemes.GameMenu;
 import cz.minestrike.me.limeth.minestrike.equipment.Container;
 import cz.minestrike.me.limeth.minestrike.equipment.Equipment;
-import cz.minestrike.me.limeth.minestrike.equipment.EquipmentProvider;
 import cz.minestrike.me.limeth.minestrike.equipment.grenades.Grenade;
 import cz.minestrike.me.limeth.minestrike.equipment.grenades.GrenadeType;
 import cz.minestrike.me.limeth.minestrike.equipment.guns.Gun;
+import cz.minestrike.me.limeth.minestrike.games.EquipmentProvider;
 import cz.minestrike.me.limeth.minestrike.games.Game;
 
 public class InteractionListener implements Listener

@@ -9,7 +9,7 @@ import cz.minestrike.me.limeth.minestrike.MSPlayer;
 import cz.minestrike.me.limeth.minestrike.areas.schemes.GameLobby;
 import cz.minestrike.me.limeth.minestrike.areas.schemes.GameMap;
 import cz.minestrike.me.limeth.minestrike.areas.schemes.GameMenu;
-import cz.minestrike.me.limeth.minestrike.equipment.EquipmentProvider;
+import cz.minestrike.me.limeth.minestrike.games.EquipmentProvider;
 import cz.minestrike.me.limeth.minestrike.games.Team;
 import cz.minestrike.me.limeth.minestrike.listeners.msPlayer.MSGameListener;
 

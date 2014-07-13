@@ -1,4 +1,4 @@
-package cz.minestrike.me.limeth.minestrike.listeners.msPlayer;
+package cz.minestrike.me.limeth.minestrike.games;
 
 import org.bukkit.Bukkit;
 import org.bukkit.craftbukkit.v1_7_R1.inventory.CraftInventoryCrafting;
@@ -18,12 +18,10 @@ import cz.minestrike.me.limeth.minestrike.Translation;
 import cz.minestrike.me.limeth.minestrike.equipment.Equipment;
 import cz.minestrike.me.limeth.minestrike.equipment.EquipmentCategory;
 import cz.minestrike.me.limeth.minestrike.equipment.EquipmentCategoryEntry;
-import cz.minestrike.me.limeth.minestrike.equipment.EquipmentProvider;
 import cz.minestrike.me.limeth.minestrike.equipment.EquipmentPurchaseException;
 import cz.minestrike.me.limeth.minestrike.equipment.InventoryContainer;
 import cz.minestrike.me.limeth.minestrike.events.ShopOpenEvent;
-import cz.minestrike.me.limeth.minestrike.games.Game;
-import cz.minestrike.me.limeth.minestrike.games.PlayerState;
+import cz.minestrike.me.limeth.minestrike.listeners.msPlayer.MSGameListener;
 import cz.minestrike.me.limeth.minestrike.util.PlayerUtil;
 import cz.minestrike.me.limeth.minestrike.util.collections.FilledArrayList;
 
@@ -73,7 +71,7 @@ public class MSShoppingListener<T extends Game<?, ?, ?, ?>> extends MSGameListen
 			
 			InventoryContainer invContainer = msPlayer.getInventoryContainer();
 			Equipment equipment = invContainer.getEquippedEquipment(entry);
-			EquipmentProvider em = game.getEquipmentManager();
+			EquipmentProvider em = game.getEquipmentProvider();
 			
 			try
 			{

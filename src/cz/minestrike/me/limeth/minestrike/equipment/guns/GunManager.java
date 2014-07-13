@@ -27,7 +27,7 @@ import cz.minestrike.me.limeth.minestrike.areas.schemes.GameLobby;
 import cz.minestrike.me.limeth.minestrike.areas.schemes.GameMap;
 import cz.minestrike.me.limeth.minestrike.areas.schemes.GameMenu;
 import cz.minestrike.me.limeth.minestrike.equipment.Equipment;
-import cz.minestrike.me.limeth.minestrike.equipment.EquipmentProvider;
+import cz.minestrike.me.limeth.minestrike.games.EquipmentProvider;
 import cz.minestrike.me.limeth.minestrike.games.Game;
 import darkBlade12.ParticleEffect;
 
@@ -333,7 +333,7 @@ public class GunManager
 					return;
 				
 				Game<? extends GameLobby, ? extends GameMenu, ? extends GameMap, ? extends EquipmentProvider> game = msPlayer.getGame();
-				EquipmentProvider ep = game.getEquipmentManager();
+				EquipmentProvider ep = game.getEquipmentProvider();
 				Equipment equipment = ep.getCurrentlyEquipped(msPlayer);
 				
 				if(!(equipment instanceof Gun))

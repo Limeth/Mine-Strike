@@ -13,19 +13,22 @@ import org.bukkit.inventory.meta.ItemMeta;
 import cz.minestrike.me.limeth.minestrike.MSConstant;
 import cz.minestrike.me.limeth.minestrike.MSPlayer;
 import cz.minestrike.me.limeth.minestrike.Translation;
+import cz.minestrike.me.limeth.minestrike.equipment.ArmorContainer;
 import cz.minestrike.me.limeth.minestrike.equipment.Container;
 import cz.minestrike.me.limeth.minestrike.equipment.CustomizedEquipment;
 import cz.minestrike.me.limeth.minestrike.equipment.Equipment;
 import cz.minestrike.me.limeth.minestrike.equipment.EquipmentCategory;
 import cz.minestrike.me.limeth.minestrike.equipment.EquipmentCategoryEntry;
-import cz.minestrike.me.limeth.minestrike.equipment.EquipmentProvider;
 import cz.minestrike.me.limeth.minestrike.equipment.EquipmentPurchaseException;
 import cz.minestrike.me.limeth.minestrike.equipment.InventoryContainer;
 import cz.minestrike.me.limeth.minestrike.equipment.SimpleEquipment;
 import cz.minestrike.me.limeth.minestrike.equipment.grenades.GrenadeType;
 import cz.minestrike.me.limeth.minestrike.equipment.guns.Gun;
 import cz.minestrike.me.limeth.minestrike.equipment.guns.GunType;
+import cz.minestrike.me.limeth.minestrike.equipment.simple.Helmet;
+import cz.minestrike.me.limeth.minestrike.equipment.simple.Kevlar;
 import cz.minestrike.me.limeth.minestrike.equipment.simple.Knife;
+import cz.minestrike.me.limeth.minestrike.games.EquipmentProvider;
 import cz.minestrike.me.limeth.minestrike.games.Team;
 
 public class DefuseEquipmentProvider implements EquipmentProvider
@@ -280,6 +283,52 @@ public class DefuseEquipmentProvider implements EquipmentProvider
 		return grenades;
 	}
 	
+	@Override
+	public void setKevlar(MSPlayer msPlayer, boolean equipped)
+	{
+		ArmorContainer armorContainer = msPlayer.getArmorContainer();
+		InventoryContainer invContainer = msPlayer.getInventoryContainer();
+		EquipmentCategoryEntry entry = EquipmentCategoryEntry.valueOf(Kevlar.KEVLAR);
+		Equipment kevlar = invContainer.getEquippedEquipment(entry);
+		
+		armorContainer.setKevlar(kevlar);
+	}
+	
+	@Override
+	public float getKevlarDurability(MSPlayer msPlayer)
+	{
+		ArmorContainer armorContainer = msPlayer.getArmorContainer();
+		
+		return armorContainer.getKevlarDurability();
+	}
+	
+	@Override
+	public boolean hasKevlar(MSPlayer msPlayer)
+	{
+		ArmorContainer armorContainer = msPlayer.getArmorContainer();
+		
+		return armorContainer.hasKevlar();
+	}
+	
+	@Override
+	public void setHelmet(MSPlayer msPlayer, boolean equipped)
+	{
+		ArmorContainer armorContainer = msPlayer.getArmorContainer();
+		InventoryContainer invContainer = msPlayer.getInventoryContainer();
+		EquipmentCategoryEntry entry = EquipmentCategoryEntry.valueOf(Helmet.HELMET);
+		Equipment helmet = invContainer.getEquippedEquipment(entry);
+		
+		armorContainer.setHelmet(helmet);
+	}
+	
+	@Override
+	public boolean hasHelmet(MSPlayer msPlayer)
+	{
+		ArmorContainer armorContainer = msPlayer.getArmorContainer();
+		
+		return armorContainer.hasHelmet();
+	}
+	
 	public void equipDefuseKit(MSPlayer msPlayer, boolean bought)
 	{
 		Container gameContainer = msPlayer.getHotbarContainer();
@@ -334,18 +383,19 @@ public class DefuseEquipmentProvider implements EquipmentProvider
 		if(price > balance)
 			throw new EquipmentPurchaseException(equipment, Translation.GAME_SHOP_ERROR_BALANCE.getMessage(equipment.getDisplayName()));
 		
-		if(equipment instanceof GrenadeType)
-			addGrenade(msPlayer, (GrenadeType) equipment);
-		else if(equipment instanceof GunType)
-		{
-			GunType gunType = (GunType) equipment;
-			Gun gun = new Gun(gunType);
-			
-			gun.setOwnerName(msPlayer.getName());
-			setGun(msPlayer, gun);
-		}
-		else
-			throw new EquipmentPurchaseException(equipment, Translation.GAME_SHOP_ERROR_UNKNOWN.getMessage(equipment.getClass().getSimpleName()));
+		if(equipment.purchase(msPlayer))
+			if(equipment instanceof GrenadeType)
+				addGrenade(msPlayer, (GrenadeType) equipment);
+			else if(equipment instanceof GunType)
+			{
+				GunType gunType = (GunType) equipment;
+				Gun gun = new Gun(gunType);
+				
+				gun.setOwnerName(msPlayer.getName());
+				setGun(msPlayer, gun);
+			}
+			else
+				throw new EquipmentPurchaseException(equipment, Translation.GAME_SHOP_ERROR_UNKNOWN.getMessage(equipment.getClass().getSimpleName()));
 		
 		game.addBalance(msPlayer, -price);
 	}

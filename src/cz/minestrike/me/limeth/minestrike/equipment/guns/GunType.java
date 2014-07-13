@@ -463,4 +463,10 @@ public enum GunType implements Equipment
 	{
 		return getSoundShooting() + "_draw";
 	}
+	
+	@Override
+	public boolean purchase(MSPlayer msPlayer)
+	{
+		return true;
+	}
 }

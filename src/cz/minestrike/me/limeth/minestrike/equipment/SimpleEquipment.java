@@ -93,4 +93,10 @@ public class SimpleEquipment implements Equipment
 	{
 		return getId();
 	}
+	
+	@Override
+	public boolean purchase(MSPlayer msPlayer)
+	{
+		return true;
+	}
 }

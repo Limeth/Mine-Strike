@@ -1,4 +1,4 @@
-package cz.minestrike.me.limeth.minestrike.listeners.msPlayer;
+package cz.minestrike.me.limeth.minestrike.games;
 
 import org.bukkit.craftbukkit.v1_7_R1.inventory.CraftInventoryPlayer;
 import org.bukkit.entity.Player;
@@ -12,8 +12,7 @@ import cz.minestrike.me.limeth.minestrike.MSConstant;
 import cz.minestrike.me.limeth.minestrike.MSPlayer;
 import cz.minestrike.me.limeth.minestrike.MineStrike;
 import cz.minestrike.me.limeth.minestrike.events.GameQuitEvent.GameQuitReason;
-import cz.minestrike.me.limeth.minestrike.games.Game;
-import cz.minestrike.me.limeth.minestrike.games.PlayerState;
+import cz.minestrike.me.limeth.minestrike.listeners.msPlayer.MSGameListener;
 import cz.minestrike.me.limeth.minestrike.util.PlayerUtil;
 
 public class MSInventoryListener<T extends Game<?, ?, ?, ?>> extends MSGameListener<T>

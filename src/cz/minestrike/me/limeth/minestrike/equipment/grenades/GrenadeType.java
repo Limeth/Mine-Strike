@@ -442,4 +442,10 @@ public enum GrenadeType implements Equipment, DamageSource
 	{
 		return soundDraw;
 	}
+	
+	@Override
+	public boolean purchase(MSPlayer msPlayer)
+	{
+		return true;
+	}
 }

@@ -5,7 +5,6 @@ import org.apache.commons.lang.Validate;
 import cz.minestrike.me.limeth.minestrike.areas.schemes.GameLobby;
 import cz.minestrike.me.limeth.minestrike.areas.schemes.GameMap;
 import cz.minestrike.me.limeth.minestrike.areas.schemes.GameMenu;
-import cz.minestrike.me.limeth.minestrike.equipment.EquipmentProvider;
 import cz.minestrike.me.limeth.minestrike.listeners.msPlayer.MSListenerRedirector;
 
 public abstract class GamePhase<Lo extends GameLobby, Me extends GameMenu, Ma extends GameMap, EM extends EquipmentProvider> implements MSListenerRedirector

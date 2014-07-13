@@ -20,6 +20,9 @@ import cz.minestrike.me.limeth.minestrike.equipment.gson.EquipmentCustomizationA
 import cz.minestrike.me.limeth.minestrike.equipment.gson.GunAdapter;
 import cz.minestrike.me.limeth.minestrike.equipment.guns.Gun;
 import cz.minestrike.me.limeth.minestrike.equipment.guns.GunType;
+import cz.minestrike.me.limeth.minestrike.equipment.simple.Helmet;
+import cz.minestrike.me.limeth.minestrike.equipment.simple.Kevlar;
+import cz.minestrike.me.limeth.minestrike.equipment.simple.KevlarAndHelmet;
 import cz.minestrike.me.limeth.minestrike.equipment.simple.Knife;
 import cz.minestrike.me.limeth.minestrike.games.team.defuse.DefuseEquipmentProvider;
 import cz.minestrike.me.limeth.minestrike.util.collections.FilledHashSet;
@@ -40,6 +43,9 @@ public class EquipmentManager
 		addAll(TYPES, GunType.values());
 		addAll(TYPES, GrenadeType.values());
 		
+		TYPES.add(Kevlar.KEVLAR);
+		TYPES.add(Helmet.HELMET);
+		TYPES.add(KevlarAndHelmet.KEVLAR_AND_HELMET);
 		TYPES.add(Knife.KNIFE);
 		
 		//Defuse

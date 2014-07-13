@@ -14,4 +14,9 @@ public interface Equipment
 	public String getSoundDraw();
 	public Integer getPrice(MSPlayer msPlayer);
 	public float getMovementSpeed(MSPlayer msPlayer);
+	
+	/**
+	 * @return Whether it should add the item to the player's inventory
+	 */
+	public boolean purchase(MSPlayer msPlayer);
 }

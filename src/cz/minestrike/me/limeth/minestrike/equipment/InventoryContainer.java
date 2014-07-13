@@ -2,11 +2,13 @@ package cz.minestrike.me.limeth.minestrike.equipment;
 
 import org.apache.commons.lang.Validate;
 
+import com.avaje.ebeaninternal.server.lib.util.NotFoundException;
+
 public class InventoryContainer extends ScalableContainer
 {
 	private static final long serialVersionUID = -8525702276639421368L;
 	
-	public CustomizedEquipment<? extends Equipment> getEquippedCustomizedEquipment(EquipmentCategoryEntry categoryEntry)
+	public CustomizedEquipment<? extends Equipment> getEquippedCustomizedEquipment(EquipmentCategoryEntry categoryEntry) throws NotFoundException
 	{
 		Validate.notNull(categoryEntry, "The category entry must not be null!");
 		
@@ -27,13 +29,22 @@ public class InventoryContainer extends ScalableContainer
 			return customEquipment;
 		}
 		
-		return null;
+		throw new NotFoundException("CustomizedEquipment for category entry " + categoryEntry + " not found.");
 	}
 	
 	public Equipment getEquippedEquipment(EquipmentCategoryEntry categoryEntry)
 	{
-		CustomizedEquipment<? extends Equipment> customized = getEquippedCustomizedEquipment(categoryEntry);
+		CustomizedEquipment<? extends Equipment> customized;
 		
-		return customized != null ? customized : categoryEntry.getDefaultEquipment();
+		try
+		{
+			customized = getEquippedCustomizedEquipment(categoryEntry);
+		}
+		catch(Exception e)
+		{
+			return categoryEntry.getDefaultEquipment();
+		}
+		
+		return customized;
 	}
 }
