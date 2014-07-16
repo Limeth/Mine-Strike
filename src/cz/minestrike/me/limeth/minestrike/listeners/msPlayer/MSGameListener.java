@@ -3,8 +3,8 @@ package cz.minestrike.me.limeth.minestrike.listeners.msPlayer;
 import cz.minestrike.me.limeth.minestrike.areas.schemes.GameLobby;
 import cz.minestrike.me.limeth.minestrike.areas.schemes.GameMap;
 import cz.minestrike.me.limeth.minestrike.areas.schemes.GameMenu;
-import cz.minestrike.me.limeth.minestrike.games.EquipmentProvider;
-import cz.minestrike.me.limeth.minestrike.games.Game;
+import cz.minestrike.me.limeth.minestrike.scene.games.EquipmentProvider;
+import cz.minestrike.me.limeth.minestrike.scene.games.Game;
 
 public abstract class MSGameListener<T extends Game<? extends GameLobby, ? extends GameMenu, ? extends GameMap, ? extends EquipmentProvider>> extends MSListener
 {

@@ -6,7 +6,7 @@ import cz.minestrike.me.limeth.minestrike.MSConstant;
 import cz.minestrike.me.limeth.minestrike.MSPlayer;
 import cz.minestrike.me.limeth.minestrike.equipment.CustomizedEquipment;
 import cz.minestrike.me.limeth.minestrike.equipment.Equipment;
-import cz.minestrike.me.limeth.minestrike.games.MoneyAward;
+import cz.minestrike.me.limeth.minestrike.scene.games.MoneyAward;
 
 
 public enum GunType implements Equipment

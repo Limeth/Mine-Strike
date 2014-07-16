@@ -9,7 +9,7 @@ import cz.minestrike.me.limeth.minestrike.areas.Point;
 import cz.minestrike.me.limeth.minestrike.areas.Region;
 import cz.minestrike.me.limeth.minestrike.areas.RegionList;
 import cz.minestrike.me.limeth.minestrike.commands.SchemeCommandHandler;
-import cz.minestrike.me.limeth.minestrike.games.Team;
+import cz.minestrike.me.limeth.minestrike.scene.games.Team;
 import cz.minestrike.me.limeth.minestrike.util.collections.FilledHashMap;
 
 

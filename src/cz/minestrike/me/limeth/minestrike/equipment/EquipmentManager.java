@@ -24,7 +24,7 @@ import cz.minestrike.me.limeth.minestrike.equipment.simple.Helmet;
 import cz.minestrike.me.limeth.minestrike.equipment.simple.Kevlar;
 import cz.minestrike.me.limeth.minestrike.equipment.simple.KevlarAndHelmet;
 import cz.minestrike.me.limeth.minestrike.equipment.simple.Knife;
-import cz.minestrike.me.limeth.minestrike.games.team.defuse.DefuseEquipmentProvider;
+import cz.minestrike.me.limeth.minestrike.scene.games.team.defuse.DefuseEquipmentProvider;
 import cz.minestrike.me.limeth.minestrike.util.collections.FilledHashSet;
 
 public class EquipmentManager

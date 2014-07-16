@@ -28,25 +28,24 @@ import org.bukkit.util.Vector;
 
 import ca.wacos.nametagedit.NametagAPI;
 import cz.minestrike.me.limeth.minestrike.areas.Structure;
-import cz.minestrike.me.limeth.minestrike.areas.schemes.GameLobby;
-import cz.minestrike.me.limeth.minestrike.areas.schemes.GameMap;
-import cz.minestrike.me.limeth.minestrike.areas.schemes.GameMenu;
 import cz.minestrike.me.limeth.minestrike.areas.schemes.Scheme;
-import cz.minestrike.me.limeth.minestrike.equipment.ArmorContainer;
 import cz.minestrike.me.limeth.minestrike.equipment.Equipment;
 import cz.minestrike.me.limeth.minestrike.equipment.EquipmentManager;
-import cz.minestrike.me.limeth.minestrike.equipment.HotbarContainer;
-import cz.minestrike.me.limeth.minestrike.equipment.InventoryContainer;
+import cz.minestrike.me.limeth.minestrike.equipment.containers.ArmorContainer;
+import cz.minestrike.me.limeth.minestrike.equipment.containers.HotbarContainer;
+import cz.minestrike.me.limeth.minestrike.equipment.containers.InventoryContainer;
 import cz.minestrike.me.limeth.minestrike.equipment.guns.Firing;
 import cz.minestrike.me.limeth.minestrike.equipment.guns.Gun;
 import cz.minestrike.me.limeth.minestrike.equipment.guns.GunManager;
 import cz.minestrike.me.limeth.minestrike.equipment.guns.GunTask;
 import cz.minestrike.me.limeth.minestrike.equipment.guns.GunType;
 import cz.minestrike.me.limeth.minestrike.equipment.guns.Reloading;
-import cz.minestrike.me.limeth.minestrike.games.EquipmentProvider;
-import cz.minestrike.me.limeth.minestrike.games.Game;
-import cz.minestrike.me.limeth.minestrike.games.PlayerState;
 import cz.minestrike.me.limeth.minestrike.listeners.msPlayer.lobby.MSLobbyListener;
+import cz.minestrike.me.limeth.minestrike.scene.Scene;
+import cz.minestrike.me.limeth.minestrike.scene.games.EquipmentProvider;
+import cz.minestrike.me.limeth.minestrike.scene.games.Game;
+import cz.minestrike.me.limeth.minestrike.scene.games.PlayerState;
+import cz.minestrike.me.limeth.minestrike.scene.lobby.Lobby;
 import cz.minestrike.me.limeth.minestrike.util.SoundManager;
 import cz.minestrike.me.limeth.storagemanager.Record;
 import cz.minestrike.me.limeth.storagemanager.RecordData;
@@ -228,9 +227,7 @@ public class MSPlayer implements Record
 	private long recoilSetTime, jumpTime, landTime;
 	private double speed;
 	private boolean inAir;
-	
-	//Game stuff
-	private Game<? extends GameLobby, ? extends GameMenu, ? extends GameMap, ? extends EquipmentProvider> game;
+	private Scene lazyScene;
 	
 	public MSPlayer(String playerName, RecordData data)
 	{
@@ -245,8 +242,9 @@ public class MSPlayer implements Record
 	
 	public void redirectEvent(Event event)
 	{
-		if(hasGame())
-			game.redirect(event, this);
+		Scene scene = getScene();
+		
+		scene.redirect(event, this);
 		
 		if(hasPlayerStructure())
 			playerStructure.redirect(event, this);
@@ -285,10 +283,11 @@ public class MSPlayer implements Record
 		if(rankPrefix != null)
 			prefix += rankPrefix;
 		
-		String gamePrefix = hasGame() ? game.getPrefix(this) : null;
+		Scene scene = getScene();
+		String scenePrefix = scene.getPrefix(this);
 		
-		if(gamePrefix != null)
-			prefix += gamePrefix;
+		if(scenePrefix != null)
+			prefix += scenePrefix;
 		
 		return prefix;
 	}
@@ -308,10 +307,11 @@ public class MSPlayer implements Record
 	public String getSuffix()
 	{
 		String suffix = "";
-		String gameSuffix = hasGame() ? game.getSuffix(this) : null;
+		Scene scene = getScene();
+		String sceneSuffix = scene.getSuffix(this);
 		
-		if(gameSuffix != null)
-			suffix += gameSuffix;
+		if(sceneSuffix != null)
+			suffix += sceneSuffix;
 		
 		return suffix;
 	}
@@ -328,8 +328,11 @@ public class MSPlayer implements Record
 	
 	public float getMovementSpeed()
 	{
-		if(hasGame())
+		Scene scene = getScene();
+		
+		if(scene instanceof Game)
 		{
+			Game<?, ?, ?, ?> game = (Game<?, ?, ?, ?>) scene;
 			EquipmentProvider em = game.getEquipmentProvider();
 			Equipment equipment = em.getCurrentlyEquipped(this);
 			
@@ -353,19 +356,16 @@ public class MSPlayer implements Record
 		return player;
 	}
 	
+	public void kill()
+	{
+		getPlayer().setHealth(0.0);
+	}
+	
 	public Location spawn(boolean teleport)
 	{
-		if(hasGame())
-			return getGame().spawn(this, teleport);
-		else
-		{
-			Location loc = MSConfig.getWorld().getSpawnLocation();
-			
-			if(teleport)
-				teleport(loc);
-			
-			return loc;
-		}
+		Scene scene = getScene();
+		
+		return scene.spawn(this, teleport);
 	}
 	
 	public void respawn()
@@ -395,15 +395,13 @@ public class MSPlayer implements Record
 	
 	public void pressTrigger(Gun gun)
 	{
-		if(!gun.isLoaded())
+		if(!gun.isLoaded() || !gun.isShotDelaySatisfied())
 			return;
 		
 		GunType gunType = gun.getEquipment();
 		
 		if(gunType.isLoadingContinuously() && gunTask instanceof Reloading)
-		{
 			gunTask.remove();
-		}
 		
 		if(gunType.isAutomatic())
 		{
@@ -425,7 +423,7 @@ public class MSPlayer implements Record
 			Player player = getPlayer();
 			
 			gun.decreaseLoadedBullets();
-			shoot(gunType);
+			shoot(gun);
 			gun.apply(player.getItemInHand());
 		}
 	}
@@ -445,16 +443,18 @@ public class MSPlayer implements Record
 		setGunTask(new Reloading(this, slot, gunType).startLoop());
 	}
 	
-	public void shoot(GunType type)
+	public void shoot(Gun gun)
 	{
 		Player player = getPlayer();
 		
 		if(player == null)
 			return;
 		
+		GunType type = gun.getEquipment();
 		Location location = player.getEyeLocation();
 		String shootSound = type.getSoundShooting();
 		
+		gun.setLastBulletShotAt();
 		SoundManager.play(shootSound, location, Bukkit.getOnlinePlayers());
 		GunManager.shoot(location, this, type);
 	}
@@ -475,6 +475,13 @@ public class MSPlayer implements Record
 	public <T> T getCustomData(Class<T> clazz, String key)
 	{
 		return (T) getCustomData(key);
+	}
+	
+	public <T> T getCustomData(Class<T> clazz, String key, T ifNull)
+	{
+		T customData = getCustomData(clazz, key);
+		
+		return customData != null ? customData : ifNull;
 	}
 	
 	public boolean hasCustomData(String key)
@@ -715,19 +722,14 @@ public class MSPlayer implements Record
 		this.inAir = inAir;
 	}
 	
-	public boolean hasGame()
+	public Scene getScene()
 	{
-		return game != null;
+		return lazyScene != null ? lazyScene : Lobby.getInstance();
 	}
-
-	public Game<? extends GameLobby, ? extends GameMenu, ? extends GameMap, ? extends EquipmentProvider> getGame()
+	
+	public void setScene(Scene scene)
 	{
-		return game;
-	}
-
-	public void setGame(Game<? extends GameLobby, ? extends GameMenu, ? extends GameMap, ? extends EquipmentProvider> game)
-	{
-		this.game = game;
+		this.lazyScene = scene;
 	}
 	
 	public void set(String key, Object value)

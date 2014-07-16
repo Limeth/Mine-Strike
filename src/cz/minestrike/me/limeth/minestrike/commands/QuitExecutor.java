@@ -8,11 +8,11 @@ import org.bukkit.entity.Player;
 
 import cz.minestrike.me.limeth.minestrike.MSPlayer;
 import cz.minestrike.me.limeth.minestrike.events.GameQuitEvent.GameQuitReason;
-import cz.minestrike.me.limeth.minestrike.games.Game;
+import cz.minestrike.me.limeth.minestrike.scene.Scene;
+import cz.minestrike.me.limeth.minestrike.scene.games.Game;
 
 public class QuitExecutor implements CommandExecutor
 {
-
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args)
 	{
@@ -24,16 +24,17 @@ public class QuitExecutor implements CommandExecutor
 		
 		Player player = (Player) sender;
 		MSPlayer msPlayer = MSPlayer.get(player);
-		Game<?, ?, ?, ?> game = msPlayer.getGame();
+		Scene scene = msPlayer.getScene();
 		
-		if(game == null)
+		if(!(scene instanceof Game))
 		{
 			player.sendMessage(ChatColor.RED + "You are not in a game.");
 			return true;
 		}
 		
+		Game<?, ?, ?, ?> game = (Game<?, ?, ?, ?>) scene;
+		
 		game.quit(msPlayer, GameQuitReason.LEAVE, true);
 		return true;
 	}
-
 }

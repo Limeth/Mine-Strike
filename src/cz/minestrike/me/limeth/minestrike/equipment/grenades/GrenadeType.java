@@ -32,10 +32,11 @@ import cz.minestrike.me.limeth.minestrike.MSPlayer;
 import cz.minestrike.me.limeth.minestrike.MineStrike;
 import cz.minestrike.me.limeth.minestrike.equipment.DamageSource;
 import cz.minestrike.me.limeth.minestrike.equipment.Equipment;
-import cz.minestrike.me.limeth.minestrike.games.Game;
-import cz.minestrike.me.limeth.minestrike.games.Team;
-import cz.minestrike.me.limeth.minestrike.games.TeamValue;
-import cz.minestrike.me.limeth.minestrike.games.team.TeamGame;
+import cz.minestrike.me.limeth.minestrike.scene.Scene;
+import cz.minestrike.me.limeth.minestrike.scene.games.Game;
+import cz.minestrike.me.limeth.minestrike.scene.games.Team;
+import cz.minestrike.me.limeth.minestrike.scene.games.TeamValue;
+import cz.minestrike.me.limeth.minestrike.scene.games.team.TeamGame;
 import cz.minestrike.me.limeth.minestrike.util.SoundManager;
 import darkBlade12.ParticleEffect;
 
@@ -372,7 +373,12 @@ public enum GrenadeType implements Equipment, DamageSource
 	
 	public Integer getPrice(MSPlayer msPlayer)
 	{
-		Game<?, ?, ?, ?> game = msPlayer.getGame();
+		Scene scene = msPlayer.getScene();
+		
+		if(!(scene instanceof Game))
+			throw new IllegalArgumentException("The scene must be an instance of game.");
+		
+		Game<?, ?, ?, ?> game = (Game<?, ?, ?, ?>) scene;
 		
 		if(!(game instanceof TeamGame))
 			return price.getNone();

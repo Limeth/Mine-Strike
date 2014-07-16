@@ -5,7 +5,7 @@ import org.bukkit.event.Cancellable;
 import org.bukkit.event.HandlerList;
 
 import cz.minestrike.me.limeth.minestrike.MSPlayer;
-import cz.minestrike.me.limeth.minestrike.games.Game;
+import cz.minestrike.me.limeth.minestrike.scene.games.Game;
 
 public class ArenaQuitEvent extends MSPlayerEvent implements Cancellable, GameEvent
 {

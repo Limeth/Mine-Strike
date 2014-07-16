@@ -24,12 +24,8 @@ import org.bukkit.util.Vector;
 
 import cz.minestrike.me.limeth.minestrike.BodyPart;
 import cz.minestrike.me.limeth.minestrike.MSPlayer;
-import cz.minestrike.me.limeth.minestrike.areas.schemes.GameLobby;
-import cz.minestrike.me.limeth.minestrike.areas.schemes.GameMap;
-import cz.minestrike.me.limeth.minestrike.areas.schemes.GameMenu;
 import cz.minestrike.me.limeth.minestrike.equipment.Equipment;
-import cz.minestrike.me.limeth.minestrike.games.EquipmentProvider;
-import cz.minestrike.me.limeth.minestrike.games.Game;
+import cz.minestrike.me.limeth.minestrike.equipment.containers.HotbarContainer;
 import darkBlade12.ParticleEffect;
 
 public class GunManager
@@ -357,9 +353,8 @@ public class GunManager
 				if(!(rawBukkitVictim instanceof Player))
 					return;
 				
-				Game<? extends GameLobby, ? extends GameMenu, ? extends GameMap, ? extends EquipmentProvider> game = msPlayer.getGame();
-				EquipmentProvider ep = game.getEquipmentProvider();
-				Equipment equipment = ep.getCurrentlyEquipped(msPlayer);
+				HotbarContainer hotbarContainer = msPlayer.getHotbarContainer();
+				Equipment equipment = hotbarContainer.getHeld(msPlayer);
 				
 				if(!(equipment instanceof Gun))
 					return;

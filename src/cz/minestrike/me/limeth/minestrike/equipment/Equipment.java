@@ -17,6 +17,7 @@ public interface Equipment
 	
 	/**
 	 * @return Whether it should add the item to the player's inventory
+	 * @throws EquipmentPurchaseException 
 	 */
-	public boolean purchase(MSPlayer msPlayer);
+	public boolean purchase(MSPlayer msPlayer) throws EquipmentPurchaseException;
 }

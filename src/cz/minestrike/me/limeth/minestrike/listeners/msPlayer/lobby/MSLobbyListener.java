@@ -4,7 +4,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.BlockState;
-import org.bukkit.block.CommandBlock;
 import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -59,31 +58,22 @@ public class MSLobbyListener extends MSListener
 				BlockState targetState = targetBlock.getState();
 				String command = null;
 				
-				if(targetState instanceof Sign)
-				{
-					Sign sign = (Sign) targetState;
-					String[] lines = sign.getLines();
-					
-					for(String line : lines)
-					{
-						line = line.trim();
-						
-						if(line.length() > 0)
-							if(command == null)
-								command = line;
-							else
-								command += " " + line;
-					}
-				}
-				else if(targetState instanceof CommandBlock)
-				{
-					CommandBlock cmd = (CommandBlock) targetState;
-					command = cmd.getCommand();
-					
-					event.setCancelled(true);
-				}
-				else
+				if(!(targetState instanceof Sign))
 					continue;
+				
+				Sign sign = (Sign) targetState;
+				String[] lines = sign.getLines();
+				
+				for(String line : lines)
+				{
+					line = line.trim();
+					
+					if(line.length() > 0)
+						if(command == null)
+							command = line;
+						else
+							command += " " + line;
+				}
 				
 				if(command.length() > 0)
 					Bukkit.dispatchCommand(player, command);

@@ -7,8 +7,9 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import cz.minestrike.me.limeth.minestrike.MSPlayer;
-import cz.minestrike.me.limeth.minestrike.games.Game;
-import cz.minestrike.me.limeth.minestrike.games.GameManager;
+import cz.minestrike.me.limeth.minestrike.scene.Scene;
+import cz.minestrike.me.limeth.minestrike.scene.games.Game;
+import cz.minestrike.me.limeth.minestrike.scene.games.GameManager;
 
 public class JoinExecutor implements CommandExecutor
 {
@@ -30,10 +31,11 @@ public class JoinExecutor implements CommandExecutor
 		else
 		{
 			MSPlayer msPlayer = MSPlayer.get(player);
+			Scene scene = msPlayer.getScene();
 			
-			if(msPlayer.hasGame())
+			if(scene instanceof Game)
 			{
-				player.sendMessage(ChatColor.RED + "You are already playing in game " + ChatColor.YELLOW + msPlayer.getGame().getName() + ChatColor.RED + ".");
+				player.sendMessage(ChatColor.RED + "You are already playing in game " + ChatColor.YELLOW + ((Game<?, ?, ?, ?>) scene).getName() + ChatColor.RED + ".");
 				player.sendMessage(ChatColor.RED + "To leave the game, type " + ChatColor.YELLOW + ChatColor.ITALIC + "/leave" + ChatColor.RED + ".");
 				return true;
 			}

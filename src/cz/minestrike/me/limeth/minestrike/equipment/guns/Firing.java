@@ -68,7 +68,7 @@ public class Firing extends GunTask
 			if(gun != null)
 				if(decreaseBullets(gun))
 				{
-					getMSPlayer().shoot(getGunType());
+					getMSPlayer().shoot(gun);
 					return true;
 				}
 		}

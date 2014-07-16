@@ -10,7 +10,7 @@ public enum Translation
 {
 	ERROR("&c&lAn error occured.", "&c&lNastala chyba."),
 	RELOAD("Press &lQ", "Stisknete &lQ"),
-	KICK_RESTARTING("&8\u00BB&9MINE&f-&6STRIKE&8\u00AB&f   \nServer is restarting...", "&8\u00BB&9MINE&f-&6STRIKE&8\u00AB&f   \nProbíhá restart serveru..."),
+	KICK_RESTARTING("&8\u00BB&9MINE&f-&6STRIKE&8\u00AB&f\nServer is restarting...", "&8\u00BB&9MINE&f-&6STRIKE&8\u00AB&f\nProbíhá restart serveru..."),
 	
 	GAME_POLL_HEADER_VOTING("&a&lMap Poll &8| &e{1}s", "&a&lHlasování o mapu &8| &e{1}s"),
 	GAME_POLL_HEADER_CHANGING("&2&lChanging in &8| &6{1}s", "&2&lZmena za &8| &6{1}s"),
@@ -47,7 +47,9 @@ public enum Translation
 	EQUIPMENT_RARITY_VALUABLE("Valuable", "Cenny"),
 	EQUIPMENT_RARITY_RARE("Rare", "Vzácny"),
 	EQUIPMENT_RARITY_UNIQUE("Unique", "Unikátní"),
-	EQUIPMENT_RARITY_LEGENDARY("Legendary", "Legendární")
+	EQUIPMENT_RARITY_LEGENDARY("Legendary", "Legendární"),
+	
+	INVENTORY("Inventory", "Inventár")
 	;
 	
 	public static final String ENGLISH_NAME = "en", CZECH_NAME = "cz", DEFAULT_LANGUAGE_NAME = ENGLISH_NAME;

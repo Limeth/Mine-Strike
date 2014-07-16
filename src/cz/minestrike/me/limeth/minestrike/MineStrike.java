@@ -17,7 +17,6 @@ import cz.minestrike.me.limeth.minestrike.areas.schemes.SchemeManager;
 import cz.minestrike.me.limeth.minestrike.commands.JoinExecutor;
 import cz.minestrike.me.limeth.minestrike.commands.MSExecutor;
 import cz.minestrike.me.limeth.minestrike.commands.QuitExecutor;
-import cz.minestrike.me.limeth.minestrike.games.GameManager;
 import cz.minestrike.me.limeth.minestrike.listeners.ConnectionListener;
 import cz.minestrike.me.limeth.minestrike.listeners.ErrorListener;
 import cz.minestrike.me.limeth.minestrike.listeners.InteractionListener;
@@ -25,6 +24,7 @@ import cz.minestrike.me.limeth.minestrike.listeners.InventoryListener;
 import cz.minestrike.me.limeth.minestrike.listeners.PermissionListener;
 import cz.minestrike.me.limeth.minestrike.listeners.msPlayer.MSListenerManager;
 import cz.minestrike.me.limeth.minestrike.listeners.msPlayer.lobby.MSLobbyListener;
+import cz.minestrike.me.limeth.minestrike.scene.games.GameManager;
 import cz.minestrike.me.limeth.minestrike.util.SoundManager;
 import cz.minestrike.me.limeth.storagemanager.mysql.MySQLService;
 
@@ -173,12 +173,6 @@ public class MineStrike extends JavaPlugin
 		for(Player player : Bukkit.getOnlinePlayers())
 			if(player.hasPermission("MineStrike.warn"))
 				player.sendMessage(MSConstant.CONSOLE_PREFIX + ChatColor.RED + "[!] " + ChatColor.RESET + string);
-	}
-	
-	public static void broadcastToLobby(String string)
-	{
-		for(MSPlayer msPlayer : MSPlayer.getOnlinePlayers(p -> { return !p.hasGame(); }))
-			msPlayer.sendMessage(string);
 	}
 	
 	public static MySQLService getService()

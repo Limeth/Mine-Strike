@@ -3,8 +3,8 @@ package cz.minestrike.me.limeth.minestrike.areas.schemes;
 import java.lang.reflect.InvocationTargetException;
 
 import cz.minestrike.me.limeth.minestrike.areas.Region;
-import cz.minestrike.me.limeth.minestrike.games.team.TeamGameMenu;
-import cz.minestrike.me.limeth.minestrike.games.team.defuse.DefuseGameMap;
+import cz.minestrike.me.limeth.minestrike.scene.games.team.TeamGameMenu;
+import cz.minestrike.me.limeth.minestrike.scene.games.team.defuse.DefuseGameMap;
 
 public enum SchemeType
 {

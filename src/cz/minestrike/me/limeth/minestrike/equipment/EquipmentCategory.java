@@ -14,13 +14,15 @@ import org.bukkit.inventory.meta.ItemMeta;
 import cz.minestrike.me.limeth.minestrike.MSConstant;
 import cz.minestrike.me.limeth.minestrike.MSPlayer;
 import cz.minestrike.me.limeth.minestrike.Translation;
+import cz.minestrike.me.limeth.minestrike.equipment.containers.InventoryContainer;
 import cz.minestrike.me.limeth.minestrike.equipment.grenades.GrenadeType;
 import cz.minestrike.me.limeth.minestrike.equipment.guns.GunType;
 import cz.minestrike.me.limeth.minestrike.equipment.simple.Kevlar;
 import cz.minestrike.me.limeth.minestrike.equipment.simple.KevlarAndHelmet;
-import cz.minestrike.me.limeth.minestrike.games.Game;
-import cz.minestrike.me.limeth.minestrike.games.Team;
-import cz.minestrike.me.limeth.minestrike.games.team.TeamGame;
+import cz.minestrike.me.limeth.minestrike.scene.Scene;
+import cz.minestrike.me.limeth.minestrike.scene.games.Game;
+import cz.minestrike.me.limeth.minestrike.scene.games.Team;
+import cz.minestrike.me.limeth.minestrike.scene.games.team.TeamGame;
 import cz.minestrike.me.limeth.minestrike.util.LoreAttributes;
 import cz.minestrike.me.limeth.minestrike.util.PlayerUtil;
 
@@ -141,7 +143,7 @@ public class EquipmentCategory
 		Inventory inv = Bukkit.createInventory(player, PlayerUtil.INVENTORY_WIDTH * 4, MSConstant.INVENTORY_NAME_PREFIX + name);
 		
 		for(int i = 0; i < inv.getSize(); i++)
-			inv.setItem(i, MSConstant.BACKGROUND_ITEM);
+			inv.setItem(i, MSConstant.ITEM_BACKGROUND);
 		
 		int width = (int) Math.ceil(entries.length / 2D);
 		int x = 4 - (width / 2);
@@ -200,7 +202,12 @@ public class EquipmentCategory
 	
 	public EquipmentCategoryEntry[] getEntries(MSPlayer msPlayer)
 	{
-		Game<?, ?, ?, ?> game = msPlayer.getGame();
+		Scene scene = msPlayer.getScene();
+		
+		if(!(scene instanceof Game))
+			return null;
+		
+		Game<?, ?, ?, ?> game = (Game<?, ?, ?, ?>) scene;
 		
 		if(!(game instanceof TeamGame))
 			return getEntries();

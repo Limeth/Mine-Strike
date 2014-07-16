@@ -16,7 +16,7 @@ public class RendererUtil
 		List<MapRenderer> renderers = view.getRenderers();
 		
 		renderers.clear();
-		renderers.add(renderer);
+		view.addRenderer(renderer);
 	}
 	
 	@SuppressWarnings("deprecation")

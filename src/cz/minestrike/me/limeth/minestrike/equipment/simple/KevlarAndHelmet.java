@@ -6,9 +6,11 @@ import org.bukkit.inventory.meta.LeatherArmorMeta;
 
 import cz.minestrike.me.limeth.minestrike.MSConstant;
 import cz.minestrike.me.limeth.minestrike.MSPlayer;
+import cz.minestrike.me.limeth.minestrike.equipment.EquipmentPurchaseException;
 import cz.minestrike.me.limeth.minestrike.equipment.SimpleEquipment;
-import cz.minestrike.me.limeth.minestrike.games.EquipmentProvider;
-import cz.minestrike.me.limeth.minestrike.games.Game;
+import cz.minestrike.me.limeth.minestrike.scene.Scene;
+import cz.minestrike.me.limeth.minestrike.scene.games.EquipmentProvider;
+import cz.minestrike.me.limeth.minestrike.scene.games.Game;
 
 public class KevlarAndHelmet extends SimpleEquipment
 {
@@ -33,9 +35,14 @@ public class KevlarAndHelmet extends SimpleEquipment
 	}
 	
 	@Override
-	public boolean purchase(MSPlayer msPlayer)
+	public boolean purchase(MSPlayer msPlayer) throws EquipmentPurchaseException
 	{
-		Game<?, ?, ?, ? extends EquipmentProvider> game = msPlayer.getGame();
+		Scene scene = msPlayer.getScene();
+		
+		if(!(scene instanceof Game))
+			throw new EquipmentPurchaseException(this, "The scene " + scene + " is not an instance of game.");
+		
+		Game<?, ?, ?, ? extends EquipmentProvider> game = (Game<?, ?, ?, ? extends EquipmentProvider>) scene;
 		EquipmentProvider ep = game.getEquipmentProvider();
 		
 		ep.setHelmet(msPlayer, true);

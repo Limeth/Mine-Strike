@@ -9,8 +9,8 @@ import org.bukkit.inventory.PlayerInventory;
 
 import cz.minestrike.me.limeth.minestrike.MSPlayer;
 import cz.minestrike.me.limeth.minestrike.MineStrike;
-import cz.minestrike.me.limeth.minestrike.equipment.Container;
 import cz.minestrike.me.limeth.minestrike.equipment.Equipment;
+import cz.minestrike.me.limeth.minestrike.equipment.containers.Container;
 
 public class Reloading extends GunTask
 {

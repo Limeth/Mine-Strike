@@ -1,5 +1,6 @@
 package cz.minestrike.me.limeth.minestrike.util;
 
+import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -7,7 +8,6 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 
 import org.apache.commons.lang.Validate;
-import org.bukkit.Color;
 import org.bukkit.map.MapCanvas;
 import org.bukkit.map.MapPalette;
 
@@ -35,12 +35,9 @@ public class Bytemap
 		for(int x = 0; x < width; x++)
 			for(int y = 0; y < height; y++)
 			{
-				Color color = Color.fromRGB(image.getRGB(x, y));
-				int r = color.getRed();
-				int g = color.getGreen();
-				int b = color.getBlue();
-				
-				bytes[x + y * width] = MapPalette.matchColor(r, g, b);
+				int rgb = image.getRGB(x, y);
+				Color color = Color.decode(Integer.toString(rgb));
+				bytes[x + y * width] = MapPalette.matchColor(color);
 			}
 		
 		return new Bytemap(bytes, width, height, area);
@@ -51,22 +48,22 @@ public class Bytemap
 		return fromImage(ImageIO.read(file));
 	}
 	
-	public void draw(MapCanvas canvas, int absX, int absY)
+	public void draw(MapCanvas canvas, int startX, int startY)
 	{
 		Validate.notNull(canvas, "The canvas must not be null!");
 		
 		for(int x = 0; x < width; x++)
 		{
-			int relX = absX + x;
+			int absX = startX + x;
 			
-			if(relX < 0 || relX >= RendererUtil.MAP_SIZE)
+			if(absX < 0 || absX >= RendererUtil.MAP_SIZE)
 				continue;
 			
 			for(int y = 0; y < height; y++)
 			{
-				int relY = absY + y;
+				int absY = startY + y;
 				
-				if(relY < 0 || relY >= RendererUtil.MAP_SIZE)
+				if(absY < 0 || absY >= RendererUtil.MAP_SIZE)
 					continue;
 				
 				int index = toIndex(x, y);
@@ -75,7 +72,7 @@ public class Bytemap
 				if(color == null)
 					continue;
 				
-				canvas.setPixel(relX, relY, color);
+				canvas.setPixel(absX, absY, color);
 			}
 		}
 	}

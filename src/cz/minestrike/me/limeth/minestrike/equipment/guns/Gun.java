@@ -19,6 +19,7 @@ public class Gun extends CustomizedEquipment<GunType>
 	private static final RandomString RANDOM_STRING = new RandomString(8);
 	private String ownerName;
 	private Integer kills;
+	private Long lastBulletShotAt;
 	private int loadedBullets, unusedBullets;
 	private boolean reloading;
 	
@@ -245,5 +246,31 @@ public class Gun extends CustomizedEquipment<GunType>
 	public String toString()
 	{
 		return "Gun [gunType=" + getSource() + ", shooterName=" + ownerName + ", kills=" + kills + ", loadedBullets=" + loadedBullets + ", unusedBullets=" + unusedBullets + ", reloading=" + reloading + ", customization=" + getCustomization() + "]";
+	}
+	
+	public boolean isShotDelaySatisfied()
+	{
+		if(lastBulletShotAt == null)
+			return true;
+		
+		GunType type = getEquipment();
+		double cycleTime = type.getCycleTime() * 1000;
+		
+		return lastBulletShotAt < System.currentTimeMillis() - cycleTime;
+	}
+
+	public Long getLastBulletShotAt()
+	{
+		return lastBulletShotAt;
+	}
+
+	public void setLastBulletShotAt(Long lastBulletShotAt)
+	{
+		this.lastBulletShotAt = lastBulletShotAt;
+	}
+	
+	public void setLastBulletShotAt()
+	{
+		this.lastBulletShotAt = System.currentTimeMillis();
 	}
 }

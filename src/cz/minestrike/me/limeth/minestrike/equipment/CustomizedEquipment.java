@@ -105,7 +105,7 @@ public class CustomizedEquipment<T extends Equipment> implements Equipment
 	}
 	
 	@Override
-	public boolean purchase(MSPlayer msPlayer)
+	public boolean purchase(MSPlayer msPlayer) throws EquipmentPurchaseException
 	{
 		return equipment.purchase(msPlayer);
 	}

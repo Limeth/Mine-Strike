@@ -1,7 +1,7 @@
 package cz.minestrike.me.limeth.minestrike.equipment;
 
-import cz.minestrike.me.limeth.minestrike.games.Game;
-import cz.minestrike.me.limeth.minestrike.games.GameType;
+import cz.minestrike.me.limeth.minestrike.scene.games.Game;
+import cz.minestrike.me.limeth.minestrike.scene.games.GameType;
 
 @SuppressWarnings("rawtypes")
 public class EquipmentManagerInitializationException extends RuntimeException

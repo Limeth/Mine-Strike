@@ -34,9 +34,9 @@ import cz.minestrike.me.limeth.minestrike.areas.schemes.Scheme;
 import cz.minestrike.me.limeth.minestrike.areas.schemes.SchemeManager;
 import cz.minestrike.me.limeth.minestrike.areas.schemes.SchemeType;
 import cz.minestrike.me.limeth.minestrike.equipment.guns.GunType;
-import cz.minestrike.me.limeth.minestrike.games.Game;
-import cz.minestrike.me.limeth.minestrike.games.GameManager;
-import cz.minestrike.me.limeth.minestrike.games.GameType;
+import cz.minestrike.me.limeth.minestrike.scene.games.Game;
+import cz.minestrike.me.limeth.minestrike.scene.games.GameManager;
+import cz.minestrike.me.limeth.minestrike.scene.games.GameType;
 
 public class MSExecutor implements CommandExecutor
 {
