@@ -37,7 +37,7 @@ import cz.minestrike.me.limeth.minestrike.events.GameEquipEvent;
 import cz.minestrike.me.limeth.minestrike.events.GameJoinEvent;
 import cz.minestrike.me.limeth.minestrike.events.GameQuitEvent;
 import cz.minestrike.me.limeth.minestrike.events.GameQuitEvent.GameQuitReason;
-import cz.minestrike.me.limeth.minestrike.listeners.msPlayer.MSGameListener;
+import cz.minestrike.me.limeth.minestrike.listeners.msPlayer.MSSceneListener;
 import cz.minestrike.me.limeth.minestrike.scene.Scene;
 import cz.minestrike.me.limeth.minestrike.util.PlayerUtil;
 import cz.minestrike.me.limeth.minestrike.util.SoundManager;
@@ -61,8 +61,8 @@ public abstract class Game<Lo extends GameLobby, Me extends GameMenu, Ma extends
 	private Structure<Ma> mapStructure;
 	private GamePhase<Lo, Me, Ma, EM> phase;
 	private MSInventoryListener<Game<Lo, Me, Ma, EM>> inventoryListener;
-	private MSGameListener<Game<Lo, Me, Ma, EM>> shoppingListener;
-	private MSGameListener<Game<Lo, Me, Ma, EM>> interactionListener;
+	private MSSceneListener<Game<Lo, Me, Ma, EM>> shoppingListener;
+	private MSSceneListener<Game<Lo, Me, Ma, EM>> interactionListener;
 	private EM equipmentProvider;
 	private Scoreboard scoreboard;
 	

@@ -25,16 +25,18 @@ import cz.minestrike.me.limeth.minestrike.areas.schemes.GameLobby;
 import cz.minestrike.me.limeth.minestrike.events.ArenaJoinEvent;
 import cz.minestrike.me.limeth.minestrike.events.GameQuitEvent.GameQuitReason;
 import cz.minestrike.me.limeth.minestrike.events.GameSpawnEvent;
-import cz.minestrike.me.limeth.minestrike.listeners.msPlayer.MSGameListener;
+import cz.minestrike.me.limeth.minestrike.listeners.msPlayer.MSSceneListener;
 import cz.minestrike.me.limeth.minestrike.scene.games.GamePhase;
 import cz.minestrike.me.limeth.minestrike.scene.games.GamePhaseType;
 import cz.minestrike.me.limeth.minestrike.scene.games.GameType;
 import cz.minestrike.me.limeth.minestrike.scene.games.MoneyAward;
 import cz.minestrike.me.limeth.minestrike.scene.games.PlayerState;
 import cz.minestrike.me.limeth.minestrike.scene.games.Team;
+import cz.minestrike.me.limeth.minestrike.scene.games.VoiceSound;
 import cz.minestrike.me.limeth.minestrike.scene.games.team.TeamGame;
 import cz.minestrike.me.limeth.minestrike.scene.games.team.TeamGameMenu;
 import cz.minestrike.me.limeth.minestrike.scene.games.team.defuse.Round.RoundPhase;
+import cz.minestrike.me.limeth.minestrike.util.SoundManager;
 import cz.minestrike.me.limeth.minestrike.util.collections.FilledArrayList;
 import ftbastler.HeadsUpDisplay;
 
@@ -47,7 +49,7 @@ public class DefuseGame extends TeamGame<GameLobby, TeamGameMenu, DefuseGameMap,
 	private Team lastWinner;
 	private Block bombBlock;
 	private boolean bombGiven;
-	private MSGameListener<DefuseGame> defuseGameListener;
+	private MSSceneListener<DefuseGame> defuseGameListener;
 	
 	public DefuseGame(String id, String name, MSPlayer owner, boolean open, String lobby, String menu, FilledArrayList<String> maps)
 	{
@@ -112,8 +114,6 @@ public class DefuseGame extends TeamGame<GameLobby, TeamGameMenu, DefuseGameMap,
 		bombGiven = false;
 		giveBomb();
 		
-		broadcast("Preparing round...");
-		
 		return true;
 	}
 	
@@ -121,17 +121,20 @@ public class DefuseGame extends TeamGame<GameLobby, TeamGameMenu, DefuseGameMap,
 	{
 		for(MSPlayer msPlayer : getPlayingPlayers())
 		{
+			Player player = msPlayer.getPlayer();
+			Team team = getTeam(msPlayer);
+			String sound = team.getVoiceSound(VoiceSound.LOCK_AND_LOAD);
+			
 			showWitherBar(msPlayer);
 			msPlayer.updateMovementSpeed();
+			SoundManager.play(sound, player);
 		}
-		
-		broadcast("Round started.");
 		
 		return true;
 	}
 	
 	@SuppressWarnings("deprecation")
-	public void giveBomb()
+	public MSPlayer giveBomb()
 	{
 		Set<MSPlayer> terrorists = getPlayingPlayers(p -> { return getTeam(p) == Team.TERRORISTS; });
 		int terroristsAmount = terrorists.size();
@@ -160,9 +163,13 @@ public class DefuseGame extends TeamGame<GameLobby, TeamGameMenu, DefuseGameMap,
 			mgr.equipBomb(carrier);
 			player.updateInventory();
 			carrier.sendMessage(Translation.GAME_BOMB_RECEIVED.getMessage());
+			
+			return carrier;
 		}
 		else
 			bombGiven = false;
+		
+		return null;
 	}
 	
 	public void plant(Block block)

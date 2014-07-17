@@ -14,7 +14,7 @@ import cz.minestrike.me.limeth.minestrike.MineStrike;
 import cz.minestrike.me.limeth.minestrike.areas.schemes.GameLobby;
 import cz.minestrike.me.limeth.minestrike.events.ArenaJoinEvent;
 import cz.minestrike.me.limeth.minestrike.events.ArenaQuitEvent;
-import cz.minestrike.me.limeth.minestrike.listeners.msPlayer.MSGameListener;
+import cz.minestrike.me.limeth.minestrike.listeners.msPlayer.MSSceneListener;
 import cz.minestrike.me.limeth.minestrike.listeners.msPlayer.MSListener;
 import cz.minestrike.me.limeth.minestrike.scene.games.GamePhase;
 import cz.minestrike.me.limeth.minestrike.scene.games.GamePhaseType;
@@ -86,7 +86,7 @@ public class Round extends GamePhase<GameLobby, TeamGameMenu, DefuseGameMap, Def
 		}
 	};
 	
-	private final MSGameListener<DefuseGame> listener;
+	private final MSSceneListener<DefuseGame> listener;
 	private PreparationCheckRunnable checker;
 	private RoundPhase phase;
 	private Integer taskId;
@@ -196,7 +196,7 @@ public class Round extends GamePhase<GameLobby, TeamGameMenu, DefuseGameMap, Def
 		this.ranAt = ranAt;
 	}
 
-	private static class RoundListener extends MSGameListener<DefuseGame>
+	private static class RoundListener extends MSSceneListener<DefuseGame>
 	{
 		public RoundListener(DefuseGame game)
 		{
@@ -206,7 +206,7 @@ public class Round extends GamePhase<GameLobby, TeamGameMenu, DefuseGameMap, Def
 		@EventHandler
 		public void onArenaJoin(ArenaJoinEvent event, MSPlayer msPlayer)
 		{
-			DefuseGame game = getGame();
+			DefuseGame game = getScene();
 			GamePhase<GameLobby, TeamGameMenu, DefuseGameMap, DefuseEquipmentProvider> phase = game.getPhase();
 			
 			if(phase instanceof Round)

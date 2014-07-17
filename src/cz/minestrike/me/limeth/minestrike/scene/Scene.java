@@ -11,7 +11,9 @@ import cz.minestrike.me.limeth.minestrike.listeners.msPlayer.MSListenerRedirecto
 
 public abstract class Scene implements MSListenerRedirector
 {
+	public abstract Scene setup();
 	public abstract Location spawn(MSPlayer msPlayer, boolean teleport);
+	public abstract void equip(MSPlayer msPlayer, boolean force);
 	public abstract void broadcast(String message);
 	public abstract Set<MSPlayer> getPlayers();
 	public abstract Set<MSPlayer> getPlayers(Predicate<? super MSPlayer> condition);

@@ -28,7 +28,7 @@ import cz.minestrike.me.limeth.minestrike.areas.schemes.GameLobby;
 import cz.minestrike.me.limeth.minestrike.areas.schemes.GameMap;
 import cz.minestrike.me.limeth.minestrike.areas.schemes.GameMenu;
 import cz.minestrike.me.limeth.minestrike.events.GameEquipEvent;
-import cz.minestrike.me.limeth.minestrike.listeners.msPlayer.MSGameListener;
+import cz.minestrike.me.limeth.minestrike.listeners.msPlayer.MSSceneListener;
 import cz.minestrike.me.limeth.minestrike.renderers.MapPollRenderer;
 import cz.minestrike.me.limeth.minestrike.util.MapAllocator;
 import cz.minestrike.me.limeth.minestrike.util.RendererUtil;
@@ -313,7 +313,7 @@ public class MapPoll<Lo extends GameLobby, Me extends GameMenu, Ma extends GameM
 		return votedMap;
 	}
 
-	private class PollListener extends MSGameListener<Game<Lo, Me, Ma, EM>>
+	private class PollListener extends MSSceneListener<Game<Lo, Me, Ma, EM>>
 	{
 		public PollListener(Game<Lo, Me, Ma, EM> game)
 		{
@@ -323,7 +323,7 @@ public class MapPoll<Lo extends GameLobby, Me extends GameMenu, Ma extends GameM
 		@EventHandler
 		public void onGameEquip(GameEquipEvent event, MSPlayer msPlayer)
 		{
-			Game<Lo, Me, Ma, EM> game = getGame();
+			Game<Lo, Me, Ma, EM> game = getScene();
 			
 			if(game.isPlayerPlaying().test(msPlayer))
 				equipPlayer(msPlayer);

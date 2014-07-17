@@ -25,7 +25,10 @@ public class ConnectionListener implements Listener
 		String playerName = player.getName();
 		Location spawn = MSConfig.getSpawnLocation();
 		MSPlayer msPlayer = MSPlayer.get(playerName, true);
+		Scene scene = msPlayer.getScene();
+		
 		msPlayer.teleport(spawn);
+		scene.equip(msPlayer, true);
 	}
 	
 	@EventHandler

@@ -19,13 +19,13 @@ import cz.minestrike.me.limeth.minestrike.areas.schemes.Scheme;
 import cz.minestrike.me.limeth.minestrike.events.ArenaQuitEvent;
 import cz.minestrike.me.limeth.minestrike.events.GameQuitEvent;
 import cz.minestrike.me.limeth.minestrike.events.ShopOpenEvent;
-import cz.minestrike.me.limeth.minestrike.listeners.msPlayer.MSGameListener;
+import cz.minestrike.me.limeth.minestrike.listeners.msPlayer.MSSceneListener;
 import cz.minestrike.me.limeth.minestrike.scene.games.GamePhaseType;
 import cz.minestrike.me.limeth.minestrike.scene.games.PlayerState;
 import cz.minestrike.me.limeth.minestrike.scene.games.Team;
 import cz.minestrike.me.limeth.minestrike.scene.games.team.defuse.DefuseGame.RoundEndReason;
 
-public class DefuseGameListener extends MSGameListener<DefuseGame>
+public class DefuseGameListener extends MSSceneListener<DefuseGame>
 {
 	public DefuseGameListener(DefuseGame game)
 	{
@@ -52,7 +52,7 @@ public class DefuseGameListener extends MSGameListener<DefuseGame>
 	
 	public void checkLoss(MSPlayer msPlayer)
 	{
-		DefuseGame game = getGame();
+		DefuseGame game = getScene();
 		PlayerState state = msPlayer.getPlayerState();
 		
 		if(state != PlayerState.JOINED_GAME || !game.hasTeam(msPlayer) || game.isDead(msPlayer) || !(game.getPhase() instanceof Round))
@@ -85,7 +85,7 @@ public class DefuseGameListener extends MSGameListener<DefuseGame>
 		if(type != bombType)
 			return;
 		
-		DefuseGame game = getGame();
+		DefuseGame game = getScene();
 		GamePhaseType gamePhase = game.getPhaseType();
 		
 		if(gamePhase != GamePhaseType.RUNNING)
@@ -114,7 +114,7 @@ public class DefuseGameListener extends MSGameListener<DefuseGame>
 	@EventHandler
 	public void onBlockBreak(BlockBreakEvent event, MSPlayer msPlayer)
 	{
-		DefuseGame game = getGame();
+		DefuseGame game = getScene();
 		
 		if(!game.isBombPlaced())
 			return;

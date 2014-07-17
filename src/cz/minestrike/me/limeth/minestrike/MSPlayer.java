@@ -40,7 +40,6 @@ import cz.minestrike.me.limeth.minestrike.equipment.guns.GunManager;
 import cz.minestrike.me.limeth.minestrike.equipment.guns.GunTask;
 import cz.minestrike.me.limeth.minestrike.equipment.guns.GunType;
 import cz.minestrike.me.limeth.minestrike.equipment.guns.Reloading;
-import cz.minestrike.me.limeth.minestrike.listeners.msPlayer.lobby.MSLobbyListener;
 import cz.minestrike.me.limeth.minestrike.scene.Scene;
 import cz.minestrike.me.limeth.minestrike.scene.games.EquipmentProvider;
 import cz.minestrike.me.limeth.minestrike.scene.games.Game;
@@ -248,8 +247,6 @@ public class MSPlayer implements Record
 		
 		if(hasPlayerStructure())
 			playerStructure.redirect(event, this);
-		else
-			MSLobbyListener.getInstance().redirect(event, this);
 	}
 	
 	public String getNameTag()

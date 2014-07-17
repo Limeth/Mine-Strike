@@ -3,6 +3,7 @@ package cz.minestrike.me.limeth.minestrike.scene.games;
 import org.bukkit.craftbukkit.v1_7_R1.inventory.CraftInventoryPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryView;
@@ -12,17 +13,17 @@ import cz.minestrike.me.limeth.minestrike.MSConstant;
 import cz.minestrike.me.limeth.minestrike.MSPlayer;
 import cz.minestrike.me.limeth.minestrike.MineStrike;
 import cz.minestrike.me.limeth.minestrike.events.GameQuitEvent.GameQuitReason;
-import cz.minestrike.me.limeth.minestrike.listeners.msPlayer.MSGameListener;
+import cz.minestrike.me.limeth.minestrike.listeners.msPlayer.MSSceneListener;
 import cz.minestrike.me.limeth.minestrike.util.PlayerUtil;
 
-public class MSInventoryListener<T extends Game<?, ?, ?, ?>> extends MSGameListener<T>
+public class MSInventoryListener<T extends Game<?, ?, ?, ?>> extends MSSceneListener<T>
 {
 	public MSInventoryListener(T game)
 	{
 		super(game);
 	}
 	
-	@EventHandler
+	@EventHandler(priority = EventPriority.LOW)
 	public void onInventoryClick(InventoryClickEvent event, MSPlayer msPlayer)
 	{
 		Player player = msPlayer.getPlayer();
@@ -46,11 +47,11 @@ public class MSInventoryListener<T extends Game<?, ?, ?, ?>> extends MSGameListe
 		if(state == PlayerState.JOINED_GAME)
 			if(item.equals(MSConstant.QUIT_SERVER_ITEM))
 			{
-				getGame().quit(msPlayer, GameQuitReason.LEAVE, true);
+				getScene().quit(msPlayer, GameQuitReason.LEAVE, true);
 			}
 			else if(item.equals(MSConstant.QUIT_MENU_ITEM))
 			{
-				T game = getGame();
+				T game = getScene();
 				
 				game.quitArena(msPlayer);
 			}

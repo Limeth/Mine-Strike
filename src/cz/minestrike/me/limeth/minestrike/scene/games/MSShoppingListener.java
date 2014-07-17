@@ -1,7 +1,6 @@
 package cz.minestrike.me.limeth.minestrike.scene.games;
 
 import org.bukkit.Bukkit;
-import org.bukkit.craftbukkit.v1_7_R1.inventory.CraftInventoryCrafting;
 import org.bukkit.craftbukkit.v1_7_R1.inventory.CraftInventoryPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -11,7 +10,6 @@ import org.bukkit.inventory.InventoryView;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.PluginManager;
 
-import cz.minestrike.me.limeth.minestrike.MSConstant;
 import cz.minestrike.me.limeth.minestrike.MSPlayer;
 import cz.minestrike.me.limeth.minestrike.MineStrike;
 import cz.minestrike.me.limeth.minestrike.Translation;
@@ -21,11 +19,11 @@ import cz.minestrike.me.limeth.minestrike.equipment.EquipmentCategoryEntry;
 import cz.minestrike.me.limeth.minestrike.equipment.EquipmentPurchaseException;
 import cz.minestrike.me.limeth.minestrike.equipment.containers.InventoryContainer;
 import cz.minestrike.me.limeth.minestrike.events.ShopOpenEvent;
-import cz.minestrike.me.limeth.minestrike.listeners.msPlayer.MSGameListener;
+import cz.minestrike.me.limeth.minestrike.listeners.msPlayer.MSSceneListener;
 import cz.minestrike.me.limeth.minestrike.util.PlayerUtil;
 import cz.minestrike.me.limeth.minestrike.util.collections.FilledArrayList;
 
-public class MSShoppingListener<T extends Game<?, ?, ?, ?>> extends MSGameListener<T>
+public class MSShoppingListener<T extends Game<?, ?, ?, ?>> extends MSSceneListener<T>
 {
 	public MSShoppingListener(T game)
 	{
@@ -56,7 +54,7 @@ public class MSShoppingListener<T extends Game<?, ?, ?, ?>> extends MSGameListen
 		if(state != PlayerState.JOINED_GAME)
 			return;
 		
-		Game<?, ?, ?, ? extends EquipmentProvider> game = getGame();
+		Game<?, ?, ?, ? extends EquipmentProvider> game = getScene();
 		Inventory topInv = view.getTopInventory();
 		int slot = event.getRawSlot();
 		EquipmentProvider ep = game.getEquipmentProvider();
@@ -91,13 +89,9 @@ public class MSShoppingListener<T extends Game<?, ?, ?, ?>> extends MSGameListen
 		}
 		else
 		{
-			if(topInv instanceof CraftInventoryCrafting)
-				slot -= MSConstant.INVENTORY_WIDTH;
-			else
-				slot -= topInv.getSize();
-			
-			int y = slot / MSConstant.INVENTORY_WIDTH;
-			int x = slot % MSConstant.INVENTORY_WIDTH;
+			slot = PlayerUtil.getBottomInventoryIndex(view, slot);
+			int y = PlayerUtil.getInventoryY(slot);
+			int x = PlayerUtil.getInventoryX(slot);
 			
 			if(x < 6 || x > 7)
 				return;

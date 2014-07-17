@@ -6,10 +6,10 @@ import org.bukkit.event.entity.PlayerDeathEvent;
 import cz.minestrike.me.limeth.minestrike.MSPlayer;
 import cz.minestrike.me.limeth.minestrike.Translation;
 import cz.minestrike.me.limeth.minestrike.equipment.Equipment;
-import cz.minestrike.me.limeth.minestrike.listeners.msPlayer.MSGameListener;
+import cz.minestrike.me.limeth.minestrike.listeners.msPlayer.MSSceneListener;
 import cz.minestrike.me.limeth.minestrike.scene.Scene;
 
-public class MSInteractionListener<T extends Game<?, ?, ?, ?>> extends MSGameListener<T>
+public class MSInteractionListener<T extends Game<?, ?, ?, ?>> extends MSSceneListener<T>
 {
 	public MSInteractionListener(T game)
 	{

@@ -23,7 +23,6 @@ import cz.minestrike.me.limeth.minestrike.listeners.InteractionListener;
 import cz.minestrike.me.limeth.minestrike.listeners.InventoryListener;
 import cz.minestrike.me.limeth.minestrike.listeners.PermissionListener;
 import cz.minestrike.me.limeth.minestrike.listeners.msPlayer.MSListenerManager;
-import cz.minestrike.me.limeth.minestrike.listeners.msPlayer.lobby.MSLobbyListener;
 import cz.minestrike.me.limeth.minestrike.scene.games.GameManager;
 import cz.minestrike.me.limeth.minestrike.util.SoundManager;
 import cz.minestrike.me.limeth.storagemanager.mysql.MySQLService;
@@ -145,7 +144,6 @@ public class MineStrike extends JavaPlugin
 	private void registerMSListeners()
 	{
 		msListenerManager = new MSListenerManager();
-		MSLobbyListener.construct();
 	}
 	
 	private void redirectCommands()

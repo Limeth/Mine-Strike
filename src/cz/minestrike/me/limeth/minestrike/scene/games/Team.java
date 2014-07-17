@@ -5,19 +5,21 @@ import org.bukkit.DyeColor;
 
 public enum Team
 {
-	TERRORISTS("Terrorists", ChatColor.GOLD, DyeColor.ORANGE, "terwin"),
-	COUNTER_TERRORISTS("Counter-Terrorists", ChatColor.BLUE, DyeColor.BLUE, "ctwin");
+	TERRORISTS("Terrorists", ChatColor.GOLD, DyeColor.ORANGE, "anarchist", "terwin"),
+	COUNTER_TERRORISTS("Counter-Terrorists", ChatColor.BLUE, DyeColor.BLUE, "seal", "ctwin");
 	
 	private final String name;
 	private final ChatColor chatColor;
 	private final DyeColor dyeColor;
+	private final String voiceDirectory;
 	private final String winSound;
 	
-	private Team(String name, ChatColor chatColor, DyeColor dyeColor, String winSound)
+	private Team(String name, ChatColor chatColor, DyeColor dyeColor, String voice, String winSound)
 	{
 		this.name = name;
 		this.chatColor = chatColor;
 		this.dyeColor = dyeColor;
+		this.voiceDirectory = "projectsurvive:counterstrike.player.vo." + voice + ".";
 		this.winSound = "projectsurvive:counterstrike.radio." + winSound;
 	}
 	
@@ -58,5 +60,20 @@ public enum Team
 	public String getWinSound()
 	{
 		return winSound;
+	}
+	
+	public String getVoiceSound(VoiceSound sound)
+	{
+		return getVoiceSound(sound.toString());
+	}
+	
+	public String getVoiceSound(String soundName)
+	{
+		return voiceDirectory + soundName;
+	}
+
+	public String getVoiceDirectory()
+	{
+		return voiceDirectory;
 	}
 }

@@ -49,6 +49,8 @@ public enum Translation
 	EQUIPMENT_RARITY_UNIQUE("Unique", "Unikátní"),
 	EQUIPMENT_RARITY_LEGENDARY("Legendary", "Legendární"),
 	
+	BUTTON_INVENTORY("Open Inventory", "Otevrít Inventár"),
+	
 	INVENTORY("Inventory", "Inventár")
 	;
 	

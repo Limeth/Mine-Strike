@@ -33,6 +33,17 @@ public class SoundManager
 		}
 	}
 	
+	public static void play(String path, float volume, float pitch, Player... players)
+	{
+		for(Player player : players)
+		{
+			Location loc = player.getEyeLocation();
+			PacketPlayOutNamedSoundEffect packet = buildPacket(path, loc, volume, pitch);
+			
+			play(packet, player);
+		}
+	}
+	
 	public static void play(String path, Location loc, float volume, float pitch, Player... players)
 	{
 		PacketPlayOutNamedSoundEffect packet = buildPacket(path, loc, volume, pitch);
@@ -40,9 +51,19 @@ public class SoundManager
 		play(packet, players);
 	}
 	
+	public static void play(String path, float volume, Player... players)
+	{
+		play(path, volume, 1, players);
+	}
+	
 	public static void play(String path, Location loc, float volume, Player... players)
 	{
 		play(path, loc, volume, 1, players);
+	}
+	
+	public static void play(String path, Player... players)
+	{
+		play(path, 1, players);
 	}
 	
 	public static void play(String path, Location loc, Player... players)
