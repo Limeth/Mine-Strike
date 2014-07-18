@@ -2,8 +2,13 @@ package cz.minestrike.me.limeth.minestrike.equipment;
 
 import org.apache.commons.lang.Validate;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
+import cz.minestrike.me.limeth.minestrike.MSConstant;
 import cz.minestrike.me.limeth.minestrike.MSPlayer;
+import cz.minestrike.me.limeth.minestrike.Translation;
+import cz.minestrike.me.limeth.minestrike.equipment.containers.InventoryContainer;
+import cz.minestrike.me.limeth.minestrike.util.collections.FilledArrayList;
 
 public class CustomizedEquipment<T extends Equipment> implements Equipment
 {
@@ -108,5 +113,85 @@ public class CustomizedEquipment<T extends Equipment> implements Equipment
 	public boolean purchase(MSPlayer msPlayer) throws EquipmentPurchaseException
 	{
 		return equipment.purchase(msPlayer);
+	}
+	
+	public static final ItemButton BUTTON_EQUIP = new ItemButton()
+	{
+		@Override
+		public ItemStack newItemStack()
+		{
+			ItemStack itemStack = new ItemStack(MSConstant.MATERIAL_CONFIRM);
+			ItemMeta im = itemStack.getItemMeta();
+			
+			im.setDisplayName(Translation.BUTTON_INVENTORY_EQUIP.getMessage());
+			itemStack.setItemMeta(im);
+			
+			return itemStack;
+		}
+		
+		@Override
+		public void onClick(MSPlayer msPlayer)
+		{
+			InventoryContainer invContainer = msPlayer.getInventoryContainer();
+			int selectionIndex = msPlayer.getCustomData(Integer.class, InventoryContainer.SELECTION_INDEX_DATA);
+			Equipment selectedEquipment = invContainer.get(selectionIndex);
+			
+			if(!(selectedEquipment instanceof CustomizedEquipment))
+				throw new RuntimeException("The equipment isn't an instance of customized equipment.");
+			
+			@SuppressWarnings("unchecked")
+			CustomizedEquipment<? extends Equipment> ce = (CustomizedEquipment<? extends Equipment>) selectedEquipment;
+			Equipment source = ce.getSource();
+			
+			invContainer.unequip(source);
+			ce.setEquipped(true);
+			InventoryContainer.openSelection(msPlayer, null);
+		}
+	};
+	
+	public static final ItemButton BUTTON_UNEQUIP = new ItemButton()
+	{
+		@Override
+		public ItemStack newItemStack()
+		{
+			ItemStack itemStack = new ItemStack(MSConstant.MATERIAL_DENY);
+			ItemMeta im = itemStack.getItemMeta();
+			
+			im.setDisplayName(Translation.BUTTON_INVENTORY_UNEQUIP.getMessage());
+			itemStack.setItemMeta(im);
+			
+			return itemStack;
+		}
+		
+		@Override
+		public void onClick(MSPlayer msPlayer)
+		{
+			InventoryContainer invContainer = msPlayer.getInventoryContainer();
+			int selectionIndex = msPlayer.getCustomData(Integer.class, InventoryContainer.SELECTION_INDEX_DATA);
+			Equipment selectedEquipment = invContainer.get(selectionIndex);
+			
+			if(!(selectedEquipment instanceof CustomizedEquipment))
+				throw new RuntimeException("The equipment isn't an instance of customized equipment.");
+			
+			@SuppressWarnings("unchecked")
+			CustomizedEquipment<? extends Equipment> ce = (CustomizedEquipment<? extends Equipment>) selectedEquipment;
+			
+			ce.setEquipped(false);
+			InventoryContainer.openSelection(msPlayer, null);
+		}
+	};
+	
+	@Override
+	public FilledArrayList<ItemButton> getSelectionButtons(MSPlayer msPlayer)
+	{
+		FilledArrayList<ItemButton> buttons = equipment.getSelectionButtons(msPlayer);
+		InventoryContainer invContainer = msPlayer.getInventoryContainer();
+		Equipment source = getSource();
+		Equipment equippedEquipment = invContainer.getEquippedCustomizedEquipment(source);
+		boolean isEquipped = equippedEquipment != null && equippedEquipment.equals(this);
+		
+		buttons.add(isEquipped ? BUTTON_UNEQUIP : BUTTON_EQUIP);
+		
+		return buttons;
 	}
 }

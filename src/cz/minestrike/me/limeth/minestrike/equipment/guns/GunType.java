@@ -6,7 +6,9 @@ import cz.minestrike.me.limeth.minestrike.MSConstant;
 import cz.minestrike.me.limeth.minestrike.MSPlayer;
 import cz.minestrike.me.limeth.minestrike.equipment.CustomizedEquipment;
 import cz.minestrike.me.limeth.minestrike.equipment.Equipment;
+import cz.minestrike.me.limeth.minestrike.equipment.ItemButton;
 import cz.minestrike.me.limeth.minestrike.scene.games.MoneyAward;
+import cz.minestrike.me.limeth.minestrike.util.collections.FilledArrayList;
 
 
 public enum GunType implements Equipment
@@ -468,5 +470,11 @@ public enum GunType implements Equipment
 	public boolean purchase(MSPlayer msPlayer)
 	{
 		return true;
+	}
+	
+	@Override
+	public FilledArrayList<ItemButton> getSelectionButtons(MSPlayer msPlayer)
+	{
+		return new FilledArrayList<ItemButton>();
 	}
 }

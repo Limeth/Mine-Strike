@@ -42,6 +42,7 @@ public class KevlarAndHelmet extends SimpleEquipment
 		if(!(scene instanceof Game))
 			throw new EquipmentPurchaseException(this, "The scene " + scene + " is not an instance of game.");
 		
+		@SuppressWarnings("unchecked")
 		Game<?, ?, ?, ? extends EquipmentProvider> game = (Game<?, ?, ?, ? extends EquipmentProvider>) scene;
 		EquipmentProvider ep = game.getEquipmentProvider();
 		

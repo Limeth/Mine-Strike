@@ -7,7 +7,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import cz.minestrike.me.limeth.minestrike.MSPlayer;
-import cz.minestrike.me.limeth.minestrike.events.GameQuitEvent.GameQuitReason;
+import cz.minestrike.me.limeth.minestrike.events.GameQuitEvent.SceneQuitReason;
 import cz.minestrike.me.limeth.minestrike.scene.Scene;
 import cz.minestrike.me.limeth.minestrike.scene.games.Game;
 
@@ -32,9 +32,7 @@ public class QuitExecutor implements CommandExecutor
 			return true;
 		}
 		
-		Game<?, ?, ?, ?> game = (Game<?, ?, ?, ?>) scene;
-		
-		game.quit(msPlayer, GameQuitReason.LEAVE, true);
+		msPlayer.quitScene(SceneQuitReason.LEAVE, true);
 		return true;
 	}
 }

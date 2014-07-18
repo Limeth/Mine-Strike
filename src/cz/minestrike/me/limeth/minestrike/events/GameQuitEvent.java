@@ -11,10 +11,10 @@ public class GameQuitEvent extends MSPlayerEvent implements Cancellable, GameEve
 {
 	private static final HandlerList handlers = new HandlerList();
 	private Game<?, ?, ?, ?> game;
-	private GameQuitReason reason;
+	private SceneQuitReason reason;
 	private boolean cancelled;
 	
-	public GameQuitEvent(Game<?, ?, ?, ?> game, MSPlayer msPlayer, GameQuitReason reason)
+	public GameQuitEvent(Game<?, ?, ?, ?> game, MSPlayer msPlayer, SceneQuitReason reason)
 	{
 		super(msPlayer);
 		
@@ -52,17 +52,17 @@ public class GameQuitEvent extends MSPlayerEvent implements Cancellable, GameEve
 		return game;
 	}
 	
-	public GameQuitReason getReason()
+	public SceneQuitReason getReason()
 	{
 		return reason;
 	}
 
-	public void setReason(GameQuitReason reason)
+	public void setReason(SceneQuitReason reason)
 	{
 		this.reason = reason;
 	}
 
-	public static enum GameQuitReason
+	public static enum SceneQuitReason
 	{
 		LEAVE, KICK, LOG_OUT, ERROR_INVALID_PLAYER_STATE;
 	}

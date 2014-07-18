@@ -3,6 +3,7 @@ package cz.minestrike.me.limeth.minestrike.scene.lobby;
 import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryView;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -10,6 +11,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import cz.minestrike.me.limeth.minestrike.MSConstant;
 import cz.minestrike.me.limeth.minestrike.MSPlayer;
 import cz.minestrike.me.limeth.minestrike.Translation;
+import cz.minestrike.me.limeth.minestrike.equipment.ItemButton;
 import cz.minestrike.me.limeth.minestrike.equipment.containers.InventoryContainer;
 import cz.minestrike.me.limeth.minestrike.listeners.msPlayer.MSSceneListener;
 import cz.minestrike.me.limeth.minestrike.util.PlayerUtil;
@@ -46,10 +48,16 @@ public class MSLobbyInventoryListener extends MSSceneListener<Lobby>
 				return;
 			
 			button.onClick(msPlayer);
+			return;
 		}
+		
+		Inventory topInv = view.getTopInventory();
+		InventoryContainer invContainer = msPlayer.getInventoryContainer();
+		
+		invContainer.onClick(topInv, rawSlot, msPlayer);
 	}
 	
-	public static enum LobbyButton
+	public static enum LobbyButton implements ItemButton
 	{
 		INVENTORY
 		{
@@ -59,7 +67,7 @@ public class MSLobbyInventoryListener extends MSSceneListener<Lobby>
 				ItemStack buttonInventory = new ItemStack(Material.CHEST);
 				ItemMeta buttonInventoryIM = buttonInventory.getItemMeta();
 				
-				buttonInventoryIM.setDisplayName(Translation.BUTTON_INVENTORY.getMessage());
+				buttonInventoryIM.setDisplayName(Translation.BUTTON_INVENTORY_OPEN.getMessage());
 				buttonInventory.setItemMeta(buttonInventoryIM);
 				
 				return buttonInventory;
@@ -71,9 +79,6 @@ public class MSLobbyInventoryListener extends MSSceneListener<Lobby>
 				InventoryContainer.openInventory(msPlayer);
 			}
 		};
-		
-		public abstract ItemStack newItemStack();
-		public abstract void onClick(MSPlayer msPlayer);
 		
 		public static LobbyButton get(int index)
 		{

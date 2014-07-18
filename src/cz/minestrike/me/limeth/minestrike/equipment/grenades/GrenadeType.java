@@ -32,12 +32,14 @@ import cz.minestrike.me.limeth.minestrike.MSPlayer;
 import cz.minestrike.me.limeth.minestrike.MineStrike;
 import cz.minestrike.me.limeth.minestrike.equipment.DamageSource;
 import cz.minestrike.me.limeth.minestrike.equipment.Equipment;
+import cz.minestrike.me.limeth.minestrike.equipment.ItemButton;
 import cz.minestrike.me.limeth.minestrike.scene.Scene;
 import cz.minestrike.me.limeth.minestrike.scene.games.Game;
 import cz.minestrike.me.limeth.minestrike.scene.games.Team;
 import cz.minestrike.me.limeth.minestrike.scene.games.TeamValue;
 import cz.minestrike.me.limeth.minestrike.scene.games.team.TeamGame;
 import cz.minestrike.me.limeth.minestrike.util.SoundManager;
+import cz.minestrike.me.limeth.minestrike.util.collections.FilledArrayList;
 import darkBlade12.ParticleEffect;
 
 public enum GrenadeType implements Equipment, DamageSource
@@ -453,5 +455,11 @@ public enum GrenadeType implements Equipment, DamageSource
 	public boolean purchase(MSPlayer msPlayer)
 	{
 		return true;
+	}
+	
+	@Override
+	public FilledArrayList<ItemButton> getSelectionButtons(MSPlayer msPlayer)
+	{
+		return new FilledArrayList<ItemButton>();
 	}
 }

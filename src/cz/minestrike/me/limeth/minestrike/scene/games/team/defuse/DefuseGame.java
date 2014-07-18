@@ -23,7 +23,7 @@ import cz.minestrike.me.limeth.minestrike.areas.RegionList;
 import cz.minestrike.me.limeth.minestrike.areas.Structure;
 import cz.minestrike.me.limeth.minestrike.areas.schemes.GameLobby;
 import cz.minestrike.me.limeth.minestrike.events.ArenaJoinEvent;
-import cz.minestrike.me.limeth.minestrike.events.GameQuitEvent.GameQuitReason;
+import cz.minestrike.me.limeth.minestrike.events.GameQuitEvent.SceneQuitReason;
 import cz.minestrike.me.limeth.minestrike.events.GameSpawnEvent;
 import cz.minestrike.me.limeth.minestrike.listeners.msPlayer.MSSceneListener;
 import cz.minestrike.me.limeth.minestrike.scene.games.GamePhase;
@@ -554,7 +554,7 @@ public class DefuseGame extends TeamGame<GameLobby, TeamGameMenu, DefuseGameMap,
 		}
 		else
 		{
-			quit(msPlayer, GameQuitReason.ERROR_INVALID_PLAYER_STATE, true);
+			onQuit(msPlayer, SceneQuitReason.ERROR_INVALID_PLAYER_STATE, true);
 			return null;
 		}
 		

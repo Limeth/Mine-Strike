@@ -13,6 +13,7 @@ import org.bukkit.inventory.PlayerInventory;
 import cz.minestrike.me.limeth.minestrike.MSConfig;
 import cz.minestrike.me.limeth.minestrike.MSConstant;
 import cz.minestrike.me.limeth.minestrike.MSPlayer;
+import cz.minestrike.me.limeth.minestrike.events.GameQuitEvent.SceneQuitReason;
 import cz.minestrike.me.limeth.minestrike.listeners.msPlayer.MSSceneListener;
 import cz.minestrike.me.limeth.minestrike.scene.Scene;
 import cz.minestrike.me.limeth.minestrike.scene.lobby.MSLobbyInventoryListener.LobbyButton;
@@ -38,6 +39,23 @@ public class Lobby extends Scene
 		inventoryListener = new MSLobbyInventoryListener(this);
 		
 		return this;
+	}
+	
+	@Override
+	public boolean onJoin(MSPlayer msPlayer)
+	{
+		Location spawn = MSConfig.getSpawnLocation();
+		
+		msPlayer.teleport(spawn);
+		equip(msPlayer, true);
+		
+		return true;
+	}
+	
+	@Override
+	public boolean onQuit(MSPlayer msPlayer, SceneQuitReason reason, boolean teleport)
+	{
+		return true;
 	}
 	
 	@Override

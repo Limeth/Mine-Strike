@@ -7,6 +7,7 @@ import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
 import cz.minestrike.me.limeth.minestrike.MSPlayer;
+import cz.minestrike.me.limeth.minestrike.events.GameQuitEvent.SceneQuitReason;
 import cz.minestrike.me.limeth.minestrike.listeners.msPlayer.MSListenerRedirector;
 
 public abstract class Scene implements MSListenerRedirector
@@ -19,6 +20,8 @@ public abstract class Scene implements MSListenerRedirector
 	public abstract Set<MSPlayer> getPlayers(Predicate<? super MSPlayer> condition);
 	public abstract Set<Player> getBukkitPlayers();
 	public abstract Set<Player> getBukkitPlayers(Predicate<? super MSPlayer> condition);
+	public abstract boolean onJoin(MSPlayer msPlayer);
+	public abstract boolean onQuit(MSPlayer msPlayer, SceneQuitReason reason, boolean teleport);
 	
 	public String getPrefix(MSPlayer msPlayer)
 	{

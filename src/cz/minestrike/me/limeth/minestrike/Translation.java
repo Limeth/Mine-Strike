@@ -33,6 +33,7 @@ public enum Translation
 	GAME_BOMB_PLANTED("&c&lThe bomb has been planted!", "&c&lBomba byla polozena!"),
 	GAME_BOMB_DEFUSED("&e&lThe bomb has been defused.", "&e&lBomba byla zneskodnena."),
 	GAME_DEATH_UNKNOWN("&7Player &r{1}&7 died.", "&7Hrác &r{1}&7 zemrel."),
+	GAME_DEATH_SUICIDE("&7Player &r{1}&7 was killed by their &r{2}&7.", "&7Hrác &r{1}&7 byl zabit svym &r{2}&7."),
 	GAME_DEATH_SOURCE("&7Player &r{1}&7 was killed by &r{2}&7.", "&7Hrác &r{1}&7 byl zabit hrácem &r{2}&7."),
 	GAME_DEATH_WEAPONSOURCE("&7Player &r{1}&7 was killed using &r{3}&7 by &r{2}&7.", "&7Hrác &r{1}&7 byl zabit pomocí &r{3}&7 hrácem &r{2}&7."),
 	
@@ -50,9 +51,12 @@ public enum Translation
 	EQUIPMENT_RARITY_UNIQUE("Unique", "Unikátní"),
 	EQUIPMENT_RARITY_LEGENDARY("Legendary", "Legendární"),
 	
-	BUTTON_INVENTORY("Open Inventory", "Otevrít Inventár"),
+	BUTTON_INVENTORY_OPEN("Open Inventory", "Otevrít Inventár"),
+	BUTTON_INVENTORY_EQUIP("&aEquip", "&aVybavit"),
+	BUTTON_INVENTORY_UNEQUIP("&eUnequip", "&eOdlozit"),
 	
-	INVENTORY("Inventory", "Inventár")
+	INVENTORY("Inventory", "Inventár"),
+	INVENTORY_SELECTION("Selection", "Vyber")
 	;
 	
 	public static final String ENGLISH_NAME = "en", CZECH_NAME = "cz", DEFAULT_LANGUAGE_NAME = ENGLISH_NAME;

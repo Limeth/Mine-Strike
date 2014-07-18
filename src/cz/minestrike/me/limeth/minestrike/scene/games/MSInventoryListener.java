@@ -12,7 +12,7 @@ import org.bukkit.inventory.ItemStack;
 import cz.minestrike.me.limeth.minestrike.MSConstant;
 import cz.minestrike.me.limeth.minestrike.MSPlayer;
 import cz.minestrike.me.limeth.minestrike.MineStrike;
-import cz.minestrike.me.limeth.minestrike.events.GameQuitEvent.GameQuitReason;
+import cz.minestrike.me.limeth.minestrike.events.GameQuitEvent.SceneQuitReason;
 import cz.minestrike.me.limeth.minestrike.listeners.msPlayer.MSSceneListener;
 import cz.minestrike.me.limeth.minestrike.util.PlayerUtil;
 
@@ -47,7 +47,7 @@ public class MSInventoryListener<T extends Game<?, ?, ?, ?>> extends MSSceneList
 		if(state == PlayerState.JOINED_GAME)
 			if(item.equals(MSConstant.QUIT_SERVER_ITEM))
 			{
-				getScene().quit(msPlayer, GameQuitReason.LEAVE, true);
+				getScene().onQuit(msPlayer, SceneQuitReason.LEAVE, true);
 			}
 			else if(item.equals(MSConstant.QUIT_MENU_ITEM))
 			{

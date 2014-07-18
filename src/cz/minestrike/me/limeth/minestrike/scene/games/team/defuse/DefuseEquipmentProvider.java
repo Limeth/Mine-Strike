@@ -466,8 +466,15 @@ public class DefuseEquipmentProvider implements EquipmentProvider
 				addGrenade(msPlayer, (GrenadeType) equipment);
 			else if(source instanceof GunType)
 			{
-				GunType gunType = (GunType) equipment;
-				Gun gun = new Gun(gunType);
+				Gun gun;
+				
+				if(equipment instanceof GunType)
+				{
+					GunType gunType = (GunType) equipment;
+					gun = new Gun(gunType);
+				}
+				else
+					gun = ((Gun) equipment).clone();
 				
 				gun.setOwnerName(msPlayer.getName());
 				setGun(msPlayer, gun);

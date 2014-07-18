@@ -35,6 +35,11 @@ public class PlayerUtil
 		return index / INVENTORY_WIDTH;
 	}
 	
+	public static void setItem(Inventory inv, int x, int y, ItemStack item)
+	{
+		inv.setItem(x + y * INVENTORY_WIDTH, item);
+	}
+	
 	public static void setItem(PlayerInventory inv, int x, int y, ItemStack item)
 	{
 		int index = toPlayerInventoryIndex(x, y);

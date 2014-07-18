@@ -36,7 +36,7 @@ import cz.minestrike.me.limeth.minestrike.events.ArenaQuitEvent;
 import cz.minestrike.me.limeth.minestrike.events.GameEquipEvent;
 import cz.minestrike.me.limeth.minestrike.events.GameJoinEvent;
 import cz.minestrike.me.limeth.minestrike.events.GameQuitEvent;
-import cz.minestrike.me.limeth.minestrike.events.GameQuitEvent.GameQuitReason;
+import cz.minestrike.me.limeth.minestrike.events.GameQuitEvent.SceneQuitReason;
 import cz.minestrike.me.limeth.minestrike.listeners.msPlayer.MSSceneListener;
 import cz.minestrike.me.limeth.minestrike.scene.Scene;
 import cz.minestrike.me.limeth.minestrike.util.PlayerUtil;
@@ -369,7 +369,7 @@ public abstract class Game<Lo extends GameLobby, Me extends GameMenu, Ma extends
 		return GameManager.unregister(this);
 	}
 	
-	public boolean join(MSPlayer msPlayer)
+	public boolean onJoin(MSPlayer msPlayer)
 	{
 		Validate.notNull(msPlayer, "The player cannot be null!");
 		Validate.isTrue(!hasJoined(msPlayer), "Player '" + msPlayer.getName() + "' has already joined this game ('" + id + "').");
@@ -393,7 +393,7 @@ public abstract class Game<Lo extends GameLobby, Me extends GameMenu, Ma extends
 		return true;
 	}
 	
-	public boolean quit(MSPlayer msPlayer, GameQuitReason reason, boolean teleport)
+	public boolean onQuit(MSPlayer msPlayer, SceneQuitReason reason, boolean teleport)
 	{
 		Validate.isTrue(hasJoined(msPlayer), "Player '" + msPlayer + "' has not joined this game ('" + id + "').");
 		

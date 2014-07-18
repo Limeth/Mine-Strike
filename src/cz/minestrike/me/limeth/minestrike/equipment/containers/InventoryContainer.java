@@ -16,10 +16,19 @@ import cz.minestrike.me.limeth.minestrike.Translation;
 import cz.minestrike.me.limeth.minestrike.equipment.CustomizedEquipment;
 import cz.minestrike.me.limeth.minestrike.equipment.Equipment;
 import cz.minestrike.me.limeth.minestrike.equipment.EquipmentCategoryEntry;
+import cz.minestrike.me.limeth.minestrike.equipment.ItemButton;
+import cz.minestrike.me.limeth.minestrike.equipment.guns.Gun;
+import cz.minestrike.me.limeth.minestrike.equipment.guns.GunType;
+import cz.minestrike.me.limeth.minestrike.util.PlayerUtil;
+import cz.minestrike.me.limeth.minestrike.util.collections.FilledArrayList;
+import cz.minestrike.me.limeth.minestrike.util.collections.FilledHashSet;
 
 public class InventoryContainer extends ScalableContainer
 {
 	private static final long serialVersionUID = -8525702276639421368L;
+	public static final Equipment[] DEFAULT_EQUIPMENT = {
+		new Gun(GunType.USP_S), new Gun(GunType.CZ75), new Gun(GunType.M4A1_S)
+	};
 	
 	public CustomizedEquipment<? extends Equipment> getEquippedCustomizedEquipment(EquipmentCategoryEntry categoryEntry) throws NotFoundException
 	{
@@ -42,33 +51,128 @@ public class InventoryContainer extends ScalableContainer
 			return customEquipment;
 		}
 		
-		throw new NotFoundException("CustomizedEquipment for category entry " + categoryEntry + " not found.");
+		return null;
+	}
+	
+	public CustomizedEquipment<? extends Equipment> getEquippedCustomizedEquipment(Equipment sourceEquipment) throws NotFoundException
+	{
+		Validate.notNull(sourceEquipment, "The source equipment must not be null!");
+		
+		for(Equipment equipment : this)
+		{
+			if(!(equipment instanceof CustomizedEquipment))
+				continue;
+			
+			if(!sourceEquipment.equals(equipment.getSource()))
+				continue;
+			
+			@SuppressWarnings("unchecked")
+			CustomizedEquipment<? extends Equipment> customEquipment = (CustomizedEquipment<? extends Equipment>) equipment;
+			
+			if(!customEquipment.isEquipped())
+				continue;
+			
+			return customEquipment;
+		}
+		
+		return null;
 	}
 	
 	public Equipment getEquippedEquipment(EquipmentCategoryEntry categoryEntry)
 	{
-		CustomizedEquipment<? extends Equipment> customized;
+		CustomizedEquipment<? extends Equipment> customized = null;
 		
 		try
 		{
 			customized = getEquippedCustomizedEquipment(categoryEntry);
 		}
-		catch(Exception e)
-		{
-			return categoryEntry.getDefaultEquipment();
-		}
+		catch(Exception e) {}
 		
-		return customized;
+		return customized != null ? customized : categoryEntry.getDefaultEquipment();
+	}
+	
+	public void addDefaults()
+	{
+		for(Equipment equipment : DEFAULT_EQUIPMENT)
+			if(!containsSource(equipment.getSource()))
+				add(0, equipment);
+	}
+	
+	public boolean containsSource(Equipment source)
+	{
+		for(Equipment equipment : this)
+			if(source.equals(equipment.getSource()))
+				return true;
+		
+		return false;
+	}
+	
+	public void unequip(Equipment source)
+	{
+		unequip(EquipmentCategoryEntry.getContaining(source));
+	}
+	
+	public void unequip(EquipmentCategoryEntry entry)
+	{
+		FilledHashSet<Equipment> entryContents = entry.getEquipment();
+		
+		for(Equipment equipment : this)
+			if(equipment != null && equipment instanceof CustomizedEquipment)
+				for(Equipment entryEquipment : entryContents)
+					if(equipment.getSource().equals(entryEquipment))
+					{
+						@SuppressWarnings("unchecked")
+						CustomizedEquipment<? extends Equipment> ce = (CustomizedEquipment<? extends Equipment>) equipment;
+						
+						ce.setEquipped(false);
+						break;
+					}
 	}
 	
 	private static final int inventoryHeight = 5, inventoryWidth = MSConstant.INVENTORY_WIDTH - 1;
+	public static final String SCROLL_DATA = "container.inventory.scroll",
+			SELECTION_INDEX_DATA = "container.inventory.selection.index";
+
+	public static String getTitleInventory()
+	{
+		String title = MSConstant.INVENTORY_NAME_PREFIX + Translation.INVENTORY.getMessage();
+		
+		if(title.length() > 32)
+			title = title.substring(0, 32);
+		
+		return title;
+	}
+	
+	public static String getTitleSelection()
+	{
+		String title = MSConstant.INVENTORY_NAME_PREFIX + Translation.INVENTORY_SELECTION.getMessage();
+		
+		if(title.length() > 32)
+			title = title.substring(0, 32);
+		
+		return title;
+	}
 	
 	public static InventoryView openInventory(MSPlayer msPlayer)
 	{
 		Player player = msPlayer.getPlayer();
-		Inventory inv = Bukkit.createInventory(player, 9 * inventoryHeight, MSConstant.INVENTORY_NAME_PREFIX + Translation.INVENTORY.getMessage());
+		Inventory inv = Bukkit.createInventory(player, 9 * inventoryHeight, getTitleInventory());
 		
+		msPlayer.setCustomData(SCROLL_DATA, 0);
 		equipInventory(inv, msPlayer);
+		
+		return player.openInventory(inv);
+	}
+	
+	public static InventoryView openSelection(MSPlayer msPlayer, Integer selectionIndex)
+	{
+		Player player = msPlayer.getPlayer();
+		Inventory inv = Bukkit.createInventory(player, 9 * inventoryHeight, getTitleSelection());
+		
+		if(selectionIndex != null)
+			msPlayer.setCustomData(SELECTION_INDEX_DATA, selectionIndex);
+		
+		equipSelection(inv, msPlayer);
 		
 		return player.openInventory(inv);
 	}
@@ -77,8 +181,10 @@ public class InventoryContainer extends ScalableContainer
 	{
 		InventoryContainer container = msPlayer.getInventoryContainer();
 		Equipment[] contents = container.getContents();
-		int scroll = msPlayer.getCustomData(Integer.class, "container.inventory.scroll", 0) * inventoryWidth;
+		int scroll = msPlayer.getCustomData(Integer.class, SCROLL_DATA, 0) * inventoryWidth;
 		int index = 0;
+		
+		inv.clear();
 		
 		do
 		{
@@ -113,5 +219,112 @@ public class InventoryContainer extends ScalableContainer
 		down.setItemMeta(imDown);
 		inv.setItem(inventoryWidth, up);
 		inv.setItem((inventoryHeight - 1) * MSConstant.INVENTORY_WIDTH + inventoryWidth, down);
+	}
+	
+	public static void equipSelection(Inventory inv, MSPlayer msPlayer)
+	{
+		InventoryContainer invContainer = msPlayer.getInventoryContainer();
+		int selectionIndex = msPlayer.getCustomData(Integer.class, SELECTION_INDEX_DATA);
+		Equipment selectedEquipment = invContainer.get(selectionIndex);
+		FilledArrayList<ItemButton> selectionButtons = selectedEquipment.getSelectionButtons(msPlayer);
+		int startX = 4 - (int) (selectionButtons.size() / 2D);
+		ItemStack selectedItem = selectedEquipment.newItemStack(msPlayer);
+		
+		for(int i = 0; i < inv.getSize(); i++)
+			inv.setItem(i, MSConstant.ITEM_BACKGROUND);
+		
+		PlayerUtil.setItem(inv, 4, 1, selectedItem);
+		
+		for(int i = 0; i < selectionButtons.size(); i++)
+		{
+			ItemButton button = selectionButtons.get(i);
+			ItemStack buttonItem = button.newItemStack();
+			int x = startX + i;
+			
+			PlayerUtil.setItem(inv, x, 3, buttonItem);
+		}
+	}
+	
+	public void onClick(Inventory inv, int slot, MSPlayer msPlayer)
+	{
+		String title = inv.getTitle();
+		
+		if(title.equals(getTitleInventory()))
+		{
+			InventoryContainer invContainer = msPlayer.getInventoryContainer();
+			
+			invContainer.onClickInventory(inv, slot, msPlayer);
+		}
+		else if(title.equals(getTitleSelection()))
+		{
+			InventoryContainer invContainer = msPlayer.getInventoryContainer();
+			
+			invContainer.onClickSelection(inv, slot, msPlayer);
+		}
+	}
+	
+	public void onClickInventory(Inventory inv, int slot, MSPlayer msPlayer)
+	{
+		int x = PlayerUtil.getInventoryX(slot);
+		
+		if(x < inventoryWidth)
+		{
+			int y = PlayerUtil.getInventoryY(slot);
+			int scroll = msPlayer.getCustomData(Integer.class, SCROLL_DATA, 0);
+			int equipmentIndex = x + (y + scroll) * inventoryWidth;
+			InventoryContainer invContainer = msPlayer.getInventoryContainer();
+			
+			if(equipmentIndex < 0 || equipmentIndex >= invContainer.size())
+				return;
+			
+			Equipment equipment = invContainer.get(equipmentIndex);
+			
+			if(equipment == null)
+				return;
+			
+			openSelection(msPlayer, equipmentIndex);
+		}
+		else
+			if(slot == inventoryWidth)
+			{
+				int scroll = msPlayer.getCustomData(Integer.class, SCROLL_DATA, 0);
+				
+				if(scroll <= 0)
+					return;
+				
+				msPlayer.setCustomData(SCROLL_DATA, scroll - 1);
+				equipInventory(inv, msPlayer);
+			}
+			else if(slot == (inventoryHeight - 1) * MSConstant.INVENTORY_WIDTH + inventoryWidth)
+			{
+				int scroll = msPlayer.getCustomData(Integer.class, SCROLL_DATA, 0);
+				InventoryContainer invContainer = msPlayer.getInventoryContainer();
+				int rows = (int) Math.ceil((double) invContainer.size() / (double) inventoryHeight);
+				
+				if(rows - scroll <= inventoryHeight)
+					return;
+				
+				msPlayer.setCustomData(SCROLL_DATA, scroll + 1);
+				equipInventory(inv, msPlayer);
+			}
+	}
+	
+	public void onClickSelection(Inventory inv, int slot, MSPlayer msPlayer)
+	{
+		InventoryContainer invContainer = msPlayer.getInventoryContainer();
+		int selectionIndex = msPlayer.getCustomData(Integer.class, SELECTION_INDEX_DATA);
+		Equipment selectedEquipment = invContainer.get(selectionIndex);
+		FilledArrayList<ItemButton> selectionButtons = selectedEquipment.getSelectionButtons(msPlayer);
+		int startX = 4 - (int) (selectionButtons.size() / 2D);
+		int x = PlayerUtil.getInventoryX(slot);
+		int y = PlayerUtil.getInventoryY(slot);
+		
+		if(x < startX || x >= startX + selectionButtons.size() || y != 3)
+			return;
+		
+		int buttonIndex = x - startX;
+		ItemButton button = selectionButtons.get(buttonIndex);
+		
+		button.onClick(msPlayer);
 	}
 }

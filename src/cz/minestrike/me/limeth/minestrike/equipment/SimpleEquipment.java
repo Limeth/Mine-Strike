@@ -3,6 +3,7 @@ package cz.minestrike.me.limeth.minestrike.equipment;
 import org.bukkit.inventory.ItemStack;
 
 import cz.minestrike.me.limeth.minestrike.MSPlayer;
+import cz.minestrike.me.limeth.minestrike.util.collections.FilledArrayList;
 
 public class SimpleEquipment implements Equipment
 {
@@ -98,5 +99,11 @@ public class SimpleEquipment implements Equipment
 	public boolean purchase(MSPlayer msPlayer) throws EquipmentPurchaseException
 	{
 		return true;
+	}
+	
+	@Override
+	public FilledArrayList<ItemButton> getSelectionButtons(MSPlayer msPlayer)
+	{
+		return new FilledArrayList<ItemButton>();
 	}
 }

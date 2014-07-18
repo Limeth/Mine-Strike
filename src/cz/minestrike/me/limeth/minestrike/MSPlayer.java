@@ -40,6 +40,7 @@ import cz.minestrike.me.limeth.minestrike.equipment.guns.GunManager;
 import cz.minestrike.me.limeth.minestrike.equipment.guns.GunTask;
 import cz.minestrike.me.limeth.minestrike.equipment.guns.GunType;
 import cz.minestrike.me.limeth.minestrike.equipment.guns.Reloading;
+import cz.minestrike.me.limeth.minestrike.events.GameQuitEvent.SceneQuitReason;
 import cz.minestrike.me.limeth.minestrike.scene.Scene;
 import cz.minestrike.me.limeth.minestrike.scene.games.EquipmentProvider;
 import cz.minestrike.me.limeth.minestrike.scene.games.Game;
@@ -247,6 +248,43 @@ public class MSPlayer implements Record
 		Scene scene = getScene();
 		
 		scene.redirect(event, this);
+	}
+	
+	public boolean joinScene(Scene scene, SceneQuitReason quitReason, boolean teleport, boolean runOnJoin)
+	{
+		Scene previousScene = getScene();
+		boolean success = previousScene.onQuit(this, quitReason, teleport);
+		
+		if(!success)
+			return false;
+		
+		if(runOnJoin)
+		{
+			Scene lobbyOrScene = scene != null ? scene : Lobby.getInstance();
+			success = lobbyOrScene.onJoin(this);
+			
+			if(!success)
+				return false;
+		}
+		
+		setScene(scene);
+		
+		return true;
+	}
+	
+	public boolean joinScene(Scene scene, SceneQuitReason quitReason, boolean teleport)
+	{
+		return joinScene(scene, quitReason, teleport, true);
+	}
+	
+	public boolean quitScene(SceneQuitReason quitReason, boolean teleport, boolean runOnJoin)
+	{
+		return joinScene(null, quitReason, teleport, runOnJoin);
+	}
+	
+	public boolean quitScene(SceneQuitReason quitReason, boolean teleport)
+	{
+		return quitScene(quitReason, teleport, true);
 	}
 	
 	public String getNameTag()
@@ -817,6 +855,8 @@ public class MSPlayer implements Record
 			
 			for(int i = 0; i < equipment.length; i++)
 				lazyInventoryContainer.setItem(i, equipment[i]);
+			
+			lazyInventoryContainer.addDefaults();
 		}
 		
 		return lazyInventoryContainer;

@@ -2,6 +2,7 @@ package cz.minestrike.me.limeth.minestrike.equipment.cases;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -9,8 +10,10 @@ import cz.minestrike.me.limeth.minestrike.MSConstant;
 import cz.minestrike.me.limeth.minestrike.MSPlayer;
 import cz.minestrike.me.limeth.minestrike.equipment.CustomizedEquipment;
 import cz.minestrike.me.limeth.minestrike.equipment.Equipment;
+import cz.minestrike.me.limeth.minestrike.equipment.ItemButton;
 import cz.minestrike.me.limeth.minestrike.equipment.guns.Gun;
 import cz.minestrike.me.limeth.minestrike.equipment.guns.GunType;
+import cz.minestrike.me.limeth.minestrike.util.collections.FilledArrayList;
 
 public enum Case implements Equipment
 {
@@ -41,6 +44,9 @@ public enum Case implements Equipment
 	public ItemStack newItemStack(MSPlayer msPlayer)
 	{
 		ItemStack is = new ItemStack(Material.CHEST);
+		
+		is.addUnsafeEnchantment(Enchantment.ARROW_INFINITE, 1);
+		
 		ItemMeta im = is.getItemMeta();
 		
 		im.setDisplayName(name);
@@ -96,5 +102,11 @@ public enum Case implements Equipment
 	public boolean purchase(MSPlayer msPlayer)
 	{
 		return true;
+	}
+	
+	@Override
+	public FilledArrayList<ItemButton> getSelectionButtons(MSPlayer msPlayer)
+	{
+		return new FilledArrayList<ItemButton>();
 	}
 }

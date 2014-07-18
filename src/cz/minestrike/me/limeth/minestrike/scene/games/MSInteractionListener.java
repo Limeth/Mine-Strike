@@ -33,7 +33,10 @@ public class MSInteractionListener<T extends Game<?, ?, ?, ?>> extends MSSceneLi
 			
 			if(weapon != null)
 			{
-				message = Translation.GAME_DEATH_WEAPONSOURCE.getMessage(msPlayer.getNameTag(), msKiller.getNameTag(), weapon.getDisplayName());
+				if(msKiller.equals(msPlayer))
+					message = Translation.GAME_DEATH_SUICIDE.getMessage(msPlayer.getNameTag(), weapon.getDisplayName());
+				else
+					message = Translation.GAME_DEATH_WEAPONSOURCE.getMessage(msPlayer.getNameTag(), msKiller.getNameTag(), weapon.getDisplayName());
 				
 				msPlayer.setLastDamageWeapon(null);
 			}

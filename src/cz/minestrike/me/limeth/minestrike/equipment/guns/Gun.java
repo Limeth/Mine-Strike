@@ -51,6 +51,16 @@ public class Gun extends CustomizedEquipment<GunType>
 		this(type, null);
 	}
 	
+	public Gun clone()
+	{
+		Gun gun = new Gun(getEquipment(), getCustomization(), kills, loadedBullets, unusedBullets, reloading);
+		
+		gun.ownerName = ownerName;
+		gun.lastBulletShotAt = lastBulletShotAt;
+		
+		return gun;
+	}
+	
 	public LoreAttributes createAttributes()
 	{
 		LoreAttributes attributes = new LoreAttributes();
