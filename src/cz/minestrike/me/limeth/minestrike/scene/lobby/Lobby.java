@@ -22,6 +22,7 @@ public class Lobby extends Scene
 {
 	private static final Lobby INSTANCE = new Lobby().setup();
 	private MSSceneListener<Lobby> interactionListener;
+	private MSSceneListener<Lobby> inventoryListener;
 	
 	private Lobby() {}
 	
@@ -34,6 +35,7 @@ public class Lobby extends Scene
 	public Lobby setup()
 	{
 		interactionListener = new MSLobbyInteractionListener(this);
+		inventoryListener = new MSLobbyInventoryListener(this);
 		
 		return this;
 	}
@@ -42,6 +44,7 @@ public class Lobby extends Scene
 	public void redirect(Event event, MSPlayer msPlayer)
 	{
 		interactionListener.redirect(event, msPlayer);
+		inventoryListener.redirect(event, msPlayer);
 	}
 	
 	@Override

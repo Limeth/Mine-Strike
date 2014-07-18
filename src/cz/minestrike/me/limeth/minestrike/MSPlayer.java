@@ -241,12 +241,12 @@ public class MSPlayer implements Record
 	
 	public void redirectEvent(Event event)
 	{
+		if(hasPlayerStructure())
+			playerStructure.redirect(event, this);
+		
 		Scene scene = getScene();
 		
 		scene.redirect(event, this);
-		
-		if(hasPlayerStructure())
-			playerStructure.redirect(event, this);
 	}
 	
 	public String getNameTag()
@@ -392,10 +392,13 @@ public class MSPlayer implements Record
 	
 	public void pressTrigger(Gun gun)
 	{
-		if(!gun.isLoaded() || !gun.isShotDelaySatisfied())
+		if(!gun.isLoaded())
 			return;
 		
 		GunType gunType = gun.getEquipment();
+		
+		if(!gunType.isAutomatic() && !gun.isShotDelaySatisfied())
+			return;
 		
 		if(gunType.isLoadingContinuously() && gunTask instanceof Reloading)
 			gunTask.remove();

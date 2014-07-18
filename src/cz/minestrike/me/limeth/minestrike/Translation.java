@@ -12,6 +12,7 @@ public enum Translation
 	RELOAD("Press &lQ", "Stisknete &lQ"),
 	KICK_RESTARTING("&8\u00BB&9MINE&f-&6STRIKE&8\u00AB&f\nServer is restarting...", "&8\u00BB&9MINE&f-&6STRIKE&8\u00AB&f\nProbíhá restart serveru..."),
 	
+	GAME_TEAMSELECT_FULL("&cThis team has more players, please join the other one.", "&cTento tym ma prevahu, pripojte se prosim do druheho tymu."),
 	GAME_POLL_HEADER_VOTING("&a&lMap Poll &8| &e{1}s", "&a&lHlasování o mapu &8| &e{1}s"),
 	GAME_POLL_HEADER_CHANGING("&2&lChanging in &8| &6{1}s", "&2&lZmena za &8| &6{1}s"),
 	GAME_POLL_VOTE_SUCCESS("&aYou have voted for map &e&l{1}&a.", "&aHlasoval(a) jste pro mapu &e&l{1}&a."),

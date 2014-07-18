@@ -254,7 +254,7 @@ public class Gun extends CustomizedEquipment<GunType>
 			return true;
 		
 		GunType type = getEquipment();
-		double cycleTime = type.getCycleTime() * 1000;
+		double cycleTime = type.getCycleTime() * 50;
 		
 		return lastBulletShotAt < System.currentTimeMillis() - cycleTime;
 	}

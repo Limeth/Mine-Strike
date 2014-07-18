@@ -1,5 +1,7 @@
 package cz.minestrike.me.limeth.minestrike.scene.games.team;
 
+import java.util.Set;
+
 import org.bukkit.DyeColor;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -84,6 +86,25 @@ public class TeamGameMenu extends GameMenu
 				}
 				
 				TeamGame<?, ?, ?, ?> teamGame = (TeamGame<?, ?, ?, ?>) scene;
+				Set<MSPlayer> playingPlayers = teamGame.getPlayingPlayers();
+				int tPlayers = 0, ctPlayers = 0;
+				
+				for(MSPlayer playingPlayer : playingPlayers)
+				{
+					Team playingTeam = teamGame.getTeam(playingPlayer);
+					
+					if(playingTeam == Team.TERRORISTS)
+						tPlayers++;
+					else if(playingTeam == Team.COUNTER_TERRORISTS)
+						ctPlayers++;
+				}
+				
+				if((team == Team.TERRORISTS && tPlayers > ctPlayers)
+						|| (team == Team.COUNTER_TERRORISTS && ctPlayers > tPlayers))
+				{
+					msPlayer.sendMessage(Translation.GAME_TEAMSELECT_FULL.getMessage());
+					return;
+				}
 				
 				teamGame.joinArena(msPlayer, team);
 			}

@@ -181,7 +181,7 @@ public class EquipmentCategory
 		int width = (int) Math.ceil(entries.length / 2D);
 		int startX = 4 - (width / 2);
 		
-		if(x >= startX + width)
+		if(x < startX || x >= startX + width)
 			return null;
 		
 		x -= startX;
