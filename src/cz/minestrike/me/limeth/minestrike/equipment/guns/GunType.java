@@ -18,10 +18,10 @@ public enum GunType implements Equipment
 	ELITE("Beretta Elite", "elite", false, false, 3.82F, 1.05F, 38, 0.75F, 0.12F, 1, MoneyAward.KILL_OTHER_COMPETITIVE.getAmount(), MoneyAward.KILL_OTHER_CASUAL.getAmount(), 240, 30, 120, 700, 4096, false, 0.5F, 0.65F, 2, 5.25F, 7, 11.16F, 17.85F, 0.849F, 0.255F, 102, 0.437491F, 0.524989F, 20, 27, 4, 1),
 	FIVESEVEN("Five-SeveN", "fiveseven", false, false, 2.3F, 1.823F, 32, 0.81F, 0.15F, 1, MoneyAward.KILL_OTHER_COMPETITIVE.getAmount(), MoneyAward.KILL_OTHER_CASUAL.getAmount(), 240, 20, 100, 500, 4096, false, 0.5F, 0.65F, 2, 6.83F, 9.1F, 32.45F, 13.41F, 0.633F, 0.19F, 138, 0.273844F, 0.332613F, 5, 25, 4, 1),
 	GLOCK("Glock-18", "glock18", false, false, 2.3F, 0.94F, 28, 0.9F, 0.15F, 1, MoneyAward.KILL_OTHER_COMPETITIVE.getAmount(), MoneyAward.KILL_OTHER_CASUAL.getAmount(), 240, 20, 120, 200, 4096, false, 0.5F, 0.65F, 2, 4.2F, 5.6F, 56, 12, 0.616F, 0.185F, 137, 0.27631F, 0.331572F, 20, 18, 0, 1, 15F, 3F, 5.6F, 45F, 12.95F, 0.15F, 0.185F, 119.25F, 20, 30F, 5, 3), //TODO burst delay
-	P2000("P2000", "???" /* TODO */, false, false, 2.3F, 1.01F, 35, 0.91F, 0.17F, 1, MoneyAward.KILL_OTHER_COMPETITIVE.getAmount(), MoneyAward.KILL_OTHER_CASUAL.getAmount(), 240, 13, 52, 200, 4096, false, 0.5F, 0.65F, 2, 3.68F, 4.9F, 50, 13, 0.638F, 0.191F, 138.32F, 0.291277F, 0.349532F, 0, 26, 0, 1, 1.5F, 3.68F, 4.9F, 13.15F, 13.87F, 0.66F, 0.198F, 119.9F, 0, 0F, 0, 1),
+	P2000("P2000", "unknown" /* TODO */, false, false, 2.3F, 1.01F, 35, 0.91F, 0.17F, 1, MoneyAward.KILL_OTHER_COMPETITIVE.getAmount(), MoneyAward.KILL_OTHER_CASUAL.getAmount(), 240, 13, 52, 200, 4096, false, 0.5F, 0.65F, 2, 3.68F, 4.9F, 50, 13, 0.638F, 0.191F, 138.32F, 0.291277F, 0.349532F, 0, 26, 0, 1, 1.5F, 3.68F, 4.9F, 13.15F, 13.87F, 0.66F, 0.198F, 119.9F, 0, 0F, 0, 1),
 	USP_S("USP-S", "usp", false, false, 2.3F /*TODO*/, 1.01F, 35, 0.91F, 0.17F, 1, MoneyAward.KILL_OTHER_COMPETITIVE.getAmount(), MoneyAward.KILL_OTHER_CASUAL.getAmount(), 240, 12, 24, 200, 4096, false, 0.5F, 0.65F, 2.5F, 3.68F, 4.9F, 71, 13.87F, 0.638F, 0.191F, 138.32F, 0.291277F, 0.349532F, 0, 29, 0, 1, 1.5F, 3.68F, 4.9F, 52F, 13.87F, 0.66F, 0.198F, 119.9F, 0, 23F, 0, 1),
 	P250("P250", "p250", false, false, 2.3F, 1.553F, 35, 0.85F, 0.15F, 1, MoneyAward.KILL_OTHER_COMPETITIVE.getAmount(), MoneyAward.KILL_OTHER_CASUAL.getAmount(), 240, 13, 52, 300, 4096, false, 0.5F, 0.65F, 2, 6.83F, 9.1F, 52.45F, 13.41F, 0.633F, 0.190F, 138, 0.287823F, 0.345388F, 10, 26, 3, 1),
-	CZ75("CZ75-Auto", "???" /* TODO */, false, false, 2.3F /*TODO*/, 1.553F, 35, 0.85F, 0.1F, 1, MoneyAward.KILL_OTHER_COMPETITIVE.getAmount(), MoneyAward.KILL_OTHER_CASUAL.getAmount(), 240, 12, 12, 300, 4096, true, 0.5F, 0.65F, 3, 6.83F, 9.1F, 25, 13.41F, 0.633F, 0.19F, 138, 0.287823F, 0.345388F, 180, 25, 10, 1),
+	CZ75("CZ75-Auto", "unknown" /* TODO */, false, false, 2.3F /*TODO*/, 1.553F, 35, 0.85F, 0.1F, 1, MoneyAward.KILL_OTHER_COMPETITIVE.getAmount(), MoneyAward.KILL_OTHER_CASUAL.getAmount(), 240, 12, 12, 300, 4096, true, 0.5F, 0.65F, 3, 6.83F, 9.1F, 25, 13.41F, 0.633F, 0.19F, 138, 0.287823F, 0.345388F, 180, 25, 10, 1),
 	TEC9("Tec-9", "tec9", false, false, 2.7F, 1.812F, 33, 0.831F, 0.12F, 1, MoneyAward.KILL_OTHER_COMPETITIVE.getAmount(), MoneyAward.KILL_OTHER_CASUAL.getAmount(), 240, 32, 120, 500, 4096, false, 0.5F, 0.65F, 2, 8.57F, 11.43F, 52.88F, 13.81F, 0.504F, 0.211F, 120.6F, 0.322362F, 0.386834F, 60, 29, 3, 1),
 	//}}Pistols
 	//{{Shotguns
@@ -59,7 +59,7 @@ public enum GunType implements Equipment
 	//}}Sniper Rifles
 	;
 	
-	private final String name, soundName;
+	private final String name, directoryName;
 	private final boolean primary, loadingContinuously, automatic, secondMode;
 	private final int killAwardCompetitive, killAwardCasual, penetration, clipSize, spareCapacity, price, range, bullets;
 	private final float reloadTime, weaponArmorRatio, damage, rangeModifier, cycleTime, movementSpeed, flinchVelocityModifierLarge, flinchVelocityModifierSmall, spread, inaccuracySneak,
@@ -69,7 +69,7 @@ public enum GunType implements Equipment
 						recoilMagnitudeAlt;
 	private final Integer recoilAngleVarianceAlt, recoilMagnitudeVarianceAlt, bulletsAlt;
 	
-	private GunType(String name, String soundName, boolean primary, boolean loadingContinuously, float reloadTime, float weaponArmorRatio, int damage, float rangeModifier, float cycleTime, int penetration, int killAwardCompetitive, int killAwardCasual, int movementSpeed,
+	private GunType(String name, String directoryName, boolean primary, boolean loadingContinuously, float reloadTime, float weaponArmorRatio, int damage, float rangeModifier, float cycleTime, int penetration, int killAwardCompetitive, int killAwardCasual, int movementSpeed,
 			int clipSize, int spareCapacity, int price, int range, boolean automatic, float flinchVelocityModifierLarge, float flinchVelocityModifierSmall, float spread,
 			float inaccuracySneak, float inaccuracyStand, float inaccuracyFire, float inaccuracyMove, float inaccuracyJump, float inaccuracyLand, float inaccuracyLadder,
 			float recoveryTimeSneak, float recoveryTimeStand, int recoilAngleVariance, float recoilMagnitude, int recoilMagnitudeVariance, int bullets,
@@ -77,7 +77,7 @@ public enum GunType implements Equipment
 			Float inaccuracyLandAlt, Float inaccuracyLadderAlt, Integer recoilAngleVarianceAlt, Float recoilMagnitudeAlt, Integer recoilMagnitudeVarianceAlt, Integer bulletsAlt)
 	{
 		this.name = name;
-		this.soundName = soundName;
+		this.directoryName = directoryName;
 		this.primary = primary;
 		this.loadingContinuously = loadingContinuously;
 		this.reloadTime = reloadTime * 20F;
@@ -140,12 +140,12 @@ public enum GunType implements Equipment
 		}
 	}
 
-	private GunType(String name, String soundName, boolean primary, boolean loadingContinuously, float reloadTime, float weaponArmorRatio, int damage, float rangeModifier, float cycleTime, int penetration, int killAwardCompetitive, int killAwardCasual, int playerSpeedModifier,
+	private GunType(String name, String directoryName, boolean primary, boolean loadingContinuously, float reloadTime, float weaponArmorRatio, int damage, float rangeModifier, float cycleTime, int penetration, int killAwardCompetitive, int killAwardCasual, int playerSpeedModifier,
 			int clipSize, int clipAmount, int price, int range, boolean automatic, float flinchVelocityModifierLarge, float flinchVelocityModifierSmall, float spread,
 			float inaccuracySneak, float inaccuracyStand, float inaccuracyFire, float inaccuracyMove, float inaccuracyJump, float inaccuracyLand, float inaccuracyLadder,
 			float recoveryTimeSneak, float recoveryTimeStand, int recoilAngleVariance, float recoilMagnitude, int recoilMagnitudeVariance, int bullets)
 	{
-		this(name, soundName, primary, loadingContinuously, reloadTime, weaponArmorRatio, damage, rangeModifier, cycleTime, penetration, killAwardCompetitive, killAwardCasual, playerSpeedModifier,
+		this(name, directoryName, primary, loadingContinuously, reloadTime, weaponArmorRatio, damage, rangeModifier, cycleTime, penetration, killAwardCompetitive, killAwardCasual, playerSpeedModifier,
 				clipSize, clipAmount, price, range, automatic, flinchVelocityModifierLarge, flinchVelocityModifierSmall, spread,
 				inaccuracySneak, inaccuracyStand, inaccuracyFire, inaccuracyMove, inaccuracyJump, inaccuracyLand, inaccuracyLadder,
 				recoveryTimeSneak, recoveryTimeStand, recoilAngleVariance, recoilMagnitude, recoilMagnitudeVariance, bullets,
@@ -451,14 +451,14 @@ public enum GunType implements Equipment
 		return armorAbsorptionCost;
 	}
 
-	public String getSoundName()
+	public String getDirectoryName()
 	{
-		return soundName;
+		return directoryName;
 	}
 	
 	public String getSoundShooting()
 	{
-		return "projectsurvive:counterstrike.weapons." + soundName + "." + soundName;
+		return "projectsurvive:counterstrike.weapons." + directoryName + "." + directoryName;
 	}
 	
 	public String getSoundDraw()

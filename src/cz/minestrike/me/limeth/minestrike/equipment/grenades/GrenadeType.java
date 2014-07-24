@@ -44,7 +44,7 @@ import darkBlade12.ParticleEffect;
 
 public enum GrenadeType implements Equipment, DamageSource
 {
-	EXPLOSIVE(ChatColor.RED + "HE Grenade", 1, new TeamValue<Integer>(300), 240F, 16460, 40, "projectsurvive:counterstrike.weapons.hegrenade.he_draw")
+	EXPLOSIVE(ChatColor.RED + "HE Grenade", 1, new TeamValue<Integer>(300), 240F, 16460, 40, "hegrenade", "he_draw")
 	{
 		public static final double RANGE = 6;
 		public static final float DAMAGE = 96 * 20 / MSConstant.CS_MAX_HEALTH,
@@ -95,7 +95,7 @@ public enum GrenadeType implements Equipment, DamageSource
 			return ARMOR_DAMAGE_RATIO;
 		}
 	},
-	INCENDIARY(ChatColor.GOLD + "Incendiary Grenade", 1, new TeamValue<Integer>(400, 600, 500), 250F, 16453, GrenadeExplosionTrigger.LANDING, "projectsurvive:counterstrike.weapons.incgrenade.inc_grenade_draw")
+	INCENDIARY(ChatColor.GOLD + "Incendiary Grenade", 1, new TeamValue<Integer>(400, 600, 500), 250F, 16453, GrenadeExplosionTrigger.LANDING, "incgrenade", "inc_grenade_draw")
 	{
 		private static final int yawSteps = 30, pitchSteps = 30, duration = 20 * 8;
 		
@@ -130,7 +130,7 @@ public enum GrenadeType implements Equipment, DamageSource
 			return false;
 		}
 	},
-	DECOY(ChatColor.GRAY + "Decoy Grenade", 1, new TeamValue<Integer>(50), 250F, 16450, GrenadeExplosionTrigger.STABILIZATION, "projectsurvive:counterstrike.weapons.decoy.decoy_draw")
+	DECOY(ChatColor.GRAY + "Decoy Grenade", 1, new TeamValue<Integer>(50), 250F, 16450, GrenadeExplosionTrigger.STABILIZATION, "decoy", "decoy_draw")
 	{
 		@Override
 		public boolean onExplosion(Grenade grenade)
@@ -140,7 +140,7 @@ public enum GrenadeType implements Equipment, DamageSource
 			return false; //TODO true
 		}
 	},
-	SMOKE(ChatColor.GREEN + "Smoke Grenade", 1, new TeamValue<Integer>(300), 245F, 16452, GrenadeExplosionTrigger.STABILIZATION, "projectsurvive:counterstrike.weapons.smokegrenade.smokegrenade_draw")
+	SMOKE(ChatColor.GREEN + "Smoke Grenade", 1, new TeamValue<Integer>(300), 245F, 16452, GrenadeExplosionTrigger.STABILIZATION, "smokegrenade", "smokegrenade_draw")
 	{
 		@Override
 		public boolean onExplosion(final Grenade grenade)
@@ -194,7 +194,7 @@ public enum GrenadeType implements Equipment, DamageSource
 			return true;
 		}
 	},
-	FLASH(ChatColor.AQUA + "Flashbang", 2, new TeamValue<Integer>(200), 240, 16419, 40, "projectsurvive:counterstrike.weapons.flashbang.flashbang_draw")
+	FLASH(ChatColor.AQUA + "Flashbang", 2, new TeamValue<Integer>(200), 240, 16419, 40, "flashbang", "flashbang_draw")
 	{
 		private static final double maxDistance = 32;
 		private static final double maxDuration = 6; //seconds
@@ -295,14 +295,14 @@ public enum GrenadeType implements Equipment, DamageSource
 		}
 	};
 	
-	private final String name, soundDraw;
+	private final String name, directoryName, soundDraw;
 	private final TeamValue<Integer> price;
 	private final float movementSpeed;
 	private final int color, maxAmount;
 	private final Long ticksUntilExplosion;
 	private final GrenadeExplosionTrigger trigger;
 	
-	private GrenadeType(String name, int maxAmount, TeamValue<Integer> price, float movementSpeed, int color, long ticksUntilExplosion, String soundDraw)
+	private GrenadeType(String name, int maxAmount, TeamValue<Integer> price, float movementSpeed, int color, long ticksUntilExplosion, String directoryName, String soundDraw)
 	{
 		this.name = name;
 		this.maxAmount = maxAmount;
@@ -311,10 +311,11 @@ public enum GrenadeType implements Equipment, DamageSource
 		this.color = color;
 		this.ticksUntilExplosion = ticksUntilExplosion;
 		this.trigger = GrenadeExplosionTrigger.TIMEOUT;
-		this.soundDraw = soundDraw;
+		this.directoryName = directoryName;
+		this.soundDraw = "projectsurvive:counterstrike.weapons." + directoryName + "." + soundDraw;
 	}
 	
-	private GrenadeType(String name, int maxAmount, TeamValue<Integer> price, float movementSpeed, int color, GrenadeExplosionTrigger trigger, String soundDraw)
+	private GrenadeType(String name, int maxAmount, TeamValue<Integer> price, float movementSpeed, int color, GrenadeExplosionTrigger trigger, String directoryName, String soundDraw)
 	{
 		this.name = name;
 		this.maxAmount = maxAmount;
@@ -323,7 +324,8 @@ public enum GrenadeType implements Equipment, DamageSource
 		this.color = color;
 		ticksUntilExplosion = null;
 		this.trigger = trigger;
-		this.soundDraw = soundDraw;
+		this.directoryName = directoryName;
+		this.soundDraw = "projectsurvive:counterstrike.weapons." + directoryName + "." + soundDraw;
 	}
 	
 	public static GrenadeType valueOf(ItemStack is)
@@ -443,6 +445,11 @@ public enum GrenadeType implements Equipment, DamageSource
 	public float getArmorDamageRatio()
 	{
 		return 1;
+	}
+	
+	public String getDirectoryName()
+	{
+		return directoryName;
 	}
 	
 	@Override
