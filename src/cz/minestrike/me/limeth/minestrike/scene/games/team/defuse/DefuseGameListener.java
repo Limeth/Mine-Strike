@@ -3,10 +3,12 @@ package cz.minestrike.me.limeth.minestrike.scene.games.team.defuse;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.inventory.ItemStack;
 
@@ -160,6 +162,32 @@ public class DefuseGameListener extends MSSceneListener<DefuseGame>
 		{
 			event.setCancelled(true);
 			player.sendMessage(Translation.GAME_SHOP_ERROR_AWAY.getMessage());
+			return;
+		}
+	}
+	
+	@EventHandler
+	public void onEntityDamageByEntity(EntityDamageByEntityEvent event, MSPlayer msVictim)
+	{
+		DefuseGame game = getScene();
+		
+		if(game.isDead(msVictim))
+		{
+			event.setCancelled(true);
+			return;
+		}
+		
+		Entity entityDamager = event.getDamager();
+		
+		if(!(entityDamager instanceof Player))
+			return;
+		
+		Player damager = (Player) entityDamager;
+		MSPlayer msDamager = MSPlayer.get(damager);
+		
+		if(game.isDead(msDamager))
+		{
+			event.setCancelled(true);
 			return;
 		}
 	}

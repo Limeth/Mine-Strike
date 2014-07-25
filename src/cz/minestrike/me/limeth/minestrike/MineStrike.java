@@ -36,8 +36,8 @@ public class MineStrike extends JavaPlugin
 	
 	public static void main(String[] args) throws IOException
 	{
-		String soundsPath = "/home/limeth/.minecraft/resourcepacks/Mine-Strike_1.0.3/assets/projectsurvive/sounds";
-		String gson = SoundManager.buildSoundsJson(new File(soundsPath), new File(soundsPath, "counterstrike/player/vo"), "record");
+		String soundsPath = "/home/limeth/.minecraft/resourcepacks/Mine-Strike_1.0.5/assets/projectsurvive/sounds";
+		String gson = SoundManager.buildSoundsJson(new File(soundsPath), new File(soundsPath, "counterstrike/weapons/cz75a"), "hostile");
 		
 		System.out.println(gson);
 	}

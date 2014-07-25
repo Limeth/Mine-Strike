@@ -3,6 +3,7 @@ package cz.minestrike.me.limeth.minestrike.listeners.msPlayer;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
+import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
 
@@ -60,6 +61,19 @@ public abstract class MSListener implements MSListenerRedirector
 		
 		if(method == null)
 			return;
+		
+		EventHandler handler = method.getAnnotation(EventHandler.class);
+		
+		if(handler == null)
+			return;
+		
+		if(event instanceof Cancellable)
+		{
+			boolean cancelled = ((Cancellable) event).isCancelled();
+			
+			if(cancelled && handler.ignoreCancelled())
+				return;
+		}
 		
 		try
 		{

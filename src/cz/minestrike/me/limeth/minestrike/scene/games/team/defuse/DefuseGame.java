@@ -351,6 +351,7 @@ public class DefuseGame extends TeamGame<GameLobby, TeamGameMenu, DefuseGameMap,
 		Structure<?> previousStructure = msPlayer.getPlayerStructure();
 		PlayerState previousState = msPlayer.getPlayerState();
 		
+		setDead(msPlayer, true);
 		setTeam(msPlayer, team);
 		msPlayer.setPlayerStructure(getMapStructure());
 		msPlayer.setPlayerState(PlayerState.JOINED_GAME);

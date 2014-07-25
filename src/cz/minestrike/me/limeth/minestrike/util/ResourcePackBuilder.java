@@ -11,7 +11,7 @@ public class ResourcePackBuilder
 {
 	public static void main(String[] args) throws IOException
 	{
-		build(new File("C:\\Users\\Limeth\\AppData\\Roaming\\.minecraft\\resourcepacks\\Mine-Strike_1.0.4"));
+		build(new File("/home/limeth/.minecraft/resourcepacks/Mine-Strike_1.0.4"));
 	}
 	
 	private ResourcePackBuilder() {}
@@ -22,7 +22,7 @@ public class ResourcePackBuilder
 		{
 			String name = gunType.getDirectoryName();
 			String texturePath = "projectsurvive:textures/" + name + ".png";
-			File propertiesFile = new File(directory, "assets\\minecraft\\mcpatcher\\cit\\projectsurvive\\textures\\" + name + ".properties");
+			File propertiesFile = new File(directory, "assets/minecraft/mcpatcher/cit/projectsurvive/textures/" + name + ".properties");
 			
 			System.out.println(propertiesFile);
 			
@@ -46,7 +46,7 @@ public class ResourcePackBuilder
 		{
 			String name = grenadeType.getDirectoryName();
 			String texturePath = "projectsurvive:textures/" + name + ".png";
-			File propertiesFile = new File(directory, "assets\\minecraft\\mcpatcher\\cit\\projectsurvive\\textures\\" + name + ".properties");
+			File propertiesFile = new File(directory, "assets/minecraft/mcpatcher/cit/projectsurvive/textures/" + name + ".properties");
 			
 			System.out.println(propertiesFile);
 			
