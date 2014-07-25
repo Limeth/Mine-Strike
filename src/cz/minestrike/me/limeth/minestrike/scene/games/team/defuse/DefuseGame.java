@@ -107,6 +107,7 @@ public class DefuseGame extends TeamGame<GameLobby, TeamGameMenu, DefuseGameMap,
 			Player player = msPlayer.getPlayer();
 			
 			player.setWalkSpeed(0);
+			setDead(msPlayer, false);
 			spawnAndEquip(msPlayer, false);
 			showWitherBar(msPlayer);
 		}
@@ -344,14 +345,26 @@ public class DefuseGame extends TeamGame<GameLobby, TeamGameMenu, DefuseGameMap,
 	{
 		getRound().start();
 	}
+	
+	public boolean isDeadAfterJoin(MSPlayer msPlayer, Team team)
+	{
+		GamePhase<?, ?, ?, ?> gamePhase = getPhase();
+		
+		if(!(gamePhase instanceof Round))
+			return false;
+		
+		Round round = (Round) gamePhase;
+		RoundPhase roundPhase = round.getPhase();
+		int playingPlayers = getPlayingPlayers().size();
+		
+		return roundPhase != RoundPhase.PREPARING && playingPlayers >= 1;
+	}
 
 	@Override
 	public boolean joinArena(MSPlayer msPlayer, Team team)
 	{
 		Structure<?> previousStructure = msPlayer.getPlayerStructure();
 		PlayerState previousState = msPlayer.getPlayerState();
-		
-		setDead(msPlayer, true);
 		setTeam(msPlayer, team);
 		msPlayer.setPlayerStructure(getMapStructure());
 		msPlayer.setPlayerState(PlayerState.JOINED_GAME);
@@ -368,6 +381,18 @@ public class DefuseGame extends TeamGame<GameLobby, TeamGameMenu, DefuseGameMap,
 			return false;
 		}
 		
+		boolean passed = super.joinArena(msPlayer, team);
+		
+		if(!passed)
+			return false;
+		
+		if(!hasPhase())
+			start();
+		
+		boolean dead = isDeadAfterJoin(msPlayer, team);
+		
+		setDead(msPlayer, dead);
+		
 		Location spawnLoc = spawnAndEquip(msPlayer, true);
 		
 		if(spawnLoc == null)
@@ -376,14 +401,6 @@ public class DefuseGame extends TeamGame<GameLobby, TeamGameMenu, DefuseGameMap,
 			msPlayer.setPlayerState(previousState);
 			return false;
 		}
-		
-		boolean passed = super.joinArena(msPlayer, team);
-		
-		if(!passed)
-			return false;
-		
-		if(!hasPhase())
-			start();
 		
 		setBalance(msPlayer, MoneyAward.START_CASUAL.getAmount());
 		showWitherBar(msPlayer);
@@ -498,7 +515,6 @@ public class DefuseGame extends TeamGame<GameLobby, TeamGameMenu, DefuseGameMap,
 	public Location spawnAndEquip(MSPlayer msPlayer, boolean force)
 	{
 		equip(msPlayer, force);
-		setDead(msPlayer, false);
 		
 		return spawn(msPlayer, true);
 	}
