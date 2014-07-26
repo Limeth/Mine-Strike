@@ -38,5 +38,6 @@ public class MSConstant
 			MATERIAL_ARROW_LEFT = Material.RECORD_3,
 			MATERIAL_ARROW_RIGHT = Material.RECORD_4,
 			MATERIAL_CONFIRM = Material.RECORD_5,
-			MATERIAL_DENY = Material.RECORD_6;
+			MATERIAL_DENY = Material.RECORD_6,
+			MATERIAL_BACK = Material.RECORD_7;
 }

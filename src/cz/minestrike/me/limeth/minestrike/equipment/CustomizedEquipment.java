@@ -1,6 +1,7 @@
 package cz.minestrike.me.limeth.minestrike.equipment;
 
 import org.apache.commons.lang.Validate;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -130,7 +131,7 @@ public class CustomizedEquipment<T extends Equipment> implements Equipment
 		}
 		
 		@Override
-		public void onClick(MSPlayer msPlayer)
+		public void onClick(Inventory inv, MSPlayer msPlayer)
 		{
 			InventoryContainer invContainer = msPlayer.getInventoryContainer();
 			int selectionIndex = msPlayer.getCustomData(Integer.class, InventoryContainer.SELECTION_INDEX_DATA);
@@ -145,7 +146,7 @@ public class CustomizedEquipment<T extends Equipment> implements Equipment
 			
 			invContainer.unequip(source);
 			ce.setEquipped(true);
-			InventoryContainer.openSelection(msPlayer, null);
+			InventoryContainer.equipSelection(inv, msPlayer);
 		}
 	};
 	
@@ -164,7 +165,7 @@ public class CustomizedEquipment<T extends Equipment> implements Equipment
 		}
 		
 		@Override
-		public void onClick(MSPlayer msPlayer)
+		public void onClick(Inventory inv, MSPlayer msPlayer)
 		{
 			InventoryContainer invContainer = msPlayer.getInventoryContainer();
 			int selectionIndex = msPlayer.getCustomData(Integer.class, InventoryContainer.SELECTION_INDEX_DATA);
@@ -177,7 +178,7 @@ public class CustomizedEquipment<T extends Equipment> implements Equipment
 			CustomizedEquipment<? extends Equipment> ce = (CustomizedEquipment<? extends Equipment>) selectedEquipment;
 			
 			ce.setEquipped(false);
-			InventoryContainer.openSelection(msPlayer, null);
+			InventoryContainer.equipSelection(inv, msPlayer);
 		}
 	};
 	

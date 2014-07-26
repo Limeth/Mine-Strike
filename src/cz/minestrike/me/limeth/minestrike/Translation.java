@@ -52,6 +52,7 @@ public enum Translation
 	EQUIPMENT_RARITY_LEGENDARY("Legendary", "Legendární"),
 	
 	BUTTON_INVENTORY_OPEN("Open Inventory", "Otevrít Inventár"),
+	BUTTON_INVENTORY_BACK("&7Back", "&7Zpet"),
 	BUTTON_INVENTORY_EQUIP("&aEquip", "&aVybavit"),
 	BUTTON_INVENTORY_UNEQUIP("&eUnequip", "&eOdlozit"),
 	

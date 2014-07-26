@@ -153,12 +153,35 @@ public class InventoryContainer extends ScalableContainer
 		return title;
 	}
 	
-	public static InventoryView openInventory(MSPlayer msPlayer)
+	private static final ItemButton BUTTON_BACK = new ItemButton()
+	{
+		@Override
+		public void onClick(Inventory inv, MSPlayer msPlayer)
+		{
+			openInventory(msPlayer, false);
+		}
+		
+		@Override
+		public ItemStack newItemStack()
+		{
+			ItemStack is = new ItemStack(MSConstant.MATERIAL_BACK);
+			ItemMeta im = is.getItemMeta();
+			
+			im.setDisplayName(Translation.BUTTON_INVENTORY_BACK.getMessage());
+			is.setItemMeta(im);
+			
+			return is;
+		}
+	};
+	
+	public static InventoryView openInventory(MSPlayer msPlayer, boolean initialize)
 	{
 		Player player = msPlayer.getPlayer();
 		Inventory inv = Bukkit.createInventory(player, 9 * inventoryHeight, getTitleInventory());
 		
-		msPlayer.setCustomData(SCROLL_DATA, 0);
+		if(initialize)
+			msPlayer.setCustomData(SCROLL_DATA, 0);
+		
 		equipInventory(inv, msPlayer);
 		
 		return player.openInventory(inv);
@@ -227,6 +250,9 @@ public class InventoryContainer extends ScalableContainer
 		int selectionIndex = msPlayer.getCustomData(Integer.class, SELECTION_INDEX_DATA);
 		Equipment selectedEquipment = invContainer.get(selectionIndex);
 		FilledArrayList<ItemButton> selectionButtons = selectedEquipment.getSelectionButtons(msPlayer);
+		
+		selectionButtons.add(BUTTON_BACK);
+		
 		int startX = 4 - (int) (selectionButtons.size() / 2D);
 		ItemStack selectedItem = selectedEquipment.newItemStack(msPlayer);
 		
@@ -325,6 +351,6 @@ public class InventoryContainer extends ScalableContainer
 		int buttonIndex = x - startX;
 		ItemButton button = selectionButtons.get(buttonIndex);
 		
-		button.onClick(msPlayer);
+		button.onClick(inv, msPlayer);
 	}
 }

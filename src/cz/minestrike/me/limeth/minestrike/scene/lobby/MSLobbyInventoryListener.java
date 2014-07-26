@@ -47,7 +47,9 @@ public class MSLobbyInventoryListener extends MSSceneListener<Lobby>
 			if(button == null)
 				return;
 			
-			button.onClick(msPlayer);
+			Inventory bottomInv = view.getBottomInventory();
+			
+			button.onClick(bottomInv, msPlayer);
 			return;
 		}
 		
@@ -74,9 +76,9 @@ public class MSLobbyInventoryListener extends MSSceneListener<Lobby>
 			}
 
 			@Override
-			public void onClick(MSPlayer msPlayer)
+			public void onClick(Inventory inv, MSPlayer msPlayer)
 			{
-				InventoryContainer.openInventory(msPlayer);
+				InventoryContainer.openInventory(msPlayer, true);
 			}
 		};
 		
