@@ -18,7 +18,8 @@ public class LoreAttributes extends FilledHashMap<String, String>
 {
 	private static final long serialVersionUID = 1213430168558558623L;
 	public static final String DIVIDING_SEQUENCE = ": ", PREFIX = ChatColor.DARK_GRAY + "»";
-	public static final LoreAttributes TEMP_ATTRIBUTES = new LoreAttributes();
+	public static final LoreAttributes TEMP = new LoreAttributes();
+	private static final LoreAttributes PRIVATE_TEMP = new LoreAttributes();
 	
 	public void apply(ItemStack itemStack)
 	{
@@ -39,10 +40,11 @@ public class LoreAttributes extends FilledHashMap<String, String>
 		if(lore == null)
 			lore = new LinkedList<String>();
 		
-		TEMP_ATTRIBUTES.clear();
-		extract(itemStack, TEMP_ATTRIBUTES);
+		LoreAttributes previousAttributes = this == TEMP ? PRIVATE_TEMP : TEMP;
+		previousAttributes.clear();
+		extract(itemStack, previousAttributes);
 		
-		for(String serialized : TEMP_ATTRIBUTES.serialize())
+		for(String serialized : previousAttributes.serialize())
 			lore.remove(serialized);
 		
 		List<String> addition = serialize();

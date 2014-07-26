@@ -11,6 +11,7 @@ import cz.minestrike.me.limeth.minestrike.equipment.SimpleEquipment;
 import cz.minestrike.me.limeth.minestrike.scene.Scene;
 import cz.minestrike.me.limeth.minestrike.scene.games.EquipmentProvider;
 import cz.minestrike.me.limeth.minestrike.scene.games.Game;
+import cz.minestrike.me.limeth.minestrike.util.LoreAttributes;
 
 public class KevlarAndHelmet extends SimpleEquipment
 {
@@ -21,6 +22,10 @@ public class KevlarAndHelmet extends SimpleEquipment
 		
 		im.setDisplayName("Kevlar + Helmet");
 		item.setItemMeta(im);
+		
+		LoreAttributes.TEMP.clear();
+		LoreAttributes.TEMP.put("Type", "KEVLAR_AND_HELMET");
+		LoreAttributes.TEMP.apply(item);
 		
 		ITEM = item;
 		KEVLAR_AND_HELMET = new KevlarAndHelmet();

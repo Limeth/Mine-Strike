@@ -592,12 +592,10 @@ public class DefuseGame extends TeamGame<GameLobby, TeamGameMenu, DefuseGameMap,
 			PlayerState state = msPlayer.getPlayerState();
 			
 			msPlayer.clearInventory();
+			msPlayer.getPlayer().updateInventory();
 			
 			if(state != PlayerState.JOINED_GAME || !hasTeam(msPlayer))
-			{
-				msPlayer.getPlayer().updateInventory();
 				return;
-			}
 		}
 		
 		DefuseEquipmentProvider ep = getEquipmentProvider();

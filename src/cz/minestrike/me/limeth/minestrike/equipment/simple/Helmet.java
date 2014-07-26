@@ -6,6 +6,7 @@ import org.bukkit.inventory.meta.LeatherArmorMeta;
 
 import cz.minestrike.me.limeth.minestrike.MSConstant;
 import cz.minestrike.me.limeth.minestrike.equipment.SimpleEquipment;
+import cz.minestrike.me.limeth.minestrike.util.LoreAttributes;
 
 public class Helmet extends SimpleEquipment
 {
@@ -16,6 +17,10 @@ public class Helmet extends SimpleEquipment
 		
 		im.setDisplayName("Helmet");
 		item.setItemMeta(im);
+		
+		LoreAttributes.TEMP.clear();
+		LoreAttributes.TEMP.put("Type", "HELMET");
+		LoreAttributes.TEMP.apply(item);
 		
 		ITEM = item;
 		HELMET = new Helmet();

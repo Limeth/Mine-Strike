@@ -341,6 +341,9 @@ public class InventoryContainer extends ScalableContainer
 		int selectionIndex = msPlayer.getCustomData(Integer.class, SELECTION_INDEX_DATA);
 		Equipment selectedEquipment = invContainer.get(selectionIndex);
 		FilledArrayList<ItemButton> selectionButtons = selectedEquipment.getSelectionButtons(msPlayer);
+		
+		selectionButtons.add(BUTTON_BACK);
+		
 		int startX = 4 - (int) (selectionButtons.size() / 2D);
 		int x = PlayerUtil.getInventoryX(slot);
 		int y = PlayerUtil.getInventoryY(slot);

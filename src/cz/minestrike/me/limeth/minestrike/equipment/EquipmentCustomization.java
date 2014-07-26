@@ -139,9 +139,9 @@ public class EquipmentCustomization
 		
 		if(skin != null)
 		{
-			LoreAttributes.TEMP_ATTRIBUTES.clear();
-			LoreAttributes.TEMP_ATTRIBUTES.put("skin", skin);
-			LoreAttributes.TEMP_ATTRIBUTES.apply(itemStack);
+			LoreAttributes.TEMP.clear();
+			LoreAttributes.TEMP.put("skin", skin);
+			LoreAttributes.TEMP.apply(itemStack);
 		}
 		
 		itemStack.setItemMeta(im);

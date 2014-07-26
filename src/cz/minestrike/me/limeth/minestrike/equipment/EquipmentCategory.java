@@ -73,10 +73,10 @@ public class EquipmentCategory
 		this.tEquipment = tEquipment;
 		this.ctEquipment = ctEquipment;
 		
-		LoreAttributes.TEMP_ATTRIBUTES.clear();
-		LoreAttributes.extract(icon, LoreAttributes.TEMP_ATTRIBUTES);
-		LoreAttributes.TEMP_ATTRIBUTES.put("id", id);
-		LoreAttributes.TEMP_ATTRIBUTES.apply(icon);
+		LoreAttributes.TEMP.clear();
+		LoreAttributes.extract(icon, LoreAttributes.TEMP);
+		LoreAttributes.TEMP.put("id", id);
+		LoreAttributes.TEMP.apply(icon);
 	}
 	
 	public EquipmentCategory(String id, Translation translation, ItemStack icon, EquipmentCategoryEntry... equipment)
