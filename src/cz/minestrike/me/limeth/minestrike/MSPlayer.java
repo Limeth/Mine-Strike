@@ -34,12 +34,12 @@ import cz.minestrike.me.limeth.minestrike.equipment.EquipmentManager;
 import cz.minestrike.me.limeth.minestrike.equipment.containers.ArmorContainer;
 import cz.minestrike.me.limeth.minestrike.equipment.containers.HotbarContainer;
 import cz.minestrike.me.limeth.minestrike.equipment.containers.InventoryContainer;
-import cz.minestrike.me.limeth.minestrike.equipment.guns.Firing;
 import cz.minestrike.me.limeth.minestrike.equipment.guns.Gun;
 import cz.minestrike.me.limeth.minestrike.equipment.guns.GunManager;
 import cz.minestrike.me.limeth.minestrike.equipment.guns.GunTask;
 import cz.minestrike.me.limeth.minestrike.equipment.guns.GunType;
-import cz.minestrike.me.limeth.minestrike.equipment.guns.Reloading;
+import cz.minestrike.me.limeth.minestrike.equipment.guns.tasks.Firing;
+import cz.minestrike.me.limeth.minestrike.equipment.guns.tasks.Reloading;
 import cz.minestrike.me.limeth.minestrike.events.GameQuitEvent.SceneQuitReason;
 import cz.minestrike.me.limeth.minestrike.scene.Scene;
 import cz.minestrike.me.limeth.minestrike.scene.games.EquipmentProvider;
@@ -435,16 +435,16 @@ public class MSPlayer implements Record
 		
 		GunType gunType = gun.getEquipment();
 		
-		if(!gunType.isAutomatic() && !gun.isShotDelaySatisfied())
+		if(!gun.isAutomatic() && !gun.isShotDelaySatisfied())
 			return;
 		
 		if(gunType.isLoadingContinuously() && gunTask instanceof Reloading)
 			gunTask.remove();
 		
-		if(gunType.isAutomatic())
+		if(gun.isAutomatic())
 		{
 			if(gunTask == null)
-				gunTask = new Firing(this, getPlayer().getInventory().getHeldItemSlot(), gunType).startLoop();
+				gunTask = new Firing(this, gun).startLoop();
 			else if(gunTask instanceof Firing)
 			{
 				((Firing) gunTask).setLastTimeFired(System.currentTimeMillis());
@@ -468,7 +468,6 @@ public class MSPlayer implements Record
 	
 	public void reload(Gun gun)
 	{
-		GunType gunType = gun.getEquipment();
 		Player player = getPlayer();
 		PlayerInventory inv = player.getInventory();
 		int slot = inv.getHeldItemSlot();
@@ -478,7 +477,7 @@ public class MSPlayer implements Record
 		ItemStack is = gun.newItemStack(this);
 		
 		inv.setItem(slot, is);
-		setGunTask(new Reloading(this, slot, gunType).startLoop());
+		setGunTask(new Reloading(this, gun).startLoop());
 	}
 	
 	public void shoot(Gun gun)
@@ -488,13 +487,12 @@ public class MSPlayer implements Record
 		if(player == null)
 			return;
 		
-		GunType type = gun.getEquipment();
 		Location location = player.getEyeLocation();
-		String shootSound = type.getSoundShooting();
+		String shootSound = gun.getSoundShooting(this);
 		
 		gun.setLastBulletShotAt();
 		SoundManager.play(shootSound, location, Bukkit.getOnlinePlayers());
-		GunManager.shoot(location, this, type);
+		GunManager.shoot(location, this, gun);
 	}
 	
 	public void setCustomData(String key, Object value)
@@ -603,6 +601,7 @@ public class MSPlayer implements Record
 		armorContainer.reduceDamage(this, amount, weapon, bodyPart, true);
 		setLastDamageSource(damager);
 		setLastDamageWeapon(weapon);
+		player.setNoDamageTicks(0);
 		player.damage(amount);
 	}
 	
@@ -624,9 +623,9 @@ public class MSPlayer implements Record
 		teleport(loc, true);
 	}
 	
-	public Vector getInaccuracyVector(GunType gunType)
+	public Vector getInaccuracyVector(Gun gun)
 	{
-		float inaccuracy = getInaccuracy(gunType);
+		float inaccuracy = getInaccuracy(gun);
 		Vector vec = new Vector(Math.random() - 0.5, Math.random() - 0.5, Math.random() - 0.5);
 
 		vec.multiply(inaccuracy * INACCURACY_MODIFIER / (vec.length() * MAXIMAL_INACCURACY));
@@ -634,7 +633,7 @@ public class MSPlayer implements Record
 		return vec;
 	}
 	
-	public float getInaccuracy(GunType gunType)
+	public float getInaccuracy(Gun gun)
 	{
 		Player player = getPlayer();
 		Location loc = player.getLocation().clone();
@@ -647,15 +646,15 @@ public class MSPlayer implements Record
 		
 		if(blockType == Material.LADDER && secondBlockType == Material.LADDER)
 		{
-			base = gunType.getInaccuracyLadder();
+			base = gun.getInaccuracyLadder();
 		}
 		else if(player.isSneaking())
 		{
-			base = gunType.getInaccuracySneak();
+			base = gun.getInaccuracySneak();
 		}
 		else
 		{
-			base = gunType.getInaccuracyStand();
+			base = gun.getInaccuracyStand();
 		}
 		
 		if(inAir)
@@ -664,7 +663,7 @@ public class MSPlayer implements Record
 			
 			if(inAirDuration < JUMP_INACCURACY_DURATION)
 			{
-				base += 100 * gunType.getInaccuracyJump() * (JUMP_INACCURACY_DURATION - inAirDuration);
+				base += 100 * gun.getInaccuracyJump() * (JUMP_INACCURACY_DURATION - inAirDuration);
 			}
 		}
 		else
@@ -673,12 +672,12 @@ public class MSPlayer implements Record
 			
 			if(onGroundDuration < LAND_INACCURACY_DURATION)
 			{
-				base += 100 * gunType.getInaccuracyLand() * (LAND_INACCURACY_DURATION - onGroundDuration);
+				base += 100 * gun.getInaccuracyLand() * (LAND_INACCURACY_DURATION - onGroundDuration);
 			}
 		}
 		
 		float maxPlayerSpeed = getMovementSpeed();
-		base += speed * gunType.getInaccuracyMove() / maxPlayerSpeed;
+		base += speed * gun.getInaccuracyMove() / maxPlayerSpeed;
 		
 		return base < MAXIMAL_INACCURACY ? base : MAXIMAL_INACCURACY;
 	}
@@ -890,5 +889,11 @@ public class MSPlayer implements Record
 	public ArmorContainer getArmorContainer()
 	{
 		return armorContainer;
+	}
+
+	@SuppressWarnings("deprecation")
+	public void updateInventory()
+	{
+		getPlayer().updateInventory();
 	}
 }

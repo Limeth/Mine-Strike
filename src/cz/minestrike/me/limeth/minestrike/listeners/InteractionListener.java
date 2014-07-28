@@ -66,7 +66,7 @@ public class InteractionListener implements Listener
 		
 		Action action = event.getAction();
 		
-		if(action == Action.RIGHT_CLICK_BLOCK || action == Action.RIGHT_CLICK_AIR)
+		if(action != Action.PHYSICAL)
 		{
 			Player player = event.getPlayer();
 			PlayerInventory inv = player.getInventory();
@@ -79,7 +79,10 @@ public class InteractionListener implements Listener
 			{
 				Gun gun = (Gun) equipment;
 				
-				msPlayer.pressTrigger(gun);
+				if(action == Action.RIGHT_CLICK_AIR || action == Action.RIGHT_CLICK_BLOCK)
+					gun.onRightClick(msPlayer);
+				else
+					gun.onLeftClick(msPlayer);
 			}
 		}
 	}

@@ -1,7 +1,9 @@
 package cz.minestrike.me.limeth.minestrike.equipment.containers;
 
+import org.apache.commons.lang.Validate;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 
 import cz.minestrike.me.limeth.minestrike.MSConstant;
@@ -67,12 +69,40 @@ public class HotbarContainer implements Container
 	public void apply(Inventory inv, MSPlayer msPlayer)
 	{
 		for(int i = 0; i < contents.length && i < inv.getSize(); i++)
-			inv.setItem(i, contents[i].newItemStack(msPlayer));
+			inv.setItem(i, contents[i] == null ? null : contents[i].newItemStack(msPlayer));
 	}
 	
 	@Override
 	public void apply(MSPlayer msPlayer)
 	{
 		apply(msPlayer.getPlayer().getInventory(), msPlayer);
+	}
+	
+	@Override
+	public boolean apply(Inventory inv, MSPlayer msPlayer, Equipment equipment)
+	{
+		Validate.notNull(equipment, "The equipment must not be null!");
+		boolean found = false;
+		
+		for(int i = 0; i < contents.length; i++)
+		{
+			Equipment current = contents[i];
+			
+			if(current != equipment)
+				continue;
+			
+			found = true;
+			ItemStack is = equipment.newItemStack(msPlayer);
+			
+			inv.setItem(i, is);
+		}
+		
+		return found;
+	}
+
+	@Override
+	public boolean apply(MSPlayer msPlayer, Equipment equipment)
+	{
+		return apply(msPlayer.getPlayer().getInventory(), msPlayer, equipment);
 	}
 }

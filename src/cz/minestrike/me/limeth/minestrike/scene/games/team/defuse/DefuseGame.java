@@ -355,9 +355,19 @@ public class DefuseGame extends TeamGame<GameLobby, TeamGameMenu, DefuseGameMap,
 		
 		Round round = (Round) gamePhase;
 		RoundPhase roundPhase = round.getPhase();
-		int playingPlayers = getPlayingPlayers().size();
+		int tPlayers = 0, ctPlayers = 0;
 		
-		return roundPhase != RoundPhase.PREPARING && playingPlayers >= 1;
+		for(MSPlayer playingPlayer : getPlayingPlayers())
+		{
+			Team playingTeam = getTeam(playingPlayer);
+			
+			if(playingTeam == Team.TERRORISTS)
+				tPlayers++;
+			else if(playingTeam == Team.COUNTER_TERRORISTS)
+				ctPlayers++;
+		}
+		
+		return roundPhase != RoundPhase.PREPARING && tPlayers > 0 && ctPlayers > 0;
 	}
 
 	@Override
@@ -365,6 +375,9 @@ public class DefuseGame extends TeamGame<GameLobby, TeamGameMenu, DefuseGameMap,
 	{
 		Structure<?> previousStructure = msPlayer.getPlayerStructure();
 		PlayerState previousState = msPlayer.getPlayerState();
+		boolean dead = isDeadAfterJoin(msPlayer, team);
+		
+		setDead(msPlayer, dead);
 		setTeam(msPlayer, team);
 		msPlayer.setPlayerStructure(getMapStructure());
 		msPlayer.setPlayerState(PlayerState.JOINED_GAME);
@@ -388,10 +401,6 @@ public class DefuseGame extends TeamGame<GameLobby, TeamGameMenu, DefuseGameMap,
 		
 		if(!hasPhase())
 			start();
-		
-		boolean dead = isDeadAfterJoin(msPlayer, team);
-		
-		setDead(msPlayer, dead);
 		
 		Location spawnLoc = spawnAndEquip(msPlayer, true);
 		

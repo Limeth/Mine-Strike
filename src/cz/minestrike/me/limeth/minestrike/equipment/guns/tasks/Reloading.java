@@ -1,16 +1,16 @@
-package cz.minestrike.me.limeth.minestrike.equipment.guns;
+package cz.minestrike.me.limeth.minestrike.equipment.guns.tasks;
 
 import javax.annotation.Nonnull;
 
 import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.PlayerInventory;
 
 import cz.minestrike.me.limeth.minestrike.MSPlayer;
 import cz.minestrike.me.limeth.minestrike.MineStrike;
-import cz.minestrike.me.limeth.minestrike.equipment.Equipment;
 import cz.minestrike.me.limeth.minestrike.equipment.containers.Container;
+import cz.minestrike.me.limeth.minestrike.equipment.containers.HotbarContainer;
+import cz.minestrike.me.limeth.minestrike.equipment.guns.Gun;
+import cz.minestrike.me.limeth.minestrike.equipment.guns.GunTask;
+import cz.minestrike.me.limeth.minestrike.equipment.guns.GunType;
 
 public class Reloading extends GunTask
 {
@@ -18,10 +18,10 @@ public class Reloading extends GunTask
 	private int iterationsLeft;
 	private Integer loopId;
 	
-	public Reloading(@Nonnull MSPlayer mPlayer, int slotId, @Nonnull GunType gunType)
+	public Reloading(@Nonnull MSPlayer mPlayer, @Nonnull Gun gun)
 	{
-		super(mPlayer, slotId, gunType);
-		iterationsLeft = (int) (gunType.getReloadTime() / CHECK_DELAY);
+		super(mPlayer, gun);
+		iterationsLeft = (int) (gun.getEquipment().getReloadTime() / CHECK_DELAY);
 	}
 	
 	@Override
@@ -39,12 +39,7 @@ public class Reloading extends GunTask
 	protected boolean execute()
 	{
 		if(decreaseIterationsLeft())
-		{
-			Gun gun = parseGunIfSelected();
-			
-			if(gun != null)
-				reload(gun);
-		}
+			reload();
 		else
 			return true;
 		
@@ -63,51 +58,30 @@ public class Reloading extends GunTask
 		return hasFinished();
 	}
 	
-	private ItemStack startReload()
+	private void startReload()
 	{
-		Gun gun = parseGunIfSelected();
-		
-		if(gun == null)
-			cancel();
+		Gun gun = getGun();
+		MSPlayer msPlayer = getMSPlayer();
+		HotbarContainer container = msPlayer.getHotbarContainer();
 		
 		gun.setReloading(true);
-		
-		ItemStack is = gun.newItemStack(msPlayer);
-		
-		msPlayer.getPlayer().setItemInHand(is);
-		
-		return is;
+		container.apply(msPlayer, gun);
 	}
 	
 	private void stopReload()
 	{
-		Player player = msPlayer.getPlayer();
-		PlayerInventory inv = player.getInventory();
+		MSPlayer msPlayer = getMSPlayer();
 		Container hotbarContainer = msPlayer.getHotbarContainer();
-		Equipment equipment = hotbarContainer.getItem(slotId);
-		
-		if(equipment == null || !(equipment instanceof Gun))
-			return;
-		
-		Gun gun = (Gun) equipment;
-		
-		if(!gun.isReloading())
-			return;
-		
-		GunType gunType = gun.getEquipment();
-		
-		if(gunType != this.gunType)
-			return;
+		Gun gun = getGun();
 		
 		gun.setReloading(false);
-		
-		ItemStack is = gun.newItemStack(msPlayer);
-		
-		inv.setItem(slotId, is);
+		hotbarContainer.apply(msPlayer, gun);
 	}
 	
-	private ItemStack reload(Gun gun)
+	private void reload()
 	{
+		Gun gun = getGun();
+		GunType gunType = gun.getEquipment();
 		int clipSize = gunType.getClipSize();
 		int unusedBullets = gun.getUnusedBullets();
 		int loadedBullets = gun.getLoadedBullets();
@@ -120,18 +94,13 @@ public class Reloading extends GunTask
 		if(reloadedBullets > freeSpace)
 			reloadedBullets = freeSpace;
 		
-		Player player = msPlayer.getPlayer();
+		MSPlayer msPlayer = getMSPlayer();
+		HotbarContainer container = msPlayer.getHotbarContainer();
 		
 		gun.setUnusedBullets(unusedBullets - reloadedBullets);
 		gun.setLoadedBullets(loadedBullets + reloadedBullets);
 		gun.setReloading(false);
-		
-		ItemStack is = gun.newItemStack(msPlayer);
-		
-		player.setItemInHand(is);
-	//	gunType.onReloadComplete(msPlayer);
-		
-		return is;
+		container.apply(msPlayer);
 	}
 	
 	@Override

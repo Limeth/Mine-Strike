@@ -3,29 +3,23 @@ package cz.minestrike.me.limeth.minestrike.equipment.guns;
 import javax.annotation.Nonnull;
 
 import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.PlayerInventory;
 
 import com.google.common.base.Preconditions;
 
 import cz.minestrike.me.limeth.minestrike.MSPlayer;
-import cz.minestrike.me.limeth.minestrike.equipment.Equipment;
-import cz.minestrike.me.limeth.minestrike.equipment.containers.Container;
 
 public abstract class GunTask implements Runnable
 {
-	protected final MSPlayer msPlayer;
-	protected final int slotId;
-	protected final GunType gunType;
+	private final MSPlayer msPlayer;
+	private final Gun gun;
 	
-	public GunTask(@Nonnull MSPlayer msPlayer, int slotId, @Nonnull GunType gunType)
+	public GunTask(@Nonnull MSPlayer msPlayer, Gun gun)
 	{
 		Preconditions.checkNotNull(msPlayer, "MSPlayer cannot be null!");
-		Preconditions.checkNotNull(gunType, "GunType cannot be null!");
+		Preconditions.checkNotNull(gun, "Gun cannot be null!");
 		
 		this.msPlayer = msPlayer;
-		this.slotId = slotId;
-		this.gunType = gunType;
+		this.gun = gun;
 	}
 	
 	public GunTask startLoop() { return this; }
@@ -43,26 +37,6 @@ public abstract class GunTask implements Runnable
 		
 		if(!cont)
 			remove();
-	}
-	
-	protected Gun parseGunIfSelected()
-	{
-		Player player = msPlayer.getPlayer();
-		PlayerInventory inv = player.getInventory();
-		Container hotbarContainer = msPlayer.getHotbarContainer();
-		int slot = inv.getHeldItemSlot();
-		Equipment equipment = hotbarContainer.getItem(slot);
-		
-		if(equipment == null || !(equipment instanceof Gun))
-			return null;
-		
-		Gun gun = (Gun) equipment;
-		GunType gunType = gun.getEquipment();
-		
-		if(gunType != this.gunType)
-			return null;
-		
-		return gun;
 	}
 	
 	protected void stopLoop()
@@ -91,13 +65,8 @@ public abstract class GunTask implements Runnable
 		return msPlayer;
 	}
 
-	public int getSlotId()
+	public Gun getGun()
 	{
-		return slotId;
-	}
-
-	public GunType getGunType()
-	{
-		return gunType;
+		return gun;
 	}
 }

@@ -10,6 +10,7 @@ import cz.minestrike.me.limeth.minestrike.MSPlayer;
 import cz.minestrike.me.limeth.minestrike.Translation;
 import cz.minestrike.me.limeth.minestrike.equipment.CustomizedEquipment;
 import cz.minestrike.me.limeth.minestrike.equipment.EquipmentCustomization;
+import cz.minestrike.me.limeth.minestrike.equipment.guns.extensions.GunExtension;
 import cz.minestrike.me.limeth.minestrike.util.LoreAttributes;
 import cz.minestrike.me.limeth.minestrike.util.RandomString;
 
@@ -21,7 +22,8 @@ public class Gun extends CustomizedEquipment<GunType>
 	private Integer kills;
 	private Long lastBulletShotAt;
 	private int loadedBullets, unusedBullets;
-	private boolean reloading;
+	private boolean reloading, secondaryState;
+	private GunExtension lazyExtension;
 	
 	public Gun(GunType type, EquipmentCustomization customization, Integer kills, int loadedBullets, int unusedBullets, boolean reloading)
 	{
@@ -59,6 +61,27 @@ public class Gun extends CustomizedEquipment<GunType>
 		gun.lastBulletShotAt = lastBulletShotAt;
 		
 		return gun;
+	}
+	
+	@Override
+	public float getMovementSpeed(MSPlayer msPlayer)
+	{
+		return getExtension().getMovementSpeed(msPlayer);
+	}
+	
+	public String getSoundShooting(MSPlayer msPlayer)
+	{
+		return getExtension().getSoundShooting(msPlayer);
+	}
+	
+	public void onLeftClick(MSPlayer msPlayer)
+	{
+		getExtension().onLeftClick(msPlayer);
+	}
+	
+	public void onRightClick(MSPlayer msPlayer)
+	{
+		getExtension().onRightClick(msPlayer);
 	}
 	
 	public LoreAttributes createAttributes()
@@ -268,6 +291,11 @@ public class Gun extends CustomizedEquipment<GunType>
 		
 		return lastBulletShotAt < System.currentTimeMillis() - cycleTime;
 	}
+	
+	public GunExtension getExtension()
+	{
+		return lazyExtension != null ? lazyExtension : (lazyExtension = getEquipment().newExtension(this));
+	}
 
 	public Long getLastBulletShotAt()
 	{
@@ -282,5 +310,67 @@ public class Gun extends CustomizedEquipment<GunType>
 	public void setLastBulletShotAt()
 	{
 		this.lastBulletShotAt = System.currentTimeMillis();
+	}
+
+	public boolean isSecondaryState()
+	{
+		return secondaryState;
+	}
+
+	public void setSecondaryState(boolean secondaryState)
+	{
+		Validate.isTrue(getEquipment().isSecondMode(), "GunType " + getEquipment() + " doesn't have a secondary state.");
+		
+		this.secondaryState = secondaryState;
+	}
+	
+	public boolean isAutomatic()
+	{
+		return secondaryState ? getEquipment().isAutomaticAlt() : getEquipment().isAutomatic();
+	}
+	
+	public float getSpread()
+	{
+		return secondaryState ? getEquipment().getSpreadAlt() : getEquipment().getSpread();
+	}
+	
+	public float getInaccuracySneak()
+	{
+		return secondaryState ? getEquipment().getInaccuracySneakAlt() : getEquipment().getInaccuracySneak();
+	}
+	
+	public float getInaccuracyStand()
+	{
+		return secondaryState ? getEquipment().getInaccuracyStandAlt() : getEquipment().getInaccuracyStand();
+	}
+	
+	public float getInaccuracyFire()
+	{
+		return secondaryState ? getEquipment().getInaccuracyFireAlt() : getEquipment().getInaccuracyFire();
+	}
+	
+	public float getInaccuracyMove()
+	{
+		return secondaryState ? getEquipment().getInaccuracyMoveAlt() : getEquipment().getInaccuracyMove();
+	}
+	
+	public float getInaccuracyJump()
+	{
+		return secondaryState ? getEquipment().getInaccuracyJumpAlt() : getEquipment().getInaccuracyJump();
+	}
+	
+	public float getInaccuracyLand()
+	{
+		return secondaryState ? getEquipment().getInaccuracyLandAlt() : getEquipment().getInaccuracyLand();
+	}
+	
+	public float getInaccuracyLadder()
+	{
+		return secondaryState ? getEquipment().getInaccuracyLadderAlt() : getEquipment().getInaccuracyLadder();
+	}
+	
+	public int getShootingBullets()
+	{
+		return secondaryState ? getEquipment().getBulletsAlt() : getEquipment().getBullets();
 	}
 }

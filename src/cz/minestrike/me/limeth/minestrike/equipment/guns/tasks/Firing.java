@@ -1,13 +1,15 @@
-package cz.minestrike.me.limeth.minestrike.equipment.guns;
+package cz.minestrike.me.limeth.minestrike.equipment.guns.tasks;
 
 import javax.annotation.Nonnull;
 
 import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
 
 import cz.minestrike.me.limeth.minestrike.MSPlayer;
 import cz.minestrike.me.limeth.minestrike.MineStrike;
+import cz.minestrike.me.limeth.minestrike.equipment.containers.HotbarContainer;
+import cz.minestrike.me.limeth.minestrike.equipment.guns.Gun;
+import cz.minestrike.me.limeth.minestrike.equipment.guns.GunTask;
+import cz.minestrike.me.limeth.minestrike.equipment.guns.GunType;
 
 public class Firing extends GunTask
 {
@@ -16,15 +18,15 @@ public class Firing extends GunTask
 	private Integer loopId;
 	private float remainder;
 	
-	public Firing(@Nonnull MSPlayer msPlayer, int slotId, @Nonnull GunType gunType, long lastTimeFired)
+	public Firing(@Nonnull MSPlayer msPlayer, @Nonnull Gun gun, long lastTimeFired)
 	{
-		super(msPlayer, slotId, gunType);
+		super(msPlayer, gun);
 		this.lastTimeFired = lastTimeFired;
 	}
 	
-	public Firing(@Nonnull MSPlayer msPlayer, int slotId, @Nonnull GunType gunType)
+	public Firing(@Nonnull MSPlayer msPlayer, @Nonnull Gun gun)
 	{
-		this(msPlayer, slotId, gunType, System.currentTimeMillis());
+		this(msPlayer, gun, System.currentTimeMillis());
 	}
 	
 	@Override
@@ -36,7 +38,9 @@ public class Firing extends GunTask
 	
 	private int nextLoop()
 	{
-		float cycleTime = getGunType().getCycleTime();
+		Gun gun = getGun();
+		GunType gunType = gun.getEquipment();
+		float cycleTime = gunType.getCycleTime();
 		int rounded = (int) (cycleTime + remainder);
 		
 		//Bukkit.broadcastMessage(cycleTime + " = " + rounded + " + " + remainder);
@@ -63,31 +67,31 @@ public class Firing extends GunTask
 	{
 		if(!hasExpired())
 		{
-			Gun gun = parseGunIfSelected();
+			Gun gun = getGun();
 			
-			if(gun != null)
-				if(decreaseBullets(gun))
-				{
-					getMSPlayer().shoot(gun);
-					return true;
-				}
+			if(decreaseBullets())
+			{
+				getMSPlayer().shoot(gun);
+				return true;
+			}
 		}
 		
 		return false;
 	}
 	
-	private boolean decreaseBullets(Gun gun)
+	private boolean decreaseBullets()
 	{
-		Player player = getMSPlayer().getPlayer();
+		Gun gun = getGun();
 		
 		if(!gun.isLoaded())
 			return false;
 		
 		gun.decreaseLoadedBullets();
 		
-		ItemStack itemStack = gun.newItemStack(msPlayer);//TODO try editing instead of creating a new one
+		MSPlayer msPlayer = getMSPlayer();
+		HotbarContainer container = msPlayer.getHotbarContainer();
 		
-		player.setItemInHand(itemStack);
+		container.apply(msPlayer, gun);
 		
 		return true;
 	}

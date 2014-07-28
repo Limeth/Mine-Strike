@@ -2,6 +2,7 @@ package cz.minestrike.me.limeth.minestrike.equipment.containers;
 
 import java.util.ArrayList;
 
+import org.apache.commons.lang.Validate;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
@@ -54,12 +55,39 @@ public class ScalableContainer extends ArrayList<Equipment> implements Container
 			
 			inv.setItem(i, item);
 		}
-			
 	}
 
 	@Override
 	public void apply(MSPlayer msPlayer)
 	{
 		apply(msPlayer.getPlayer().getInventory(), msPlayer);
+	}
+	
+	@Override
+	public boolean apply(Inventory inv, MSPlayer msPlayer, Equipment equipment)
+	{
+		Validate.notNull(equipment, "The equipment must not be null!");
+		boolean found = false;
+		
+		for(int i = 0; i < size(); i++)
+		{
+			Equipment current = get(i);
+			
+			if(current != equipment)
+				continue;
+			
+			found = true;
+			ItemStack is = equipment.newItemStack(msPlayer);
+			
+			inv.setItem(i, is);
+		}
+		
+		return found;
+	}
+
+	@Override
+	public boolean apply(MSPlayer msPlayer, Equipment equipment)
+	{
+		return apply(msPlayer.getPlayer().getInventory(), msPlayer, equipment);
 	}
 }

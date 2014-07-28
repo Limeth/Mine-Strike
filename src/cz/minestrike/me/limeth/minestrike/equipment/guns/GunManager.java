@@ -77,15 +77,16 @@ public class GunManager
 	/**
 	 * Made with CB 1.7.2 R0.3
 	 */
-	public static void shoot(Location location, MSPlayer msShooter, GunType gunType)
+	public static void shoot(Location location, MSPlayer msShooter, Gun gun)
 	{
+		GunType gunType = gun.getEquipment();
 		Player bukkitShooter = msShooter.getPlayer();
 		EntityHuman shooter = (EntityHuman) ((CraftPlayer) bukkitShooter).getHandle();
 		World world = shooter.getWorld();
 		location = location.clone();
 		int range = gunType.getRange();
 		Vector direction = location.getDirection();
-		Vector inaccuracyDirection = msShooter.getInaccuracyVector(gunType);
+		Vector inaccuracyDirection = msShooter.getInaccuracyVector(gun);
 		Vector recoilDirection = msShooter.getRecoilVector(direction, gunType);
 		direction.add(recoilDirection).add(inaccuracyDirection);
 		direction.multiply(range / direction.length()); //Normalize to range

@@ -8,6 +8,7 @@ import java.util.logging.Logger;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -57,6 +58,7 @@ public class MineStrike extends JavaPlugin
 			redirectCommands();
 			MSPlayer.loadOnlinePlayers();
 			MSPlayer.startMovementLoop();
+			disableWeather();
 			info("Mine-Strike successfully enabled! (v" + getDescription().getVersion() + ")");
 		}
 		catch(Exception e)
@@ -171,6 +173,16 @@ public class MineStrike extends JavaPlugin
 		for(Player player : Bukkit.getOnlinePlayers())
 			if(player.hasPermission("MineStrike.warn"))
 				player.sendMessage(MSConstant.CONSOLE_PREFIX + ChatColor.RED + "[!] " + ChatColor.RESET + string);
+	}
+	
+	private static void disableWeather()
+	{
+		for(World world : Bukkit.getWorlds())
+		{
+			world.setThundering(false);
+			world.setStorm(false);
+			world.setWeatherDuration(Integer.MAX_VALUE);
+		}
 	}
 	
 	public static MySQLService getService()

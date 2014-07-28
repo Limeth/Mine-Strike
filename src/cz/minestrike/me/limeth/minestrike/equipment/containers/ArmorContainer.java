@@ -1,5 +1,6 @@
 package cz.minestrike.me.limeth.minestrike.equipment.containers;
 
+import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -78,17 +79,51 @@ public class ArmorContainer implements Container
 		applyKevlarDurability(msPlayer);
 	}
 	
-	public void applyKevlarDurability(MSPlayer msPlayer)
+	@Override
+	public boolean apply(Inventory inv, MSPlayer msPlayer, Equipment equipment)
 	{
-		Player player = msPlayer.getPlayer();
+		Validate.notNull(equipment, "The equipment must not be null!");
 		
-		player.setExp(kevlarDurability > 1 ? 1 : kevlarDurability);
+		if(!(inv instanceof PlayerInventory))
+			throw new IllegalArgumentException("The inventory must be a PlayerInventory.");
+		
+		PlayerInventory pInv = (PlayerInventory) inv;
+		boolean found = false;
+		
+		if(equipment == kevlar)
+		{
+			pInv.setChestplate(kevlar.newItemStack(msPlayer));
+			applyKevlarDurability(msPlayer);
+			
+			found = true;
+		}
+		else if(equipment == helmet)
+		{
+			pInv.setHelmet(helmet.newItemStack(msPlayer));
+			
+			found = true;
+		}
+		
+		return found;
 	}
 
 	@Override
 	public void apply(MSPlayer msPlayer)
 	{
 		apply(msPlayer.getPlayer().getInventory(), msPlayer);
+	}
+
+	@Override
+	public boolean apply(MSPlayer msPlayer, Equipment equipment)
+	{
+		return apply(msPlayer.getPlayer().getInventory(), msPlayer, equipment);
+	}
+	
+	public void applyKevlarDurability(MSPlayer msPlayer)
+	{
+		Player player = msPlayer.getPlayer();
+		
+		player.setExp(kevlarDurability > 1 ? 1 : kevlarDurability);
 	}
 	
 	public double reduceDamage(MSPlayer msPlayer, double damage, Equipment equipment, BodyPart bodyPart, boolean damageArmor)

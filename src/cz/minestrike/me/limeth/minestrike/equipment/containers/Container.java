@@ -14,4 +14,6 @@ public interface Container
 	public Equipment getItem(int index);
 	public void apply(Inventory inv, MSPlayer msPlayer);
 	public void apply(MSPlayer msPlayer);
+	public boolean apply(Inventory inv, MSPlayer msPlayer, Equipment equipment);
+	public boolean apply(MSPlayer msPlayer, Equipment equipment);
 }
