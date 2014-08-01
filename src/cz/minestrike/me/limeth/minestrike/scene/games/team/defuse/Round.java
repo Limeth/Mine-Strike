@@ -14,8 +14,8 @@ import cz.minestrike.me.limeth.minestrike.MineStrike;
 import cz.minestrike.me.limeth.minestrike.areas.schemes.GameLobby;
 import cz.minestrike.me.limeth.minestrike.events.ArenaJoinEvent;
 import cz.minestrike.me.limeth.minestrike.events.ArenaQuitEvent;
-import cz.minestrike.me.limeth.minestrike.listeners.msPlayer.MSSceneListener;
 import cz.minestrike.me.limeth.minestrike.listeners.msPlayer.MSListener;
+import cz.minestrike.me.limeth.minestrike.listeners.msPlayer.MSSceneListener;
 import cz.minestrike.me.limeth.minestrike.scene.games.GamePhase;
 import cz.minestrike.me.limeth.minestrike.scene.games.GamePhaseType;
 import cz.minestrike.me.limeth.minestrike.scene.games.team.TeamGameMenu;
@@ -214,17 +214,7 @@ public class Round extends GamePhase<GameLobby, TeamGameMenu, DefuseGameMap, Def
 				Round round = (Round) phase;
 				RoundPhase roundPhase = round.getPhase();
 				
-				if(roundPhase == RoundPhase.PREPARING)
-				{
-					Player player = msPlayer.getPlayer();
-					
-					player.setWalkSpeed(0);
-				}
-				else if(roundPhase == RoundPhase.STARTED)
-				{
-					game.setDead(msPlayer, true);
-				}
-				else if(roundPhase == RoundPhase.ENDED)
+				if(roundPhase == RoundPhase.PREPARING || roundPhase == RoundPhase.ENDED)
 				{
 					Player player = msPlayer.getPlayer();
 					

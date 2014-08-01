@@ -33,7 +33,9 @@ import cz.minestrike.me.limeth.minestrike.MineStrike;
 import cz.minestrike.me.limeth.minestrike.equipment.DamageSource;
 import cz.minestrike.me.limeth.minestrike.equipment.Equipment;
 import cz.minestrike.me.limeth.minestrike.equipment.ItemButton;
+import cz.minestrike.me.limeth.minestrike.equipment.guns.Gun;
 import cz.minestrike.me.limeth.minestrike.scene.Scene;
+import cz.minestrike.me.limeth.minestrike.scene.games.EquipmentProvider;
 import cz.minestrike.me.limeth.minestrike.scene.games.Game;
 import cz.minestrike.me.limeth.minestrike.scene.games.Team;
 import cz.minestrike.me.limeth.minestrike.scene.games.TeamValue;
@@ -60,12 +62,9 @@ public enum GrenadeType implements Equipment, DamageSource
 			MSPlayer msShooter = grenade.getShooter();
 			ThrownPotion potion = grenade.getEntity();
 			Location loc = potion.getLocation();
-			Location effectLoc = loc.clone().add(0, 0.5, 0);
 			List<Entity> targetEntities = potion.getNearbyEntities(RANGE, RANGE, RANGE);
 			
-			ParticleEffect.LAVA.display(effectLoc, 0.5F, 0.5F, 0.5F, 1, 100);
-			ParticleEffect.LARGE_SMOKE.display(effectLoc, 0, 0, 0, 1, 25);
-			SoundManager.play("projectsurvive:counterstrike.weapons.hegrenade.explode", loc, Bukkit.getOnlinePlayers());
+			playExplosionEffect(loc, 1);
 			
 			for(Entity targetEntity : targetEntities)
 			{
@@ -135,9 +134,102 @@ public enum GrenadeType implements Equipment, DamageSource
 		@Override
 		public boolean onExplosion(Grenade grenade)
 		{
-			grenade.getNMSEntity().die();
+			MSPlayer msPlayer = grenade.getShooter();
+			Scene scene = msPlayer.getScene();
 			
-			return false; //TODO true
+			if(!(scene instanceof Game))
+			{
+				grenade.getNMSEntity().die();
+				return false;
+			}
+			
+			@SuppressWarnings("unchecked")
+			Game<?, ?, ?, ? extends EquipmentProvider> game = (Game<?, ?, ?, ? extends EquipmentProvider>) scene;
+			EquipmentProvider ep = game.getEquipmentProvider();
+			Gun gun = ep.getGun(msPlayer, true);
+			
+			if(gun == null)
+				gun = ep.getGun(msPlayer, false);
+			
+			if(gun == null)
+			{
+				grenade.getNMSEntity().die();
+				return false;
+			}
+			
+			final String sound = gun.getSoundShooting(msPlayer);
+			
+			new EffectHandler(grenade, sound).start();
+			
+			return true;
+		}
+		
+		class EffectHandler implements Runnable
+		{
+			private static final double PLAY_CHANCE = 0.2;
+			private final Grenade grenade;
+			private final String sound;
+			private Integer soundLoopId, limitLoopId;
+			
+			public EffectHandler(Grenade grenade, String sound)
+			{
+				this.grenade = grenade;
+				this.sound = sound;
+			}
+			
+			public EffectHandler start()
+			{
+				soundLoopId = Bukkit.getScheduler().scheduleSyncRepeatingTask(MineStrike.getInstance(), this, 0, 4);
+				limitLoopId = Bukkit.getScheduler().scheduleSyncDelayedTask(MineStrike.getInstance(), new Runnable()
+				{
+					public void run()
+					{
+						limitLoopId = null;
+						explode();
+					}
+				}, 20L * 60);
+				
+				return this;
+			}
+			
+			public void cancel()
+			{
+				if(limitLoopId != null)
+				{
+					Bukkit.getScheduler().cancelTask(limitLoopId);
+					
+					limitLoopId = null;
+				}
+				
+				if(soundLoopId != null)
+				{
+					Bukkit.getScheduler().cancelTask(soundLoopId);
+					
+					soundLoopId = null;
+				}
+			}
+			
+			public void explode()
+			{
+				ThrownPotion potion = grenade.getEntity();
+				Location loc = potion.getLocation();
+				
+				playExplosionEffect(loc, 0.5f);
+				cancel();
+				grenade.getNMSEntity().die();
+			}
+			
+			@Override
+			public void run()
+			{
+				if(Math.random() > PLAY_CHANCE)
+					return;
+				
+				ThrownPotion entity = grenade.getEntity();
+				Location loc = entity.getLocation();
+				
+				SoundManager.play(sound, loc, Bukkit.getOnlinePlayers());
+			}
 		}
 	},
 	SMOKE(ChatColor.GREEN + "Smoke Grenade", 1, new TeamValue<Integer>(300), 245F, 16452, GrenadeExplosionTrigger.STABILIZATION, "smokegrenade", "smokegrenade_draw")
@@ -348,6 +440,16 @@ public enum GrenadeType implements Equipment, DamageSource
 	}
 	
 	public abstract boolean onExplosion(Grenade grenade);
+	
+	protected static void playExplosionEffect(Location loc, float strength)
+	{
+		Location effectLoc = loc.clone().add(0, 0.5, 0);
+		float strengthSqrt = (float) Math.sqrt(strength);
+		
+		ParticleEffect.LAVA.display(effectLoc, 0.5F * strengthSqrt, 0.5F * strengthSqrt, 0.5F * strengthSqrt, 1, (int) (100 * strength));
+		ParticleEffect.LARGE_SMOKE.display(effectLoc, 0, 0, 0, 1, (int) (25 * strength));
+		SoundManager.play("projectsurvive:counterstrike.weapons.hegrenade.explode", loc, strength, Bukkit.getOnlinePlayers());
+	}
 
 	public int getColor()
 	{

@@ -373,8 +373,7 @@ public class MSPlayer implements Record
 			
 			if(equipment != null)
 			{
-				Equipment type = equipment.getSource();
-				float speed = type.getMovementSpeed(this);
+				float speed = equipment.getMovementSpeed(this);
 				
 				return speed;
 			}
@@ -497,7 +496,30 @@ public class MSPlayer implements Record
 	
 	public void setCustomData(String key, Object value)
 	{
-		MineStrike.debug("{" + playerName + "} " + key + " -> " + value);
+		int index = 0;
+		String trace = "";
+		StackTraceElement[] elements = new RuntimeException().getStackTrace();
+		
+		for(StackTraceElement element : elements)
+		{
+			if(element == null)
+				continue;
+			
+			String path = element.getClassName();
+			
+			if(path.contains("cz.minestrike.me.limeth.minestrike"))
+			{
+				if(index > 0)
+					trace += "\n\t" + element;
+				
+				if(index >= 3)
+					break;
+				
+				index++;
+			}
+		}
+		
+		MineStrike.debug("{" + playerName + "} " + key + " -> " + value + trace);
 		
 		customData.put(key, value);
 	}
