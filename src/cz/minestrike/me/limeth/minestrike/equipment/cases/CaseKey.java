@@ -100,7 +100,8 @@ public class CaseKey implements Equipment
 		return MSConstant.MOVEMENT_SPEED_DEFAULT;
 	}
 	
-	private FilledArrayList<ItemButton> initButtons()
+	@Override
+	public FilledArrayList<ItemButton> getSelectionButtons(MSPlayer msPlayer)
 	{
 		FilledArrayList<ItemButton> buttons = new FilledArrayList<ItemButton>();
 		
@@ -134,12 +135,6 @@ public class CaseKey implements Equipment
 		});
 		
 		return buttons;
-	}
-
-	@Override
-	public FilledArrayList<ItemButton> getSelectionButtons(MSPlayer msPlayer)
-	{
-		return lazyButtons != null ? lazyButtons : (lazyButtons = initButtons());
 	}
 
 	@Override

@@ -183,7 +183,8 @@ public enum Case implements Equipment
 		throw new NotImplementedException();
 	}
 	
-	private FilledArrayList<ItemButton> initButtons()
+	@Override
+	public FilledArrayList<ItemButton> getSelectionButtons(MSPlayer msPlayer)
 	{
 		FilledArrayList<ItemButton> buttons = new FilledArrayList<ItemButton>();
 		
@@ -220,11 +221,5 @@ public enum Case implements Equipment
 		});
 		
 		return buttons;
-	}
-	
-	@Override
-	public FilledArrayList<ItemButton> getSelectionButtons(MSPlayer msPlayer)
-	{
-		return lazyButtons != null ? lazyButtons : (lazyButtons = initButtons());
 	}
 }
