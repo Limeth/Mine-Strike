@@ -30,6 +30,16 @@ public class EquipmentCustomization
 		this.postLore = postLore;
 	}
 	
+	public static EquipmentCustomization skin(String name, String skin, Color color)
+	{
+		return builder().name(name).skin(skin).color(color).build();
+	}
+	
+	public static EquipmentCustomization skin(String name, String skin)
+	{
+		return skin(name, skin, null);
+	}
+	
 	public static class EquipmentCustomizationBuilder
 	{
 		private String name, skin;

@@ -30,6 +30,15 @@ public class InventoryContainer extends ScalableContainer
 		new Gun(GunType.USP_S), new Gun(GunType.CZ75), new Gun(GunType.M4A1_S)
 	};
 	
+	public Equipment getFirstBySource(Equipment source)
+	{
+		for(Equipment equipment : this)
+			if(equipment != null && equipment.getSource().equals(source))
+				return equipment;
+		
+		return null;
+	}
+	
 	public CustomizedEquipment<? extends Equipment> getEquippedCustomizedEquipment(EquipmentCategoryEntry categoryEntry) throws NotFoundException
 	{
 		Validate.notNull(categoryEntry, "The category entry must not be null!");

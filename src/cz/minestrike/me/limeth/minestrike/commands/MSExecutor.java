@@ -4,6 +4,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -33,6 +34,9 @@ import cz.minestrike.me.limeth.minestrike.areas.schemes.GameMap;
 import cz.minestrike.me.limeth.minestrike.areas.schemes.Scheme;
 import cz.minestrike.me.limeth.minestrike.areas.schemes.SchemeManager;
 import cz.minestrike.me.limeth.minestrike.areas.schemes.SchemeType;
+import cz.minestrike.me.limeth.minestrike.equipment.Equipment;
+import cz.minestrike.me.limeth.minestrike.equipment.EquipmentManager;
+import cz.minestrike.me.limeth.minestrike.equipment.containers.InventoryContainer;
 import cz.minestrike.me.limeth.minestrike.equipment.guns.GunType;
 import cz.minestrike.me.limeth.minestrike.scene.games.Game;
 import cz.minestrike.me.limeth.minestrike.scene.games.GameManager;
@@ -51,9 +55,46 @@ public class MSExecutor implements CommandExecutor
 		
 		if(args.length <= 0)
 		{
-			sender.sendMessage("/ms gun [GunType] (RGB)");
+			sender.sendMessage("/ms give [Equipment ID] (Player)");
 			sender.sendMessage("/ms scheme ...");
 			sender.sendMessage("/ms game ...");
+		}
+		else if(args[0].equalsIgnoreCase("give"))
+		{
+			Player player;
+			
+			if(args.length >= 3)
+			{
+				player = Bukkit.getPlayer(args[2]);
+				
+				if(player == null)
+				{
+					sender.sendMessage(ChatColor.RED + "Player '" + args[2] + "' not found!");
+					return true;
+				}
+			}
+			else if(!(sender instanceof Player))
+			{
+				sender.sendMessage(ChatColor.RED + "Select a player.");
+				return true;
+			}
+			else
+				player = (Player) sender;
+			
+			Equipment equipment = EquipmentManager.getEquipment(args[1]);
+			
+			if(equipment == null)
+			{
+				sender.sendMessage(ChatColor.RED + "Unknown equipment of id '" + args[1] + "'!");
+				return true;
+			}
+			
+			MSPlayer msPlayer = MSPlayer.get(player);
+			InventoryContainer container = msPlayer.getInventoryContainer();
+			
+			container.add(equipment);
+			sender.sendMessage(ChatColor.GREEN + "Equipment '" + equipment.getDisplayName() + ChatColor.GREEN
+					+ "' added to " + player.getName() + "'s inventory.");
 		}
 		else if(args[0].equalsIgnoreCase("game"))
 		{

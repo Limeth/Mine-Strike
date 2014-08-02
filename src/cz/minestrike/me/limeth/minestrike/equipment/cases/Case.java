@@ -1,42 +1,122 @@
 package cz.minestrike.me.limeth.minestrike.equipment.cases;
 
+import org.apache.commons.lang.Validate;
 import org.bukkit.ChatColor;
+import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 import cz.minestrike.me.limeth.minestrike.MSConstant;
 import cz.minestrike.me.limeth.minestrike.MSPlayer;
+import cz.minestrike.me.limeth.minestrike.Translation;
 import cz.minestrike.me.limeth.minestrike.equipment.CustomizedEquipment;
 import cz.minestrike.me.limeth.minestrike.equipment.Equipment;
+import cz.minestrike.me.limeth.minestrike.equipment.EquipmentCustomization;
 import cz.minestrike.me.limeth.minestrike.equipment.ItemButton;
+import cz.minestrike.me.limeth.minestrike.equipment.containers.InventoryContainer;
 import cz.minestrike.me.limeth.minestrike.equipment.guns.Gun;
 import cz.minestrike.me.limeth.minestrike.equipment.guns.GunType;
+import cz.minestrike.me.limeth.minestrike.equipment.simple.Knife;
 import cz.minestrike.me.limeth.minestrike.util.collections.FilledArrayList;
+import cz.minestrike.me.limeth.minestrike.util.collections.FilledHashMap;
 
 public enum Case implements Equipment
 {
-	ALPHA(ChatColor.GOLD + "Alpha",
-			new CaseContent(new Gun(GunType.P2000), CaseContentRarity.COMMON)
-	);
+	ALPHA(ChatColor.GOLD + "Alpha")
+	{
+		@Override
+		protected CaseContent[] initContents()
+		{
+			//Knife
+			CustomizedEquipment<Knife> knife = new CustomizedEquipment<Knife>(Knife.KNIFE,
+					EquipmentCustomization.skin("&6Daemon", "DAEMON", Color.ORANGE));
+			
+			//Unique
+			Gun AK47 = new Gun(GunType.AK_47, "&lGlory", "GLORY");
+			Gun M4A4 = new Gun(GunType.M4A4, "&1Storm", "STORM");
+			
+			//Rare
+			Gun P2000 = new Gun(GunType.P2000, "&4Dragon", "DRAGON");
+			Gun glock = new Gun(GunType.GLOCK, "&7Strike&9back", "STRIKEBACK", Color.BLUE);
+			
+			//Valuable
+			Gun deagle = new Gun(GunType.DEAGLE, "&8Dark Steel", "DARK_STEEL");
+			Gun AWP = new Gun(GunType.AWP, "&3Punch", "PUNCH");
+			
+			//Common
+			Gun AUG = new Gun(GunType.AUG, "Desert", "DESERT");
+			Gun SG556 = new Gun(GunType.SG_556, "Jungle Camo", "JUNGLE_CAMO");
+			Gun MP7 = new Gun(GunType.MP7, "Skulls", "SKULLS");
+			
+			return new CaseContent[] {
+					new CaseContent(knife, CaseContentRarity.LEGENDARY),
+					new CaseContent(AK47, CaseContentRarity.UNIQUE),
+					new CaseContent(M4A4, CaseContentRarity.UNIQUE),
+					new CaseContent(P2000, CaseContentRarity.RARE),
+					new CaseContent(glock, CaseContentRarity.RARE),
+					new CaseContent(deagle, CaseContentRarity.VALUABLE),
+					new CaseContent(AWP, CaseContentRarity.VALUABLE),
+					new CaseContent(AUG, CaseContentRarity.COMMON),
+					new CaseContent(SG556, CaseContentRarity.COMMON),
+					new CaseContent(MP7, CaseContentRarity.COMMON),
+			};
+		}
+	};
 	
 	private final String name;
-	private final CaseContent[] contents;
+	private FilledHashMap<CaseContentRarity, FilledArrayList<CaseContent>> lazyContents;
+	private FilledArrayList<ItemButton> lazyButtons;
 	
-	private Case(String name, CaseContent... contents)
+	private Case(String name)
 	{
 		this.name = name;
-		this.contents = contents;
+	}
+	
+	protected abstract CaseContent[] initContents();
+	
+	public CaseKey getKey()
+	{
+		return CaseKey.ofCase(this);
 	}
 	
 	public String getName()
 	{
 		return name;
 	}
-
-	public CaseContent[] getContents()
+	
+	public FilledHashMap<CaseContentRarity, FilledArrayList<CaseContent>> getContents()
 	{
+		return lazyContents != null ? lazyContents : (lazyContents = createContents());
+	}
+	
+	public FilledArrayList<CaseContent> getContents(CaseContentRarity rarity)
+	{
+		Validate.notNull(rarity, "The rarity must not be null!");
+		
+		return getContents().get(rarity);
+	}
+	
+	private FilledHashMap<CaseContentRarity, FilledArrayList<CaseContent>> createContents()
+	{
+		CaseContent[] rawContents = initContents();
+		FilledHashMap<CaseContentRarity, FilledArrayList<CaseContent>> contents
+		= new FilledHashMap<CaseContentRarity, FilledArrayList<CaseContent>>();
+		
+		for(CaseContentRarity rarity : CaseContentRarity.values())
+			contents.put(rarity, new FilledArrayList<CaseContent>());
+		
+		for(CaseContent content : rawContents)
+		{
+			CaseContentRarity rarity = content.getRarity();
+			FilledArrayList<CaseContent> rarityContents = contents.get(rarity);
+			
+			rarityContents.add(content);
+		}
+		
 		return contents;
 	}
 	
@@ -49,7 +129,7 @@ public enum Case implements Equipment
 		
 		ItemMeta im = is.getItemMeta();
 		
-		im.setDisplayName(name);
+		im.setDisplayName(getDisplayName());
 		is.setItemMeta(im);
 		
 		return is;
@@ -58,7 +138,7 @@ public enum Case implements Equipment
 	@Override
 	public String getDisplayName()
 	{
-		return name;
+		return Translation.EQUIPMENT_CASE.getMessage(name);
 	}
 	
 	@Override
@@ -67,21 +147,20 @@ public enum Case implements Equipment
 		return "CASE_" + name();
 	}
 	
-	@SuppressWarnings("rawtypes")
 	@Override
-	public Class<? extends CustomizedEquipment> getEquipmentClass()
+	public Class<? extends Equipment> getEquipmentClass()
 	{
-		return CustomizedEquipment.class;
+		return Equipment.class;
 	}
 	
 	@Override
 	public Integer getPrice(MSPlayer msPlayer)
 	{
-		return null;
+		throw new NotImplementedException();
 	}
 	
 	@Override
-	public Equipment getSource()
+	public Case getSource()
 	{
 		return this;
 	}
@@ -101,12 +180,51 @@ public enum Case implements Equipment
 	@Override
 	public boolean purchase(MSPlayer msPlayer)
 	{
-		return true;
+		throw new NotImplementedException();
+	}
+	
+	private FilledArrayList<ItemButton> initButtons()
+	{
+		FilledArrayList<ItemButton> buttons = new FilledArrayList<ItemButton>();
+		
+		buttons.add(new ItemButton() {
+			@Override
+			public ItemStack newItemStack()
+			{
+				CaseKey key = getKey();
+				ItemStack item = key.newItemStack(null);
+				ItemMeta im = item.getItemMeta();
+				String caseName = getSource().getName();
+				
+				im.setDisplayName(Translation.BUTTON_CASE_USE.getMessage(caseName));
+				item.setItemMeta(im);
+				
+				return item;
+			}
+
+			@Override
+			public void onClick(Inventory inv, MSPlayer msPlayer)
+			{
+				InventoryContainer container = msPlayer.getInventoryContainer();
+				CaseKey key = getKey();
+				
+				if(container.getFirstBySource(key) == null)
+				{
+					String caseName = getSource().getName();
+					
+					msPlayer.sendMessage(Translation.BUTTON_CASE_ERROR_KEYNOTFOUND.getMessage(caseName));
+					return;
+				}
+				
+			}
+		});
+		
+		return buttons;
 	}
 	
 	@Override
 	public FilledArrayList<ItemButton> getSelectionButtons(MSPlayer msPlayer)
 	{
-		return new FilledArrayList<ItemButton>();
+		return lazyButtons != null ? lazyButtons : (lazyButtons = initButtons());
 	}
 }

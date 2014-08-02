@@ -37,6 +37,8 @@ public enum Translation
 	GAME_DEATH_SOURCE("&7Player &r{1}&7 was killed by &r{2}&7.", "&7Hrác &r{1}&7 byl zabit hrácem &r{2}&7."),
 	GAME_DEATH_WEAPONSOURCE("&7Player &r{1}&7 was killed using &r{3}&7 by &r{2}&7.", "&7Hrác &r{1}&7 byl zabit pomocí &r{3}&7 hrácem &r{2}&7."),
 	
+	EQUIPMENT_CASE("{1}&f Case", "{1}&f Bedna"),
+	EQUIPMENT_KEY("{1}&f Case &lKey", "&f&lKlíč&f pro {1}&f Bednu"),
 	EQUIPMENT_DEFUSEKIT_DEFAULT("&rDefuse Kit", "&rNáradí"),
 	EQUIPMENT_DEFUSEKIT_BOUGHT("&aAdvanced Defuse Kit", "&aPokrocilé Náradí"),
 	EQUIPMENT_CATEGORY_PISTOLS("Pistols", "Pistole"),
@@ -51,10 +53,14 @@ public enum Translation
 	EQUIPMENT_RARITY_UNIQUE("Unique", "Unikátní"),
 	EQUIPMENT_RARITY_LEGENDARY("Legendary", "Legendární"),
 	
-	BUTTON_INVENTORY_OPEN("Open Inventory", "Otevrít Inventár"),
+	BUTTON_INVENTORY_USE("Open Inventory", "Otevrít Inventár"),
 	BUTTON_INVENTORY_BACK("&fBack", "&fZpet"),
 	BUTTON_INVENTORY_EQUIP("&aEquip", "&aVybavit"),
 	BUTTON_INVENTORY_UNEQUIP("&eUnequip", "&eOdlozit"),
+	BUTTON_CASE_USE("&f&lUnlock case using a(n) {1}&f&l key.", "&f&lOdemknout bednu pomocí {1}&f&l klíce."),
+	BUTTON_CASE_ERROR_KEYNOTFOUND("&cYou don't have a(n) {1}&f Case &lKey&c.", "&cNemáte žádny &f&lKlíč&f pro {1}&f Bednu&c."),
+	BUTTON_KEY_USE("&f&lUnlock a(n) {1}&f&l case.", "&f&lOtevřít {1}&f&l Bednu"),
+	BUTTON_KEY_ERROR_CASENOTFOUND("&cYou don't have a(n) {1}&f Case&c.", "&cNemáte žádnou {1}&f Bednu&c."),
 	
 	INVENTORY("Inventory", "Inventár"),
 	INVENTORY_SELECTION("Selection", "Vyber")

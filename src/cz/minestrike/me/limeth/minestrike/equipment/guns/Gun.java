@@ -2,6 +2,7 @@ package cz.minestrike.me.limeth.minestrike.equipment.guns;
 
 import org.apache.commons.lang.Validate;
 import org.bukkit.ChatColor;
+import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.FireworkEffectMeta;
@@ -46,6 +47,16 @@ public class Gun extends CustomizedEquipment<GunType>
 	public Gun(GunType type, EquipmentCustomization customization)
 	{
 		this(type, customization, null);
+	}
+	
+	public Gun(GunType type, String name, String skin, Color color)
+	{
+		this(type, EquipmentCustomization.skin(name, skin, color));
+	}
+	
+	public Gun(GunType type, String name, String skin)
+	{
+		this(type, name, skin, null);
 	}
 	
 	public Gun(GunType type)

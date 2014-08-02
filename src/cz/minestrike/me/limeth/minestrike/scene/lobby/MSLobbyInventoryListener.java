@@ -69,7 +69,7 @@ public class MSLobbyInventoryListener extends MSSceneListener<Lobby>
 				ItemStack buttonInventory = new ItemStack(Material.CHEST);
 				ItemMeta buttonInventoryIM = buttonInventory.getItemMeta();
 				
-				buttonInventoryIM.setDisplayName(Translation.BUTTON_INVENTORY_OPEN.getMessage());
+				buttonInventoryIM.setDisplayName(Translation.BUTTON_INVENTORY_USE.getMessage());
 				buttonInventory.setItemMeta(buttonInventoryIM);
 				
 				return buttonInventory;

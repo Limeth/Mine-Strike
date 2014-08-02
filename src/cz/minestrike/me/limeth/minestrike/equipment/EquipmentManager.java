@@ -53,8 +53,11 @@ public class EquipmentManager
 		TYPES.add(DefuseEquipmentProvider.DEFUSE_KIT_DEFAULT);
 		TYPES.add(DefuseEquipmentProvider.DEFUSE_KIT_BOUGHT);
 		
-		//Cases
-		addAll(TYPES, Case.values());
+		for(Case caze : Case.values())
+		{
+			TYPES.add(caze);
+			TYPES.add(caze.getKey());
+		}
 	}
 	
 	private static void addAll(Collection<Equipment> collection, Equipment... array)

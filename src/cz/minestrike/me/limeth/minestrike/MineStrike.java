@@ -1,7 +1,6 @@
 package cz.minestrike.me.limeth.minestrike;
 
 import java.io.File;
-import java.io.IOException;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -35,7 +34,7 @@ public class MineStrike extends JavaPlugin
 	private static MSListenerManager msListenerManager;
 	private static Logger logger;
 	
-	public static void main(String[] args) throws IOException
+	public static void main(String[] args) throws Exception
 	{
 		String soundsPath = "/home/limeth/.minecraft/resourcepacks/Mine-Strike_1.0.5/assets/projectsurvive/sounds";
 		String gson = SoundManager.buildSoundsJson(new File(soundsPath), new File(soundsPath, "counterstrike/weapons/cz75a"), "hostile");
