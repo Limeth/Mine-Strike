@@ -92,14 +92,13 @@ public class InteractionListener implements Listener
 	{
 		Player player = event.getEntity();
 		MSPlayer msPlayer = MSPlayer.get(player);
-		Container hotbarContainer = msPlayer.getHotbarContainer();
 		List<ItemStack> drops = event.getDrops();
 		
 		event.setKeepLevel(true);
 		event.setDroppedExp(0);
 		drops.clear();
 		msPlayer.respawnDelayed();
-		hotbarContainer.clear();
+		msPlayer.clearContainers();
 		event.setDeathMessage(null);
 	}
 	

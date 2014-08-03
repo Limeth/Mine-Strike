@@ -35,19 +35,20 @@ public enum Case implements Equipment
 		{
 			//Knife
 			CustomizedEquipment<Knife> knife = new CustomizedEquipment<Knife>(Knife.KNIFE,
-					EquipmentCustomization.skin("&6Daemon", "DAEMON", Color.ORANGE));
+					EquipmentCustomization.skin(ChatColor.GOLD + "Daemon", "DAEMON", Color.ORANGE));
 			
 			//Unique
-			Gun AK47 = new Gun(GunType.AK_47, "&lGlory", "GLORY");
-			Gun M4A4 = new Gun(GunType.M4A4, "&1Storm", "STORM");
+			Gun AK47 = new Gun(GunType.AK_47, ChatColor.BOLD + "Glory", "GLORY");
+			Gun M4A4 = new Gun(GunType.M4A4, ChatColor.DARK_BLUE + "Storm", "STORM");
 			
 			//Rare
-			Gun P2000 = new Gun(GunType.P2000, "&4Dragon", "DRAGON");
-			Gun glock = new Gun(GunType.GLOCK, "&7Strike&9back", "STRIKEBACK", Color.BLUE);
+			Gun P2000 = new Gun(GunType.P2000, ChatColor.DARK_RED + "Dragon", "DRAGON");
+			Gun glock = new Gun(GunType.GLOCK, ChatColor.GRAY + "Strike" + ChatColor.BLUE + "back",
+					"STRIKEBACK", Color.BLUE);
 			
 			//Valuable
-			Gun deagle = new Gun(GunType.DEAGLE, "&8Dark Steel", "DARK_STEEL");
-			Gun AWP = new Gun(GunType.AWP, "&3Punch", "PUNCH");
+			Gun deagle = new Gun(GunType.DEAGLE, ChatColor.DARK_GRAY + "Dark Steel", "DARK_STEEL");
+			Gun AWP = new Gun(GunType.AWP, ChatColor.DARK_GREEN + "Punch", "PUNCH");
 			
 			//Common
 			Gun AUG = new Gun(GunType.AUG, "Desert", "DESERT");

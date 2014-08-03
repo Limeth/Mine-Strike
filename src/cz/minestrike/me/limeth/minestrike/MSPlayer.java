@@ -12,6 +12,7 @@ import net.minecraft.server.v1_7_R1.PacketPlayInClientCommand;
 
 import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -67,10 +68,11 @@ public class MSPlayer implements Record
 	public static final RecordStructure RECORD_STRUCTURE = new RecordStructureBuilder()
 																.setPrimaryKey("username")
 																.addColumn(new RecordStructureColumn(String.class, "username", 16))
+																.addColumn(new RecordStructureColumn(Integer.class, "xp"))
 																.addColumn(new RecordStructureColumn(Integer.class, "kills"))
+																.addColumn(new RecordStructureColumn(Integer.class, "assists"))
 																.addColumn(new RecordStructureColumn(Integer.class, "deaths"))
 																.addColumn(new RecordStructureColumn(Integer.class, "balance"))
-																.addColumn(new RecordStructureColumn(Integer.class, "level"))
 																.addColumn(new RecordStructureColumn(Long.class, "playtime"))
 																.addColumn(new RecordStructureColumn(String.class, "inventory", (int) Short.MAX_VALUE))
 																.build();
@@ -151,6 +153,8 @@ public class MSPlayer implements Record
 	
 	public static boolean register(MSPlayer msPlayer)
 	{
+		msPlayer.setJoinedAt(System.currentTimeMillis());
+		
 		return ONLINE_PLAYERS.add(msPlayer);
 	}
 	
@@ -217,6 +221,7 @@ public class MSPlayer implements Record
 	private InventoryContainer lazyInventoryContainer;
 	private HotbarContainer hotbarContainer;
 	private ArmorContainer armorContainer;
+	private Long joinedAt;
 	private Location lastLocation;
 	private GunTask gunTask;
 	private PlayerState playerState;
@@ -228,6 +233,8 @@ public class MSPlayer implements Record
 	private double speed;
 	private boolean inAir;
 	private Scene lazyScene;
+	private Integer $rankXP;
+	private Rank $rank;
 	
 	public MSPlayer(String playerName, RecordData data)
 	{
@@ -329,7 +336,12 @@ public class MSPlayer implements Record
 	
 	public String getRankPrefix()
 	{
-		return "[Rank] ";
+		Rank rank = getRank();
+		
+		if(rank == null)
+			return "";
+		
+		return ChatColor.DARK_GRAY + "[" + rank.getTag() + ChatColor.DARK_GRAY + "] " + ChatColor.RESET;
 	}
 	
 	public void updateSuffix()
@@ -583,7 +595,9 @@ public class MSPlayer implements Record
 	public void clearContainers()
 	{
 		hotbarContainer.clear();
+		hotbarContainer.apply(this);
 		armorContainer.clear();
+		armorContainer.apply(this);
 	}
 	
 	public void clearInventory()
@@ -824,8 +838,12 @@ public class MSPlayer implements Record
 		InventoryContainer invContainer = getInventoryContainer();
 		Equipment[] equipment = invContainer.getContents();
 		String gsonEquipment = EquipmentManager.toGson(equipment);
+		Long currentPlaytime = pullCurrentPlaytime();
 		
 		lazyData.set("inventory", gsonEquipment);
+		
+		if(currentPlaytime != null)
+			lazyData.set("playtime", lazyData.get(Integer.class, "playtime", 0) + currentPlaytime);
 	}
 
 	public void setData(RecordData data)
@@ -833,7 +851,94 @@ public class MSPlayer implements Record
 		lazyInventoryContainer = null;
 		this.lazyData = data;
 	}
-
+	
+	private Long pullCurrentPlaytime()
+	{
+		if(joinedAt == null)
+			return null;
+		
+		long now = System.currentTimeMillis();
+		Long playtime = now - joinedAt;
+		joinedAt = now;
+		
+		return playtime;
+	}
+	
+	public void setXP(int xp, boolean updateNametag)
+	{
+		lazyData.set("xp", xp < 0 ? 0 : xp);
+		
+		if(updateNametag)
+			updateNameTag();
+	}
+	
+	public void setXP(int xp)
+	{
+		setXP(xp, true);
+	}
+	
+	public int getXP()
+	{
+		return lazyData.get(Integer.class, "xp", 0);
+	}
+	
+	public Rank getRank()
+	{
+		int xp = getXP();
+		
+		if($rankXP == null || $rankXP != xp)
+		{
+			$rank = Rank.getForXP(xp);
+			$rankXP = xp;
+		}
+		
+		return $rank;
+	}
+	
+	public int addXP(int amount, boolean notifyXP, boolean notifyLevel)
+	{
+		if(amount == 0)
+			return getXP();
+		
+		int newXP = getXP() + amount;
+		Player player = getPlayer();
+		Rank oldRank = notifyLevel ? getRank() : null;
+		
+		setXP(newXP);
+		
+		if(player != null && player.isOnline())
+		{
+			if(notifyXP)
+				if(amount > 0)
+					player.sendMessage(Translation.XP_GAIN.getMessage(amount));
+				else
+					player.sendMessage(Translation.XP_LOSS.getMessage(-amount));
+			
+			if(notifyLevel)
+			{
+				Rank newRank = getRank();
+				
+				if(newRank != oldRank)
+					if(amount > 0)
+						player.sendMessage(Translation.XP_LEVEL_UPGRADE.getMessage(newRank.getName()));
+					else
+						player.sendMessage(Translation.XP_LEVEL_DOWNGRADE.getMessage(newRank.getName()));
+			}
+		}
+		
+		return newXP;
+	}
+	
+	public int addXP(int amount, boolean notify)
+	{
+		return addXP(amount, notify, notify);
+	}
+	
+	public int addXP(int amount)
+	{
+		return addXP(amount, true);
+	}
+	
 	public PlayerState getPlayerState()
 	{
 		return playerState;
@@ -917,5 +1022,15 @@ public class MSPlayer implements Record
 	public void updateInventory()
 	{
 		getPlayer().updateInventory();
+	}
+
+	public Long getJoinedAt()
+	{
+		return joinedAt;
+	}
+
+	public void setJoinedAt(Long joinedAt)
+	{
+		this.joinedAt = joinedAt;
 	}
 }

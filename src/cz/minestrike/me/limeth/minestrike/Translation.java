@@ -64,7 +64,12 @@ public enum Translation
 	
 	INVENTORY_TITLE("Inventory", "Inventár"),
 	INVENTORY_SELECTION_TITLE("Selection", "Vyber"),
-	CASE_TITLE("Case", "Bedna")
+	CASE_TITLE("Case", "Bedna"),
+	
+	XP_GAIN("&aYou have gained &l{1}&a experience.", "&aZískal(a) jste &l{1}&a zkuseností."),
+	XP_LOSS("&cYou have lost &l{1}&c experience.", "&cZtratil(a) jste &l{1}&c zkuseností."),
+	XP_LEVEL_UPGRADE("&aYou now have the &r{1}&a rank!", "&aNyní máte &r{1}&a rank!"),
+	XP_LEVEL_DOWNGRADE("&cYou now have the &r{1}&c rank!", "&cNyní máte &r{1}&c rank!"),
 	;
 	
 	public static final String ENGLISH_NAME = "en", CZECH_NAME = "cz", DEFAULT_LANGUAGE_NAME = ENGLISH_NAME;

@@ -57,7 +57,7 @@ public enum Rank
 	SUPREME_MASTER(ChatColor.LIGHT_PURPLE + "Supreme Master", ChatColor.LIGHT_PURPLE + "TODO"), //TODO
 	GLOBAL_ELITE(ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD + "Global Elite", ChatColor.LIGHT_PURPLE + "TODO"); //TODO
 	
-	private static final double DELAY = 0.5, BASE = 2, RANK_MODIFIER = 0.125, MODIFIER = 40;
+	private static final double DELAY = 1000, BASE = 2, RANK_MODIFIER = 0.125, MODIFIER = 160000;
 	private final String name, tag;
 	
 	private Rank(String name, String tag)
@@ -66,10 +66,9 @@ public enum Rank
 		this.tag = tag;
 	}
 	
-	public static Rank getForPlaytime(long playtime)
+	public static Rank getForXP(int xp)
 	{
-		double hours = playtime / (1000D * 60D * 60D);
-		int level = hoursToLevel(hours);
+		int level = xpToLevel(xp);
 		
 		if(level < 1)
 			return null;
@@ -79,9 +78,9 @@ public enum Rank
 		return ranks[level - 1];
 	}
 	
-	private static int hoursToLevel(double hours)
+	private static int xpToLevel(int xp)
 	{
-		double level = 1 + (log(BASE, ((hours - DELAY) / MODIFIER) + 1) / RANK_MODIFIER);
+		double level = 1 + (log(BASE, ((xp - DELAY) / MODIFIER) + 1) / RANK_MODIFIER);
 		Rank[] ranks = values();
 		int length = ranks.length;
 		
@@ -98,9 +97,9 @@ public enum Rank
 		return Math.log(n) / Math.log(base);
 	}
 	
-	public long getRequiredPlaytime()
+	public long getRequiredXP()
 	{
-		return (long) (((Math.pow(BASE, ordinal() * RANK_MODIFIER) - 1) * MODIFIER + DELAY) * (1000 * 60 * 60));
+		return (long) (((Math.pow(BASE, ordinal() * RANK_MODIFIER) - 1) * MODIFIER + DELAY));
 	}
 	
 	public int getLevel()
@@ -121,6 +120,6 @@ public enum Rank
 	@Override
 	public String toString()
 	{
-		return name() + " (Name: " + getName() + "; Tag: " + getTag() + "; Level: " + getLevel() + "; Required playtime: " + getRequiredPlaytime() + ")";
+		return name() + " (Name: " + getName() + "; Tag: " + getTag() + "; Level: " + getLevel() + "; Required XP: " + getRequiredXP() + ")";
 	}
 }

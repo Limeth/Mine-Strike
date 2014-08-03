@@ -36,6 +36,14 @@ public class MineStrike extends JavaPlugin
 	
 	public static void main(String[] args) throws Exception
 	{
+		for(Rank rank : Rank.values())
+		{
+			System.out.println(rank);
+		}
+		
+		if(true)
+			return;
+		
 		String soundsPath = "/home/limeth/.minecraft/resourcepacks/Mine-Strike_1.0.5/assets/projectsurvive/sounds";
 		String gson = SoundManager.buildSoundsJson(new File(soundsPath), new File(soundsPath, "counterstrike/weapons/cz75a"), "hostile");
 		

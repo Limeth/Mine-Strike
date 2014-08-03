@@ -56,8 +56,67 @@ public class MSExecutor implements CommandExecutor
 		if(args.length <= 0)
 		{
 			sender.sendMessage("/ms give [Equipment ID] (Player)");
+			sender.sendMessage("/ms xp [set|add] [Amount] (Player)");
 			sender.sendMessage("/ms scheme ...");
 			sender.sendMessage("/ms game ...");
+		}
+		else if(args[0].equalsIgnoreCase("xp"))
+		{
+			if(args.length <= 2)
+			{
+				sender.sendMessage("/ms xp [set|add] [Amount] (Player)");
+				return true;
+			}
+			
+			int amount;
+			Player target;
+			
+			try
+			{
+				amount = Integer.parseInt(args[2]);
+			}
+			catch(Exception e)
+			{
+				sender.sendMessage(ChatColor.RED + "Invalid amount");
+				return true;
+			}
+			
+			if(args.length >= 4)
+			{
+				target = Bukkit.getPlayer(args[3]);
+				
+				if(target == null)
+				{
+					sender.sendMessage(ChatColor.RED + "Player '" + args[3] + "' not found.");
+					return true;
+				}
+			}
+			else if(sender instanceof Player)
+				target = (Player) sender;
+			else
+			{
+				sender.sendMessage(ChatColor.RED + "Please, select a player.");
+				return true;
+			}
+			
+			MSPlayer msTarget = MSPlayer.get(target);
+			
+			if(args[1].equalsIgnoreCase("set"))
+			{
+				msTarget.setXP(amount);
+				
+				sender.sendMessage(target.getName() + "'s XP was set to " + amount + ".");
+			}
+			else if(args[1].equalsIgnoreCase("add"))
+			{
+				int result = msTarget.addXP(amount);
+				
+				sender.sendMessage(target.getName() + "'s XP was increased by " + amount + " to " + result + ".");
+			}
+			else
+			{
+				sender.sendMessage(ChatColor.RED + "Invalid argument - set/add");
+			}
 		}
 		else if(args[0].equalsIgnoreCase("give"))
 		{

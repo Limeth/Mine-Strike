@@ -53,10 +53,10 @@ public class CaseOpening implements Runnable
 			delay = 1;
 		else
 		{
-			double percentage = 1 - speed / (INITIAL_SPEED / 2);
+			double percentage = 1 - speed / (INITIAL_SPEED / 2D);
 			percentage *= percentage;
 			
-			delay = (int) ((1 - percentage) * (INITIAL_SPEED / 2D));
+			delay = (int) (percentage * (INITIAL_SPEED / 2D));
 			
 			if(delay < 1)
 				delay = 1;
@@ -105,7 +105,7 @@ public class CaseOpening implements Runnable
 		{
 			Equipment equipment;
 			
-			if(i == SHOWN_EQUIPMENT_AMOUNT - 4)
+			if(i == SHOWN_EQUIPMENT_AMOUNT - 5)
 				equipment = result;
 			else
 			{

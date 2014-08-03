@@ -47,7 +47,7 @@ public class MSInventoryListener<T extends Game<?, ?, ?, ?>> extends MSSceneList
 		if(state == PlayerState.JOINED_GAME)
 			if(item.equals(MSConstant.QUIT_SERVER_ITEM))
 			{
-				getScene().onQuit(msPlayer, SceneQuitReason.LEAVE, true);
+				msPlayer.quitScene(SceneQuitReason.LEAVE, true);
 			}
 			else if(item.equals(MSConstant.QUIT_MENU_ITEM))
 			{

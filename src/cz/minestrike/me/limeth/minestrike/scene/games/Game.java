@@ -408,6 +408,7 @@ public abstract class Game<Lo extends GameLobby, Me extends GameMenu, Ma extends
 		msPlayer.setScene(null);
 		msPlayer.setPlayerStructure(null);
 		msPlayer.setPlayerState(PlayerState.LOBBY_SERVER);
+		msPlayer.updateMovementSpeed();
 		
 		if(teleport)
 			msPlayer.spawn(true);

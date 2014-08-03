@@ -580,7 +580,7 @@ public class DefuseGame extends TeamGame<GameLobby, TeamGameMenu, DefuseGameMap,
 		}
 		else
 		{
-			onQuit(msPlayer, SceneQuitReason.ERROR_INVALID_PLAYER_STATE, true);
+			msPlayer.quitScene(SceneQuitReason.ERROR_INVALID_PLAYER_STATE, true);
 			return null;
 		}
 		
