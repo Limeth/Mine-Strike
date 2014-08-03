@@ -62,8 +62,9 @@ public enum Translation
 	BUTTON_KEY_USE("&f&lUnlock a(n) {1}&f&l case.", "&f&lOtevřít {1}&f&l Bednu"),
 	BUTTON_KEY_ERROR_CASENOTFOUND("&cYou don't have a(n) {1}&f Case&c.", "&cNemáte žádnou {1}&f Bednu&c."),
 	
-	INVENTORY("Inventory", "Inventár"),
-	INVENTORY_SELECTION("Selection", "Vyber")
+	INVENTORY_TITLE("Inventory", "Inventár"),
+	INVENTORY_SELECTION_TITLE("Selection", "Vyber"),
+	CASE_TITLE("Case", "Bedna")
 	;
 	
 	public static final String ENGLISH_NAME = "en", CZECH_NAME = "cz", DEFAULT_LANGUAGE_NAME = ENGLISH_NAME;

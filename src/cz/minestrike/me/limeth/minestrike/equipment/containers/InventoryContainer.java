@@ -144,7 +144,7 @@ public class InventoryContainer extends ScalableContainer
 
 	public static String getTitleInventory()
 	{
-		String title = MSConstant.INVENTORY_NAME_PREFIX + Translation.INVENTORY.getMessage();
+		String title = MSConstant.INVENTORY_NAME_PREFIX + Translation.INVENTORY_TITLE.getMessage();
 		
 		if(title.length() > 32)
 			title = title.substring(0, 32);
@@ -154,7 +154,7 @@ public class InventoryContainer extends ScalableContainer
 	
 	public static String getTitleSelection()
 	{
-		String title = MSConstant.INVENTORY_NAME_PREFIX + Translation.INVENTORY_SELECTION.getMessage();
+		String title = MSConstant.INVENTORY_NAME_PREFIX + Translation.INVENTORY_SELECTION_TITLE.getMessage();
 		
 		if(title.length() > 32)
 			title = title.substring(0, 32);

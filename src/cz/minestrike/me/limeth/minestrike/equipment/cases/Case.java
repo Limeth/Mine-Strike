@@ -1,5 +1,7 @@
 package cz.minestrike.me.limeth.minestrike.equipment.cases;
 
+import java.util.Random;
+
 import org.apache.commons.lang.Validate;
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
@@ -69,7 +71,6 @@ public enum Case implements Equipment
 	
 	private final String name;
 	private FilledHashMap<CaseContentRarity, FilledArrayList<CaseContent>> lazyContents;
-	private FilledArrayList<ItemButton> lazyButtons;
 	
 	private Case(String name)
 	{
@@ -183,6 +184,24 @@ public enum Case implements Equipment
 		throw new NotImplementedException();
 	}
 	
+	public void open(MSPlayer msPlayer)
+	{
+		InventoryContainer container = msPlayer.getInventoryContainer();
+		boolean found = container.contains(this) && container.contains(getKey());
+		
+		if(!found || !container.remove(this) || !container.remove(getKey()))
+			throw new RuntimeException("Missing items.");
+		
+		Random random = new Random();
+		CaseContentRarity rarity = CaseContentRarity.getRandom(random);
+		FilledArrayList<CaseContent> rarityContents = getContents(rarity);
+		CaseContent resultContent = rarityContents.get(random.nextInt(rarityContents.size()));
+		Equipment result = resultContent.getEquipment();
+		
+		container.add(result);
+		new CaseOpening(msPlayer, this, result).start();
+	}
+	
 	@Override
 	public FilledArrayList<ItemButton> getSelectionButtons(MSPlayer msPlayer)
 	{
@@ -217,6 +236,7 @@ public enum Case implements Equipment
 					return;
 				}
 				
+				getSource().open(msPlayer);
 			}
 		});
 		

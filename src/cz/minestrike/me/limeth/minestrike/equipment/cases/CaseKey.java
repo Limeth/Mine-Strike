@@ -20,7 +20,6 @@ public class CaseKey implements Equipment
 {
 	private static final FilledHashMap<Case, CaseKey> CASE_TO_KEY = new FilledHashMap<Case, CaseKey>();
 	private final Case caze;
-	private FilledArrayList<ItemButton> lazyButtons;
 	
 	private CaseKey(Case caze)
 	{
@@ -131,6 +130,8 @@ public class CaseKey implements Equipment
 					msPlayer.sendMessage(Translation.BUTTON_KEY_ERROR_CASENOTFOUND.getMessage(caseName));
 					return;
 				}
+				
+				caze.open(msPlayer);
 			}
 		});
 		
