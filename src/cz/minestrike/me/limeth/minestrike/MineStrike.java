@@ -2,6 +2,7 @@ package cz.minestrike.me.limeth.minestrike;
 
 import java.io.File;
 import java.sql.SQLException;
+import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -36,10 +37,7 @@ public class MineStrike extends JavaPlugin
 	
 	public static void main(String[] args) throws Exception
 	{
-		for(Rank rank : Rank.values())
-		{
-			System.out.println(rank);
-		}
+		System.out.println(Arrays.toString(Rank.values()));
 		
 		if(true)
 			return;

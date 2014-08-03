@@ -12,11 +12,12 @@ import cz.minestrike.me.limeth.minestrike.MSPlayer;
 import cz.minestrike.me.limeth.minestrike.MineStrike;
 import cz.minestrike.me.limeth.minestrike.Translation;
 import cz.minestrike.me.limeth.minestrike.equipment.Equipment;
+import cz.minestrike.me.limeth.minestrike.equipment.containers.InventoryContainer;
 import cz.minestrike.me.limeth.minestrike.util.collections.FilledArrayList;
 
 public class CaseOpening implements Runnable
 {
-	private static final int VIEW_WIDTH = 7, INITIAL_SPEED = 50,
+	private static final int VIEW_WIDTH = 7, INITIAL_SPEED = 50, MAX_DELAY = 30, POWER = 5,
 			SHOWN_EQUIPMENT_AMOUNT = VIEW_WIDTH - 1 + INITIAL_SPEED,
 			INVENTORY_HEIGHT = 5;
 	private final MSPlayer msPlayer;
@@ -45,22 +46,15 @@ public class CaseOpening implements Runnable
 		run();
 	}
 	
-	private int nextTask() //Half constant, half exponential
+	private int nextTask()
 	{
-		long delay;
+		double percentage = 1 - speed / (double) INITIAL_SPEED;
+		percentage = Math.pow(percentage, POWER);
+		double preciseDelay = (int) (percentage * (double) MAX_DELAY);
+		int delay = (int) Math.round(preciseDelay);
 		
-		if(speed >= INITIAL_SPEED / 2)
+		if(delay < 1)
 			delay = 1;
-		else
-		{
-			double percentage = 1 - speed / (INITIAL_SPEED / 2D);
-			percentage *= percentage;
-			
-			delay = (int) (percentage * (INITIAL_SPEED / 2D));
-			
-			if(delay < 1)
-				delay = 1;
-		}
 		
 		return taskId = Bukkit.getScheduler().scheduleSyncDelayedTask(MineStrike.getInstance(), this, delay);
 	}
@@ -86,14 +80,6 @@ public class CaseOpening implements Runnable
 		inventory.setItem(MSConstant.INVENTORY_WIDTH + 4, caze.newItemStack(msPlayer));
 		equipShownEquipment();
 		player.openInventory(inventory);
-	}
-	
-	private void equipResult()
-	{
-		for(int i = 0; i < inventory.getSize(); i++)
-			inventory.setItem(i, MSConstant.ITEM_BACKGROUND);
-		
-		inventory.setItem(MSConstant.INVENTORY_WIDTH * 2 + 4, result.newItemStack(msPlayer));
 	}
 	
 	private FilledArrayList<Equipment> initShownEquipment()
@@ -164,6 +150,10 @@ public class CaseOpening implements Runnable
 		if(--speed > 0)
 			nextTask();
 		else
-			equipResult();
+		{
+			InventoryContainer container = msPlayer.getInventoryContainer();
+			
+			InventoryContainer.openSelection(msPlayer, container.getSize() - 1);
+		}
 	}
 }

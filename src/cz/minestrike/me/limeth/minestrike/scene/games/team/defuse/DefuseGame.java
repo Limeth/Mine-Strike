@@ -43,7 +43,8 @@ import ftbastler.HeadsUpDisplay;
 public class DefuseGame extends TeamGame<GameLobby, TeamGameMenu, DefuseGameMap, DefuseEquipmentProvider>
 {
 	public static final String CUSTOM_DATA_DEAD = "MineStrike.game.dead", CUSTOM_DATA_BALANCE = "MineStrike.game.balance";
-	public static final int MONEY_CAP = 10000, REQUIRED_ROUNDS = 8;
+	public static final int MONEY_CAP = 10000, REQUIRED_ROUNDS = 8,
+			XP_KILL = 100, XP_MATCH_WIN = 200, XP_MATCH_LOSE = 50;
 	private int tScore, ctScore;
 	private int winsInRow;
 	private Team lastWinner;
@@ -317,6 +318,7 @@ public class DefuseGame extends TeamGame<GameLobby, TeamGameMenu, DefuseGameMap,
 			explode();
 		
 		Team victorTeam = reason.getVictorTeam();
+		Team loserTeam = victorTeam.getOppositeTeam();
 		int newScore = addScore(victorTeam, 1);
 		
 		for(MSPlayer msPlayer : getPlayingPlayers())
@@ -334,6 +336,17 @@ public class DefuseGame extends TeamGame<GameLobby, TeamGameMenu, DefuseGameMap,
 		if(newScore >= REQUIRED_ROUNDS)
 		{
 			broadcast(victorTeam.getColoredName() + " have won!");
+			
+			for(MSPlayer msPlayer : getPlayingPlayers())
+			{
+				Team team = getTeam(msPlayer);
+				
+				if(team == victorTeam)
+					msPlayer.addXP(XP_MATCH_WIN);
+				else if(team == loserTeam)
+					msPlayer.addXP(XP_MATCH_LOSE);
+			}
+			
 			getRound().startVoteRunnable();
 			return;
 		}
@@ -716,6 +729,12 @@ public class DefuseGame extends TeamGame<GameLobby, TeamGameMenu, DefuseGameMap,
 	public boolean isBombGiven()
 	{
 		return bombGiven;
+	}
+	
+	@Override
+	public int getXPForKill(MSPlayer msVictim, MSPlayer msKiller)
+	{
+		return XP_KILL;
 	}
 	
 	public static enum RoundEndReason

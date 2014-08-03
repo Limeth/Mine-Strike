@@ -24,6 +24,7 @@ public class MSInteractionListener<T extends Game<?, ?, ?, ?>> extends MSSceneLi
 		if(!(scene instanceof Game))
 			throw new RuntimeException("The scene " + scene + " isn't an instance of game.");
 		
+		Game<?, ?, ?, ?> game = (Game<?, ?, ?, ?>) scene;
 		MSPlayer msKiller = msPlayer.getLastDamageSource();
 		String message;
 		
@@ -36,12 +37,20 @@ public class MSInteractionListener<T extends Game<?, ?, ?, ?>> extends MSSceneLi
 				if(msKiller.equals(msPlayer))
 					message = Translation.GAME_DEATH_SUICIDE.getMessage(msPlayer.getNameTag(), weapon.getDisplayName());
 				else
+				{
 					message = Translation.GAME_DEATH_WEAPONSOURCE.getMessage(msPlayer.getNameTag(), msKiller.getNameTag(), weapon.getDisplayName());
+					
+					msKiller.addXP(game.getXPForKill(msPlayer, msKiller));
+				}
 				
 				msPlayer.setLastDamageWeapon(null);
 			}
 			else
+			{
 				message = Translation.GAME_DEATH_SOURCE.getMessage(msPlayer.getNameTag(), msKiller.getNameTag());
+				
+				msKiller.addXP(game.getXPForKill(msPlayer, msKiller));
+			}
 			
 			msPlayer.setLastDamageSource(null);
 		}

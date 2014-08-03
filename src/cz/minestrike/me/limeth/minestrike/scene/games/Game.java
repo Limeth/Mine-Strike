@@ -88,6 +88,7 @@ public abstract class Game<Lo extends GameLobby, Me extends GameMenu, Ma extends
 	
 	public abstract void start();
 	public abstract Predicate<MSPlayer> isPlayerPlaying();
+	public abstract int getXPForKill(MSPlayer msVictim, MSPlayer msKiller);
 	
 	public void joinMenu(MSPlayer msPlayer)
 	{
