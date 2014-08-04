@@ -36,7 +36,6 @@ import cz.minestrike.me.limeth.minestrike.equipment.containers.ArmorContainer;
 import cz.minestrike.me.limeth.minestrike.equipment.containers.HotbarContainer;
 import cz.minestrike.me.limeth.minestrike.equipment.containers.InventoryContainer;
 import cz.minestrike.me.limeth.minestrike.equipment.guns.Gun;
-import cz.minestrike.me.limeth.minestrike.equipment.guns.GunManager;
 import cz.minestrike.me.limeth.minestrike.equipment.guns.GunTask;
 import cz.minestrike.me.limeth.minestrike.equipment.guns.GunType;
 import cz.minestrike.me.limeth.minestrike.equipment.guns.tasks.Firing;
@@ -577,7 +576,7 @@ public class MSPlayer implements Record
 		
 		gun.setLastBulletShotAt();
 		SoundManager.play(shootSound, location, Bukkit.getOnlinePlayers());
-		GunManager.shoot(location, this, gun);
+		gun.shoot(this);
 	}
 	
 	public void setCustomData(String key, Object value)

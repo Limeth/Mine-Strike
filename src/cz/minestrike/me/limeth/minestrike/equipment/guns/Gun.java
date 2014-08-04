@@ -1,18 +1,25 @@
 package cz.minestrike.me.limeth.minestrike.equipment.guns;
 
+import net.minecraft.server.v1_7_R1.EnumMovingObjectType;
+import net.minecraft.server.v1_7_R1.MovingObjectPosition;
+
 import org.apache.commons.lang.Validate;
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.FireworkEffectMeta;
+import org.bukkit.util.Vector;
 
 import cz.minestrike.me.limeth.minestrike.MSPlayer;
 import cz.minestrike.me.limeth.minestrike.Translation;
 import cz.minestrike.me.limeth.minestrike.equipment.CustomizedEquipment;
 import cz.minestrike.me.limeth.minestrike.equipment.EquipmentCustomization;
 import cz.minestrike.me.limeth.minestrike.equipment.guns.extensions.GunExtension;
+import cz.minestrike.me.limeth.minestrike.util.BoundUtil;
 import cz.minestrike.me.limeth.minestrike.util.LoreAttributes;
 import cz.minestrike.me.limeth.minestrike.util.RandomString;
 
@@ -73,6 +80,30 @@ public class Gun extends CustomizedEquipment<GunType>
 		gun.lastBulletShotAt = lastBulletShotAt;
 		
 		return gun;
+	}
+	
+	public void shoot(MSPlayer msPlayer)
+	{
+		Player player = msPlayer.getPlayer();
+		Location location = player.getEyeLocation();
+		GunType gunType = getEquipment();
+		Player shooter = msPlayer.getPlayer();
+		location = location.clone();
+		int range = gunType.getRange();
+		Vector direction = location.getDirection();
+		Vector inaccuracyDirection = msPlayer.getInaccuracyVector(this);
+		Vector recoilDirection = msPlayer.getRecoilVector(direction, gunType);
+		direction.add(recoilDirection).add(inaccuracyDirection);
+		direction.multiply(range / direction.length()); //Normalize to range
+		
+		msPlayer.increaseRecoil(gunType.getRecoilMagnitude());
+		
+		MovingObjectPosition[] obstacles = BoundUtil.findObstaclesByMotion(shooter, location, direction);
+		
+		if(obstacles[0] != null && obstacles[0].type != EnumMovingObjectType.MISS)
+			GunManager.onBulletHit(obstacles, shooter);
+		else
+			GunManager.showTrace(location, location.clone().add(direction));
 	}
 	
 	@Override

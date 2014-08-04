@@ -1,24 +1,12 @@
 package cz.minestrike.me.limeth.minestrike.equipment.guns;
 
-import java.lang.reflect.Method;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map.Entry;
-
-import net.minecraft.server.v1_7_R1.AxisAlignedBB;
-import net.minecraft.server.v1_7_R1.Entity;
-import net.minecraft.server.v1_7_R1.EntityHuman;
 import net.minecraft.server.v1_7_R1.EnumMovingObjectType;
 import net.minecraft.server.v1_7_R1.MovingObjectPosition;
-import net.minecraft.server.v1_7_R1.Vec3D;
-import net.minecraft.server.v1_7_R1.World;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
-import org.bukkit.craftbukkit.v1_7_R1.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
@@ -30,10 +18,6 @@ import darkBlade12.ParticleEffect;
 
 public class GunManager
 {
-	private static double size = 0;
-	private static float victimMargin = 0F;//0.3F;
-//	private AxisAlignedBB boundingBox = AxisAlignedBB.a(-size / 2, -size / 2, -size / 2, size / 2, size / 2, size / 2);
-	
 	public static void showTrace(Location from, Location to)
 	{
 		double stepSize = 1;
@@ -74,257 +58,8 @@ public class GunManager
 		}
 	}
 	
-	/**
-	 * Made with CB 1.7.2 R0.3
-	 */
-	public static void shoot(Location location, MSPlayer msShooter, Gun gun)
-	{
-		GunType gunType = gun.getEquipment();
-		Player bukkitShooter = msShooter.getPlayer();
-		EntityHuman shooter = (EntityHuman) ((CraftPlayer) bukkitShooter).getHandle();
-		World world = shooter.getWorld();
-		location = location.clone();
-		int range = gunType.getRange();
-		Vector direction = location.getDirection();
-		Vector inaccuracyDirection = msShooter.getInaccuracyVector(gun);
-		Vector recoilDirection = msShooter.getRecoilVector(direction, gunType);
-		direction.add(recoilDirection).add(inaccuracyDirection);
-		direction.multiply(range / direction.length()); //Normalize to range
-		
-		msShooter.increaseRecoil(gunType.getRecoilMagnitude());
-		
-		double locX = location.getX();
-		double locY = location.getY();
-		double locZ = location.getZ();
-		double motX = direction.getX();
-		double motY = direction.getY();
-		double motZ = direction.getZ();
-
-		Vec3D vec3d = world.getVec3DPool().create(locX, locY,
-				locZ);
-		Vec3D vec3d1 = world.getVec3DPool().create(locX + motX,
-				locY + motY, locZ + motZ);
-		MovingObjectPosition[] movingobjectposition = { world.a(vec3d, vec3d1) };
-
-		vec3d = world.getVec3DPool().create(locX, locY,
-				locZ);
-		vec3d1 = world.getVec3DPool().create(locX + motX,
-				locY + motY, locZ + motZ);
-		
-		if(movingobjectposition[0] != null)
-		{
-			vec3d1 = world.getVec3DPool().create(
-					movingobjectposition[0].pos.c, movingobjectposition[0].pos.d,
-					movingobjectposition[0].pos.e);
-		}
-
-		if(!(world.isStatic))
-		{
-			//Entity entity = null;
-			HashMap<MovingObjectPosition, Double> hitDistances = new HashMap<MovingObjectPosition, Double>();
-			AxisAlignedBB targetBoundingBox = AxisAlignedBB.a(-size / 2, -size / 2, -size / 2, size / 2, size / 2, size / 2).d(locX, locY, locZ).a(motX, motY, motZ).grow(
-					1.0D, 1.0D, 1.0D
-			);
-			
-			@SuppressWarnings("unchecked")
-			List<? extends Entity> list = world.getEntities(
-					shooter,
-					targetBoundingBox
-			);
-			//double d0 = 0.0D;
-			
-			for(int i = 0; i < list.size(); ++i)
-			{
-				Entity entity1 = (Entity) list.get(i);
-				
-				if(entity1.R() && entity1 != shooter)
-				{
-					AxisAlignedBB axisalignedbb = entity1.boundingBox.grow(victimMargin,
-							victimMargin, victimMargin);
-					MovingObjectPosition movingobjectposition1 = getIntersectionPoint(axisalignedbb, vec3d, vec3d1);
-
-					if(movingobjectposition1 != null)
-					{
-						double curDistance = vec3d
-								.distanceSquared(movingobjectposition1.pos);
-
-						/*if((curDistance < d0) || (d0 == 0.0D))
-						{
-							entity = entity1;
-							d0 = curDistance;
-						}*/
-						MovingObjectPosition entityMOP = new MovingObjectPosition(entity1, movingobjectposition1.pos);
-						
-						hitDistances.put(entityMOP, curDistance);
-					}
-				}
-			}
-			
-			/*if(entity != null)
-			{
-				movingobjectposition = new MovingObjectPosition(entity, vec3d1);
-			}*/
-			
-			if(hitDistances.size() > 0)
-			{
-				LinkedList<MovingObjectPosition> positions = new LinkedList<MovingObjectPosition>();
-				
-				do
-				{
-					MovingObjectPosition closestPosition = null;
-					double closestDistance = Double.POSITIVE_INFINITY;
-					
-					for(Entry<MovingObjectPosition, Double> entry : hitDistances.entrySet())
-					{
-						MovingObjectPosition position = entry.getKey();
-						double distance = entry.getValue();
-						
-						if(distance <= closestDistance)
-						{
-							closestPosition = position;
-							closestDistance = distance;
-						}
-					}
-					
-					positions.add(closestPosition);
-					hitDistances.remove(closestPosition);
-				}
-				while(hitDistances.size() > 0);
-				
-				movingobjectposition = positions.toArray(new MovingObjectPosition[positions.size()]);
-			}
-		}
-
-		if(movingobjectposition[0] != null && movingobjectposition[0].type != EnumMovingObjectType.MISS)
-		{
-			onBulletHit(movingobjectposition, bukkitShooter);
-		}
-		else
-		{
-			showTrace(location, location.clone().add(direction));
-		}
-	}
-	
-	public static MovingObjectPosition getIntersectionPoint(AxisAlignedBB bb, Vec3D paramVec3D1, Vec3D paramVec3D2)
-	{
-	    Vec3D localVec3D1 = paramVec3D1.b(paramVec3D2, bb.a);
-	    Vec3D localVec3D2 = paramVec3D1.b(paramVec3D2, bb.d);
-
-	    Vec3D localVec3D3 = paramVec3D1.c(paramVec3D2, bb.b);
-	    Vec3D localVec3D4 = paramVec3D1.c(paramVec3D2, bb.e);
-
-	    Vec3D localVec3D5 = paramVec3D1.d(paramVec3D2, bb.c);
-	    Vec3D localVec3D6 = paramVec3D1.d(paramVec3D2, bb.f);
-	    
-	    try
-	    {
-		    
-		    Method b = AxisAlignedBB.class.getDeclaredMethod("b", Vec3D.class);
-		    Method c = AxisAlignedBB.class.getDeclaredMethod("c", Vec3D.class);
-		    Method d = AxisAlignedBB.class.getDeclaredMethod("d", Vec3D.class);
-		    
-		    b.setAccessible(true);
-		    c.setAccessible(true);
-		    d.setAccessible(true);
-		    
-		    if (!(Boolean) b.invoke(bb, localVec3D1)) localVec3D1 = null;
-		    if (!(Boolean) b.invoke(bb, localVec3D2)) localVec3D2 = null;
-		    if (!(Boolean) c.invoke(bb, localVec3D3)) localVec3D3 = null;
-		    if (!(Boolean) c.invoke(bb, localVec3D4)) localVec3D4 = null;
-		    if (!(Boolean) d.invoke(bb, localVec3D5)) localVec3D5 = null;
-		    if (!(Boolean) d.invoke(bb, localVec3D6)) localVec3D6 = null;
-		    
-	    }
-	    catch(Exception e)
-	    {
-	    	throw new RuntimeException(e);
-	    }
-	    
-	    Vec3D[] vectors = new Vec3D[]
-	    		{
-	    		localVec3D1,
-	    		localVec3D2,
-	    		localVec3D3,
-	    		localVec3D4,
-	    		localVec3D5,
-	    		localVec3D6
-	    		};
-	    
-	    Vec3D result = null;
-	    Double minDistance = null;
-	    
-	    for(Vec3D vector : vectors)
-	    {
-	    	if(vector == null)
-	    		continue;
-	    	
-	    	double distance = vector.distanceSquared(paramVec3D1);
-	    	
-	    	if(result == null || distance < minDistance)
-	    	{
-	    		result = vector;
-	    		minDistance = distance;
-	    	}
-	    }
-	    
-	    return result != null ? new MovingObjectPosition(0, 0, 0, -1, result) : null;
-
-/*	    System.out.println("1: " + localVec3D1);
-	    System.out.println("2: " + localVec3D2);
-	    System.out.println("3: " + localVec3D3);
-	    System.out.println("4: " + localVec3D4);
-	    System.out.println("5: " + localVec3D5);
-	    System.out.println("6: " + localVec3D6);
-	    
-	    try
-	    {
-		    
-		    Method b = AxisAlignedBB.class.getDeclaredMethod("b", Vec3D.class);
-		    Method c = AxisAlignedBB.class.getDeclaredMethod("b", Vec3D.class);
-		    Method d = AxisAlignedBB.class.getDeclaredMethod("b", Vec3D.class);
-		    
-		    b.setAccessible(true);
-		    c.setAccessible(true);
-		    d.setAccessible(true);
-		    
-		    if (!(Boolean) b.invoke(bb, localVec3D1)) localVec3D1 = null;
-		    if (!(Boolean) b.invoke(bb, localVec3D2)) localVec3D2 = null;
-		    if (!(Boolean) c.invoke(bb, localVec3D3)) localVec3D3 = null;
-		    if (!(Boolean) c.invoke(bb, localVec3D4)) localVec3D4 = null;
-		    if (!(Boolean) d.invoke(bb, localVec3D5)) localVec3D5 = null;
-		    if (!(Boolean) d.invoke(bb, localVec3D6)) localVec3D6 = null;
-		    
-	    }
-	    catch(Exception e)
-	    {
-	    	throw new RuntimeException(e);
-	    }
-
-	    Vec3D localVec3D7 = null;
-
-	    if ((localVec3D1 != null) && ((localVec3D7 == null) || (paramVec3D1.distanceSquared(localVec3D1) < paramVec3D1.distanceSquared(localVec3D7)))) localVec3D7 = localVec3D1;
-	    if ((localVec3D2 != null) && ((localVec3D7 == null) || (paramVec3D1.distanceSquared(localVec3D2) < paramVec3D1.distanceSquared(localVec3D7)))) localVec3D7 = localVec3D2;
-	    if ((localVec3D3 != null) && ((localVec3D7 == null) || (paramVec3D1.distanceSquared(localVec3D3) < paramVec3D1.distanceSquared(localVec3D7)))) localVec3D7 = localVec3D3;
-	    if ((localVec3D4 != null) && ((localVec3D7 == null) || (paramVec3D1.distanceSquared(localVec3D4) < paramVec3D1.distanceSquared(localVec3D7)))) localVec3D7 = localVec3D4;
-	    if ((localVec3D5 != null) && ((localVec3D7 == null) || (paramVec3D1.distanceSquared(localVec3D5) < paramVec3D1.distanceSquared(localVec3D7)))) localVec3D7 = localVec3D5;
-	    if ((localVec3D6 != null) && ((localVec3D7 == null) || (paramVec3D1.distanceSquared(localVec3D6) < paramVec3D1.distanceSquared(localVec3D7)))) localVec3D7 = localVec3D6;
-
-	    if (localVec3D7 == null) return null;
-
-	    int i = -1;
-
-	    if (localVec3D7 == localVec3D1) i = 4;
-	    if (localVec3D7 == localVec3D2) i = 5;
-	    if (localVec3D7 == localVec3D3) i = 0;
-	    if (localVec3D7 == localVec3D4) i = 1;
-	    if (localVec3D7 == localVec3D5) i = 2;
-	    if (localVec3D7 == localVec3D6) i = 3;
-
-	    return new MovingObjectPosition(0, 0, 0, i, localVec3D7);*/
-	}
-
 	@SuppressWarnings("deprecation")
-	private static void onBulletHit(MovingObjectPosition[] mops, Player bukkitPlayer)
+	public static void onBulletHit(MovingObjectPosition[] mops, Player bukkitPlayer)
 	{
 		MSPlayer msPlayer = MSPlayer.get(bukkitPlayer);
 		Location eyeLoc = bukkitPlayer.getEyeLocation();
@@ -411,20 +146,5 @@ public class GunManager
 		}
 		
 		return Sound.DIG_STONE;
-	}
-
-	protected float i()
-	{
-		return 0.03F;
-	}
-
-	protected float e()
-	{
-		return 1.5F;
-	}
-
-	protected float f()
-	{
-		return 0.0F;
 	}
 }
