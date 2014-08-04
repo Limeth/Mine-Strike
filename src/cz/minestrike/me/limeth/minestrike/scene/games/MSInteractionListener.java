@@ -65,7 +65,7 @@ public class MSInteractionListener<T extends Game<?, ?, ?, ?>> extends MSSceneLi
 	}
 	
 	@EventHandler
-	public void onEntityDamageByEntity(EntityDamageByEntityEvent event)
+	public void onEntityDamageByEntity(EntityDamageByEntityEvent event, MSPlayer msVictim)
 	{
 		Entity victimEntity = event.getEntity();
 		Entity damagerEntity = event.getDamager();
@@ -75,7 +75,7 @@ public class MSInteractionListener<T extends Game<?, ?, ?, ?>> extends MSSceneLi
 		
 		DamageCause cause = event.getCause();
 		
-		if(cause == DamageCause.CONTACT)
+		if(cause == DamageCause.ENTITY_ATTACK)
 			event.setCancelled(true);
 	}
 }

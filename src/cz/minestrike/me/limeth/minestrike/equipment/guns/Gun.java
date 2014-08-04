@@ -8,6 +8,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -86,24 +87,33 @@ public class Gun extends CustomizedEquipment<GunType>
 	{
 		Player player = msPlayer.getPlayer();
 		Location location = player.getEyeLocation();
+		World world = location.getWorld();
 		GunType gunType = getEquipment();
-		Player shooter = msPlayer.getPlayer();
-		location = location.clone();
 		int range = gunType.getRange();
 		Vector direction = location.getDirection();
 		Vector inaccuracyDirection = msPlayer.getInaccuracyVector(this);
 		Vector recoilDirection = msPlayer.getRecoilVector(direction, gunType);
 		direction.add(recoilDirection).add(inaccuracyDirection);
 		direction.multiply(range / direction.length()); //Normalize to range
-		
 		msPlayer.increaseRecoil(gunType.getRecoilMagnitude());
 		
-		MovingObjectPosition[] obstacles = BoundUtil.findObstaclesByMotion(shooter, location, direction);
+		MovingObjectPosition[] obstacles = BoundUtil.findObstaclesByMotion(player, location, direction);
+		Location endLocation = null;
 		
-		if(obstacles[0] != null && obstacles[0].type != EnumMovingObjectType.MISS)
-			GunManager.onBulletHit(obstacles, shooter);
-		else
-			GunManager.showTrace(location, location.clone().add(direction));
+		if(obstacles.length > 0)
+		{
+			MovingObjectPosition lastObstacle = obstacles[obstacles.length - 1];
+			
+			GunManager.onBulletHit(obstacles, player);
+			
+			if(lastObstacle.type == EnumMovingObjectType.BLOCK)
+				endLocation = new Location(world, lastObstacle.pos.c, lastObstacle.pos.d, lastObstacle.pos.e);
+		}
+		
+		if(endLocation == null)
+			endLocation = location.clone().add(direction);
+		
+		GunManager.showTrace(location, endLocation);
 	}
 	
 	@Override

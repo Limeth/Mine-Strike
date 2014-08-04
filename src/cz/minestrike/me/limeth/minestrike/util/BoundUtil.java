@@ -32,7 +32,7 @@ public class BoundUtil
 	
 	public static Vec3D getVec3D(Vector vector)
 	{
-		return Vec3D.a(vector.getX(), vector.getY(), vector.getZ());
+		return Vec3D.a.create(vector.getX(), vector.getY(), vector.getZ());
 	}
 	
 	public static Location getLocation(org.bukkit.World world, Vec3D vec3D)
@@ -107,14 +107,17 @@ public class BoundUtil
 	
 	private static MovingObjectPosition[] findObstacles(Entity excludedEntity, World world, Vec3D from, Vec3D to, Vec3D mot)
 	{
-		MovingObjectPosition[] obstacles = { world.a(from, to) };
+		Vec3D fromClone = from.a();
+		Vec3D toClone = to.a();
+		MovingObjectPosition blockObstacle = world.a(fromClone, toClone);
+		MovingObjectPosition[] entityObstacles = null;
 		
-		if(obstacles[0] != null)
+		if(blockObstacle != null)
 			to = world.getVec3DPool().create(
-					obstacles[0].pos.c,
-					obstacles[0].pos.d,
-					obstacles[0].pos.e);
-
+					blockObstacle.pos.c,
+					blockObstacle.pos.d,
+					blockObstacle.pos.e);
+		
 		if(!world.isStatic)
 		{
 			HashMap<MovingObjectPosition, Double> hitDistances = new HashMap<MovingObjectPosition, Double>();
@@ -122,7 +125,7 @@ public class BoundUtil
 					.a(0, 0, 0, 0, 0, 0)
 					.d(from.c, from.d, from.e)
 					.a(mot.c, mot.d, mot.e)
-					.grow(1.0D, 1.0D, 1.0D);
+					.grow(1, 1, 1);
 			
 			@SuppressWarnings("unchecked")
 			List<? extends Entity> entitiesInBB = world.getEntities(
@@ -130,10 +133,8 @@ public class BoundUtil
 					targetBoundingBox
 			);
 			
-			for(int i = 0; i < entitiesInBB.size(); ++i)
+			for(Entity entityInBB : entitiesInBB)
 			{
-				Entity entityInBB = (Entity) entitiesInBB.get(i);
-				
 				if(entityInBB.R() && entityInBB != excludedEntity)
 				{
 					AxisAlignedBB axisalignedbb = entityInBB.boundingBox.clone();
@@ -141,7 +142,7 @@ public class BoundUtil
 					
 					if(intersection != null)
 					{
-						double curDistance = Math.sqrt(from.distanceSquared(intersection));
+						double curDistance = from.distanceSquared(intersection);
 						MovingObjectPosition obstacle = new MovingObjectPosition(entityInBB, intersection);
 						
 						hitDistances.put(obstacle, curDistance);
@@ -175,9 +176,26 @@ public class BoundUtil
 				}
 				while(hitDistances.size() > 0);
 				
-				obstacles = dynamicObstacles.toArray(new MovingObjectPosition[dynamicObstacles.size()]);
+				entityObstacles = dynamicObstacles.toArray(new MovingObjectPosition[dynamicObstacles.size()]);
 			}
 		}
+		
+		//First entities, then block
+		
+		MovingObjectPosition[] obstacles;
+		
+		if(blockObstacle != null)
+			if(entityObstacles != null)
+			{
+				obstacles = new MovingObjectPosition[entityObstacles.length + 1];
+				obstacles[obstacles.length - 1] = blockObstacle;
+				
+				System.arraycopy(entityObstacles, 0, obstacles, 0, entityObstacles.length);
+			}
+			else
+				obstacles = new MovingObjectPosition[] { blockObstacle };
+		else
+			obstacles = entityObstacles != null ? entityObstacles : new MovingObjectPosition[0];
 		
 		return obstacles;
 	}

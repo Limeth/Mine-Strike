@@ -64,7 +64,6 @@ public class GunManager
 		MSPlayer msPlayer = MSPlayer.get(bukkitPlayer);
 		Location eyeLoc = bukkitPlayer.getEyeLocation();
 		org.bukkit.World bukkitWorld = eyeLoc.getWorld();
-		MovingObjectPosition lastMOP = mops[mops.length - 1];
 		
 		for(int i = 0; i < mops.length; i++)
 		{
@@ -111,10 +110,6 @@ public class GunManager
 				ParticleEffect.displayBlockCrack(effectLoc, Material.REDSTONE_BLOCK.getId(), (byte) 0, 0, 0, 0, 1.5F, 20);
 			}
 		}
-		
-		Location endLoc = new Location(bukkitWorld, lastMOP.pos.c, lastMOP.pos.d, lastMOP.pos.e);
-		
-		showTrace(eyeLoc, endLoc);
 	}
 	
 	private final static Sound[] digSounds = {

@@ -164,6 +164,14 @@ public class MineStrike extends JavaPlugin
 		Bukkit.getPluginCommand("quit").setExecutor(new QuitExecutor());
 	}
 	
+	public static <T> T debug(String message, T object)
+	{
+		if(MSConstant.DEBUG)
+			System.out.println("[DEBUG] " + String.format(message, object));
+		
+		return object;
+	}
+	
 	public static void debug(Object object)
 	{
 		if(MSConstant.DEBUG)
