@@ -1,6 +1,10 @@
 package cz.minestrike.me.limeth.minestrike.scene.games;
 
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.event.entity.PlayerDeathEvent;
 
 import cz.minestrike.me.limeth.minestrike.MSPlayer;
@@ -58,5 +62,20 @@ public class MSInteractionListener<T extends Game<?, ?, ?, ?>> extends MSSceneLi
 			message = Translation.GAME_DEATH_UNKNOWN.getMessage(msPlayer.getNameTag());
 		
 		scene.broadcast(message);
+	}
+	
+	@EventHandler
+	public void onEntityDamageByEntity(EntityDamageByEntityEvent event)
+	{
+		Entity victimEntity = event.getEntity();
+		Entity damagerEntity = event.getDamager();
+		
+		if(!(victimEntity instanceof Player) || !(damagerEntity instanceof Player))
+			return;
+		
+		DamageCause cause = event.getCause();
+		
+		if(cause == DamageCause.CONTACT)
+			event.setCancelled(true);
 	}
 }
