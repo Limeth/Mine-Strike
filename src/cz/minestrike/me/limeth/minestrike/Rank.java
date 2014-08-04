@@ -117,6 +117,36 @@ public enum Rank
 		return tag;
 	}
 	
+	public static Rank getNext(Rank rank)
+	{
+		if(rank == null)
+			return Rank.SILVER_I;
+		else
+			return rank.getNext();
+	}
+	
+	public Rank getNext()
+	{
+		int ordinal = ordinal();
+		Rank[] values = values();
+		
+		if(ordinal >= values.length - 1)
+			return null;
+		
+		return values[ordinal + 1];
+	}
+	
+	public Rank getPrevious()
+	{
+		int ordinal = ordinal();
+		Rank[] values = values();
+		
+		if(ordinal <= 0)
+			return null;
+		
+		return values[ordinal - 1];
+	}
+	
 	@Override
 	public String toString()
 	{

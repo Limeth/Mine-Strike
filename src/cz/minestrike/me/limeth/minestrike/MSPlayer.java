@@ -54,6 +54,9 @@ import cz.minestrike.me.limeth.storagemanager.RecordStructure;
 import cz.minestrike.me.limeth.storagemanager.RecordStructure.RecordStructureBuilder;
 import cz.minestrike.me.limeth.storagemanager.RecordStructureColumn;
 import cz.minestrike.me.limeth.storagemanager.mysql.MySQLService;
+import cz.projectsurvive.limeth.dynamicdisplays.DynamicDisplays;
+import cz.projectsurvive.limeth.dynamicdisplays.PlayerDisplay;
+import cz.projectsurvive.limeth.dynamicdisplays.TimedPlayerDisplay;
 
 public class MSPlayer implements Record
 {
@@ -331,6 +334,9 @@ public class MSPlayer implements Record
 		if(scenePrefix != null)
 			prefix += scenePrefix;
 		
+		if(prefix.length() > 16)
+			prefix = prefix.substring(0, 16);
+		
 		return prefix;
 	}
 	
@@ -360,7 +366,75 @@ public class MSPlayer implements Record
 		if(sceneSuffix != null)
 			suffix += sceneSuffix;
 		
+		if(suffix.length() > 16)
+			suffix = suffix.substring(0, 16);
+		
 		return suffix;
+	}
+	
+	public void showRankInfo(long ticks)
+	{
+		Player player = getPlayer();
+		String[] lines = getRankInfo();
+		
+		PlayerDisplay display = new TimedPlayerDisplay(player)
+				.startCountdown(ticks)
+				.setDistance(2)
+				.setLines(lines);
+		
+		DynamicDisplays.setDisplay(player, display);
+	}
+	
+	private static final ChatColor RANK_PROGRESS_BACKGROUND = ChatColor.DARK_GRAY;
+	private static final ChatColor[] RANK_PROGRESS_COLORS = new ChatColor[] {
+		ChatColor.BLUE,
+		ChatColor.GREEN,
+		ChatColor.YELLOW,
+		ChatColor.RED,
+		ChatColor.LIGHT_PURPLE
+	};
+	
+	public String[] getRankInfo()
+	{
+		Rank rank = getRank();
+		long lastRequiredXP = rank != null ? rank.getRequiredXP() : 0;
+		Rank nextRank = Rank.getNext(rank);
+		String progressBar;
+		String bottom;
+		
+		if(nextRank == null)
+			progressBar = bottom = "";
+		else
+		{
+			long requiredXP = nextRank.getRequiredXP();
+			long xp = getXP();
+			long relativeXP = xp - lastRequiredXP;
+			long relativeRequiredXP = requiredXP - lastRequiredXP;
+			double progress = (double) relativeXP / (double) relativeRequiredXP;
+			int progressBarLength = RANK_PROGRESS_COLORS.length * 8;
+			progressBar = "";
+			
+			for(double d = 0; d < 1; d += 1D / progressBarLength)
+			{
+				ChatColor color;
+				
+				if(d < progress)
+					color = RANK_PROGRESS_COLORS[(int) (d * RANK_PROGRESS_COLORS.length)];
+				else
+					color = RANK_PROGRESS_BACKGROUND;
+				
+				progressBar += color.toString() + '|';
+			}
+			
+			bottom = Translation.DISPLAY_RANK_BOTTOM.getMessage(relativeXP, relativeRequiredXP);
+		}
+		
+		return new String[] {
+			rank != null ? rank.getTag() : Translation.DISPLAY_RANK_NOTYET_1.getMessage(),
+			rank != null ? rank.getName() : Translation.DISPLAY_RANK_NOTYET_2.getMessage(),
+			progressBar,
+			bottom
+		};
 	}
 	
 	public float updateMovementSpeed()

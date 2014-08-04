@@ -71,7 +71,8 @@ public class DefuseGameListener extends MSSceneListener<DefuseGame>
 		{
 			RoundEndReason endReason = team == Team.TERRORISTS ? RoundEndReason.T_KILLED : RoundEndReason.CT_KILLED;
 			
-			game.roundEnd(endReason);
+			if(!game.getRound().hasEnded())
+				game.roundEnd(endReason);
 		}
 	}
 	

@@ -58,7 +58,9 @@ public class Round extends GamePhase<GameLobby, TeamGameMenu, DefuseGameMap, Def
 		{
 			setRanAt(System.currentTimeMillis());
 			setPhase(RoundPhase.ENDED);
-			getGame().roundEnd(RoundEndReason.TIME_OUT);
+			
+			if(!hasEnded())
+				getGame().roundEnd(RoundEndReason.TIME_OUT);
 		}
 	};
 	private final Runnable explodeRunnable = new Runnable() {
@@ -67,7 +69,9 @@ public class Round extends GamePhase<GameLobby, TeamGameMenu, DefuseGameMap, Def
 		{
 			setRanAt(System.currentTimeMillis());
 			setPhase(RoundPhase.ENDED);
-			getGame().roundEnd(RoundEndReason.EXPLODED);
+			
+			if(!hasEnded())
+				getGame().roundEnd(RoundEndReason.EXPLODED);
 		}
 	};
 	private final Runnable voteRunnable = new Runnable() {
@@ -194,6 +198,11 @@ public class Round extends GamePhase<GameLobby, TeamGameMenu, DefuseGameMap, Def
 	public void setRanAt(Long ranAt)
 	{
 		this.ranAt = ranAt;
+	}
+	
+	public boolean hasEnded()
+	{
+		return phase == RoundPhase.ENDED;
 	}
 
 	private static class RoundListener extends MSSceneListener<DefuseGame>

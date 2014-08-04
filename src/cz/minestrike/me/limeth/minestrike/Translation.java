@@ -70,6 +70,10 @@ public enum Translation
 	XP_LOSS("&cYou have lost &l{1}&c experience.", "&cZtratil(a) jste &l{1}&c zkuseností."),
 	XP_LEVEL_UPGRADE("&aYou now have the &r{1}&a rank!", "&aNyní máte &r{1}&a rank!"),
 	XP_LEVEL_DOWNGRADE("&cYou now have the &r{1}&c rank!", "&cNyní máte &r{1}&c rank!"),
+
+	DISPLAY_RANK_NOTYET_1("&7You don't have a rank yet.", "&7Zatím nemáte hodnost."),
+	DISPLAY_RANK_NOTYET_2("&fProgress:", "&fPrubeh:"),
+	DISPLAY_RANK_BOTTOM("&7{1} / {2} XP", "&7{1} / {2} ZK"),
 	;
 	
 	public static final String ENGLISH_NAME = "en", CZECH_NAME = "cz", DEFAULT_LANGUAGE_NAME = ENGLISH_NAME;

@@ -6,5 +6,6 @@
 	<classpathentry kind="lib" path="/home/limeth/dev/lib/craftbukkit-1.7.2-R0.4-20140316.221310-4.jar"/>
 	<classpathentry kind="lib" path="/home/limeth/dev/lib/NametagEdit.jar"/>
 	<classpathentry kind="lib" path="/home/limeth/dev/lib/WorldEdit.jar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/DynamicDisplays"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

@@ -198,8 +198,10 @@ public class DefuseGame extends TeamGame<GameLobby, TeamGameMenu, DefuseGameMap,
 		
 		round.cancel();
 		playSound("projectsurvive:counterstrike.radio.bombdef");
-		roundEnd(RoundEndReason.DEFUSED);
 		broadcast(Translation.GAME_BOMB_DEFUSED.getMessage());
+		
+		if(!getRound().hasEnded())
+			roundEnd(RoundEndReason.DEFUSED);
 	}
 	
 	public void explode()
@@ -320,6 +322,7 @@ public class DefuseGame extends TeamGame<GameLobby, TeamGameMenu, DefuseGameMap,
 		Team victorTeam = reason.getVictorTeam();
 		Team loserTeam = victorTeam.getOppositeTeam();
 		int newScore = addScore(victorTeam, 1);
+		Round round = getRound();
 		
 		for(MSPlayer msPlayer : getPlayingPlayers())
 		{
@@ -347,11 +350,12 @@ public class DefuseGame extends TeamGame<GameLobby, TeamGameMenu, DefuseGameMap,
 					msPlayer.addXP(XP_MATCH_LOSE);
 			}
 			
-			getRound().startVoteRunnable();
+			round.startVoteRunnable();
 			return;
 		}
 		
-		getRound().startNextRunnable();
+		round.setPhase(RoundPhase.ENDED);
+		round.startNextRunnable();
 	}
 	
 	public void roundNext()
@@ -579,6 +583,8 @@ public class DefuseGame extends TeamGame<GameLobby, TeamGameMenu, DefuseGameMap,
 				RegionList spawnRegion = map.getSpawn(team);
 				Point base = map.getBase();
 				spawnPoint = mapStructure.getAbsolutePoint(spawnRegion.getRandomSpawnablePoint(base, MSConstant.RANDOM));
+				
+				msPlayer.showRankInfo(Round.SPAWN_TIME);
 				
 				if(spawnPoint == null)
 				{
