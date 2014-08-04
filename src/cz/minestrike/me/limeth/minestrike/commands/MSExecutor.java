@@ -120,6 +120,12 @@ public class MSExecutor implements CommandExecutor
 		}
 		else if(args[0].equalsIgnoreCase("give"))
 		{
+			if(args.length <= 1)
+			{
+				sender.sendMessage("/ms give [Equipment ID] (Player)");
+				return true;
+			}
+			
 			Player player;
 			
 			if(args.length >= 3)

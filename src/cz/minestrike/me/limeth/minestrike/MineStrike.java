@@ -9,6 +9,8 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
+import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -58,6 +60,11 @@ public class MineStrike extends JavaPlugin
 			MSPlayer.loadOnlinePlayers();
 			MSPlayer.startMovementLoop();
 			disableWeather();
+			
+			for(Player player : Bukkit.getOnlinePlayers())
+				ConnectionListener.getInstance().onPlayerJoin(new PlayerJoinEvent(player, null));
+			
+			Bukkit.broadcastMessage(Translation.ENABLED.getMessage());
 			info("Mine-Strike successfully enabled! (v" + getDescription().getVersion() + ")");
 		}
 		catch(Exception e)
@@ -73,11 +80,14 @@ public class MineStrike extends JavaPlugin
 	@Override
 	public void onDisable()
 	{
+		Bukkit.broadcastMessage(Translation.DISABLING.getMessage());
+		
 		for(MSPlayer msPlayer : MSPlayer.getOnlinePlayers())
 		{
 			Player player = msPlayer.getPlayer();
 			
-			player.kickPlayer(Translation.KICK_RESTARTING.getMessage());
+			ConnectionListener.getInstance().onPlayerQuit(new PlayerQuitEvent(player, null));
+			//player.kickPlayer(Translation.KICK_RESTARTING.getMessage());
 		}
 		
 		if(instance == null)
@@ -136,7 +146,7 @@ public class MineStrike extends JavaPlugin
 	{
 		PluginManager pm = Bukkit.getPluginManager();
 		
-		pm.registerEvents(new ConnectionListener(), this);
+		pm.registerEvents(ConnectionListener.getInstance(), this);
 		pm.registerEvents(new InteractionListener(), this);
 		pm.registerEvents(new InventoryListener(), this);
 		pm.registerEvents(new PermissionListener(), this);

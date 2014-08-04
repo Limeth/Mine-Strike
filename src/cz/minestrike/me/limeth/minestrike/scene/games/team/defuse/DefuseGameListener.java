@@ -110,6 +110,9 @@ public class DefuseGameListener extends MSSceneListener<DefuseGame>
 			return;
 		}
 		
+		DefuseEquipmentProvider ep = game.getEquipmentProvider();
+		
+		ep.removeBomb(msPlayer);
 		game.plant(block);
 		event.setCancelled(false);
 	}

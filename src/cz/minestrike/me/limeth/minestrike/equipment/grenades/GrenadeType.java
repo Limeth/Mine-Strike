@@ -21,6 +21,7 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.ThrownPotion;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
@@ -33,6 +34,7 @@ import cz.minestrike.me.limeth.minestrike.MineStrike;
 import cz.minestrike.me.limeth.minestrike.equipment.DamageSource;
 import cz.minestrike.me.limeth.minestrike.equipment.Equipment;
 import cz.minestrike.me.limeth.minestrike.equipment.ItemButton;
+import cz.minestrike.me.limeth.minestrike.equipment.containers.Container;
 import cz.minestrike.me.limeth.minestrike.equipment.guns.Gun;
 import cz.minestrike.me.limeth.minestrike.scene.Scene;
 import cz.minestrike.me.limeth.minestrike.scene.games.EquipmentProvider;
@@ -440,6 +442,32 @@ public enum GrenadeType implements Equipment, DamageSource
 	}
 	
 	public abstract boolean onExplosion(Grenade grenade);
+	
+	@Override
+	public boolean rightClick(MSPlayer msPlayer, org.bukkit.block.Block clickedBlock)
+	{
+		throwGrenade(msPlayer, 1);
+		return true;
+	}
+	
+	@Override
+	public boolean leftClick(MSPlayer msPlayer, org.bukkit.block.Block clickedBlock)
+	{
+		throwGrenade(msPlayer, 0.2);
+		return true;
+	}
+	
+	private void throwGrenade(MSPlayer msPlayer, double force)
+	{
+		Player player = msPlayer.getPlayer();
+		PlayerInventory inv = player.getInventory();
+		int slot = inv.getHeldItemSlot();
+		Container hotbarContainer = msPlayer.getHotbarContainer();
+		
+		Grenade.throwGrenade(this, msPlayer, force);
+		player.setItemInHand(null);
+		hotbarContainer.setItem(slot, null);
+	}
 	
 	protected static void playExplosionEffect(Location loc, float strength)
 	{

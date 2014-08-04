@@ -2,6 +2,7 @@ package cz.minestrike.me.limeth.minestrike.equipment.guns;
 
 import java.lang.reflect.InvocationTargetException;
 
+import org.bukkit.block.Block;
 import org.bukkit.inventory.ItemStack;
 
 import cz.minestrike.me.limeth.minestrike.MSConstant;
@@ -493,6 +494,18 @@ public enum GunType implements Equipment
 	public FilledArrayList<ItemButton> getSelectionButtons(MSPlayer msPlayer)
 	{
 		return new FilledArrayList<ItemButton>();
+	}
+	
+	@Override
+	public boolean rightClick(MSPlayer msPlayer, Block clickedBlock)
+	{
+		return false;
+	}
+	
+	@Override
+	public boolean leftClick(MSPlayer msPlayer, Block clickedBlock)
+	{
+		return false;
 	}
 	
 	public GunExtension newExtension(Gun gun)

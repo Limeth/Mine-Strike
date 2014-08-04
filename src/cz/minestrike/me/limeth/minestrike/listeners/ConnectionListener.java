@@ -15,6 +15,15 @@ import cz.minestrike.me.limeth.minestrike.scene.Scene;
 
 public class ConnectionListener implements Listener
 {
+	private static final ConnectionListener instance = new ConnectionListener();
+	
+	private ConnectionListener() {}
+	
+	public static ConnectionListener getInstance()
+	{
+		return instance;
+	}
+	
 	@EventHandler
 	public void onPlayerJoin(PlayerJoinEvent event)
 	{

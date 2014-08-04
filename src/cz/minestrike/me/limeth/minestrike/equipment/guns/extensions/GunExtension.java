@@ -12,14 +12,14 @@ public class GunExtension
 		this.gun = gun;
 	}
 	
-	public void onLeftClick(MSPlayer msPlayer)
-	{
-		
-	}
+	public void onSelect(MSPlayer msPlayer) {}
+	public void onDeselect(MSPlayer msPlayer) {}
+	public boolean onLeftClick(MSPlayer msPlayer) { return false; }
 	
-	public void onRightClick(MSPlayer msPlayer)
+	public boolean onRightClick(MSPlayer msPlayer)
 	{
 		msPlayer.pressTrigger(gun);
+		return true;
 	}
 	
 	public float getMovementSpeed(MSPlayer msPlayer)

@@ -38,7 +38,13 @@ public class ZoomExtension extends GunExtension
 	}
 	
 	@Override
-	public void onLeftClick(MSPlayer msPlayer)
+	public void onDeselect(MSPlayer msPlayer)
+	{
+		unzoom(msPlayer);
+	}
+	
+	@Override
+	public boolean onLeftClick(MSPlayer msPlayer)
 	{
 		nextZoom();
 		
@@ -58,6 +64,8 @@ public class ZoomExtension extends GunExtension
 		}
 		
 		msPlayer.updateMovementSpeed();
+		
+		return true;
 	}
 	
 	@Override
@@ -71,6 +79,17 @@ public class ZoomExtension extends GunExtension
 		float modifier = 1 - (zoom + 1) * SLOWNESS_RATE;
 		
 		return super.getMovementSpeed(msPlayer) * 0.8F / modifier;
+	}
+	
+	public void unzoom(MSPlayer msPlayer)
+	{
+		Player player = msPlayer.getPlayer();
+		Gun gun = getGun();
+		stateIndex = 0;
+		
+		gun.setSecondaryState(false);
+		msPlayer.updateMovementSpeed();
+		player.removePotionEffect(PotionEffectType.SLOW);
 	}
 	
 	public void nextZoom()

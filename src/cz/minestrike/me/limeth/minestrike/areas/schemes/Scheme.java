@@ -201,7 +201,7 @@ public abstract class Scheme
 						{
 							TileEntity cloneTileEntity = cloneTileEntity(srcTileEntity);
 							
-							System.out.println(cloneTileEntity);
+							//System.out.println(cloneTileEntity);
 							
 							nmsWorld.setTileEntity(destX, destY, destZ, cloneTileEntity);
 						}

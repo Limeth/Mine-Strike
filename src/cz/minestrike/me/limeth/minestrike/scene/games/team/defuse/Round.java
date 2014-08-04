@@ -57,7 +57,6 @@ public class Round extends GamePhase<GameLobby, TeamGameMenu, DefuseGameMap, Def
 		public void run()
 		{
 			setRanAt(System.currentTimeMillis());
-			setPhase(RoundPhase.ENDED);
 			
 			if(!hasEnded())
 				getGame().roundEnd(RoundEndReason.TIME_OUT);
@@ -68,7 +67,6 @@ public class Round extends GamePhase<GameLobby, TeamGameMenu, DefuseGameMap, Def
 		public void run()
 		{
 			setRanAt(System.currentTimeMillis());
-			setPhase(RoundPhase.ENDED);
 			
 			if(!hasEnded())
 				getGame().roundEnd(RoundEndReason.EXPLODED);

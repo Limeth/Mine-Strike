@@ -18,7 +18,7 @@ public class ScopeExtension extends ZoomExtension
 	}
 	
 	@Override
-	public void onLeftClick(MSPlayer msPlayer)
+	public boolean onLeftClick(MSPlayer msPlayer)
 	{
 		boolean zoomedBefore = isZoomed();
 		
@@ -27,7 +27,7 @@ public class ScopeExtension extends ZoomExtension
 		boolean zoomedAfter = isZoomed();
 		
 		if(zoomedAfter == zoomedBefore)
-			return;
+			return true;
 		
 		if(zoomedAfter)
 		{
@@ -40,5 +40,14 @@ public class ScopeExtension extends ZoomExtension
 		}
 		else
 			msPlayer.updateInventory();
+		
+		return true;
+	}
+	
+	@Override
+	public void unzoom(MSPlayer msPlayer)
+	{
+		super.unzoom(msPlayer);
+		msPlayer.updateInventory();
 	}
 }

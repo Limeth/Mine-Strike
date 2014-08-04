@@ -1,6 +1,7 @@
 package cz.minestrike.me.limeth.minestrike.equipment.cases;
 
 import org.bukkit.Material;
+import org.bukkit.block.Block;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -97,6 +98,18 @@ public class CaseKey implements Equipment
 	public float getMovementSpeed(MSPlayer msPlayer)
 	{
 		return MSConstant.MOVEMENT_SPEED_DEFAULT;
+	}
+	
+	@Override
+	public boolean rightClick(MSPlayer msPlayer, Block clickedBlock)
+	{
+		return false;
+	}
+	
+	@Override
+	public boolean leftClick(MSPlayer msPlayer, Block clickedBlock)
+	{
+		return false;
 	}
 	
 	@Override

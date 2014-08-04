@@ -6,6 +6,7 @@ import org.apache.commons.lang.Validate;
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
 import org.bukkit.Material;
+import org.bukkit.block.Block;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -201,6 +202,18 @@ public enum Case implements Equipment
 		
 		container.add(result);
 		new CaseOpening(msPlayer, this, result).start();
+	}
+	
+	@Override
+	public boolean rightClick(MSPlayer msPlayer, Block clickedBlock)
+	{
+		return false;
+	}
+	
+	@Override
+	public boolean leftClick(MSPlayer msPlayer, Block clickedBlock)
+	{
+		return false;
 	}
 	
 	@Override

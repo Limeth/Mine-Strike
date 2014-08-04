@@ -25,15 +25,17 @@ public class SilencableExtension extends GunExtension
 	}
 	
 	@Override
-	public void onLeftClick(MSPlayer msPlayer)
+	public boolean onLeftClick(MSPlayer msPlayer)
 	{
 		if(msPlayer.hasGunTask())
-			return;
+			return true;
 		
 		Gun gun = getGun();
 		String sound = super.getSoundShooting(msPlayer) + "_silencer_" + (silenced ? "off" : "on");
 		
 		msPlayer.setGunTask(new SilencerToggle(msPlayer, gun, sound).startLoop());
+		
+		return true;
 	}
 	
 	public boolean isSilenced()

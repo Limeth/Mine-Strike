@@ -1,6 +1,7 @@
 package cz.minestrike.me.limeth.minestrike.equipment;
 
 import org.apache.commons.lang.Validate;
+import org.bukkit.block.Block;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -114,6 +115,18 @@ public class CustomizedEquipment<T extends Equipment> implements Equipment
 	public boolean purchase(MSPlayer msPlayer) throws EquipmentPurchaseException
 	{
 		return equipment.purchase(msPlayer);
+	}
+	
+	@Override
+	public boolean rightClick(MSPlayer msPlayer, Block clickedBlock)
+	{
+		return equipment.rightClick(msPlayer, clickedBlock);
+	}
+	
+	@Override
+	public boolean leftClick(MSPlayer msPlayer, Block clickedBlock)
+	{
+		return equipment.leftClick(msPlayer, clickedBlock);
 	}
 	
 	public static final ItemButton BUTTON_EQUIP = new ItemButton()

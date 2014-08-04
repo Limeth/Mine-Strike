@@ -15,7 +15,6 @@ import org.bukkit.inventory.meta.ItemMeta;
 import cz.minestrike.me.limeth.minestrike.MSConstant;
 import cz.minestrike.me.limeth.minestrike.MSPlayer;
 import cz.minestrike.me.limeth.minestrike.Translation;
-import cz.minestrike.me.limeth.minestrike.equipment.CustomizedEquipment;
 import cz.minestrike.me.limeth.minestrike.equipment.Equipment;
 import cz.minestrike.me.limeth.minestrike.equipment.EquipmentCategory;
 import cz.minestrike.me.limeth.minestrike.equipment.EquipmentCategoryEntry;
@@ -23,6 +22,7 @@ import cz.minestrike.me.limeth.minestrike.equipment.EquipmentPurchaseException;
 import cz.minestrike.me.limeth.minestrike.equipment.SimpleEquipment;
 import cz.minestrike.me.limeth.minestrike.equipment.containers.ArmorContainer;
 import cz.minestrike.me.limeth.minestrike.equipment.containers.Container;
+import cz.minestrike.me.limeth.minestrike.equipment.containers.HotbarContainer;
 import cz.minestrike.me.limeth.minestrike.equipment.containers.InventoryContainer;
 import cz.minestrike.me.limeth.minestrike.equipment.grenades.GrenadeType;
 import cz.minestrike.me.limeth.minestrike.equipment.guns.Gun;
@@ -117,10 +117,15 @@ public class DefuseEquipmentProvider implements EquipmentProvider
 	
 	public void equipBomb(MSPlayer msPlayer)
 	{
-		Container gameContainer = msPlayer.getHotbarContainer();
+		HotbarContainer gameContainer = msPlayer.getHotbarContainer();
+		InventoryContainer invContainer = msPlayer.getInventoryContainer();
 		Player player = msPlayer.getPlayer();
 		PlayerInventory inv = player.getInventory();
-		CustomizedEquipment<Equipment> equipment = new CustomizedEquipment<Equipment>(BOMB, null); //TODO custom
+		Equipment equipment = invContainer.getEquippedCustomizedEquipment(BOMB);
+		
+		if(equipment == null)
+			equipment = BOMB;
+		
 		ItemStack item = equipment.newItemStack(msPlayer);
 		
 		gameContainer.setItem(INDEX_EXTRA, equipment);
@@ -159,10 +164,15 @@ public class DefuseEquipmentProvider implements EquipmentProvider
 	
 	public void equipKnife(MSPlayer msPlayer)
 	{
+		InventoryContainer invContainer = msPlayer.getInventoryContainer();
 		Container gameContainer = msPlayer.getHotbarContainer();
 		Player player = msPlayer.getPlayer();
 		PlayerInventory inv = player.getInventory();
-		CustomizedEquipment<Equipment> equipment = new CustomizedEquipment<Equipment>(Knife.KNIFE, null); //TODO custom
+		Equipment equipment = invContainer.getEquippedCustomizedEquipment(Knife.KNIFE);
+		
+		if(equipment == null)
+			equipment = Knife.KNIFE;
+		
 		ItemStack item = equipment.newItemStack(msPlayer);
 		
 		gameContainer.setItem(INDEX_KNIFE, equipment);
@@ -278,11 +288,16 @@ public class DefuseEquipmentProvider implements EquipmentProvider
 			if(current != null)
 				continue;
 			
-			Container gameContainer = msPlayer.getHotbarContainer();
+			HotbarContainer gameContainer = msPlayer.getHotbarContainer();
+			InventoryContainer invContainer = msPlayer.getInventoryContainer();
 			Player player = msPlayer.getPlayer();
 			PlayerInventory inv = player.getInventory();
 			int slot = i + INDEX_GRENADES;
-			CustomizedEquipment<GrenadeType> equipment = new CustomizedEquipment<GrenadeType>(type, null); //TODO custom
+			Equipment equipment = invContainer.getEquippedCustomizedEquipment(type);
+			
+			if(equipment == null)
+				equipment = type;
+			
 			ItemStack item = equipment.newItemStack(msPlayer);
 			
 			gameContainer.setItem(slot, equipment);
@@ -408,12 +423,17 @@ public class DefuseEquipmentProvider implements EquipmentProvider
 	
 	public void equipDefuseKit(MSPlayer msPlayer, boolean bought)
 	{
-		Container gameContainer = msPlayer.getHotbarContainer();
+		HotbarContainer gameContainer = msPlayer.getHotbarContainer();
+		InventoryContainer invContainer = msPlayer.getInventoryContainer();
 		Player player = msPlayer.getPlayer();
 		PlayerInventory inv = player.getInventory();
 		Equipment kit = bought ? DEFUSE_KIT_BOUGHT : DEFUSE_KIT_DEFAULT;
-		CustomizedEquipment<Equipment> equipment = new CustomizedEquipment<Equipment>(kit, null); //TODO custom
-		ItemStack item = equipment.newItemStack(msPlayer); //TODO customization
+		Equipment equipment = invContainer.getEquippedCustomizedEquipment(kit);
+		
+		if(equipment == null)
+			equipment = kit;
+		
+		ItemStack item = equipment.newItemStack(msPlayer);
 		
 		gameContainer.setItem(INDEX_EXTRA, equipment);
 		inv.setItem(INDEX_EXTRA, item);

@@ -18,29 +18,30 @@ public class BurstFireExtension extends GunExtension
 	}
 	
 	@Override
-	public void onLeftClick(MSPlayer msPlayer)
+	public boolean onLeftClick(MSPlayer msPlayer)
 	{
 		Gun gun = getGun();
 		
 		gun.setSecondaryState(!gun.isSecondaryState());
 		SoundManager.play(SOUND_TOGGLE, msPlayer.getPlayer());
+		
+		return true;
 	}
 	
 	@Override
-	public void onRightClick(MSPlayer msPlayer)
+	public boolean onRightClick(MSPlayer msPlayer)
 	{
 		Gun gun = getGun();
 		
 		if(!gun.isSecondaryState())
-		{
-			super.onRightClick(msPlayer);
-			return;
-		}
+			return super.onRightClick(msPlayer);
 		
 		if(!gun.isShotDelaySatisfied())
-			return;
+			return true;
 		
 		shootBurst(msPlayer);
+		
+		return true;
 	}
 	
 	public void shootBurst(MSPlayer msPlayer)

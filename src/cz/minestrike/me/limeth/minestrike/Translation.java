@@ -8,6 +8,10 @@ import org.bukkit.configuration.file.YamlConfiguration;
 
 public enum Translation
 {
+	ENABLED("&8\u00BB&9&lMINE&f&l-&6&lSTRIKE&8\u00AB&a&l has been successfully loaded!",
+			"&8\u00BB&9&lMINE&f&l-&6&lSTRIKE&8\u00AB&a&l byl uspesne nacten!"),
+	DISABLING("&c&lWe are sorry for disturbing you, &8\u00BB&9&lMINE&f&l-&6&lSTRIKE&8\u00AB&c&l being updated.",
+			"&c&lOmlouváme se za vyrusení, &8\u00BB&9&lMINE&f&l-&6&lSTRIKE&8\u00AB&c&l se aktualizuje."),
 	ERROR("&c&lAn error occured.", "&c&lNastala chyba."),
 	RELOAD("Press &lQ", "Stisknete &lQ"),
 	KICK_RESTARTING("&8\u00BB&9MINE&f-&6STRIKE&8\u00AB&f\nServer is restarting...", "&8\u00BB&9MINE&f-&6STRIKE&8\u00AB&f\nProbíhá restart serveru..."),

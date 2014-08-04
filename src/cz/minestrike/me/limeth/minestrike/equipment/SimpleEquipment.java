@@ -1,5 +1,6 @@
 package cz.minestrike.me.limeth.minestrike.equipment;
 
+import org.bukkit.block.Block;
 import org.bukkit.inventory.ItemStack;
 
 import cz.minestrike.me.limeth.minestrike.MSPlayer;
@@ -105,5 +106,17 @@ public class SimpleEquipment implements Equipment
 	public FilledArrayList<ItemButton> getSelectionButtons(MSPlayer msPlayer)
 	{
 		return new FilledArrayList<ItemButton>();
+	}
+	
+	@Override
+	public boolean rightClick(MSPlayer msPlayer, Block clickedBlock)
+	{
+		return false;
+	}
+	
+	@Override
+	public boolean leftClick(MSPlayer msPlayer, Block clickedBlock)
+	{
+		return false;
 	}
 }

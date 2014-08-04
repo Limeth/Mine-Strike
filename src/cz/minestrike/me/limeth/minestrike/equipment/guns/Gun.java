@@ -4,6 +4,7 @@ import org.apache.commons.lang.Validate;
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
 import org.bukkit.Material;
+import org.bukkit.block.Block;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.FireworkEffectMeta;
 
@@ -85,14 +86,14 @@ public class Gun extends CustomizedEquipment<GunType>
 		return getExtension().getSoundShooting(msPlayer);
 	}
 	
-	public void onLeftClick(MSPlayer msPlayer)
+	public boolean leftClick(MSPlayer msPlayer, Block clickedBlock)
 	{
-		getExtension().onLeftClick(msPlayer);
+		return getExtension().onLeftClick(msPlayer);
 	}
 	
-	public void onRightClick(MSPlayer msPlayer)
+	public boolean rightClick(MSPlayer msPlayer, Block clickedBlock)
 	{
-		getExtension().onRightClick(msPlayer);
+		return getExtension().onRightClick(msPlayer);
 	}
 	
 	public LoreAttributes createAttributes()

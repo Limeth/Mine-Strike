@@ -3,7 +3,7 @@ package cz.minestrike.me.limeth.minestrike.listeners;
 import java.util.List;
 
 import org.bukkit.Location;
-import org.bukkit.Material;
+import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -18,52 +18,12 @@ import cz.minestrike.me.limeth.minestrike.MSPlayer;
 import cz.minestrike.me.limeth.minestrike.MineStrike;
 import cz.minestrike.me.limeth.minestrike.equipment.Equipment;
 import cz.minestrike.me.limeth.minestrike.equipment.containers.Container;
-import cz.minestrike.me.limeth.minestrike.equipment.grenades.Grenade;
-import cz.minestrike.me.limeth.minestrike.equipment.grenades.GrenadeType;
-import cz.minestrike.me.limeth.minestrike.equipment.guns.Gun;
 
 public class InteractionListener implements Listener
 {
 	@EventHandler
 	public void onPlayerInteract(PlayerInteractEvent event)
 	{
-		ItemStack item = event.getItem();
-		Material type = item == null ? null : item.getType();
-		
-		if(type == Material.POTION)
-		{
-			short durability = item.getDurability();
-			GrenadeType grenadeType = null;
-			
-			for(GrenadeType curType : GrenadeType.values())
-				if(curType.getColor() == durability)
-				{
-					grenadeType = curType;
-					break;
-				}
-			
-			if(type == null)
-				return;
-			
-			Action action = event.getAction();
-			
-			event.setCancelled(true);
-			
-			if(action != Action.RIGHT_CLICK_BLOCK && action != Action.RIGHT_CLICK_AIR)
-				return;
-			
-			Player player = event.getPlayer();
-			PlayerInventory inv = player.getInventory();
-			int slot = inv.getHeldItemSlot();
-			MSPlayer msPlayer = MSPlayer.get(player);
-			Container hotbarContainer = msPlayer.getHotbarContainer();
-			
-			Grenade.throwGrenade(grenadeType, msPlayer, 1);
-			player.setItemInHand(null);
-			hotbarContainer.setItem(slot, null);
-			return;
-		}
-		
 		Action action = event.getAction();
 		
 		if(action != Action.PHYSICAL)
@@ -74,16 +34,16 @@ public class InteractionListener implements Listener
 			MSPlayer msPlayer = MSPlayer.get(event.getPlayer());
 			Container hotbarContainer = msPlayer.getHotbarContainer();
 			Equipment equipment = hotbarContainer.getItem(slot);
+			Block clickedBlock = event.getClickedBlock();
+			boolean cancelEvent = false;
 			
-			if(equipment != null && equipment instanceof Gun)
-			{
-				Gun gun = (Gun) equipment;
-				
+			if(equipment != null)
 				if(action == Action.RIGHT_CLICK_AIR || action == Action.RIGHT_CLICK_BLOCK)
-					gun.onRightClick(msPlayer);
+					cancelEvent = equipment.rightClick(msPlayer, clickedBlock);
 				else
-					gun.onLeftClick(msPlayer);
-			}
+					cancelEvent = equipment.leftClick(msPlayer, clickedBlock);
+			
+			event.setCancelled(cancelEvent);
 		}
 	}
 	
