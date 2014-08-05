@@ -5,7 +5,6 @@ import org.bukkit.event.Event;
 import cz.minestrike.me.limeth.minestrike.MSPlayer;
 import cz.minestrike.me.limeth.minestrike.areas.schemes.GameLobby;
 import cz.minestrike.me.limeth.minestrike.areas.schemes.GameMap;
-import cz.minestrike.me.limeth.minestrike.events.GameQuitEvent.SceneQuitReason;
 import cz.minestrike.me.limeth.minestrike.scene.games.EquipmentProvider;
 import cz.minestrike.me.limeth.minestrike.scene.games.Game;
 import cz.minestrike.me.limeth.minestrike.scene.games.GameType;
@@ -20,17 +19,6 @@ public abstract class TeamGame<Lo extends GameLobby, Me extends TeamGameMenu, Ma
 	public TeamGame(GameType gameType, String id, String name, MSPlayer owner, boolean open, String lobbyId, String menuId, FilledArrayList<String> maps)
 	{
 		super(gameType, id, name, owner, open, lobbyId, menuId, maps);
-	}
-	
-	@Override
-	public boolean onQuit(MSPlayer msPlayer, SceneQuitReason reason, boolean teleport)
-	{
-		boolean quit = super.onQuit(msPlayer, reason, teleport);
-		
-		if(quit)
-			msPlayer.updateNameTag();
-		
-		return quit;
 	}
 	
 	public boolean joinArena(MSPlayer msPlayer, Team team)

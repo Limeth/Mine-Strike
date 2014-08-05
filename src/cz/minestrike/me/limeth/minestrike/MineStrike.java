@@ -2,6 +2,7 @@ package cz.minestrike.me.limeth.minestrike;
 
 import java.io.File;
 import java.sql.SQLException;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -82,12 +83,14 @@ public class MineStrike extends JavaPlugin
 	{
 		Bukkit.broadcastMessage(Translation.DISABLING.getMessage());
 		
-		for(MSPlayer msPlayer : MSPlayer.getOnlinePlayers())
+		@SuppressWarnings("unchecked")
+		Set<MSPlayer> players = (Set<MSPlayer>) MSPlayer.getOnlinePlayers().clone();
+		
+		for(MSPlayer msPlayer : players)
 		{
 			Player player = msPlayer.getPlayer();
 			
 			ConnectionListener.getInstance().onPlayerQuit(new PlayerQuitEvent(player, null));
-			//player.kickPlayer(Translation.KICK_RESTARTING.getMessage());
 		}
 		
 		if(instance == null)

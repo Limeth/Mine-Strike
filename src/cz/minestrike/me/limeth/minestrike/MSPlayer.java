@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.function.Predicate;
-import java.util.stream.Collectors;
 
 import net.minecraft.server.v1_7_R1.EnumClientCommand;
 import net.minecraft.server.v1_7_R1.PacketPlayInClientCommand;
@@ -87,7 +86,7 @@ public class MSPlayer implements Record
 	
 	public static Set<MSPlayer> getOnlinePlayers(Predicate<? super MSPlayer> predicate)
 	{
-		return ONLINE_PLAYERS.stream().filter(predicate).collect(Collectors.toSet());
+		return ONLINE_PLAYERS;
 	}
 	
 	public static boolean remove(Player player)
@@ -689,6 +688,8 @@ public class MSPlayer implements Record
 		
 		for(int i = 0; i < MSConstant.INVENTORY_WIDTH; i++)
 			inv.setItem(i, null);
+		
+		hotbarContainer.clear();
 	}
 	
 	public void damage(double amount, MSPlayer damager, Equipment weapon, BodyPart bodyPart)

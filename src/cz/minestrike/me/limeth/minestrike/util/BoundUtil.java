@@ -107,8 +107,9 @@ public class BoundUtil
 	
 	private static MovingObjectPosition[] findObstacles(Entity excludedEntity, World world, Vec3D from, Vec3D to, Vec3D mot)
 	{
-		Vec3D fromClone = from.a();
-		Vec3D toClone = to.a();
+		Vec3D fromClone = world.getVec3DPool().create(from.c, from.d, from.e);
+		Vec3D toClone = world.getVec3DPool().create(to.c, to.d, to.e);
+		
 		MovingObjectPosition blockObstacle = world.a(fromClone, toClone);
 		MovingObjectPosition[] entityObstacles = null;
 		

@@ -55,11 +55,12 @@ public class Grenade
 	public static Grenade throwGrenade(GrenadeType type, MSPlayer msShooter, double force)
 	{
 		Player shooter = msShooter.getPlayer();
-		Location loc = shooter.getEyeLocation().clone();
+		Location loc = shooter.getEyeLocation();
 		Vector movementVec = shooter.getVelocity();
-		Vector vec = loc.getDirection().clone().add(movementVec);
+		Vector direction = loc.getDirection();
+		Vector vec = direction.clone().multiply(force).add(movementVec);
 		
-		loc.add(vec).multiply(force);
+		loc.add(direction);
 		
 		return throwGrenade(type, msShooter, loc, vec);
 	}

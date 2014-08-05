@@ -32,7 +32,6 @@ public class ConnectionListener implements Listener
 		MSPlayer msPlayer = MSPlayer.get(playerName, true);
 		Scene scene = msPlayer.getScene();
 		
-		msPlayer.updateNameTag();
 		scene.onJoin(msPlayer);
 	}
 	

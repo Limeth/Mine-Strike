@@ -48,6 +48,7 @@ public class Lobby extends Scene
 		
 		msPlayer.teleport(spawn);
 		equip(msPlayer, true);
+		msPlayer.updateNameTag();
 		
 		return true;
 	}
