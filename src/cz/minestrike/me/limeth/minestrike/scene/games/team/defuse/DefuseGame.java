@@ -38,6 +38,9 @@ import cz.minestrike.me.limeth.minestrike.scene.games.team.TeamGameMenu;
 import cz.minestrike.me.limeth.minestrike.scene.games.team.defuse.Round.RoundPhase;
 import cz.minestrike.me.limeth.minestrike.util.SoundManager;
 import cz.minestrike.me.limeth.minestrike.util.collections.FilledArrayList;
+import cz.projectsurvive.limeth.dynamicdisplays.DynamicDisplays;
+import cz.projectsurvive.limeth.dynamicdisplays.PlayerDisplay;
+import cz.projectsurvive.limeth.dynamicdisplays.TimedPlayerDisplay;
 import ftbastler.HeadsUpDisplay;
 
 public class DefuseGame extends TeamGame<GameLobby, TeamGameMenu, DefuseGameMap, DefuseEquipmentProvider>
@@ -334,28 +337,58 @@ public class DefuseGame extends TeamGame<GameLobby, TeamGameMenu, DefuseGameMap,
 		String winSound = victorTeam.getWinSound();
 		
 		playSound(winSound);
-		broadcast("Round ended. Victor team: " + victorTeam);
 		
 		if(newScore >= REQUIRED_ROUNDS)
+			matchEnd(victorTeam);
+		else
 		{
-			broadcast(victorTeam.getColoredName() + " have won!");
-			
-			for(MSPlayer msPlayer : getPlayingPlayers())
+			for(MSPlayer msPlayer : getPlayingPlayers(p -> { return p.getPlayerState() == PlayerState.JOINED_GAME; }))
 			{
-				Team team = getTeam(msPlayer);
+				Player player = msPlayer.getPlayer();
+				String endMessage = Translation.GAME_ROUND_END.getMessage(victorTeam.getName());
+				PlayerDisplay display = new TimedPlayerDisplay(player)
+						.startCountdown(Round.END_TIME).setLines(endMessage);
 				
-				if(team == victorTeam)
-					msPlayer.addXP(XP_MATCH_WIN);
-				else if(team == loserTeam)
-					msPlayer.addXP(XP_MATCH_LOSE);
+				DynamicDisplays.setDisplay(player, display);
 			}
 			
-			round.startVoteRunnable();
-			return;
+			round.setPhase(RoundPhase.ENDED);
+			round.startNextRunnable();
+		}
+	}
+	
+	public void matchEnd(Team victorTeam)
+	{
+		Round round = getRound();
+		Team loserTeam = victorTeam.getOppositeTeam();
+		
+		for(MSPlayer msPlayer : getPlayingPlayers())
+		{
+			Team team = getTeam(msPlayer);
+			
+			if(team == victorTeam)
+				msPlayer.addXP(XP_MATCH_WIN);
+			else if(team == loserTeam)
+				msPlayer.addXP(XP_MATCH_LOSE);
+		}
+		
+		for(MSPlayer msPlayer : getPlayingPlayers(p -> { return p.getPlayerState() == PlayerState.JOINED_GAME; }))
+		{
+			Player player = msPlayer.getPlayer();
+			String[] endMessages = {
+						ChatColor.DARK_GRAY + "× × ×",
+						Translation.GAME_MATCH_END_1.getMessage(victorTeam.getName()),
+						Translation.GAME_MATCH_END_2.getMessage(victorTeam.getName()),
+						ChatColor.DARK_GRAY + "× × ×",
+					};
+			PlayerDisplay display = new TimedPlayerDisplay(player)
+					.startCountdown(Round.VOTE_TIME).setLines(endMessages);
+			
+			DynamicDisplays.setDisplay(player, display);
 		}
 		
 		round.setPhase(RoundPhase.ENDED);
-		round.startNextRunnable();
+		round.startVoteRunnable();
 	}
 	
 	public void roundNext()
