@@ -15,8 +15,6 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.PlayerInventory;
 
 import com.sk89q.worldedit.IncompleteRegionException;
 import com.sk89q.worldedit.LocalSession;
@@ -37,7 +35,6 @@ import cz.minestrike.me.limeth.minestrike.areas.schemes.SchemeType;
 import cz.minestrike.me.limeth.minestrike.equipment.Equipment;
 import cz.minestrike.me.limeth.minestrike.equipment.EquipmentManager;
 import cz.minestrike.me.limeth.minestrike.equipment.containers.InventoryContainer;
-import cz.minestrike.me.limeth.minestrike.equipment.guns.GunType;
 import cz.minestrike.me.limeth.minestrike.scene.games.Game;
 import cz.minestrike.me.limeth.minestrike.scene.games.GameManager;
 import cz.minestrike.me.limeth.minestrike.scene.games.GameType;
@@ -458,60 +455,6 @@ public class MSExecutor implements CommandExecutor
 			else
 			{
 				sender.sendMessage(ChatColor.RED + "Unknown scheme subcommand.");
-			}
-		}
-		else if(args[0].equalsIgnoreCase("structure"))
-		{
-			if(args.length < 2)
-			{
-				
-			}
-			else
-			{
-				sender.sendMessage("Unknown structure subcommand.");
-			}
-		}
-		else if(args[0].equalsIgnoreCase("gun"))
-		{
-			if(!(sender instanceof Player))
-			{
-				sender.sendMessage(ChatColor.RED + "Players only.");
-				return true;
-			}
-			
-			Player player = (Player) sender;
-			
-			if(args.length <= 1)
-			{
-				String string = "";
-				
-				for(GunType type : GunType.values())
-				{
-					string += ChatColor.GRAY + type.name() + ChatColor.DARK_GRAY + ", ";
-				}
-				
-				sender.sendMessage(string);
-			}
-			else
-			{
-				String raw = args[1].toUpperCase();
-				GunType gunType;
-				
-				try
-				{
-					gunType = GunType.valueOf(raw);
-				}
-				catch(Exception e)
-				{
-					sender.sendMessage(ChatColor.RED + "GunType " + raw + " not found!");
-					return true;
-				}
-				
-				MSPlayer msPlayer = MSPlayer.get(player);
-				ItemStack is = gunType.newItemStack(msPlayer);
-				PlayerInventory inv = player.getInventory();
-				
-				inv.addItem(is);
 			}
 		}
 		

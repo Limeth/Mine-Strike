@@ -323,7 +323,6 @@ public class DefuseGame extends TeamGame<GameLobby, TeamGameMenu, DefuseGameMap,
 			explode();
 		
 		Team victorTeam = reason.getVictorTeam();
-		Team loserTeam = victorTeam.getOppositeTeam();
 		int newScore = addScore(victorTeam, 1);
 		Round round = getRound();
 		

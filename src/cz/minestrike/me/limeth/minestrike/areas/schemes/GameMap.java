@@ -3,6 +3,8 @@ package cz.minestrike.me.limeth.minestrike.areas.schemes;
 import java.util.ArrayList;
 
 import org.apache.commons.lang.Validate;
+import org.bukkit.ChatColor;
+import org.bukkit.command.CommandSender;
 import org.bukkit.craftbukkit.libs.com.google.gson.annotations.Expose;
 
 import cz.minestrike.me.limeth.minestrike.areas.Point;
@@ -74,6 +76,7 @@ public abstract class GameMap extends Scheme
 	{
 		ArrayList<SchemeCommandHandler> handlers = super.getCommandHandlers();
 		
+		handlers.add(SET_NAME);
 		handlers.add(RegionList.COMMAND_HANDLER);
 		handlers.add(Point.COMMAND_HANDLER);
 		
@@ -135,4 +138,33 @@ public abstract class GameMap extends Scheme
 	{
 		this.name = name;
 	}
+	
+	private static final SchemeCommandHandler SET_NAME = new SchemeCommandHandler("setName", "ms scheme select [Scheme] setName [Name]", "Sets the name of this map")
+	{
+		
+		@Override
+		public void execute(CommandSender sender, Scheme scheme, String[] args)
+		{
+			if(!(scheme instanceof GameMap))
+			{
+				sender.sendMessage("This scheme isn't an instance of GameMap.");
+				return;
+			}
+			
+			if(args.length < 1)
+			{
+				sender.sendMessage(ChatColor.RED + "Missing the name!");
+				return;
+			}
+			
+			GameMap map = (GameMap) scheme;
+			String name = args[0];
+			
+			for(int i = 1; i < args.length; i++)
+				name += " " + args[i];
+			
+			map.setName(name);
+			sender.sendMessage(ChatColor.GREEN + "Map name set to '" + name + "'.");
+		}
+	};
 }
