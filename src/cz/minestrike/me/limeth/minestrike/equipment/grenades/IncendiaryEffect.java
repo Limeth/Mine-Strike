@@ -19,25 +19,31 @@ import org.bukkit.Location;
 import org.bukkit.Sound;
 import org.bukkit.World;
 import org.bukkit.craftbukkit.v1_7_R1.CraftWorld;
-import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.HumanEntity;
+import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
+import cz.minestrike.me.limeth.minestrike.MSPlayer;
 import cz.minestrike.me.limeth.minestrike.MineStrike;
+import cz.minestrike.me.limeth.minestrike.equipment.Equipment;
+import cz.minestrike.me.limeth.minestrike.equipment.containers.InventoryContainer;
 import darkBlade12.ParticleEffect;
 
 public class IncendiaryEffect
 {
 	private static final long period = 2;
-	private static final double damageRange = 1, damageMultiplier = 0.75, strength = 1, weight = 0.25;
+	private static final double damageRange = 1, damageMultiplier = 0.1, strength = 1, weight = 0.25;
 	private LinkedList<IncendiaryFlame> flames;
 	private Integer taskId;
 	private int maxDuration, step;
 	private final Random random;
+	private MSPlayer shooter;
 	
-	public IncendiaryEffect()
+	public IncendiaryEffect(MSPlayer shooter)
 	{
 		flames = new LinkedList<IncendiaryFlame>();
 		random = new Random();
+		this.setShooter(shooter);
 	}
 	
 	public void addFlame(Location loc, int duration)
@@ -78,7 +84,7 @@ public class IncendiaryEffect
 		playSound();
 		
 		Iterator<IncendiaryFlame> iterator = flames.iterator();
-		HashMap<LivingEntity, Double> damages = new HashMap<LivingEntity, Double>();
+		HashMap<HumanEntity, Double> damages = new HashMap<HumanEntity, Double>();
 		
 		while(iterator.hasNext())
 		{
@@ -92,10 +98,10 @@ public class IncendiaryEffect
 			{
 				org.bukkit.entity.Entity entity = nmsEntity.getBukkitEntity();
 				
-				if(!(entity instanceof LivingEntity))
+				if(!(entity instanceof HumanEntity))
 					continue;
 				
-				LivingEntity livingEntity = (LivingEntity) entity;
+				HumanEntity livingEntity = (HumanEntity) entity;
 				Double curDamage = damages.get(livingEntity);
 				
 				if(curDamage == null)
@@ -116,15 +122,21 @@ public class IncendiaryEffect
 				iterator.remove();
 		}
 		
-		for(Entry<LivingEntity, Double> entry : damages.entrySet())
+		InventoryContainer container = shooter.getInventoryContainer();
+		Equipment weapon = container.getEquippedCustomizedEquipment(GrenadeType.INCENDIARY);
+		
+		if(weapon == null)
+			weapon = GrenadeType.INCENDIARY;
+		
+		for(Entry<HumanEntity, Double> entry : damages.entrySet())
 		{
-			LivingEntity entity = entry.getKey();
+			HumanEntity entity = entry.getKey();
+			MSPlayer msPlayer = MSPlayer.get((Player) entity);
 			double damage = entry.getValue();
 			double curDamage = damage * damageMultiplier;
-			double curFireTicks = entity.getFireTicks();
 			
-			if(curFireTicks < curDamage)
-				entity.setFireTicks((int) (curDamage * 20));
+			msPlayer.damage(curDamage, shooter, weapon, null);
+			entity.setFireTicks(5);
 		}
 		
 		if(flames.size() <= 0)
@@ -165,6 +177,16 @@ public class IncendiaryEffect
 		return step++;
 	}
 	
+	public MSPlayer getShooter()
+	{
+		return shooter;
+	}
+
+	public void setShooter(MSPlayer shooter)
+	{
+		this.shooter = shooter;
+	}
+
 	@SuppressWarnings("unused")
 	private class IncendiaryFlame
 	{

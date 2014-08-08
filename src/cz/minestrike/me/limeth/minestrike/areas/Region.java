@@ -52,9 +52,9 @@ public class Region
 	
 	public boolean isInside(double x, double y, double z)
 	{
-		return x >= lower.getX() && x <= higher.getX()
-				&& y >= lower.getY() && y <= higher.getY()
-				&& z >= lower.getZ() && z <= higher.getZ();
+		return x >= lower.getX() && x < higher.getX() + 1
+				&& y >= lower.getY() && y < higher.getY() + 1
+				&& z >= lower.getZ() && z < higher.getZ() + 1;
 	}
 	
 	public Point getRandomSpawnablePoint(Point base, Random random)

@@ -3,18 +3,20 @@ package cz.minestrike.me.limeth.minestrike.scene.games;
 import org.bukkit.ChatColor;
 import org.bukkit.DyeColor;
 
+import cz.minestrike.me.limeth.minestrike.Translation;
+
 public enum Team
 {
-	TERRORISTS("Terrorists", ChatColor.GOLD, DyeColor.ORANGE, "anarchist", "terwin"),
-	COUNTER_TERRORISTS("Counter-Terrorists", ChatColor.BLUE, DyeColor.BLUE, "seal", "ctwin");
+	TERRORISTS(Translation.TEAM_TERRORISTS, ChatColor.GOLD, DyeColor.ORANGE, "anarchist", "terwin"),
+	COUNTER_TERRORISTS(Translation.TEAM_COUNTERTERRORISTS, ChatColor.BLUE, DyeColor.BLUE, "seal", "ctwin");
 	
-	private final String name;
+	private final Translation name;
 	private final ChatColor chatColor;
 	private final DyeColor dyeColor;
 	private final String voiceDirectory;
 	private final String winSound;
 	
-	private Team(String name, ChatColor chatColor, DyeColor dyeColor, String voice, String winSound)
+	private Team(Translation name, ChatColor chatColor, DyeColor dyeColor, String voice, String winSound)
 	{
 		this.name = name;
 		this.chatColor = chatColor;
@@ -34,7 +36,7 @@ public enum Team
 	
 	public String getColoredName()
 	{
-		return chatColor + name;
+		return chatColor + getName();
 	}
 	
 	public Team getOppositeTeam()
@@ -44,7 +46,7 @@ public enum Team
 
 	public String getName()
 	{
-		return name;
+		return name.getMessage();
 	}
 
 	public ChatColor getChatColor()

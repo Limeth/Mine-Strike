@@ -15,6 +15,8 @@ public enum Translation
 	ERROR("&c&lAn error occured.", "&c&lNastala chyba."),
 	RELOAD("Press &lQ", "Stisknete &lQ"),
 	KICK_RESTARTING("&8\u00BB&9MINE&f-&6STRIKE&8\u00AB&f\nServer is restarting...", "&8\u00BB&9MINE&f-&6STRIKE&8\u00AB&f\nProbíhá restart serveru..."),
+	TEAM_TERRORISTS("Terrorists", "Teroristé"),
+	TEAM_COUNTERTERRORISTS("Counter-Terrorists", "Zásahová Jednotka"),
 	
 	GAME_TEAMSELECT_FULL("&cThis team has more players, please join the other one.", "&cTento tym ma prevahu, pripojte se prosim do druheho tymu."),
 	GAME_ROUND_END("{1} have won!", "{1} vyhráli!"),
@@ -40,9 +42,12 @@ public enum Translation
 	GAME_BOMB_PLANTED("&c&lThe bomb has been planted!", "&c&lBomba byla polozena!"),
 	GAME_BOMB_DEFUSED("&e&lThe bomb has been defused.", "&e&lBomba byla zneskodnena."),
 	GAME_DEATH_UNKNOWN("&7Player &r{1}&7 died.", "&7Hrác &r{1}&7 zemrel."),
-	GAME_DEATH_SUICIDE("&7Player &r{1}&7 was killed by their &r{2}&7.", "&7Hrác &r{1}&7 byl zabit svym &r{2}&7."),
-	GAME_DEATH_SOURCE("&7Player &r{1}&7 was killed by &r{2}&7.", "&7Hrác &r{1}&7 byl zabit hrácem &r{2}&7."),
-	GAME_DEATH_WEAPONSOURCE("&7Player &r{1}&7 was killed using &r{3}&7 by &r{2}&7.", "&7Hrác &r{1}&7 byl zabit pomocí &r{3}&7 hrácem &r{2}&7."),
+	GAME_DEATH_SUICIDE_SOLO("&7Player &r{1}&7 was killed by their &r{2}&7.", "&7Hrác &r{1}&7 byl zabit svym &r{2}&7."),
+	GAME_DEATH_SOURCE_SOLO("&7Player &r{1}&7 was killed by &r{2}&7.", "&7Hrác &r{1}&7 byl zabit hrácem &r{2}&7."),
+	GAME_DEATH_WEAPONSOURCE_SOLO("&7Player &r{1}&7 was killed using &r{3}&7 by &r{2}&7.", "&7Hrác &r{1}&7 byl zabit pomocí &r{3}&7 hrácem &r{2}&7."),
+	GAME_DEATH_SUICIDE_ASSIST("&7Player &r{1}&7 was killed by their &r{2}&7.", "&7Hrác &r{1}&7 byl zabit svym &r{2}&7."),
+	GAME_DEATH_SOURCE_ASSIST("&7Player &r{1}&7 was killed by &r{2}&7 and &r{4}&7.", "&7Hrác &r{1}&7 byl zabit hráci &r{2}&7 a &r{4}&7."),
+	GAME_DEATH_WEAPONSOURCE_ASSIST("&7Player &r{1}&7 was killed using &r{3}&7 by &r{2}&7 and &r{4}&7.", "&7Hrác &r{1}&7 byl zabit pomocí &r{3}&7 hráci &r{2}&7 a &r{4}&7."),
 	
 	EQUIPMENT_CASE("{1}&f Case", "{1}&f Bedna"),
 	EQUIPMENT_KEY("{1}&f Case &lKey", "&f&lKlíč&f pro {1}&f Bednu"),
@@ -81,6 +86,10 @@ public enum Translation
 	DISPLAY_RANK_NOTYET_1("&7You don't have a rank yet.", "&7Zatím nemáte hodnost."),
 	DISPLAY_RANK_NOTYET_2("&fProgress:", "&fPrubeh:"),
 	DISPLAY_RANK_BOTTOM("&7{1} / {2} XP", "&7{1} / {2} ZK"),
+	
+	COMMAND_TOP_COOLDOWN("&cYou can use this command in {1} seconds again.", "&cTento príkaz muzete znovu pouzit za {1} sekund."),
+	COMMAND_TOP_INVALIDPAGE("&cInvalid page!", "&cNesprávná strana!"),
+	COMMAND_TOP_ENTRY("&8[&7{1}&8|{2}&8]&f {3}&7   {4} XP", "&8[&7{1}&8|{2}&8]&f {3}&7   {4} ZK"),
 	;
 	
 	public static final String ENGLISH_NAME = "en", CZECH_NAME = "cz", DEFAULT_LANGUAGE_NAME = ENGLISH_NAME;

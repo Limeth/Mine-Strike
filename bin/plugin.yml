@@ -12,3 +12,6 @@ commands:
     quit:
         description: Leave a MineStrike game
         aliases: [lobby, spawn, leave, odpojit, opustit]
+    top:
+        description: Shows the best players
+        aliases: [nej, nejlepsi, zebricek]

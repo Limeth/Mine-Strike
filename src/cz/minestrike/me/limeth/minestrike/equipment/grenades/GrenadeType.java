@@ -105,9 +105,10 @@ public enum GrenadeType implements Equipment, DamageSource
 		{
 			grenade.getNMSEntity().die();
 			
+			MSPlayer shooter = grenade.getShooter();
 			ThrownPotion entity = grenade.getEntity();
 			Location loc = entity.getLocation();
-			IncendiaryEffect effect = new IncendiaryEffect();
+			IncendiaryEffect effect = new IncendiaryEffect(shooter);
 			
 			SoundManager.play("projectsurvive:counterstrike.weapons.incgrenade.inc_grenade_detonate", loc, Bukkit.getOnlinePlayers());
 			

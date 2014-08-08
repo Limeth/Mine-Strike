@@ -344,9 +344,10 @@ public class DefuseGame extends TeamGame<GameLobby, TeamGameMenu, DefuseGameMap,
 			for(MSPlayer msPlayer : getPlayingPlayers(p -> { return p.getPlayerState() == PlayerState.JOINED_GAME; }))
 			{
 				Player player = msPlayer.getPlayer();
-				String endMessage = Translation.GAME_ROUND_END.getMessage(victorTeam.getName());
+				String endMessage = Translation.GAME_ROUND_END.getMessage(victorTeam.getColoredName());
 				PlayerDisplay display = new TimedPlayerDisplay(player)
-						.startCountdown(Round.END_TIME).setLines(endMessage);
+						.startCountdown(Round.END_TIME).setLines(endMessage)
+						.setDistance(2);
 				
 				DynamicDisplays.setDisplay(player, display);
 			}
@@ -376,12 +377,13 @@ public class DefuseGame extends TeamGame<GameLobby, TeamGameMenu, DefuseGameMap,
 			Player player = msPlayer.getPlayer();
 			String[] endMessages = {
 						ChatColor.DARK_GRAY + "× × ×",
-						Translation.GAME_MATCH_END_1.getMessage(victorTeam.getName()),
-						Translation.GAME_MATCH_END_2.getMessage(victorTeam.getName()),
+						Translation.GAME_MATCH_END_1.getMessage(victorTeam.getColoredName()),
+						Translation.GAME_MATCH_END_2.getMessage(victorTeam.getColoredName()),
 						ChatColor.DARK_GRAY + "× × ×",
 					};
 			PlayerDisplay display = new TimedPlayerDisplay(player)
-					.startCountdown(Round.VOTE_TIME).setLines(endMessages);
+					.startCountdown(Round.VOTE_TIME).setLines(endMessages)
+					.setDistance(2);
 			
 			DynamicDisplays.setDisplay(player, display);
 		}

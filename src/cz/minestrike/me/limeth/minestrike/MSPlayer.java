@@ -3,6 +3,7 @@ package cz.minestrike.me.limeth.minestrike;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map.Entry;
 import java.util.Set;
 import java.util.function.Predicate;
 
@@ -227,6 +228,7 @@ public class MSPlayer implements Record
 	private GunTask gunTask;
 	private PlayerState playerState;
 	private Structure<? extends Scheme> playerStructure;
+	private HashMap<MSPlayer, Double> receivedDamage = new HashMap<MSPlayer, Double>();
 	private MSPlayer lastDamageSource;
 	private Equipment lastDamageWeapon;
 	private float recoil;
@@ -711,6 +713,7 @@ public class MSPlayer implements Record
 		armorContainer.reduceDamage(this, amount, weapon, bodyPart, true);
 		setLastDamageSource(damager);
 		setLastDamageWeapon(weapon);
+		addReceivedDamage(damager, amount);
 		player.setNoDamageTicks(0);
 		player.damage(amount);
 	}
@@ -1013,6 +1016,63 @@ public class MSPlayer implements Record
 		return addXP(amount, true);
 	}
 	
+	public int getKills()
+	{
+		return lazyData.get(Integer.class, "kills", 0);
+	}
+	
+	public void setKills(int kills)
+	{
+		lazyData.set("kills", kills);
+	}
+	
+	public int addKills(int amount)
+	{
+		int kills = getKills() + amount;
+		
+		setKills(kills);
+		
+		return kills;
+	}
+	
+	public int getAssists()
+	{
+		return lazyData.get(Integer.class, "assists", 0);
+	}
+	
+	public void setAssists(int assists)
+	{
+		lazyData.set("assists", assists);
+	}
+	
+	public int addAssists(int amount)
+	{
+		int assists = getAssists() + amount;
+		
+		setAssists(assists);
+		
+		return assists;
+	}
+	
+	public int getDeaths()
+	{
+		return lazyData.get(Integer.class, "deaths", 0);
+	}
+	
+	public void setDeaths(int deaths)
+	{
+		lazyData.set("deaths", deaths);
+	}
+	
+	public int addDeaths(int amount)
+	{
+		int deaths = getDeaths() + amount;
+		
+		setDeaths(deaths);
+		
+		return deaths;
+	}
+	
 	public PlayerState getPlayerState()
 	{
 		return playerState;
@@ -1066,7 +1126,66 @@ public class MSPlayer implements Record
 	{
 		return hotbarContainer;
 	}
-
+	
+	public double getReceivedDamage(MSPlayer msPlayer)
+	{
+		Double dmg = receivedDamage.get(msPlayer);
+		
+		return dmg != null ? dmg : 0;
+	}
+	
+	public void setReceivedDamage(MSPlayer msPlayer, double damage)
+	{
+		if(msPlayer == this)
+			return;
+		
+		receivedDamage.put(msPlayer, damage);
+	}
+	
+	public Double removeReceivedDamage(MSPlayer msPlayer)
+	{
+		return receivedDamage.remove(msPlayer);
+	}
+	
+	public Double addReceivedDamage(MSPlayer msPlayer, double amount)
+	{
+		if(msPlayer == this)
+			return null;
+		
+		double dmg = getReceivedDamage(msPlayer) + amount;
+		
+		setReceivedDamage(msPlayer, dmg);
+		
+		return dmg;
+	}
+	
+	public void clearReceivedDamage()
+	{
+		receivedDamage.clear();
+	}
+	
+	public MSPlayer getPlayerAssistedInKill()
+	{
+		MSPlayer maxDamager = null;
+		Double maxDamage = null;
+		
+		for(Entry<MSPlayer, Double> entry : receivedDamage.entrySet())
+		{
+			double damage = entry.getValue();
+			
+			if(maxDamage == null || damage > maxDamage)
+			{
+				maxDamager = entry.getKey();
+				maxDamage = damage;
+			}
+		}
+		
+		if(maxDamage == null || maxDamage < 10)
+			return null;
+		
+		return maxDamager;
+	}
+	
 	public MSPlayer getLastDamageSource()
 	{
 		return lastDamageSource;

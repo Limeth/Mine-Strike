@@ -29,38 +29,78 @@ public class MSInteractionListener<T extends Game<?, ?, ?, ?>> extends MSSceneLi
 			throw new RuntimeException("The scene " + scene + " isn't an instance of game.");
 		
 		Game<?, ?, ?, ?> game = (Game<?, ?, ?, ?>) scene;
+		
+		if(!game.isPlayerPlaying().test(msPlayer))
+			return;
+		
 		MSPlayer msKiller = msPlayer.getLastDamageSource();
 		String message;
 		
 		if(msKiller != null)
 		{
+			msPlayer.removeReceivedDamage(msKiller);
+			
+			MSPlayer assister = msPlayer.getPlayerAssistedInKill();
 			Equipment weapon = msPlayer.getLastDamageWeapon();
 			
-			if(weapon != null)
+			if(assister != null)
 			{
-				if(msKiller.equals(msPlayer))
-					message = Translation.GAME_DEATH_SUICIDE.getMessage(msPlayer.getNameTag(), weapon.getDisplayName());
+				if(weapon != null)
+				{
+					if(msKiller.equals(msPlayer))
+						message = Translation.GAME_DEATH_SUICIDE_ASSIST.getMessage(msPlayer.getNameTag(), weapon.getDisplayName(), assister.getNameTag());
+					else
+					{
+						message = Translation.GAME_DEATH_WEAPONSOURCE_ASSIST.getMessage(msPlayer.getNameTag(), msKiller.getNameTag(), weapon.getDisplayName(), assister.getNameTag());
+						
+						msKiller.addXP(game.getXPForKill(msPlayer, msKiller));
+						msKiller.addKills(1);
+					}
+					
+					msPlayer.setLastDamageWeapon(null);
+				}
 				else
 				{
-					message = Translation.GAME_DEATH_WEAPONSOURCE.getMessage(msPlayer.getNameTag(), msKiller.getNameTag(), weapon.getDisplayName());
+					message = Translation.GAME_DEATH_SOURCE_ASSIST.getMessage(msPlayer.getNameTag(), msKiller.getNameTag(), assister.getNameTag());
 					
 					msKiller.addXP(game.getXPForKill(msPlayer, msKiller));
+					msKiller.addKills(1);
 				}
 				
-				msPlayer.setLastDamageWeapon(null);
+				assister.addAssists(1);
 			}
 			else
 			{
-				message = Translation.GAME_DEATH_SOURCE.getMessage(msPlayer.getNameTag(), msKiller.getNameTag());
-				
-				msKiller.addXP(game.getXPForKill(msPlayer, msKiller));
+				if(weapon != null)
+				{
+					if(msKiller.equals(msPlayer))
+						message = Translation.GAME_DEATH_SUICIDE_SOLO.getMessage(msPlayer.getNameTag(), weapon.getDisplayName());
+					else
+					{
+						message = Translation.GAME_DEATH_WEAPONSOURCE_SOLO.getMessage(msPlayer.getNameTag(), msKiller.getNameTag(), weapon.getDisplayName());
+						
+						msKiller.addXP(game.getXPForKill(msPlayer, msKiller));
+						msKiller.addKills(1);
+					}
+					
+					msPlayer.setLastDamageWeapon(null);
+				}
+				else
+				{
+					message = Translation.GAME_DEATH_SOURCE_SOLO.getMessage(msPlayer.getNameTag(), msKiller.getNameTag());
+					
+					msKiller.addXP(game.getXPForKill(msPlayer, msKiller));
+					msKiller.addKills(1);
+				}
 			}
 			
+			msPlayer.clearReceivedDamage();
 			msPlayer.setLastDamageSource(null);
 		}
 		else
 			message = Translation.GAME_DEATH_UNKNOWN.getMessage(msPlayer.getNameTag());
 		
+		msPlayer.addDeaths(1);
 		scene.broadcast(message);
 	}
 	

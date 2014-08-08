@@ -24,6 +24,7 @@ import cz.minestrike.me.limeth.minestrike.MSConfig;
 import cz.minestrike.me.limeth.minestrike.MSPlayer;
 import cz.minestrike.me.limeth.minestrike.MineStrike;
 import cz.minestrike.me.limeth.minestrike.Translation;
+import cz.minestrike.me.limeth.minestrike.areas.Structure;
 import cz.minestrike.me.limeth.minestrike.areas.schemes.GameLobby;
 import cz.minestrike.me.limeth.minestrike.areas.schemes.GameMap;
 import cz.minestrike.me.limeth.minestrike.areas.schemes.GameMenu;
@@ -77,11 +78,14 @@ public class MapPoll<Lo extends GameLobby, Me extends GameMenu, Ma extends GameM
 			int votes = 0;
 			
 			for(Ma currentMap : this.votes.values())
-				if(map.equals(currentMap))
+				if(map == currentMap)
 					votes++;
 			
 			if(mostVotes == null || votes > mostVotes)
+			{
 				votedMap = map;
+				mostVotes = votes;
+			}
 		}
 		
 		String votedMapName = votedMap.getName();
@@ -101,6 +105,12 @@ public class MapPoll<Lo extends GameLobby, Me extends GameMenu, Ma extends GameM
 		Game<Lo, Me, Ma, EM> game = getGame();
 		
 		game.setMap(votedMap);
+		
+		Structure<Ma> structure = game.getMapStructure();
+		
+		for(MSPlayer msPlayer : game.getPlayers(p -> { return p.getPlayerState() == PlayerState.JOINED_GAME; }))
+			msPlayer.setPlayerStructure(structure);
+		
 		game.start();
 	}
 	

@@ -66,7 +66,7 @@ public enum Rank
 		this.tag = tag;
 	}
 	
-	public static Rank getForXP(int xp)
+	public static Rank getForXP(long xp)
 	{
 		int level = xpToLevel(xp);
 		
@@ -78,7 +78,7 @@ public enum Rank
 		return ranks[level - 1];
 	}
 	
-	private static int xpToLevel(int xp)
+	private static int xpToLevel(long xp)
 	{
 		double level = 1 + (log(BASE, ((xp - DELAY) / MODIFIER) + 1) / RANK_MODIFIER);
 		Rank[] ranks = values();

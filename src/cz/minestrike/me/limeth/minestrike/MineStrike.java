@@ -20,6 +20,7 @@ import cz.minestrike.me.limeth.minestrike.areas.schemes.SchemeManager;
 import cz.minestrike.me.limeth.minestrike.commands.JoinExecutor;
 import cz.minestrike.me.limeth.minestrike.commands.MSExecutor;
 import cz.minestrike.me.limeth.minestrike.commands.QuitExecutor;
+import cz.minestrike.me.limeth.minestrike.commands.TopExecutor;
 import cz.minestrike.me.limeth.minestrike.listeners.ConnectionListener;
 import cz.minestrike.me.limeth.minestrike.listeners.ErrorListener;
 import cz.minestrike.me.limeth.minestrike.listeners.InteractionListener;
@@ -165,6 +166,7 @@ public class MineStrike extends JavaPlugin
 		Bukkit.getPluginCommand("ms").setExecutor(new MSExecutor());
 		Bukkit.getPluginCommand("join").setExecutor(new JoinExecutor());
 		Bukkit.getPluginCommand("quit").setExecutor(new QuitExecutor());
+		Bukkit.getPluginCommand("top").setExecutor(new TopExecutor());
 	}
 	
 	public static <T> T debug(String message, T object)
