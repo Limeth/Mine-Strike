@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/StorageManager"/>
-	<classpathentry kind="lib" path="/home/limeth/dev/lib/craftbukkit-1.7.2-R0.4-20140316.221310-4.jar"/>
-	<classpathentry kind="lib" path="/home/limeth/dev/lib/NametagEdit.jar"/>
-	<classpathentry kind="lib" path="/home/limeth/dev/lib/WorldEdit.jar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/DynamicDisplays"/>
+	<classpathentry kind="lib" path="C:/Users/Limeth/Desktop/Coding/Java/Projects/Minecraft/Bukkit/craftbukkit-1.7.2-R0.3.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Limeth/Desktop/Coding/Java/Projects/Minecraft/Libraries/NametagEdit.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Limeth/Desktop/Coding/Java/Projects/Minecraft/Libraries/WorldEdit.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

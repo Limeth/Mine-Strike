@@ -27,6 +27,5 @@ public interface EquipmentProvider
 	public void setHelmet(MSPlayer msPlayer, boolean equipped);
 	public boolean hasHelmet(MSPlayer msPlayer);
 	public void equipKevlarAndHelmet(MSPlayer msPlayer);
-	public Equipment getCurrentlyEquipped(MSPlayer msPlayer);
 	public FilledArrayList<EquipmentCategory> getEquipmentCategories();
 }

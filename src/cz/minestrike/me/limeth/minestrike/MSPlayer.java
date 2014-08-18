@@ -42,7 +42,6 @@ import cz.minestrike.me.limeth.minestrike.equipment.guns.tasks.Firing;
 import cz.minestrike.me.limeth.minestrike.equipment.guns.tasks.Reloading;
 import cz.minestrike.me.limeth.minestrike.events.GameQuitEvent.SceneQuitReason;
 import cz.minestrike.me.limeth.minestrike.scene.Scene;
-import cz.minestrike.me.limeth.minestrike.scene.games.EquipmentProvider;
 import cz.minestrike.me.limeth.minestrike.scene.games.Game;
 import cz.minestrike.me.limeth.minestrike.scene.games.PlayerState;
 import cz.minestrike.me.limeth.minestrike.scene.lobby.Lobby;
@@ -437,9 +436,9 @@ public class MSPlayer implements Record
 		};
 	}
 	
-	public float updateMovementSpeed()
+	public float updateMovementSpeed(int heldSlot)
 	{
-		float speed = getMovementSpeed();
+		float speed = getMovementSpeed(heldSlot);
 		Player player = getPlayer();
 		
 		player.setWalkSpeed(speed);
@@ -447,15 +446,18 @@ public class MSPlayer implements Record
 		return speed;
 	}
 	
-	public float getMovementSpeed()
+	public float updateMovementSpeed()
+	{
+		return updateMovementSpeed(getPlayer().getInventory().getHeldItemSlot());
+	}
+	
+	public float getMovementSpeed(int heldSlot)
 	{
 		Scene scene = getScene();
 		
 		if(scene instanceof Game)
 		{
-			Game<?, ?, ?, ?> game = (Game<?, ?, ?, ?>) scene;
-			EquipmentProvider em = game.getEquipmentProvider();
-			Equipment equipment = em.getCurrentlyEquipped(this);
+			Equipment equipment = hotbarContainer.getHeld(heldSlot);
 			
 			if(equipment != null)
 			{
@@ -466,6 +468,11 @@ public class MSPlayer implements Record
 		}
 		
 		return MSConstant.MOVEMENT_SPEED_DEFAULT;
+	}
+	
+	public float getMovementSpeed()
+	{
+		return getMovementSpeed(getPlayer().getInventory().getHeldItemSlot());
 	}
 	
 	public Player getPlayer()

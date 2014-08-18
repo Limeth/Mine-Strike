@@ -449,18 +449,6 @@ public class DefuseEquipmentProvider implements EquipmentProvider
 	}
 
 	@Override
-	public Equipment getCurrentlyEquipped(MSPlayer msPlayer)
-	{
-		Container gameContainer = msPlayer.getHotbarContainer();
-		Player player = msPlayer.getPlayer();
-		PlayerInventory inv = player.getInventory();
-		int slot = inv.getHeldItemSlot();
-		Equipment equipment = gameContainer.getItem(slot);
-		
-		return equipment;
-	}
-
-	@Override
 	public void purchase(MSPlayer msPlayer, Equipment equipment) throws EquipmentPurchaseException
 	{
 		int price = equipment.getPrice(msPlayer);

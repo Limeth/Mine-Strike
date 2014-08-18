@@ -67,6 +67,10 @@ public class MSInteractionListener<T extends Game<?, ?, ?, ?>> extends MSSceneLi
 					msKiller.addKills(1);
 				}
 				
+				double dmg = msPlayer.getReceivedDamage(assister);
+				int xp = (int) Math.ceil((dmg * 5) - 25);
+				
+				assister.addXP(xp);
 				assister.addAssists(1);
 			}
 			else

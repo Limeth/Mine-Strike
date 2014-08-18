@@ -56,8 +56,8 @@ public enum Rank
 	PLATINUM_IX(ChatColor.AQUA + "Platinum IX", ChatColor.AQUA + "「「「"),
 	SUPREME_MASTER(ChatColor.LIGHT_PURPLE + "Supreme Master", ChatColor.LIGHT_PURPLE + "TODO"), //TODO
 	GLOBAL_ELITE(ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD + "Global Elite", ChatColor.LIGHT_PURPLE + "TODO"); //TODO
-	
-	private static final double DELAY = 1000, BASE = 2, RANK_MODIFIER = 0.125, MODIFIER = 160000;
+
+	private static final double DELAY = 1000, BASE = 2.5, RANK_MODIFIER = 0.125, MODIFIER = 105000;
 	private final String name, tag;
 	
 	private Rank(String name, String tag)
