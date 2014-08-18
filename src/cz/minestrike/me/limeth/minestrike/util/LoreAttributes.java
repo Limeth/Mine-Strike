@@ -62,9 +62,6 @@ public class LoreAttributes extends FilledHashMap<String, String>
 			}
 		}
 		
-		for(String serialized : previousAttributes.serialize())
-			lore.remove(serialized);
-		
 		List<String> addition = serialize();
 		
 		lore.addAll(addition);

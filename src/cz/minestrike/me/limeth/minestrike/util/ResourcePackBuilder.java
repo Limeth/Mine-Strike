@@ -12,7 +12,7 @@ public class ResourcePackBuilder
 	public static void main(String[] args) throws IOException
 	{
 		//build(new File("/home/limeth/.minecraft/resourcepacks/Mine-Strike_1.0.7"));
-		build(new File("C:/Users/Limeth/AppData/Roaming/.minecraft/resourcepacks/Mine-Strike_1.0.7"));
+		build(new File("C:/Users/Limeth/AppData/Roaming/.minecraft/resourcepacks/Mine-Strike_1.0.9"));
 	}
 	
 	private ResourcePackBuilder() {}
@@ -39,7 +39,8 @@ public class ResourcePackBuilder
 			writer.write("texture.fireworks_charge=" + texturePath + '\n');
 			writer.write("texture.fireworks_charge_overlay=projectsurvive:textures/empty.png\n");
 			writer.write("items=minecraft:firework_charge\n");
-			writer.write("nbt.display.Lore.*=iregex:(.[0-9a-f].)(Type: )(" + gunType.name() + ")");
+			writer.write("nbt.display.Lore.*=iregex:(.[0-9a-f].)(Type: )(" + gunType.name() + ")\n");
+			writer.write("nbt.display.Lore.*=iregex:(.[0-9a-f].)(Skin: )(DEFAULT)");
 			writer.close();
 		}
 		

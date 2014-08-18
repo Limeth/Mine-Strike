@@ -147,14 +147,14 @@ public class EquipmentCustomization
 			fem.setEffect(FireworkEffect.builder().withColor(color).build());
 		}
 		
+		itemStack.setItemMeta(im);
+		
 		if(skin != null)
 		{
 			LoreAttributes.TEMP.clear();
-			LoreAttributes.TEMP.put("skin", skin);
+			LoreAttributes.TEMP.put("Skin", skin);
 			LoreAttributes.TEMP.apply(itemStack);
 		}
-		
-		itemStack.setItemMeta(im);
 	}
 
 	public String getName()

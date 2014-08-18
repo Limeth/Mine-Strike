@@ -155,6 +155,7 @@ public class Gun extends CustomizedEquipment<GunType>
 		attributes.put("Loaded bullets", Integer.toString(loadedBullets));
 		attributes.put("Unused bullets", Integer.toString(unusedBullets));
 		attributes.put("Seed", RANDOM_STRING.nextString());
+		attributes.put("Skin", "DEFAULT");
 		
 		return attributes;
 	}
@@ -178,10 +179,11 @@ public class Gun extends CustomizedEquipment<GunType>
 		EquipmentCustomization customization = getCustomization();
 		GunType type = getEquipment();
 		
+		createAttributes().apply(is);
+		
 		if(customization != null)
 			customization.apply(type, is);
 		
-		createAttributes().apply(is, false);
 		String displayName = buildDisplayName(true);
 		FireworkEffectMeta fem = (FireworkEffectMeta) is.getItemMeta();
 		
