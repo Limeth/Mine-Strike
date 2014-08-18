@@ -181,7 +181,7 @@ public class Gun extends CustomizedEquipment<GunType>
 		if(customization != null)
 			customization.apply(type, is);
 		
-		createAttributes().apply(is);
+		createAttributes().apply(is, false);
 		String displayName = buildDisplayName(true);
 		FireworkEffectMeta fem = (FireworkEffectMeta) is.getItemMeta();
 		

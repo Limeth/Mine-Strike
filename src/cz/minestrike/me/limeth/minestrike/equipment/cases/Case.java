@@ -36,7 +36,7 @@ public enum Case implements Equipment
 		{
 			//Knife
 			CustomizedEquipment<Knife> knife = new CustomizedEquipment<Knife>(Knife.KNIFE,
-					EquipmentCustomization.skin(ChatColor.GOLD + "Daemon", "DAEMON", Color.ORANGE));
+					EquipmentCustomization.skin("Gut - " + ChatColor.GOLD + "Daemon", "DAEMON", Color.ORANGE));
 			
 			//Unique
 			Gun AK47 = new Gun(GunType.AK_47, ChatColor.BOLD + "Glory", "GLORY");

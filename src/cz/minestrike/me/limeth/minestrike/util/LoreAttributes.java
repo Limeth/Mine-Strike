@@ -1,5 +1,6 @@
 package cz.minestrike.me.limeth.minestrike.util;
 
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -21,7 +22,7 @@ public class LoreAttributes extends FilledHashMap<String, String>
 	public static final LoreAttributes TEMP = new LoreAttributes();
 	private static final LoreAttributes PRIVATE_TEMP = new LoreAttributes();
 	
-	public void apply(ItemStack itemStack)
+	public void apply(ItemStack itemStack, boolean removePrevious)
 	{
 		List<String> lore = null;
 		ItemMeta im = null;
@@ -44,6 +45,23 @@ public class LoreAttributes extends FilledHashMap<String, String>
 		previousAttributes.clear();
 		extract(itemStack, previousAttributes);
 		
+		Iterator<Entry<String, String>> previousEntryIterator = previousAttributes.entrySet().iterator();
+		
+		while(previousEntryIterator.hasNext())
+		{
+			Entry<String, String> entry = previousEntryIterator.next();
+			String key = entry.getKey();
+			
+			if(removePrevious || containsKey(key))
+			{
+				String value = entry.getValue();
+				String serialized = serialize(key, value);
+				
+				lore.remove(serialized);
+				previousEntryIterator.remove();
+			}
+		}
+		
 		for(String serialized : previousAttributes.serialize())
 			lore.remove(serialized);
 		
@@ -52,6 +70,11 @@ public class LoreAttributes extends FilledHashMap<String, String>
 		lore.addAll(addition);
 		im.setLore(lore);
 		itemStack.setItemMeta(im);
+	}
+	
+	public void apply(ItemStack itemStack)
+	{
+		apply(itemStack, true);
 	}
 	
 	public static void extract(ItemStack itemStack, LoreAttributes result)
