@@ -37,7 +37,7 @@ public class CustomizedEquipment<T extends Equipment> implements Equipment
 		ItemStack is = equipment.newItemStack(msPlayer);
 		
 		if(customization != null)
-			customization.apply(equipment, is);
+			customization.apply(equipment, is, msPlayer);
 		
 		return is;
 	}
@@ -46,6 +46,12 @@ public class CustomizedEquipment<T extends Equipment> implements Equipment
 	public Equipment getSource()
 	{
 		return equipment.getSource();
+	}
+	
+	@Override
+	public String getDefaultSkin(MSPlayer msPlayer)
+	{
+		return equipment.getDefaultSkin(msPlayer);
 	}
 	
 	public T getEquipment()

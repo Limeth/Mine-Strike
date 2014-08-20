@@ -34,6 +34,11 @@ public enum CaseContentRarity
 		return translation;
 	}
 	
+	public String getColoredName()
+	{
+		return color + translation.getMessage();
+	}
+	
 	public static CaseContentRarity getRandom(Random random)
 	{
 		int rarities = getRarities();

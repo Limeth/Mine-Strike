@@ -21,7 +21,7 @@ public class ResourcePackBuilder
 	{
 		for(GunType gunType : GunType.values())
 		{
-			String name = gunType.getDirectoryName();
+			String name = gunType.getTextureName();
 			String texturePath = "projectsurvive:textures/" + name + ".png";
 			File propertiesFile = new File(directory, "assets/minecraft/mcpatcher/cit/projectsurvive/textures/" + name + ".properties");
 			
@@ -39,8 +39,7 @@ public class ResourcePackBuilder
 			writer.write("texture.fireworks_charge=" + texturePath + '\n');
 			writer.write("texture.fireworks_charge_overlay=projectsurvive:textures/empty.png\n");
 			writer.write("items=minecraft:firework_charge\n");
-			writer.write("nbt.display.Lore.*=iregex:(.[0-9a-f].)(Type: )(" + gunType.name() + ")\n");
-			writer.write("nbt.display.Lore.*=iregex:(.[0-9a-f].)(Skin: )(DEFAULT)");
+			writer.write("nbt.display.Lore.*=iregex:(.[0-9a-f].)(Type: )(" + gunType.name() + "( \\\\| DEFAULT)?)");
 			writer.close();
 		}
 		
@@ -97,8 +96,7 @@ public class ResourcePackBuilder
 			writer.write("texture.fireworks_charge=" + texturePath + '\n');
 			writer.write("texture.fireworks_charge_overlay=projectsurvive:textures/empty.png\n");
 			writer.write("items=minecraft:firework_charge\n");
-			writer.write("nbt.display.Lore.*=iregex:(.[0-9a-f].)(Type: )(KNIFE)\n");
-			writer.write("nbt.display.Lore.*=iregex:(.[0-9a-f].)(Skin: )(" + loreSkin + ")");
+			writer.write("nbt.display.Lore.*=iregex:(.[0-9a-f].)(Type: )(KNIFE( \\\\| " + loreSkin + ")?)\n");
 			writer.close();
 		}
 	}

@@ -2,7 +2,7 @@ name: MineStrike
 version: 1.0.2
 main: cz.minestrike.me.limeth.minestrike.MineStrike
 author: Limeth
-depend: [StorageManager, WorldEdit]
+depend: [StorageManager, WorldEdit, ProtocolLib]
 commands:
     ms:
         description: MineStrike Administration Commands

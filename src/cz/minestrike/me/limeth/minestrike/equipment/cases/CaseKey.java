@@ -101,6 +101,12 @@ public class CaseKey implements Equipment
 	}
 	
 	@Override
+	public String getDefaultSkin(MSPlayer msPlayer)
+	{
+		return "DEFAULT";
+	}
+	
+	@Override
 	public boolean rightClick(MSPlayer msPlayer, Block clickedBlock)
 	{
 		return false;

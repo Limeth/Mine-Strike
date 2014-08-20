@@ -12,6 +12,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import com.google.common.collect.ImmutableList;
 
+import cz.minestrike.me.limeth.minestrike.MSPlayer;
 import cz.minestrike.me.limeth.minestrike.util.LoreAttributes;
 
 public class EquipmentCustomization
@@ -102,7 +103,7 @@ public class EquipmentCustomization
 		return new EquipmentCustomizationBuilder();
 	}
 	
-	public void apply(Equipment equipment, ItemStack itemStack)
+	public void apply(Equipment equipment, ItemStack itemStack, MSPlayer msPlayer)
 	{
 		ItemMeta im = itemStack.getItemMeta();
 		
@@ -149,10 +150,24 @@ public class EquipmentCustomization
 		
 		itemStack.setItemMeta(im);
 		
+		String skin = this.skin != null ? this.skin : equipment.getDefaultSkin(msPlayer);
+		
 		if(skin != null)
 		{
 			LoreAttributes.TEMP.clear();
-			LoreAttributes.TEMP.put("Skin", skin);
+			LoreAttributes.extract(itemStack, LoreAttributes.TEMP);
+			
+			if(LoreAttributes.TEMP.containsKey("Type"))
+			{
+				String type = LoreAttributes.TEMP.get("Type");
+				String[] types = type.split(" \\| ");
+				
+				if(types.length <= 1)
+					LoreAttributes.TEMP.put("Type", type + " | " + skin);
+			}
+			else
+				LoreAttributes.TEMP.put("Skin", skin);
+			
 			LoreAttributes.TEMP.apply(itemStack);
 		}
 	}

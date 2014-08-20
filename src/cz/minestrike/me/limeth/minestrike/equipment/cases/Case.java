@@ -34,9 +34,9 @@ public enum Case implements Equipment
 		@Override
 		protected CaseContent[] initContents()
 		{
-			//Knife
+			//Knifesd
 			CustomizedEquipment<Knife> knife = new CustomizedEquipment<Knife>(Knife.KNIFE,
-					EquipmentCustomization.skin("Gut - " + ChatColor.GOLD + "Daemon", "DAEMON", Color.ORANGE));
+					EquipmentCustomization.skin("Gut - " + ChatColor.GOLD + "Daemon", "GUT_DAEMON", Color.ORANGE));
 			
 			//Unique
 			Gun AK47 = new Gun(GunType.AK_47, ChatColor.BOLD + "Glory", "GLORY");
@@ -178,6 +178,12 @@ public enum Case implements Equipment
 	public String getSoundDraw()
 	{
 		return null;
+	}
+	
+	@Override
+	public String getDefaultSkin(MSPlayer msPlayer)
+	{
+		return "DEFAULT";
 	}
 	
 	@Override

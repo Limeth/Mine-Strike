@@ -137,9 +137,8 @@ public class Gun extends CustomizedEquipment<GunType>
 		return getExtension().onRightClick(msPlayer);
 	}
 	
-	public LoreAttributes createAttributes()
+	public void applyAttributes(LoreAttributes attributes)
 	{
-		LoreAttributes attributes = new LoreAttributes();
 		GunType type = getEquipment();
 		
 		if(reloading)
@@ -155,9 +154,6 @@ public class Gun extends CustomizedEquipment<GunType>
 		attributes.put("Loaded bullets", Integer.toString(loadedBullets));
 		attributes.put("Unused bullets", Integer.toString(unusedBullets));
 		attributes.put("Seed", RANDOM_STRING.nextString());
-		attributes.put("Skin", "DEFAULT");
-		
-		return attributes;
 	}
 	
 	@Override
@@ -165,12 +161,12 @@ public class Gun extends CustomizedEquipment<GunType>
 	{
 		ItemStack is = new ItemStack(GUN_MATERIAL);
 		
-		apply(is);
+		apply(is, msPlayer);
 		
 		return is;
 	}
 	
-	public void apply(ItemStack is)
+	public void apply(ItemStack is, MSPlayer msPlayer)
 	{
 		Material material = is.getType();
 		
@@ -178,11 +174,13 @@ public class Gun extends CustomizedEquipment<GunType>
 		
 		EquipmentCustomization customization = getCustomization();
 		GunType type = getEquipment();
+		LoreAttributes.TEMP.clear();
 		
-		createAttributes().apply(is);
+		applyAttributes(LoreAttributes.TEMP);
+		LoreAttributes.TEMP.apply(is);
 		
 		if(customization != null)
-			customization.apply(type, is);
+			customization.apply(type, is, msPlayer);
 		
 		String displayName = buildDisplayName(true);
 		FireworkEffectMeta fem = (FireworkEffectMeta) is.getItemMeta();

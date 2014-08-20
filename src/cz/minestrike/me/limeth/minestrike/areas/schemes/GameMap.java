@@ -141,7 +141,6 @@ public abstract class GameMap extends Scheme
 	
 	private static final SchemeCommandHandler SET_NAME = new SchemeCommandHandler("setName", "ms scheme select [Scheme] setName [Name]", "Sets the name of this map")
 	{
-		
 		@Override
 		public void execute(CommandSender sender, Scheme scheme, String[] args)
 		{

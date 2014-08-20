@@ -28,6 +28,12 @@ public class SimpleEquipment implements Equipment
 	{
 		return this.item.clone();
 	}
+	
+	@Override
+	public String getDefaultSkin(MSPlayer msPlayer)
+	{
+		return "DEFAULT";
+	}
 
 	@Override
 	public Integer getPrice(MSPlayer msPlayer)

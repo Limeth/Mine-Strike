@@ -15,6 +15,9 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import com.comphenix.protocol.ProtocolLibrary;
+import com.comphenix.protocol.ProtocolManager;
+
 import cz.minestrike.me.limeth.minestrike.areas.PlotManager;
 import cz.minestrike.me.limeth.minestrike.areas.schemes.SchemeManager;
 import cz.minestrike.me.limeth.minestrike.commands.JoinExecutor;
@@ -27,6 +30,7 @@ import cz.minestrike.me.limeth.minestrike.listeners.InteractionListener;
 import cz.minestrike.me.limeth.minestrike.listeners.InventoryListener;
 import cz.minestrike.me.limeth.minestrike.listeners.PermissionListener;
 import cz.minestrike.me.limeth.minestrike.listeners.msPlayer.MSListenerManager;
+import cz.minestrike.me.limeth.minestrike.listeners.packet.PacketManager;
 import cz.minestrike.me.limeth.minestrike.scene.games.GameManager;
 import cz.minestrike.me.limeth.minestrike.util.SoundManager;
 import cz.minestrike.me.limeth.storagemanager.mysql.MySQLService;
@@ -36,6 +40,7 @@ public class MineStrike extends JavaPlugin
 	private static MineStrike instance;
 	private static MySQLService service;
 	private static MSListenerManager msListenerManager;
+	private static ProtocolManager protocolManager;
 	private static Logger logger;
 	
 	public static void main(String[] args) throws Exception
@@ -55,13 +60,15 @@ public class MineStrike extends JavaPlugin
 	@Override
 	public void onEnable()
 	{
-		instance = this;
-		logger = Logger.getLogger("minecraft");
-		
 		try
 		{
+			protocolManager = ProtocolLibrary.getProtocolManager();
+			instance = this;
+			logger = Logger.getLogger("minecraft");
+			
 			registerMSListeners();
 			registerBukkitListeners();
+			PacketManager.registerListeners();
 			loadData();
 			connectService();
 			redirectCommands();
@@ -116,6 +123,7 @@ public class MineStrike extends JavaPlugin
 		MSPlayer.stopMovementLoop();
 		MSPlayer.clearOnlinePlayers();
 		disconnectService();
+		PacketManager.unregisterListeners();
 		info("Mine-Strike successfully disabled!");
 		
 		instance = null;
@@ -226,5 +234,10 @@ public class MineStrike extends JavaPlugin
 	public static MSListenerManager getMSListenerManager()
 	{
 		return msListenerManager;
+	}
+	
+	public static ProtocolManager getProtocolManager()
+	{
+		return protocolManager;
 	}
 }

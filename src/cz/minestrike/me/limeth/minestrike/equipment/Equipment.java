@@ -32,4 +32,5 @@ public interface Equipment
 	 * @return Whether it should add the item to the player's inventory
 	 */
 	public boolean purchase(MSPlayer msPlayer) throws EquipmentPurchaseException;
+	public String getDefaultSkin(MSPlayer msPlayer);
 }

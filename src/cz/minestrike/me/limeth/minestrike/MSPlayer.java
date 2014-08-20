@@ -554,7 +554,7 @@ public class MSPlayer implements Record
 			
 			gun.decreaseLoadedBullets();
 			shoot(gun);
-			gun.apply(player.getItemInHand());
+			gun.apply(player.getItemInHand(), this);
 		}
 	}
 	

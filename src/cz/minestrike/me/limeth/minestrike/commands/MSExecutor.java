@@ -1,8 +1,12 @@
 package cz.minestrike.me.limeth.minestrike.commands;
 
+import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
+
+import net.minecraft.server.v1_7_R1.WatchableObject;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -16,6 +20,13 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import com.comphenix.protocol.PacketType;
+import com.comphenix.protocol.events.ListenerPriority;
+import com.comphenix.protocol.events.PacketAdapter;
+import com.comphenix.protocol.events.PacketContainer;
+import com.comphenix.protocol.events.PacketEvent;
+import com.comphenix.protocol.events.PacketListener;
+import com.comphenix.protocol.reflect.StructureModifier;
 import com.sk89q.worldedit.IncompleteRegionException;
 import com.sk89q.worldedit.LocalSession;
 import com.sk89q.worldedit.LocalWorld;
@@ -24,6 +35,7 @@ import com.sk89q.worldedit.regions.RegionSelector;
 
 import cz.minestrike.me.limeth.minestrike.MSConfig;
 import cz.minestrike.me.limeth.minestrike.MSPlayer;
+import cz.minestrike.me.limeth.minestrike.MineStrike;
 import cz.minestrike.me.limeth.minestrike.areas.Plot;
 import cz.minestrike.me.limeth.minestrike.areas.Point;
 import cz.minestrike.me.limeth.minestrike.areas.Region;
@@ -34,10 +46,14 @@ import cz.minestrike.me.limeth.minestrike.areas.schemes.SchemeManager;
 import cz.minestrike.me.limeth.minestrike.areas.schemes.SchemeType;
 import cz.minestrike.me.limeth.minestrike.equipment.Equipment;
 import cz.minestrike.me.limeth.minestrike.equipment.EquipmentManager;
+import cz.minestrike.me.limeth.minestrike.equipment.cases.Case;
+import cz.minestrike.me.limeth.minestrike.equipment.cases.CaseContent;
+import cz.minestrike.me.limeth.minestrike.equipment.cases.CaseContentRarity;
 import cz.minestrike.me.limeth.minestrike.equipment.containers.InventoryContainer;
 import cz.minestrike.me.limeth.minestrike.scene.games.Game;
 import cz.minestrike.me.limeth.minestrike.scene.games.GameManager;
 import cz.minestrike.me.limeth.minestrike.scene.games.GameType;
+import cz.minestrike.me.limeth.minestrike.util.collections.FilledArrayList;
 
 public class MSExecutor implements CommandExecutor
 {
@@ -53,9 +69,272 @@ public class MSExecutor implements CommandExecutor
 		if(args.length <= 0)
 		{
 			sender.sendMessage("/ms give [Equipment ID] (Player)");
+			sender.sendMessage("/ms case [Case ID] [Rarity] [Index] (Player)");
 			sender.sendMessage("/ms xp [set|add] [Amount] (Player)");
+			sender.sendMessage("/ms packet ...");
 			sender.sendMessage("/ms scheme ...");
 			sender.sendMessage("/ms game ...");
+		}
+		else if(args[0].equalsIgnoreCase("packet"))
+		{
+			if(args.length <= 1)
+			{
+				sender.sendMessage("/ms packet [Play|Handshake|Legacy|Login|Status] ...");
+				return true;
+			}
+			
+			Class<?> event;
+			
+			switch(args[1].toLowerCase())
+			{
+			case "play": event = PacketType.Play.class; break;
+			case "handshake": event = PacketType.Handshake.class; break;
+			case "legacy": event = PacketType.Legacy.class; break;
+			case "login": event = PacketType.Login.class; break;
+			case "status": event = PacketType.Status.class; break;
+			default:
+				sender.sendMessage(ChatColor.RED + "Unknown event " + args[1]);
+				return true;
+			}
+			
+			if(args.length <= 2)
+			{
+				sender.sendMessage("/ms packet " + args[1] + " [Client|Server]");
+				return true;
+			}
+			
+			Class<?> direction = null;
+			
+			for(Class<?> curDirection : event.getClasses())
+				if(curDirection.getSimpleName().equalsIgnoreCase(args[2]))
+				{
+					direction = curDirection;
+					break;
+				}
+			
+			if(direction == null)
+			{
+				sender.sendMessage(ChatColor.RED + "Invalid direction " + args[2]);
+				return true;
+			}
+			
+			if(args.length <= 3)
+			{
+				String packets = "";
+				
+				for(Field field : direction.getFields())
+					if(field.getType() == PacketType.class)
+						packets += field.getName() + ", ";
+				
+				sender.sendMessage("/ms packet " + args[1] + " " + args[2] + " [Packet]\n" + packets);
+				return true;
+			}
+			
+			PacketType type;
+			
+			try
+			{
+				Field field = direction.getField(args[3].toUpperCase());
+				
+				if(field.getType() != PacketType.class)
+					throw new NoSuchFieldException(args[3]);
+				
+				type = (PacketType) field.get(null);
+			}
+			catch(NoSuchFieldException | ClassCastException e)
+			{
+				sender.sendMessage(ChatColor.RED + "Packet " + args[3] + " not found");
+				return true;
+			}
+			catch(SecurityException | IllegalAccessException e)
+			{
+				sender.sendMessage(ChatColor.RED + "Security exception");
+				return true;
+			}
+			
+			if(args.length <= 4)
+			{
+				sender.sendMessage("/ms packet " + args[1] + " " + args[2] + " " + type.name() + " [+|-]");
+				return true;
+			}
+			
+			if(args[4].equals("+"))
+			{
+				MineStrike.getProtocolManager().addPacketListener(new PacketAdapter(MineStrike.getInstance(), ListenerPriority.NORMAL, type)
+				{
+					@Override
+					public void onPacketReceiving(PacketEvent event)
+					{
+						PacketContainer packet = event.getPacket();
+						StructureModifier<Object> modifier = packet.getModifier();
+						List<Field> fields = modifier.getFields();
+						
+						MineStrike.warn("Receiving packet " + event.getPacketType().name());
+						
+						for(int i = 0; i < fields.size(); i++)
+						{
+							Object value = modifier.read(i);
+							
+							if(value instanceof WatchableObject)
+							{
+								WatchableObject watchable = (WatchableObject) value;
+								
+								value = watchable.a() + " " + watchable.c();
+							}
+							
+							MineStrike.warn("  " + fields.get(i).getName() + ": " + value);
+						}
+					}
+					
+					@Override
+					public void onPacketSending(PacketEvent event)
+					{
+						PacketContainer packet = event.getPacket();
+						StructureModifier<Object> modifier = packet.getModifier();
+						List<Field> fields = modifier.getFields();
+						
+						MineStrike.warn("Sending packet " + event.getPacketType().name());
+						
+						for(int i = 0; i < fields.size(); i++)
+						{
+							Object value = modifier.read(i);
+							
+							if(value instanceof WatchableObject)
+							{
+								WatchableObject watchable = (WatchableObject) value;
+								
+								value = watchable.b().toString();
+							}
+							
+							MineStrike.warn("  " + fields.get(i).getName() + ": " + value);
+						}
+					}
+					
+					@Override
+					public String toString()
+					{
+						return "PACKET ANALYZER";
+					}
+				});
+				
+				sender.sendMessage(ChatColor.GREEN + "Packet listener " + type.name() + " registered");
+			}
+			else if(args[4].equals("-"))
+			{
+				for(PacketListener listener : MineStrike.getProtocolManager().getPacketListeners())
+					if(listener.toString().equals("PACKET ANALYZER"))
+					{
+						MineStrike.getProtocolManager().removePacketListener(listener);
+						sender.sendMessage(ChatColor.GREEN + "Packet listener " + type.name() + " unregistered");
+						break;
+					}
+			}
+			else
+			{
+				sender.sendMessage(ChatColor.RED + "Unknown operation");
+				return true;
+			}
+		}
+		else if(args[0].equalsIgnoreCase("case"))
+		{
+			if(args.length <= 1)
+			{
+				String cases = "";
+				
+				for(Case caze : Case.values())
+					cases += caze.getId() + ", ";
+				
+				sender.sendMessage(ChatColor.RED + cases);
+				sender.sendMessage("/ms case [Case ID] [Rarity] [Index] (Player)");
+				return true;
+			}
+			
+			Equipment potentialCase = EquipmentManager.getEquipment(args[1]);
+			
+			if(potentialCase == null || !(potentialCase.getSource() instanceof Case))
+			{
+				sender.sendMessage(ChatColor.RED + "The specified equipment isn't a case.");
+				return true;
+			}
+			
+			Case caze = (Case) potentialCase;
+			
+			if(args.length <= 3)
+			{
+				for(CaseContentRarity rarity : CaseContentRarity.values())
+				{
+					FilledArrayList<CaseContent> contents = caze.getContents(rarity);
+					
+					sender.sendMessage(rarity.getColoredName() + ChatColor.RESET + " (" + rarity.name() + "):");
+					
+					for(int i = 0; i < contents.size(); i++)
+					{
+						CaseContent content = contents.get(i);
+						Equipment equipment = content.getEquipment();
+						String equipmentName = equipment.getDisplayName();
+						
+						sender.sendMessage("  [" + i + "] " + equipmentName);
+					}
+				}
+				
+				sender.sendMessage("/ms case [Case ID] [Rarity] [Index] (Player)");
+				return true;
+			}
+			
+			CaseContentRarity rarity;
+			int index;
+			
+			try
+			{
+				rarity = CaseContentRarity.valueOf(args[2].toUpperCase());
+				index = Integer.parseInt(args[3]);
+			}
+			catch(NumberFormatException e)
+			{
+				sender.sendMessage(ChatColor.RED + "Invalid index: " + args[3]);
+				return true;
+			}
+			catch(IllegalArgumentException e)
+			{
+				sender.sendMessage(ChatColor.RED + "Invalid rarity: " + args[2]);
+				return true;
+			}
+			
+			FilledArrayList<CaseContent> selectedContents = caze.getContents(rarity);
+			
+			if(index < 0 || index >= selectedContents.size())
+			{
+				sender.sendMessage(ChatColor.RED + "Index out of bounds.");
+				return true;
+			}
+			
+			CaseContent selectedContent = selectedContents.get(index);
+			Equipment equipment = selectedContent.getEquipment();
+			Player target;
+			
+			if(args.length >= 5)
+			{
+				target = Bukkit.getPlayer(args[4]);
+				
+				if(target == null)
+				{
+					sender.sendMessage(ChatColor.RED + "Target " + args[4] + " not found!");
+					return true;
+				}
+			}
+			else if(sender instanceof Player)
+				target = (Player) sender;
+			else
+			{
+				sender.sendMessage(ChatColor.RED + "Specify the target player.");
+				return true;
+			}
+			
+			MSPlayer msTarget = MSPlayer.get(target);
+			InventoryContainer container = msTarget.getInventoryContainer();
+			
+			container.add(equipment);
+			sender.sendMessage(ChatColor.GREEN + "Equipment " + equipment.getDisplayName() + ChatColor.GREEN + " added to " + target.getName() + "'s inventory.");
 		}
 		else if(args[0].equalsIgnoreCase("xp"))
 		{

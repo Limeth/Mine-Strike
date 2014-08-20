@@ -166,7 +166,7 @@ public class EquipmentCategory
 				EquipmentCustomization customization = EquipmentCustomization.builder()
 						.name(Translation.GAME_SHOP_ICONPRICE.getMessage(price)).build();
 				
-				customization.apply(equipment, item);
+				customization.apply(equipment, item, msPlayer);
 			}
 			
 			inv.setItem(index, item);
