@@ -89,7 +89,7 @@ public enum Translation
 	
 	COMMAND_TOP_COOLDOWN("&cYou can use this command in {1} seconds again.", "&cTento príkaz muzete znovu pouzit za {1} sekund."),
 	COMMAND_TOP_INVALIDPAGE("&cInvalid page!", "&cNesprávná strana!"),
-	COMMAND_TOP_ENTRY("&8[&7{1}&8|{2}&8]&f {3}&7   {4} XP", "&8[&7{1}&8|{2}&8]&f {3}&7   {4} ZK"),
+	COMMAND_TOP_ENTRY("&8[&7{1}&8|&f{2}&8]&f {3}&7   {4} XP", "&8[&7{1}&8|&7{2}&8]&f {3}&7   {4} ZK"),
 	;
 	
 	public static final String ENGLISH_NAME = "en", CZECH_NAME = "cz", DEFAULT_LANGUAGE_NAME = ENGLISH_NAME;

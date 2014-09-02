@@ -346,7 +346,7 @@ public class MSPlayer implements Record
 		if(rank == null)
 			return "";
 		
-		return ChatColor.DARK_GRAY + "[" + rank.getTag() + ChatColor.DARK_GRAY + "] " + ChatColor.RESET;
+		return ChatColor.DARK_GRAY + "[" + ChatColor.RESET + rank.getTag() + ChatColor.DARK_GRAY + "] " + ChatColor.RESET;
 	}
 	
 	public void updateSuffix()
