@@ -29,15 +29,19 @@ public class InventoryListener implements Listener
 		int slot = inv.getHeldItemSlot();
 		Equipment equipment = hotbarContainer.getItem(slot);
 		
-		if(equipment == null || !(equipment instanceof Gun))
+		if(equipment == null)
 			return;
 		
-		Gun gun = (Gun) equipment;
 		final Item item = event.getItemDrop();
 		ItemStack is = item.getItemStack();
 		
 		item.remove();
 		inv.setItem(slot, is);
+		
+		if(!(equipment instanceof Gun))
+			return;
+		
+		Gun gun = (Gun) equipment;
 		
 		if(gun != null && gun.canBeReloaded())
 			msPlayer.reload(gun);

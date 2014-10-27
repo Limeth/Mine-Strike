@@ -4,7 +4,6 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginManager;
 
@@ -53,30 +52,20 @@ public class PacketManager
 				{
 					WrappedWatchableObject object = iterator.next();
 					
-					MineStrike.warn("ID:" + object.getTypeID() + " INDEX:" + object.getIndex());
-					
 					if(object.getTypeID() != 0 || object.getIndex() != 0)
 						return;
-		
-					MineStrike.warn("is sneak packet");
 					
 					byte value = (byte) object.getValue();
 					
-					if(value == 0)
-						sneaking = false;
-					else if(value == 2)
-						sneaking = true;
-					else
-						return;
+					MineStrike.warn(value + " " + (value & 2));
 					
+					sneaking = (value & 2) != 0;
 					SneakPacketEvent sneakEvent = new SneakPacketEvent(msViewing, msSneaking, sneaking);
 					PluginManager pm = Bukkit.getPluginManager();
 					
 					pm.callEvent(sneakEvent);
 					
 					int newValue = (value & (Byte.MAX_VALUE ^ 2)) | (sneakEvent.isSneaking() ? 2 : 0);
-					
-					MineStrike.warn(ChatColor.GRAY + sneakingPlayer.getName() + " < " + viewingPlayer.getName() + '\n' + ChatColor.YELLOW + " [" + value + " > " + newValue + "] " + sneakEvent.isSneaking());
 					
 					if(sneakEvent.isCancelled())
 					{

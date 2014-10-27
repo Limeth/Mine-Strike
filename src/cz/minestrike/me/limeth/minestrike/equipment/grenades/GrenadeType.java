@@ -98,7 +98,7 @@ public enum GrenadeType implements Equipment, DamageSource
 	},
 	INCENDIARY(ChatColor.GOLD + "Incendiary Grenade", 1, new TeamValue<Integer>(400, 600, 500), 250F, 16453, GrenadeExplosionTrigger.LANDING, "incgrenade", "inc_grenade_draw")
 	{
-		private static final int yawSteps = 30, pitchSteps = 30, duration = 20 * 8;
+		private static final int yawSteps = 10, pitchSteps = 10, duration = 20 * 8;
 		
 		@Override
 		public boolean onExplosion(Grenade grenade)
@@ -108,7 +108,7 @@ public enum GrenadeType implements Equipment, DamageSource
 			MSPlayer shooter = grenade.getShooter();
 			ThrownPotion entity = grenade.getEntity();
 			Location loc = entity.getLocation();
-			IncendiaryEffect effect = new IncendiaryEffect(shooter);
+			IncendiaryEffect effect = new IncendiaryEffect(shooter, 8);
 			
 			SoundManager.play("projectsurvive:counterstrike.weapons.incgrenade.inc_grenade_detonate", loc, Bukkit.getOnlinePlayers());
 			

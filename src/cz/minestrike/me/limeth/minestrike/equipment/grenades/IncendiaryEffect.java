@@ -36,13 +36,15 @@ public class IncendiaryEffect
 	private LinkedList<IncendiaryFlame> flames;
 	private Integer taskId;
 	private int maxDuration, step;
+	private double damageModifier;
 	private final Random random;
 	private MSPlayer shooter;
 	
-	public IncendiaryEffect(MSPlayer shooter)
+	public IncendiaryEffect(MSPlayer shooter, double damageModifier)
 	{
 		flames = new LinkedList<IncendiaryFlame>();
 		random = new Random();
+		this.damageModifier = damageModifier;
 		this.setShooter(shooter);
 	}
 	
@@ -133,7 +135,7 @@ public class IncendiaryEffect
 			HumanEntity entity = entry.getKey();
 			MSPlayer msPlayer = MSPlayer.get((Player) entity);
 			double damage = entry.getValue();
-			double curDamage = damage * damageMultiplier;
+			double curDamage = damage * damageMultiplier * damageModifier;
 			
 			msPlayer.damage(curDamage, shooter, weapon, null);
 			entity.setFireTicks(5);
@@ -190,6 +192,7 @@ public class IncendiaryEffect
 	@SuppressWarnings("unused")
 	private class IncendiaryFlame
 	{
+		private final Location $tempLoc = new Location(null, 0, 0, 0);
 		private Location loc;
 		private Vector vec;
 		private int duration;
@@ -207,7 +210,12 @@ public class IncendiaryEffect
 			if(!landed)
 				move();
 			
-			ParticleEffect.FLAME.display(loc, 0, 0, 0, (float) (0.03 * Math.random()), 1);
+			$tempLoc.setX(loc.getX());
+			$tempLoc.setY(loc.getY() + 0.125);
+			$tempLoc.setZ(loc.getZ());
+			$tempLoc.setWorld(loc.getWorld());
+			
+			ParticleEffect.INSTANT_SPELL.display($tempLoc, 0.5f, 0.25f, 0.5f, 0.01f, 8);
 		}
 		
 		public void move()

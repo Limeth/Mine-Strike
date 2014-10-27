@@ -132,7 +132,7 @@ public class DefuseGameListener extends MSSceneListener<DefuseGame>
 			return;
 		
 		game.defuse();
-		event.setCancelled(false);
+		game.removeBomb();
 	}
 	
 	@EventHandler
