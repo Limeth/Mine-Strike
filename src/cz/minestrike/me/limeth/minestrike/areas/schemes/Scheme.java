@@ -2,9 +2,9 @@ package cz.minestrike.me.limeth.minestrike.areas.schemes;
 
 import java.util.ArrayList;
 
-import net.minecraft.server.v1_7_R1.NBTTagCompound;
-import net.minecraft.server.v1_7_R1.TileEntity;
-import net.minecraft.server.v1_7_R1.WorldServer;
+import net.minecraft.server.v1_7_R4.NBTTagCompound;
+import net.minecraft.server.v1_7_R4.TileEntity;
+import net.minecraft.server.v1_7_R4.WorldServer;
 
 import org.apache.commons.lang.Validate;
 import org.bukkit.ChatColor;
@@ -13,7 +13,7 @@ import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.command.CommandSender;
 import org.bukkit.craftbukkit.libs.com.google.gson.annotations.Expose;
-import org.bukkit.craftbukkit.v1_7_R1.CraftWorld;
+import org.bukkit.craftbukkit.v1_7_R4.CraftWorld;
 import org.bukkit.entity.Player;
 
 import com.sk89q.worldedit.IncompleteRegionException;

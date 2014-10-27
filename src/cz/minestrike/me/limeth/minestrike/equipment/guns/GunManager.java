@@ -1,7 +1,7 @@
 package cz.minestrike.me.limeth.minestrike.equipment.guns;
 
-import net.minecraft.server.v1_7_R1.EnumMovingObjectType;
-import net.minecraft.server.v1_7_R1.MovingObjectPosition;
+import net.minecraft.server.v1_7_R4.EnumMovingObjectType;
+import net.minecraft.server.v1_7_R4.MovingObjectPosition;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -71,7 +71,7 @@ public class GunManager
 			
 			if(mop.type == EnumMovingObjectType.BLOCK)
 			{
-				Location hitLoc = new Location(bukkitWorld, mop.pos.c, mop.pos.d, mop.pos.e);
+				Location hitLoc = new Location(bukkitWorld, mop.pos.a, mop.pos.b, mop.pos.c);
 				Block block = bukkitWorld.getBlockAt(mop.b, mop.c, mop.d);
 				Material type = block.getType();
 				int id = type.getId();
@@ -99,9 +99,9 @@ public class GunManager
 				double damageDivision = Math.pow(2, i);
 				Player bukkitVictim = (Player) rawBukkitVictim;
 				MSPlayer msVictim = MSPlayer.get(bukkitVictim);
-				Location effectLoc = new Location(bukkitWorld, mop.pos.c, mop.pos.d, mop.pos.e);
+				Location effectLoc = new Location(bukkitWorld, mop.pos.a, mop.pos.b, mop.pos.c);
 				double damage = type.getDamage() / damageDivision;
-				double hitY = mop.pos.d;
+				double hitY = mop.pos.b;
 				double victimY = mop.entity.locY;
 				double relHitY = hitY - victimY;
 				BodyPart bodyPart = BodyPart.getByY(relHitY);

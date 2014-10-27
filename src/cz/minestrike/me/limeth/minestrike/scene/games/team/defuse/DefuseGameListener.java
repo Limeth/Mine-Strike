@@ -22,10 +22,10 @@ import cz.minestrike.me.limeth.minestrike.events.ArenaQuitEvent;
 import cz.minestrike.me.limeth.minestrike.events.GameQuitEvent;
 import cz.minestrike.me.limeth.minestrike.events.ShopOpenEvent;
 import cz.minestrike.me.limeth.minestrike.listeners.msPlayer.MSSceneListener;
-import cz.minestrike.me.limeth.minestrike.scene.games.GamePhaseType;
 import cz.minestrike.me.limeth.minestrike.scene.games.PlayerState;
 import cz.minestrike.me.limeth.minestrike.scene.games.Team;
 import cz.minestrike.me.limeth.minestrike.scene.games.team.defuse.DefuseGame.RoundEndReason;
+import cz.minestrike.me.limeth.minestrike.scene.games.team.defuse.Round.RoundPhase;
 
 public class DefuseGameListener extends MSSceneListener<DefuseGame>
 {
@@ -89,11 +89,6 @@ public class DefuseGameListener extends MSSceneListener<DefuseGame>
 			return;
 		
 		DefuseGame game = getScene();
-		GamePhaseType gamePhase = game.getPhaseType();
-		
-		if(gamePhase != GamePhaseType.RUNNING)
-			return;
-		
 		Block block = event.getBlock();
 		Location loc = block.getLocation();
 		Structure<DefuseGameMap> structure = game.getMapStructure();
@@ -111,9 +106,14 @@ public class DefuseGameListener extends MSSceneListener<DefuseGame>
 		}
 		
 		DefuseEquipmentProvider ep = game.getEquipmentProvider();
+		Round round = game.getRound();
+		RoundPhase roundPhase = round.getPhase();
 		
 		ep.removeBomb(msPlayer);
-		game.plant(block);
+		
+		if(roundPhase != RoundPhase.PLANTED && roundPhase != RoundPhase.ENDED)
+			game.plant(block);
+		
 		event.setCancelled(false);
 	}
 	
@@ -132,7 +132,6 @@ public class DefuseGameListener extends MSSceneListener<DefuseGame>
 			return;
 		
 		game.defuse();
-		game.removeBomb();
 	}
 	
 	@EventHandler

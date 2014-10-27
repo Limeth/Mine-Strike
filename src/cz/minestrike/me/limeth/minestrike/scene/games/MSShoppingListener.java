@@ -1,7 +1,7 @@
 package cz.minestrike.me.limeth.minestrike.scene.games;
 
 import org.bukkit.Bukkit;
-import org.bukkit.craftbukkit.v1_7_R1.inventory.CraftInventoryPlayer;
+import org.bukkit.craftbukkit.v1_7_R4.inventory.CraftInventoryPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.inventory.InventoryClickEvent;

@@ -6,15 +6,15 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map.Entry;
 
-import net.minecraft.server.v1_7_R1.AxisAlignedBB;
-import net.minecraft.server.v1_7_R1.Entity;
-import net.minecraft.server.v1_7_R1.MovingObjectPosition;
-import net.minecraft.server.v1_7_R1.Vec3D;
-import net.minecraft.server.v1_7_R1.World;
+import net.minecraft.server.v1_7_R4.AxisAlignedBB;
+import net.minecraft.server.v1_7_R4.Entity;
+import net.minecraft.server.v1_7_R4.MovingObjectPosition;
+import net.minecraft.server.v1_7_R4.Vec3D;
+import net.minecraft.server.v1_7_R4.World;
 
 import org.bukkit.Location;
-import org.bukkit.craftbukkit.v1_7_R1.CraftWorld;
-import org.bukkit.craftbukkit.v1_7_R1.entity.CraftEntity;
+import org.bukkit.craftbukkit.v1_7_R4.CraftWorld;
+import org.bukkit.craftbukkit.v1_7_R4.entity.CraftEntity;
 import org.bukkit.util.Vector;
 
 /**
@@ -26,18 +26,20 @@ public class BoundUtil
 	
 	public static Vec3D getVec3D(Location location)
 	{
-		return ((CraftWorld) location.getWorld()).getHandle().getVec3DPool()
-				.create(location.getX(), location.getY(), location.getZ());
+		return Vec3D.a(location.getX(), location.getY(), location.getZ());
+//		return ((CraftWorld) location.getWorld()).getHandle().getVec3DPool()
+//				.create(location.getX(), location.getY(), location.getZ());
 	}
 	
 	public static Vec3D getVec3D(Vector vector)
 	{
-		return Vec3D.a.create(vector.getX(), vector.getY(), vector.getZ());
+		return Vec3D.a(vector.getX(), vector.getY(), vector.getZ());
+//		return Vec3D.a.create(vector.getX(), vector.getY(), vector.getZ());
 	}
 	
 	public static Location getLocation(org.bukkit.World world, Vec3D vec3D)
 	{
-		return new Location(world, vec3D.c, vec3D.d, vec3D.e);
+		return new Location(world, vec3D.a, vec3D.b, vec3D.c);
 	}
 	
 	public static Vec3D getIntersectionPoint(AxisAlignedBB box, Vec3D pointA, Vec3D pointB)
@@ -107,25 +109,25 @@ public class BoundUtil
 	
 	private static MovingObjectPosition[] findObstacles(Entity excludedEntity, World world, Vec3D from, Vec3D to, Vec3D mot)
 	{
-		Vec3D fromClone = world.getVec3DPool().create(from.c, from.d, from.e);
-		Vec3D toClone = world.getVec3DPool().create(to.c, to.d, to.e);
+		Vec3D fromClone = Vec3D.a(from.a, from.b, from.c);
+		Vec3D toClone = Vec3D.a(to.a, to.b, to.c);
 		
 		MovingObjectPosition blockObstacle = world.a(fromClone, toClone);
 		MovingObjectPosition[] entityObstacles = null;
 		
 		if(blockObstacle != null)
-			to = world.getVec3DPool().create(
-					blockObstacle.pos.c,
-					blockObstacle.pos.d,
-					blockObstacle.pos.e);
+			to = Vec3D.a(
+					blockObstacle.pos.a,
+					blockObstacle.pos.b,
+					blockObstacle.pos.c);
 		
 		if(!world.isStatic)
 		{
 			HashMap<MovingObjectPosition, Double> hitDistances = new HashMap<MovingObjectPosition, Double>();
 			AxisAlignedBB targetBoundingBox = AxisAlignedBB
 					.a(0, 0, 0, 0, 0, 0)
-					.d(from.c, from.d, from.e)
-					.a(mot.c, mot.d, mot.e)
+					.d(from.a, from.b, from.c)
+					.a(mot.a, mot.b, mot.c)
 					.grow(1, 1, 1);
 			
 			@SuppressWarnings("unchecked")
@@ -203,14 +205,12 @@ public class BoundUtil
 	
 	public static MovingObjectPosition[] findObstaclesByDestination(Entity excludedEntity, World world, Vec3D from, Vec3D to)
 	{
-		return findObstacles(excludedEntity, world, from, to, world.getVec3DPool()
-				.create(to.c - from.c, to.d - from.d, to.e - from.e));
+		return findObstacles(excludedEntity, world, from, to, Vec3D.a(to.a - from.a, to.b - from.b, to.c - from.c));
 	}
 	
 	public static MovingObjectPosition[] findObstaclesByMotion(Entity excludedEntity, World world, Vec3D from, Vec3D mot)
 	{
-		return findObstacles(excludedEntity, world, from, world.getVec3DPool()
-				.create(from.c + mot.c, from.d + mot.d, from.e + mot.e), mot);
+		return findObstacles(excludedEntity, world, from, Vec3D.a(from.a + mot.a, from.b + mot.b, from.c + mot.c), mot);
 	}
 	
 	public static MovingObjectPosition[] findObstaclesByDestination(org.bukkit.entity.Entity excludedEntity, Location from, Location to)

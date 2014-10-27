@@ -2,13 +2,13 @@ package cz.minestrike.me.limeth.minestrike.equipment.grenades;
 
 import java.util.List;
 
-import net.minecraft.server.v1_7_R1.Block;
-import net.minecraft.server.v1_7_R1.BlockHalfTransparent;
-import net.minecraft.server.v1_7_R1.BlockTransparent;
-import net.minecraft.server.v1_7_R1.EnumMovingObjectType;
-import net.minecraft.server.v1_7_R1.MovingObjectPosition;
-import net.minecraft.server.v1_7_R1.Vec3D;
-import net.minecraft.server.v1_7_R1.WorldServer;
+import net.minecraft.server.v1_7_R4.Block;
+import net.minecraft.server.v1_7_R4.BlockHalfTransparent;
+import net.minecraft.server.v1_7_R4.BlockTransparent;
+import net.minecraft.server.v1_7_R4.EnumMovingObjectType;
+import net.minecraft.server.v1_7_R4.MovingObjectPosition;
+import net.minecraft.server.v1_7_R4.Vec3D;
+import net.minecraft.server.v1_7_R4.WorldServer;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -16,7 +16,7 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.World;
-import org.bukkit.craftbukkit.v1_7_R1.CraftWorld;
+import org.bukkit.craftbukkit.v1_7_R4.CraftWorld;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.ThrownPotion;
@@ -312,12 +312,12 @@ public enum GrenadeType implements Equipment, DamageSource
 		{
 			World world = loc.getWorld();
 			WorldServer nmsWorld = ((CraftWorld) world).getHandle();
-			Vec3D oVec = nmsWorld.getVec3DPool().create(loc.getX(), loc.getY(), loc.getZ());
+			Vec3D oVec = Vec3D.a(loc.getX(), loc.getY(), loc.getZ());
 			
 			for(Player player : players)
 			{
 				Location pLoc = player.getEyeLocation();
-				Vec3D pVec = nmsWorld.getVec3DPool().create(pLoc.getX(), pLoc.getY(), pLoc.getZ());
+				Vec3D pVec = Vec3D.a(pLoc.getX(), pLoc.getY(), pLoc.getZ());
 				MovingObjectPosition mop = nmsWorld.a(oVec, pVec);
 				boolean cont = false;
 				
@@ -329,7 +329,7 @@ public enum GrenadeType implements Equipment, DamageSource
 						
 						if(block instanceof BlockTransparent || block instanceof BlockHalfTransparent)
 						{
-							pVec = nmsWorld.getVec3DPool().create(mop.pos.c, mop.pos.d, mop.pos.e);
+							pVec = Vec3D.a(mop.pos.a, mop.pos.b, mop.pos.c);
 							mop = nmsWorld.a(oVec, pVec);
 							
 							continue;

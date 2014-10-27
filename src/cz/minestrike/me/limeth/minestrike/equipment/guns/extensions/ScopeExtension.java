@@ -1,11 +1,11 @@
 package cz.minestrike.me.limeth.minestrike.equipment.guns.extensions;
 
-import net.minecraft.server.v1_7_R1.Blocks;
-import net.minecraft.server.v1_7_R1.EntityPlayer;
-import net.minecraft.server.v1_7_R1.ItemStack;
-import net.minecraft.server.v1_7_R1.PacketPlayOutSetSlot;
+import net.minecraft.server.v1_7_R4.Blocks;
+import net.minecraft.server.v1_7_R4.EntityPlayer;
+import net.minecraft.server.v1_7_R4.ItemStack;
+import net.minecraft.server.v1_7_R4.PacketPlayOutSetSlot;
 
-import org.bukkit.craftbukkit.v1_7_R1.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_7_R4.entity.CraftPlayer;
 
 import cz.minestrike.me.limeth.minestrike.MSPlayer;
 import cz.minestrike.me.limeth.minestrike.equipment.guns.Gun;

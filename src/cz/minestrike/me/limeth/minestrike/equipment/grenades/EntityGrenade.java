@@ -1,12 +1,12 @@
 package cz.minestrike.me.limeth.minestrike.equipment.grenades;
 
-import net.minecraft.server.v1_7_R1.EntityLiving;
-import net.minecraft.server.v1_7_R1.EntityPotion;
-import net.minecraft.server.v1_7_R1.EnumMovingObjectType;
-import net.minecraft.server.v1_7_R1.ItemStack;
-import net.minecraft.server.v1_7_R1.Items;
-import net.minecraft.server.v1_7_R1.MovingObjectPosition;
-import net.minecraft.server.v1_7_R1.World;
+import net.minecraft.server.v1_7_R4.EntityLiving;
+import net.minecraft.server.v1_7_R4.EntityPotion;
+import net.minecraft.server.v1_7_R4.EnumMovingObjectType;
+import net.minecraft.server.v1_7_R4.ItemStack;
+import net.minecraft.server.v1_7_R4.Items;
+import net.minecraft.server.v1_7_R4.MovingObjectPosition;
+import net.minecraft.server.v1_7_R4.World;
 
 import org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason;
 

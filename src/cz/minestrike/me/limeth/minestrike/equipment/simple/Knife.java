@@ -1,8 +1,8 @@
 package cz.minestrike.me.limeth.minestrike.equipment.simple;
 
-import net.minecraft.server.v1_7_R1.EntityPlayer;
-import net.minecraft.server.v1_7_R1.EnumMovingObjectType;
-import net.minecraft.server.v1_7_R1.MovingObjectPosition;
+import net.minecraft.server.v1_7_R4.EntityPlayer;
+import net.minecraft.server.v1_7_R4.EnumMovingObjectType;
+import net.minecraft.server.v1_7_R4.MovingObjectPosition;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -88,10 +88,10 @@ public class Knife extends SimpleEquipment
 				if(obstacle.type == EnumMovingObjectType.ENTITY && obstacle.entity instanceof EntityPlayer)
 				{
 					EntityPlayer nmsVictim = (EntityPlayer) obstacle.entity;
-					Location hitLocation = new Location(world, obstacle.pos.c, obstacle.pos.d, obstacle.pos.e);
+					Location hitLocation = new Location(world, obstacle.pos.a, obstacle.pos.b, obstacle.pos.c);
 					Player victim = nmsVictim.getBukkitEntity();
 					MSPlayer msVictim = MSPlayer.get(victim);
-					double hitY = obstacle.pos.d;
+					double hitY = obstacle.pos.b;
 					double victimY = obstacle.entity.locY;
 					double relHitY = hitY - victimY;
 					BodyPart bodyPart = BodyPart.getByY(relHitY);
@@ -102,7 +102,7 @@ public class Knife extends SimpleEquipment
 				}
 				else if(obstacle.type == EnumMovingObjectType.BLOCK)
 				{
-					Location hitLocation = new Location(world, obstacle.pos.c, obstacle.pos.d, obstacle.pos.e);
+					Location hitLocation = new Location(world, obstacle.pos.a, obstacle.pos.b, obstacle.pos.c);
 					Block block = world.getBlockAt(obstacle.b, obstacle.c, obstacle.d);
 					Material type = block.getType();
 					@SuppressWarnings("deprecation")

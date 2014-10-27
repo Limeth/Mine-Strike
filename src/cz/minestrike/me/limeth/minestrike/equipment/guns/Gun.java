@@ -1,7 +1,7 @@
 package cz.minestrike.me.limeth.minestrike.equipment.guns;
 
-import net.minecraft.server.v1_7_R1.EnumMovingObjectType;
-import net.minecraft.server.v1_7_R1.MovingObjectPosition;
+import net.minecraft.server.v1_7_R4.EnumMovingObjectType;
+import net.minecraft.server.v1_7_R4.MovingObjectPosition;
 
 import org.apache.commons.lang.Validate;
 import org.bukkit.ChatColor;
@@ -107,7 +107,7 @@ public class Gun extends CustomizedEquipment<GunType>
 			GunManager.onBulletHit(obstacles, player);
 			
 			if(lastObstacle.type == EnumMovingObjectType.BLOCK)
-				endLocation = new Location(world, lastObstacle.pos.c, lastObstacle.pos.d, lastObstacle.pos.e);
+				endLocation = new Location(world, lastObstacle.pos.a, lastObstacle.pos.b, lastObstacle.pos.c);
 		}
 		
 		if(endLocation == null)

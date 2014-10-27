@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import net.minecraft.server.v1_7_R1.WatchableObject;
+import net.minecraft.server.v1_7_R4.WatchableObject;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;

@@ -1,7 +1,7 @@
 package cz.minestrike.me.limeth.minestrike.util;
 
 import org.bukkit.Bukkit;
-import org.bukkit.craftbukkit.v1_7_R1.inventory.CraftInventoryCrafting;
+import org.bukkit.craftbukkit.v1_7_R4.inventory.CraftInventoryCrafting;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryView;

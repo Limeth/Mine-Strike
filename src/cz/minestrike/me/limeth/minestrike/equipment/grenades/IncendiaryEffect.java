@@ -7,18 +7,18 @@ import java.util.List;
 import java.util.Map.Entry;
 import java.util.Random;
 
-import net.minecraft.server.v1_7_R1.AxisAlignedBB;
-import net.minecraft.server.v1_7_R1.Entity;
-import net.minecraft.server.v1_7_R1.EnumMovingObjectType;
-import net.minecraft.server.v1_7_R1.MovingObjectPosition;
-import net.minecraft.server.v1_7_R1.Vec3D;
-import net.minecraft.server.v1_7_R1.WorldServer;
+import net.minecraft.server.v1_7_R4.AxisAlignedBB;
+import net.minecraft.server.v1_7_R4.Entity;
+import net.minecraft.server.v1_7_R4.EnumMovingObjectType;
+import net.minecraft.server.v1_7_R4.MovingObjectPosition;
+import net.minecraft.server.v1_7_R4.Vec3D;
+import net.minecraft.server.v1_7_R4.WorldServer;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Sound;
 import org.bukkit.World;
-import org.bukkit.craftbukkit.v1_7_R1.CraftWorld;
+import org.bukkit.craftbukkit.v1_7_R4.CraftWorld;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
@@ -230,8 +230,8 @@ public class IncendiaryEffect
 			double motY = vec.getY();
 			double motZ = vec.getZ();
 			
-			Vec3D origin = nmsWorld.getVec3DPool().create(locX, locY, locZ);
-			Vec3D destination = nmsWorld.getVec3DPool().create(locX + motX, locY + motY, locZ + motZ);
+			Vec3D origin = Vec3D.a(locX, locY, locZ);
+			Vec3D destination = Vec3D.a(locX + motX, locY + motY, locZ + motZ);
 			result = nmsWorld.a(origin, destination);
 			
 		/*	Location debugLoc = new Location(world, locX, locY, locZ);
@@ -248,7 +248,7 @@ public class IncendiaryEffect
 			
 			if(result != null && result.type == EnumMovingObjectType.BLOCK)
 			{
-				loc = new Location(world, result.pos.c, result.pos.d, result.pos.e);
+				loc = new Location(world, result.pos.a, result.pos.b, result.pos.c);
 				landed = true;
 			}
 		}

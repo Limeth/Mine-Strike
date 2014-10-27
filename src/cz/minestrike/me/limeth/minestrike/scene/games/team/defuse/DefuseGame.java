@@ -181,8 +181,8 @@ public class DefuseGame extends TeamGame<GameLobby, TeamGameMenu, DefuseGameMap,
 	{
 		Validate.notNull(block, "The block cannot be null!");
 		
-		Round round = getRound();
 		bombBlock = block;
+		Round round = getRound();
 		
 		round.setRanAt(System.currentTimeMillis());
 		round.setPhase(RoundPhase.PLANTED);
@@ -199,6 +199,7 @@ public class DefuseGame extends TeamGame<GameLobby, TeamGameMenu, DefuseGameMap,
 	{
 		Round round = getRound();
 		
+		removeBomb();
 		round.cancel();
 		playSound("projectsurvive:counterstrike.radio.bombdef");
 		broadcast(Translation.GAME_BOMB_DEFUSED.getMessage());

@@ -3,7 +3,6 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/StorageManager"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/DynamicDisplays"/>
-	<classpathentry kind="lib" path="C:/Users/Limeth/Desktop/Coding/Java/Projects/Minecraft/Bukkit/craftbukkit-1.7.2-R0.3.jar"/>
 	<classpathentry kind="lib" path="C:/Users/Limeth/Desktop/Coding/Java/Projects/Minecraft/Libraries/NametagEdit.jar"/>
 	<classpathentry kind="lib" path="C:/Users/Limeth/Desktop/Coding/Java/Projects/Minecraft/Libraries/WorldEdit.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
@@ -12,5 +11,6 @@
 			<attribute name="javadoc_location" value="http://aadnk.github.com/ProtocolLib/Javadoc/"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="C:/Users/Limeth/Desktop/Coding/Java/Projects/Minecraft/Bukkit/spigot-1.7.10.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
