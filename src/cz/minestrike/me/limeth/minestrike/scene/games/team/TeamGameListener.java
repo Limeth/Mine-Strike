@@ -3,6 +3,7 @@ package cz.minestrike.me.limeth.minestrike.scene.games.team;
 import java.util.Iterator;
 import java.util.Set;
 
+import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -19,6 +20,8 @@ import cz.minestrike.me.limeth.minestrike.listeners.msPlayer.MSSceneListener;
 import cz.minestrike.me.limeth.minestrike.scene.games.EquipmentProvider;
 import cz.minestrike.me.limeth.minestrike.scene.games.PlayerState;
 import cz.minestrike.me.limeth.minestrike.scene.games.Team;
+import cz.minestrike.me.limeth.minestrike.scene.games.VoiceSound;
+import cz.minestrike.me.limeth.minestrike.util.SoundManager;
 
 public class TeamGameListener extends MSSceneListener<TeamGame<? extends GameLobby, ? extends GameMenu, ? extends GameMap, ? extends EquipmentProvider>>
 {
@@ -52,6 +55,14 @@ public class TeamGameListener extends MSSceneListener<TeamGame<? extends GameLob
 		}
 		else if(damagerTeam == victimTeam)
 		{
+			if(!msVictim.hasCooldown(VoiceSound.FRIENDLY_FIRE, 1000, true))
+			{
+				String sound = VoiceSound.FRIENDLY_FIRE.getAbsoluteName(victimTeam);
+				Location victimLoc = victim.getLocation();
+				
+				SoundManager.play(sound, victimLoc, Float.MAX_VALUE, damager);
+			}
+			
 			event.setCancelled(true);
 		}
 	}

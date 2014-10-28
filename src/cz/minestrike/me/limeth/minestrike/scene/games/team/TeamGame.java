@@ -1,5 +1,7 @@
 package cz.minestrike.me.limeth.minestrike.scene.games.team;
 
+import org.bukkit.Location;
+import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 
 import cz.minestrike.me.limeth.minestrike.MSPlayer;
@@ -9,6 +11,7 @@ import cz.minestrike.me.limeth.minestrike.scene.games.EquipmentProvider;
 import cz.minestrike.me.limeth.minestrike.scene.games.Game;
 import cz.minestrike.me.limeth.minestrike.scene.games.GameType;
 import cz.minestrike.me.limeth.minestrike.scene.games.Team;
+import cz.minestrike.me.limeth.minestrike.scene.games.VoiceSound;
 import cz.minestrike.me.limeth.minestrike.util.collections.FilledArrayList;
 
 public abstract class TeamGame<Lo extends GameLobby, Me extends TeamGameMenu, Ma extends GameMap, EM extends EquipmentProvider> extends Game<Lo, Me, Ma, EM>
@@ -76,5 +79,21 @@ public abstract class TeamGame<Lo extends GameLobby, Me extends TeamGameMenu, Ma
 	public void setTeam(MSPlayer msPlayer, Team team)
 	{
 		msPlayer.setCustomData(CUSTOM_DATA_TEAM, team);
+	}
+	
+	public void playRadioSound(MSPlayer msPlayer, VoiceSound sound)
+	{
+		Player player = msPlayer.getPlayer();
+		Team team = getTeam(msPlayer);
+		Location location = player.getLocation();
+		
+		playRadioSound(team, location, sound);
+	}
+	
+	public void playRadioSound(Team team, Location location, VoiceSound sound)
+	{
+		String soundName = sound.getAbsoluteName(team);
+		
+		playSound(soundName, location, Float.MAX_VALUE, 1, p -> { return getTeam(p) == team; });
 	}
 }

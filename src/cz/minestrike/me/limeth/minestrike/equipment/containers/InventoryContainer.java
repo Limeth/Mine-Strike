@@ -13,6 +13,7 @@ import com.avaje.ebeaninternal.server.lib.util.NotFoundException;
 import cz.minestrike.me.limeth.minestrike.MSConstant;
 import cz.minestrike.me.limeth.minestrike.MSPlayer;
 import cz.minestrike.me.limeth.minestrike.Translation;
+import cz.minestrike.me.limeth.minestrike.equipment.ClickSound;
 import cz.minestrike.me.limeth.minestrike.equipment.CustomizedEquipment;
 import cz.minestrike.me.limeth.minestrike.equipment.Equipment;
 import cz.minestrike.me.limeth.minestrike.equipment.EquipmentCategoryEntry;
@@ -20,6 +21,7 @@ import cz.minestrike.me.limeth.minestrike.equipment.ItemButton;
 import cz.minestrike.me.limeth.minestrike.equipment.guns.Gun;
 import cz.minestrike.me.limeth.minestrike.equipment.guns.GunType;
 import cz.minestrike.me.limeth.minestrike.util.PlayerUtil;
+import cz.minestrike.me.limeth.minestrike.util.SoundManager;
 import cz.minestrike.me.limeth.minestrike.util.collections.FilledArrayList;
 import cz.minestrike.me.limeth.minestrike.util.collections.FilledHashSet;
 
@@ -167,6 +169,7 @@ public class InventoryContainer extends ScalableContainer
 		@Override
 		public void onClick(Inventory inv, MSPlayer msPlayer)
 		{
+			SoundManager.play(ClickSound.BACK.getAbsolouteName(), msPlayer.getPlayer());
 			openInventory(msPlayer, false);
 		}
 		
@@ -342,6 +345,10 @@ public class InventoryContainer extends ScalableContainer
 				msPlayer.setCustomData(SCROLL_DATA, scroll + 1);
 				equipInventory(inv, msPlayer);
 			}
+			else
+				return;
+		
+		SoundManager.play(ClickSound.DEFAULT.getAbsolouteName(), msPlayer.getPlayer());
 	}
 	
 	public void onClickSelection(Inventory inv, int slot, MSPlayer msPlayer)

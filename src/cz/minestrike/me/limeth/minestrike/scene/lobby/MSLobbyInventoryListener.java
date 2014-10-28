@@ -11,10 +11,12 @@ import org.bukkit.inventory.meta.ItemMeta;
 import cz.minestrike.me.limeth.minestrike.MSConstant;
 import cz.minestrike.me.limeth.minestrike.MSPlayer;
 import cz.minestrike.me.limeth.minestrike.Translation;
+import cz.minestrike.me.limeth.minestrike.equipment.ClickSound;
 import cz.minestrike.me.limeth.minestrike.equipment.ItemButton;
 import cz.minestrike.me.limeth.minestrike.equipment.containers.InventoryContainer;
 import cz.minestrike.me.limeth.minestrike.listeners.msPlayer.MSSceneListener;
 import cz.minestrike.me.limeth.minestrike.util.PlayerUtil;
+import cz.minestrike.me.limeth.minestrike.util.SoundManager;
 
 public class MSLobbyInventoryListener extends MSSceneListener<Lobby>
 {
@@ -78,6 +80,7 @@ public class MSLobbyInventoryListener extends MSSceneListener<Lobby>
 			@Override
 			public void onClick(Inventory inv, MSPlayer msPlayer)
 			{
+				SoundManager.play(ClickSound.DEFAULT.getAbsolouteName(), msPlayer.getPlayer());
 				InventoryContainer.openInventory(msPlayer, true);
 			}
 		};

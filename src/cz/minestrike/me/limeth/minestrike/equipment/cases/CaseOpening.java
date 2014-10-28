@@ -13,6 +13,7 @@ import cz.minestrike.me.limeth.minestrike.MineStrike;
 import cz.minestrike.me.limeth.minestrike.Translation;
 import cz.minestrike.me.limeth.minestrike.equipment.Equipment;
 import cz.minestrike.me.limeth.minestrike.equipment.containers.InventoryContainer;
+import cz.minestrike.me.limeth.minestrike.util.SoundManager;
 import cz.minestrike.me.limeth.minestrike.util.collections.FilledArrayList;
 
 public class CaseOpening implements Runnable
@@ -20,15 +21,17 @@ public class CaseOpening implements Runnable
 	private static final int VIEW_WIDTH = 7, INITIAL_SPEED = 50, MAX_DELAY = 30, POWER = 5,
 			SHOWN_EQUIPMENT_AMOUNT = VIEW_WIDTH - 1 + INITIAL_SPEED,
 			INVENTORY_HEIGHT = 5;
+	private static final String SOUND_OPEN = "projectsurvive:counterstrike.ui.csgo_ui_crate_open";
+	private static final String SOUND_SCROLL = "projectsurvive:counterstrike.ui.csgo_ui_crate_item_scroll";
 	private final MSPlayer msPlayer;
 	private final Case caze;
-	private final Equipment result;
+	private final CaseContent result;
 	private Inventory inventory;
 	private FilledArrayList<Equipment> shownEquipment;
 	private Integer taskId;
 	private int speed;
 	
-	public CaseOpening(MSPlayer msPlayer, Case caze, Equipment result)
+	public CaseOpening(MSPlayer msPlayer, Case caze, CaseContent result)
 	{
 		this.msPlayer = msPlayer;
 		this.caze = caze;
@@ -42,6 +45,7 @@ public class CaseOpening implements Runnable
 		
 		shownEquipment = initShownEquipment();
 		speed = INITIAL_SPEED;
+		SoundManager.play(SOUND_OPEN, msPlayer.getPlayer());
 		openInventory();
 		run();
 	}
@@ -55,6 +59,8 @@ public class CaseOpening implements Runnable
 		
 		if(delay < 1)
 			delay = 1;
+		
+		SoundManager.play(SOUND_SCROLL, msPlayer.getPlayer());
 		
 		return taskId = Bukkit.getScheduler().scheduleSyncDelayedTask(MineStrike.getInstance(), this, delay);
 	}
@@ -92,7 +98,7 @@ public class CaseOpening implements Runnable
 			Equipment equipment;
 			
 			if(i == SHOWN_EQUIPMENT_AMOUNT - 5)
-				equipment = result;
+				equipment = result.getEquipment();
 			else
 			{
 				CaseContentRarity rarity = CaseContentRarity.getRandom(random);
@@ -152,8 +158,12 @@ public class CaseOpening implements Runnable
 		else
 		{
 			InventoryContainer container = msPlayer.getInventoryContainer();
+			Player player = msPlayer.getPlayer();
+			CaseContentRarity rarity = result.getRarity();
+			String sound = rarity.getSoundName();
 			
 			InventoryContainer.openSelection(msPlayer, container.getSize() - 1);
+			SoundManager.play(sound, player);
 		}
 	}
 }

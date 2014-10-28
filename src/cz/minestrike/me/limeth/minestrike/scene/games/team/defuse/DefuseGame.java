@@ -128,7 +128,7 @@ public class DefuseGame extends TeamGame<GameLobby, TeamGameMenu, DefuseGameMap,
 		{
 			Player player = msPlayer.getPlayer();
 			Team team = getTeam(msPlayer);
-			String sound = team.getVoiceSound(VoiceSound.LOCK_AND_LOAD);
+			String sound = VoiceSound.LOCK_AND_LOAD.getAbsoluteName(team);
 			
 			showWitherBar(msPlayer);
 			msPlayer.updateMovementSpeed();

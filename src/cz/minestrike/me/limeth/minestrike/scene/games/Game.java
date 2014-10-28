@@ -6,6 +6,8 @@ import java.util.Set;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
+import net.minecraft.server.v1_7_R4.PacketPlayOutNamedSoundEffect;
+
 import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -45,6 +47,7 @@ import cz.minestrike.me.limeth.minestrike.util.collections.FilledArrayList;
 
 public abstract class Game<Lo extends GameLobby, Me extends GameMenu, Ma extends GameMap, EM extends EquipmentProvider> extends Scene
 {
+	private static final String SOUND_JOIN = "projectsurvive:counterstrike.ui.valve_logo_music";
 	@Expose private final GameType type;
 	@Expose private final String id;
 	@Expose private String name;
@@ -390,6 +393,7 @@ public abstract class Game<Lo extends GameLobby, Me extends GameMenu, Ma extends
 		msPlayer.setScene(this);
 		player.setScoreboard(scoreboard);
 		msPlayer.spawn(true);
+		SoundManager.play(SOUND_JOIN, player);
 		
 		return true;
 	}
@@ -474,43 +478,70 @@ public abstract class Game<Lo extends GameLobby, Me extends GameMenu, Ma extends
 		return players;
 	}
 	
-	public void playSound(String path, Location loc, float volume, float pitch)
+	public void playSound(String path, Location loc, float volume, float pitch, Predicate<MSPlayer> predicate)
 	{
-		Set<Player> bukkitPlayers = getBukkitPlayers();
-		
-		SoundManager.play(path, loc, volume, pitch, bukkitPlayers.toArray(new Player[bukkitPlayers.size()]));
+		if(loc != null)
+		{
+			PacketPlayOutNamedSoundEffect packet = SoundManager.buildPacket(path, loc, volume, pitch);
+			
+			for(MSPlayer msPlayer : (predicate != null ? getPlayers(predicate) : getPlayers()))
+			{
+				Player player = msPlayer.getPlayer();
+				
+				SoundManager.play(packet, player);
+			}
+		}
+		else
+		{
+			for(MSPlayer msPlayer : (predicate != null ? getPlayers(predicate) : getPlayers()))
+			{
+				Player player = msPlayer.getPlayer();
+				loc = player.getLocation();
+				PacketPlayOutNamedSoundEffect packet = SoundManager.buildPacket(path, loc, volume, pitch);
+				
+				SoundManager.play(packet, player);
+			}
+		}
+	}
+	
+	public void playSound(String path, Location loc, float volume, Predicate<MSPlayer> predicate)
+	{
+		playSound(path, loc, volume, 1, predicate);
 	}
 	
 	public void playSound(String path, Location loc, float volume)
 	{
-		playSound(path, loc, volume, 1);
+		playSound(path, loc, volume, 1, null);
+	}
+	
+	public void playSound(String path, Location loc, Predicate<MSPlayer> predicate)
+	{
+		playSound(path, loc, 1, 1, predicate);
 	}
 	
 	public void playSound(String path, Location loc)
 	{
-		playSound(path, loc, 1);
+		playSound(path, loc, 1, 1, null);
 	}
 	
-	public void playSound(String path, float volume, float pitch)
+	public void playSound(String path, float volume, Predicate<MSPlayer> predicate)
 	{
-		Set<Player> bukkitPlayers = getBukkitPlayers();
-		
-		for(Player player : bukkitPlayers)
-		{
-			Location loc = player.getEyeLocation();
-			
-			SoundManager.play(path, loc, volume, pitch, player);
-		}
+		playSound(path, null, volume, 1, predicate);
 	}
 	
 	public void playSound(String path, float volume)
 	{
-		playSound(path, volume, 1);
+		playSound(path, null, volume, 1, null);
+	}
+	
+	public void playSound(String path, Predicate<MSPlayer> predicate)
+	{
+		playSound(path, null, 1, 1, predicate);
 	}
 	
 	public void playSound(String path)
 	{
-		playSound(path, 1);
+		playSound(path, null, 1, 1, null);
 	}
 	
 	public boolean canJoin(String playerName)

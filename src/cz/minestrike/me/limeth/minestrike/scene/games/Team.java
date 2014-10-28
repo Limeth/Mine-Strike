@@ -64,16 +64,6 @@ public enum Team
 		return winSound;
 	}
 	
-	public String getVoiceSound(VoiceSound sound)
-	{
-		return getVoiceSound(sound.toString());
-	}
-	
-	public String getVoiceSound(String soundName)
-	{
-		return voiceDirectory + soundName;
-	}
-
 	public String getVoiceDirectory()
 	{
 		return voiceDirectory;

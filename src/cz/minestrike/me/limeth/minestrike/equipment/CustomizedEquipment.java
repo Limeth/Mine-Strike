@@ -10,6 +10,7 @@ import cz.minestrike.me.limeth.minestrike.MSConstant;
 import cz.minestrike.me.limeth.minestrike.MSPlayer;
 import cz.minestrike.me.limeth.minestrike.Translation;
 import cz.minestrike.me.limeth.minestrike.equipment.containers.InventoryContainer;
+import cz.minestrike.me.limeth.minestrike.util.SoundManager;
 import cz.minestrike.me.limeth.minestrike.util.collections.FilledArrayList;
 
 public class CustomizedEquipment<T extends Equipment> implements Equipment
@@ -157,7 +158,10 @@ public class CustomizedEquipment<T extends Equipment> implements Equipment
 			Equipment selectedEquipment = invContainer.get(selectionIndex);
 			
 			if(!(selectedEquipment instanceof CustomizedEquipment))
+			{
+				SoundManager.play(ClickSound.INVALID.getAbsolouteName(), msPlayer.getPlayer());
 				throw new RuntimeException("The equipment isn't an instance of customized equipment.");
+			}
 			
 			@SuppressWarnings("unchecked")
 			CustomizedEquipment<? extends Equipment> ce = (CustomizedEquipment<? extends Equipment>) selectedEquipment;
@@ -166,6 +170,7 @@ public class CustomizedEquipment<T extends Equipment> implements Equipment
 			invContainer.unequip(source);
 			ce.setEquipped(true);
 			InventoryContainer.equipSelection(inv, msPlayer);
+			SoundManager.play(ClickSound.ACCEPT.getAbsolouteName(), msPlayer.getPlayer());
 		}
 	};
 	
@@ -191,13 +196,17 @@ public class CustomizedEquipment<T extends Equipment> implements Equipment
 			Equipment selectedEquipment = invContainer.get(selectionIndex);
 			
 			if(!(selectedEquipment instanceof CustomizedEquipment))
+			{
+				SoundManager.play(ClickSound.INVALID.getAbsolouteName(), msPlayer.getPlayer());
 				throw new RuntimeException("The equipment isn't an instance of customized equipment.");
+			}
 			
 			@SuppressWarnings("unchecked")
 			CustomizedEquipment<? extends Equipment> ce = (CustomizedEquipment<? extends Equipment>) selectedEquipment;
 			
 			ce.setEquipped(false);
 			InventoryContainer.equipSelection(inv, msPlayer);
+			SoundManager.play(ClickSound.ACCEPT.getAbsolouteName(), msPlayer.getPlayer());
 		}
 	};
 	

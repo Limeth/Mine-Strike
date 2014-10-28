@@ -8,6 +8,7 @@ import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -16,6 +17,7 @@ import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 import cz.minestrike.me.limeth.minestrike.MSConstant;
 import cz.minestrike.me.limeth.minestrike.MSPlayer;
 import cz.minestrike.me.limeth.minestrike.Translation;
+import cz.minestrike.me.limeth.minestrike.equipment.ClickSound;
 import cz.minestrike.me.limeth.minestrike.equipment.CustomizedEquipment;
 import cz.minestrike.me.limeth.minestrike.equipment.Equipment;
 import cz.minestrike.me.limeth.minestrike.equipment.EquipmentCustomization;
@@ -24,6 +26,7 @@ import cz.minestrike.me.limeth.minestrike.equipment.containers.InventoryContaine
 import cz.minestrike.me.limeth.minestrike.equipment.guns.Gun;
 import cz.minestrike.me.limeth.minestrike.equipment.guns.GunType;
 import cz.minestrike.me.limeth.minestrike.equipment.simple.Knife;
+import cz.minestrike.me.limeth.minestrike.util.SoundManager;
 import cz.minestrike.me.limeth.minestrike.util.collections.FilledArrayList;
 import cz.minestrike.me.limeth.minestrike.util.collections.FilledHashMap;
 
@@ -205,9 +208,10 @@ public enum Case implements Equipment
 		FilledArrayList<CaseContent> rarityContents = getContents(rarity);
 		CaseContent resultContent = rarityContents.get(random.nextInt(rarityContents.size()));
 		Equipment result = resultContent.getEquipment();
+		Player player = msPlayer.getPlayer();
 		
 		container.add(result);
-		new CaseOpening(msPlayer, this, result).start();
+		new CaseOpening(msPlayer, this, resultContent).start();
 	}
 	
 	@Override
@@ -252,10 +256,12 @@ public enum Case implements Equipment
 				{
 					String caseName = getSource().getName();
 					
+					SoundManager.play(ClickSound.INVALID.getAbsolouteName(), msPlayer.getPlayer());
 					msPlayer.sendMessage(Translation.BUTTON_CASE_ERROR_KEYNOTFOUND.getMessage(caseName));
 					return;
 				}
 				
+				SoundManager.play(ClickSound.ACCEPT.getAbsolouteName(), msPlayer.getPlayer());
 				getSource().open(msPlayer);
 			}
 		});

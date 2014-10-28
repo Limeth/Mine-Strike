@@ -10,10 +10,12 @@ import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 import cz.minestrike.me.limeth.minestrike.MSConstant;
 import cz.minestrike.me.limeth.minestrike.MSPlayer;
 import cz.minestrike.me.limeth.minestrike.Translation;
+import cz.minestrike.me.limeth.minestrike.equipment.ClickSound;
 import cz.minestrike.me.limeth.minestrike.equipment.Equipment;
 import cz.minestrike.me.limeth.minestrike.equipment.EquipmentPurchaseException;
 import cz.minestrike.me.limeth.minestrike.equipment.ItemButton;
 import cz.minestrike.me.limeth.minestrike.equipment.containers.InventoryContainer;
+import cz.minestrike.me.limeth.minestrike.util.SoundManager;
 import cz.minestrike.me.limeth.minestrike.util.collections.FilledArrayList;
 import cz.minestrike.me.limeth.minestrike.util.collections.FilledHashMap;
 
@@ -146,10 +148,12 @@ public class CaseKey implements Equipment
 				{
 					String caseName = caze.getName();
 					
+					SoundManager.play(ClickSound.INVALID.getAbsolouteName(), msPlayer.getPlayer());
 					msPlayer.sendMessage(Translation.BUTTON_KEY_ERROR_CASENOTFOUND.getMessage(caseName));
 					return;
 				}
 				
+				SoundManager.play(ClickSound.ACCEPT.getAbsolouteName(), msPlayer.getPlayer());
 				caze.open(msPlayer);
 			}
 		});

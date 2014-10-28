@@ -14,4 +14,21 @@
 	<natures>
 		<nature>org.eclipse.jdt.core.javanature</nature>
 	</natures>
+	<linkedResources>
+		<link>
+			<name>fanciful</name>
+			<type>2</type>
+			<location>C:/Users/Limeth/Desktop/Coding/Java/Projects/Minecraft/Libraries/fanciful-master/src/main/java</location>
+		</link>
+		<link>
+			<name>fanciful-master</name>
+			<type>2</type>
+			<location>C:/Users/Limeth/Desktop/Coding/Java/Projects/Minecraft/Libraries/fanciful-master</location>
+		</link>
+		<link>
+			<name>fanciful-src</name>
+			<type>2</type>
+			<location>C:/Users/Limeth/Desktop/Coding/Java/Projects/Minecraft/Libraries/fanciful-master/src/main</location>
+		</link>
+	</linkedResources>
 </projectDescription>

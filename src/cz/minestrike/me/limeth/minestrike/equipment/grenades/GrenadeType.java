@@ -41,6 +41,7 @@ import cz.minestrike.me.limeth.minestrike.scene.games.EquipmentProvider;
 import cz.minestrike.me.limeth.minestrike.scene.games.Game;
 import cz.minestrike.me.limeth.minestrike.scene.games.Team;
 import cz.minestrike.me.limeth.minestrike.scene.games.TeamValue;
+import cz.minestrike.me.limeth.minestrike.scene.games.VoiceSound;
 import cz.minestrike.me.limeth.minestrike.scene.games.team.TeamGame;
 import cz.minestrike.me.limeth.minestrike.util.SoundManager;
 import cz.minestrike.me.limeth.minestrike.util.collections.FilledArrayList;
@@ -48,7 +49,7 @@ import darkBlade12.ParticleEffect;
 
 public enum GrenadeType implements Equipment, DamageSource
 {
-	EXPLOSIVE(ChatColor.RED + "HE Grenade", 1, new TeamValue<Integer>(300), 240F, 16460, 40, "hegrenade", "he_draw")
+	EXPLOSIVE(ChatColor.RED + "HE Grenade", 1, VoiceSound.GRENADE, new TeamValue<Integer>(300), 240F, 16460, 40, "hegrenade", "he_draw")
 	{
 		public static final double RANGE = 6;
 		public static final float DAMAGE = 96 * 20 / MSConstant.CS_MAX_HEALTH,
@@ -96,7 +97,7 @@ public enum GrenadeType implements Equipment, DamageSource
 			return ARMOR_DAMAGE_RATIO;
 		}
 	},
-	INCENDIARY(ChatColor.GOLD + "Incendiary Grenade", 1, new TeamValue<Integer>(400, 600, 500), 250F, 16453, GrenadeExplosionTrigger.LANDING, "incgrenade", "inc_grenade_draw")
+	INCENDIARY(ChatColor.GOLD + "Incendiary Grenade", 1, VoiceSound.MOLOTOV, new TeamValue<Integer>(400, 600, 500), 250F, 16453, GrenadeExplosionTrigger.LANDING, "incgrenade", "inc_grenade_draw")
 	{
 		private static final int yawSteps = 10, pitchSteps = 10, duration = 20 * 8;
 		
@@ -132,7 +133,7 @@ public enum GrenadeType implements Equipment, DamageSource
 			return false;
 		}
 	},
-	DECOY(ChatColor.GRAY + "Decoy Grenade", 1, new TeamValue<Integer>(50), 250F, 16450, GrenadeExplosionTrigger.STABILIZATION, "decoy", "decoy_draw")
+	DECOY(ChatColor.GRAY + "Decoy Grenade", 1, VoiceSound.DECOY, new TeamValue<Integer>(50), 250F, 16450, GrenadeExplosionTrigger.STABILIZATION, "decoy", "decoy_draw")
 	{
 		@Override
 		public boolean onExplosion(Grenade grenade)
@@ -235,7 +236,7 @@ public enum GrenadeType implements Equipment, DamageSource
 			}
 		}
 	},
-	SMOKE(ChatColor.GREEN + "Smoke Grenade", 1, new TeamValue<Integer>(300), 245F, 16452, GrenadeExplosionTrigger.STABILIZATION, "smokegrenade", "smokegrenade_draw")
+	SMOKE(ChatColor.GREEN + "Smoke Grenade", 1, VoiceSound.SMOKE, new TeamValue<Integer>(300), 245F, 16452, GrenadeExplosionTrigger.STABILIZATION, "smokegrenade", "smokegrenade_draw")
 	{
 		@Override
 		public boolean onExplosion(final Grenade grenade)
@@ -289,7 +290,7 @@ public enum GrenadeType implements Equipment, DamageSource
 			return true;
 		}
 	},
-	FLASH(ChatColor.AQUA + "Flashbang", 2, new TeamValue<Integer>(200), 240, 16419, 40, "flashbang", "flashbang_draw")
+	FLASH(ChatColor.AQUA + "Flashbang", 2, VoiceSound.FLASHBANG, new TeamValue<Integer>(200), 240, 16419, 40, "flashbang", "flashbang_draw")
 	{
 		private static final double maxDistance = 32;
 		private static final double maxDuration = 6; //seconds
@@ -391,16 +392,18 @@ public enum GrenadeType implements Equipment, DamageSource
 	};
 	
 	private final String name, directoryName, soundDraw;
+	private final VoiceSound throwSound;
 	private final TeamValue<Integer> price;
 	private final float movementSpeed;
 	private final int color, maxAmount;
 	private final Long ticksUntilExplosion;
 	private final GrenadeExplosionTrigger trigger;
 	
-	private GrenadeType(String name, int maxAmount, TeamValue<Integer> price, float movementSpeed, int color, long ticksUntilExplosion, String directoryName, String soundDraw)
+	private GrenadeType(String name, int maxAmount, VoiceSound throwSound, TeamValue<Integer> price, float movementSpeed, int color, long ticksUntilExplosion, String directoryName, String soundDraw)
 	{
 		this.name = name;
 		this.maxAmount = maxAmount;
+		this.throwSound = throwSound;
 		this.price = price;
 		this.movementSpeed = movementSpeed * MSConstant.CS_UNITS_TO_METERS_PER_TICK_MODIFIER;
 		this.color = color;
@@ -410,10 +413,11 @@ public enum GrenadeType implements Equipment, DamageSource
 		this.soundDraw = "projectsurvive:counterstrike.weapons." + directoryName + "." + soundDraw;
 	}
 	
-	private GrenadeType(String name, int maxAmount, TeamValue<Integer> price, float movementSpeed, int color, GrenadeExplosionTrigger trigger, String directoryName, String soundDraw)
+	private GrenadeType(String name, int maxAmount, VoiceSound throwSound, TeamValue<Integer> price, float movementSpeed, int color, GrenadeExplosionTrigger trigger, String directoryName, String soundDraw)
 	{
 		this.name = name;
 		this.maxAmount = maxAmount;
+		this.throwSound = throwSound;
 		this.price = price;
 		this.movementSpeed = movementSpeed * MSConstant.CS_UNITS_TO_METERS_PER_TICK_MODIFIER;
 		this.color = color;
@@ -460,10 +464,18 @@ public enum GrenadeType implements Equipment, DamageSource
 	
 	private void throwGrenade(MSPlayer msPlayer, double force)
 	{
+		Scene scene = msPlayer.getScene();
 		Player player = msPlayer.getPlayer();
 		PlayerInventory inv = player.getInventory();
 		int slot = inv.getHeldItemSlot();
 		Container hotbarContainer = msPlayer.getHotbarContainer();
+		
+		if(scene instanceof TeamGame)
+		{
+			TeamGame<?, ?, ?, ?> teamGame = (TeamGame<?, ?, ?, ?>) scene;
+			
+			teamGame.playRadioSound(msPlayer, throwSound);
+		}
 		
 		Grenade.throwGrenade(this, msPlayer, force);
 		player.setItemInHand(null);

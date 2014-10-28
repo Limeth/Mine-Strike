@@ -1,28 +1,24 @@
 package cz.minestrike.me.limeth.minestrike.scene.games;
 
+import org.apache.commons.lang.Validate;
+
 public enum VoiceSound
 {
 	AFFIRMATIVE("affirmative"), AGREE("agree"), BLINDED("blinded"),
 	BOMBSITE_CLEAR("bombsiteclear"), BOMB_TICKING_DOWN("bombtickingdown"),
 	CLEARED_AREA("clearedarea"), COMMANDER_DOWN("commanderdown"),
 	COVERING_FRIEND("coveringfriend"), COVER_ME("coverme"),
-	BOMB_EXPLODING_CT(Team.COUNTER_TERRORISTS, "ct_bombexploding"),
-	DEATH_CT(Team.COUNTER_TERRORISTS, "ct_death"),
-	DEATH_T(Team.TERRORISTS, "t_death"),
-	DECOY_CT(Team.COUNTER_TERRORISTS, "ct_decoy"),
-	DECOY_T(Team.TERRORISTS, "t_decoy"),
-	FLASHBANG_CT(Team.COUNTER_TERRORISTS, "ct_flashbang"),
-	FLASHBANG_T(Team.TERRORISTS, "t_flashbang"),
-	GRENADE_CT(Team.COUNTER_TERRORISTS, "ct_grenade"),
-	GRENADE_T(Team.TERRORISTS, "t_grenade"),
-	MOLOTOV_CT(Team.COUNTER_TERRORISTS, "ct_molotov"),
-	MOLOTOV_T(Team.TERRORISTS, "t_molotov"),
-	SMOKE_CT(Team.COUNTER_TERRORISTS, "ct_smoke"),
-	SMOKE_T(Team.TERRORISTS, "t_smoke"),
-	BOMB_DEFUSING(Team.COUNTER_TERRORISTS, "defusingbomb"),
+	BOMB_EXPLODING(null, "ct_bombexploding"),
+	DEATH("t_death", "ct_death"),
+	DECOY("t_decoy", "ct_decoy"),
+	FLASHBANG("t_flashbang", "ct_flashbang"),
+	GRENADE("t_grenade", "ct_grenade"),
+	MOLOTOV("t_molotov", "ct_molotov"),
+	SMOKE("t_smoke", "ct_smoke"),
+	BOMB_DEFUSING(null, "defusingbomb"),
 	DISAGREE("disagree"), ENEMY_DOWN("enemydown"),
 	FOLLOWING_FRIEND("followingfriend"), FRIENDLY_FIRE("friendlyfire"),
-	GUARDING_LOOSE_BOMB(Team.COUNTER_TERRORISTS, "goingtoguardloosebomb"),
+	GUARDING_LOOSE_BOMB(null, "goingtoguardloosebomb"),
 	HEARD_NOISE("heardnoise"), HELP("help"), IN_COMBAT("incombat"),
 	IN_POSITION("inposition"), KILLED_FRIEND("killedfriend"),
 	LAST_MAN_STANDING("lastmanstanding"),
@@ -39,43 +35,52 @@ public enum VoiceSound
 	SCARED_EMOTE("scaredemote"), SNIPER_KILLED("sniperkilled"),
 	SNIPER_WARNING("sniperwarning"), SPOTTED_BOMBER("spottedbomber"),
 	SPOTTED_LOOSE_BOMB("spottedloosebomb"), THANKS("thanks"),
-	BOMB_PICKED_UP_CT(Team.COUNTER_TERRORISTS, "theypickedupthebomb"),
+	BOMB_PICKED_UP(null, "theypickedupthebomb"),
 	THREE_ENEMIES_LEFT("threeenemiesleft"),
 	TWO_ENEMIES_LEFT("twoenemiesleft"),
-	COVERING_DEFUSER(Team.COUNTER_TERRORISTS, "waitingforhumantodefusebomb"),
+	COVERING_DEFUSER(null, "waitingforhumantodefusebomb"),
 	WAITING_HERE("waitinghere"), WHERE_IS_THE_BOMB("whereisthebomb"),
-	GOING_TO_GUARD_ESCAPE_ZONE(Team.TERRORISTS, "goingtoguardhostageescapezone"),
-	GOING_TO_GUARD_HOSTAGES(Team.TERRORISTS, "goingtoguardhostages"),
-	GUARDING_ESCAPE_ZONE(Team.TERRORISTS, "guardinghostageescapezone"),
-	GUARDING_HOSTAGES(Team.TERRORISTS, "guardinghostages"),
-	;
+	GOING_TO_GUARD_ESCAPE_ZONE("goingtoguardhostageescapezone", null),
+	GOING_TO_GUARD_HOSTAGES("goingtoguardhostages", null),
+	GUARDING_ESCAPE_ZONE("guardinghostageescapezone", null),
+	GUARDING_HOSTAGES("guardinghostages", null);
 	
-	private final Team team;
-	private final String soundName;
+	private final String tSoundName;
+	private final String ctSoundName;
 	
-	private VoiceSound(Team team, String soundName)
+	private VoiceSound(String tSoundName, String ctSoundName)
 	{
-		this.team = team;
-		this.soundName = soundName;
+		if(tSoundName == null && ctSoundName == null)
+			throw new IllegalArgumentException("Both names cannot be null at the same time!");
+		
+		this.tSoundName = tSoundName;
+		this.ctSoundName = ctSoundName;
 	}
 	
 	private VoiceSound(String soundName)
 	{
-		this(null, soundName);
+		this(soundName, soundName);
 	}
 	
-	public boolean isTeamLimited()
+	public String getRelativeName(Team team)
 	{
-		return team != null;
+		Validate.notNull(team, "The team must not be null!");
+		
+		if(team == Team.TERRORISTS)
+			return tSoundName;
+		else if(team == Team.COUNTER_TERRORISTS)
+			return ctSoundName;
+		else
+			return null;
 	}
 	
-	public Team getTeam()
+	public String getAbsoluteName(Team team)
 	{
-		return team;
+		return team.getVoiceDirectory() + getRelativeName(team);
 	}
 	
-	public String getSoundName()
+	public boolean isAvailable(Team team)
 	{
-		return soundName;
+		return getRelativeName(team) != null;
 	}
 }

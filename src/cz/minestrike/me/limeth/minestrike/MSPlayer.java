@@ -230,6 +230,7 @@ public class MSPlayer implements Record
 	private HashMap<MSPlayer, Double> receivedDamage = new HashMap<MSPlayer, Double>();
 	private MSPlayer lastDamageSource;
 	private Equipment lastDamageWeapon;
+	private HashMap<Object, Long> cooldowns = new HashMap<Object, Long>();
 	private float recoil;
 	private long recoilSetTime, jumpTime, landTime;
 	private double speed;
@@ -723,6 +724,29 @@ public class MSPlayer implements Record
 		addReceivedDamage(damager, amount);
 		player.setNoDamageTicks(0);
 		player.damage(amount);
+	}
+	
+	public boolean hasCooldown(Object object, long durationMillis, boolean set)
+	{
+		Long lastSet = cooldowns.get(object);
+		long now = System.currentTimeMillis();
+		
+		if(lastSet == null || lastSet < now - durationMillis)
+		{
+			if(set)
+				cooldowns.put(object, now);
+			
+			return false;
+		}
+		
+		return true;
+	}
+	
+	public void setCooldown(Object object)
+	{
+		long now = System.currentTimeMillis();
+		
+		cooldowns.put(object, now);
 	}
 	
 	public void teleport(Location loc, boolean loadChunks)
