@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="src" path="one-point-eight"/>
 	<classpathentry kind="src" path="fanciful"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/StorageManager"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/DynamicDisplays"/>
@@ -9,6 +10,5 @@
 	<classpathentry kind="lib" path="C:/Users/Limeth/Desktop/Coding/Java/Projects/Minecraft/Libraries/worldedit-5.6.3.jar"/>
 	<classpathentry kind="lib" path="C:/Users/Limeth/Desktop/Coding/Java/Projects/Minecraft/Libraries/NametagEdit.jar"/>
 	<classpathentry kind="lib" path="C:/Users/Limeth/Desktop/Coding/Java/Projects/Minecraft/Bukkit/1.8-based-1.7.10.jar"/>
-	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/OnePointEight"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

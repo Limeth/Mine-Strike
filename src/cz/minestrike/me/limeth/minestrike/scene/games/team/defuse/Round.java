@@ -23,7 +23,7 @@ import cz.minestrike.me.limeth.minestrike.scene.games.team.defuse.DefuseGame.Rou
 
 public class Round extends GamePhase<GameLobby, TeamGameMenu, DefuseGameMap, DefuseEquipmentProvider>
 {
-	public static final long BOMB_TIME = 60 * 20, SPAWN_TIME = 10 * 20, ROUND_TIME = 20 * 60 * 5, END_TIME = 5 * 20, VOTE_TIME = 10 * 20;
+	public static final long BOMB_TIME = 60 * 20, SPAWN_TIME = 10 * 20, ROUND_TIME = 20 * 60 * 3, END_TIME = 5 * 20, VOTE_TIME = 10 * 20;
 
 	private final Runnable prepareRunnable = new Runnable() {
 		@Override
@@ -276,7 +276,7 @@ public class Round extends GamePhase<GameLobby, TeamGameMenu, DefuseGameMap, Def
 		}
 		
 		@EventHandler
-		public void onArenaJoin(ArenaJoinEvent event,final MSPlayer msPlayer)
+		public void onArenaJoin(ArenaJoinEvent event, final MSPlayer msPlayer)
 		{
 			Bukkit.getScheduler().scheduleSyncDelayedTask(MineStrike.getInstance(), new Runnable() {
 

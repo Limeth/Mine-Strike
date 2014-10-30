@@ -28,6 +28,7 @@ public class PacketManager
 	{
 		ProtocolManager pm = MineStrike.getProtocolManager();
 		
+		if(false)
 		pm.addPacketListener(new PacketAdapter(MineStrike.getInstance(), ListenerPriority.NORMAL, PacketType.Play.Server.ENTITY_METADATA)
 		{
 			@Override

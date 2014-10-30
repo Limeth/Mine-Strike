@@ -6,14 +6,16 @@ import org.bukkit.event.HandlerList;
 
 import cz.minestrike.me.limeth.minestrike.MSPlayer;
 import cz.minestrike.me.limeth.minestrike.scene.games.Game;
+import cz.minestrike.me.limeth.minestrike.scene.games.Team;
 
 public class ArenaJoinEvent extends MSPlayerEvent implements Cancellable, GameEvent
 {
 	private static final HandlerList handlers = new HandlerList();
 	private Game<?, ?, ?, ?> game;
 	private boolean cancelled;
+	private Team team;
 	
-	public ArenaJoinEvent(Game<?, ?, ?, ?> game, MSPlayer msPlayer)
+	public ArenaJoinEvent(Game<?, ?, ?, ?> game, MSPlayer msPlayer, Team team)
 	{
 		super(msPlayer);
 		
@@ -23,12 +25,24 @@ public class ArenaJoinEvent extends MSPlayerEvent implements Cancellable, GameEv
 		this.game = game;
 	}
 	
-	public HandlerList getHandlers() {
+	public HandlerList getHandlers()
+	{
 	    return handlers;
 	}
 	 
-	public static HandlerList getHandlerList() {
+	public static HandlerList getHandlerList()
+	{
 	    return handlers;
+	}
+	
+	public Team getTeam()
+	{
+		return team;
+	}
+	
+	public void setTeam(Team team)
+	{
+		this.team = team;
 	}
 
 	@Override

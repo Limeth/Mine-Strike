@@ -13,6 +13,7 @@ import org.bukkit.inventory.PlayerInventory;
 import cz.minestrike.me.limeth.minestrike.MSConfig;
 import cz.minestrike.me.limeth.minestrike.MSConstant;
 import cz.minestrike.me.limeth.minestrike.MSPlayer;
+import cz.minestrike.me.limeth.minestrike.Translation;
 import cz.minestrike.me.limeth.minestrike.events.GameQuitEvent.SceneQuitReason;
 import cz.minestrike.me.limeth.minestrike.listeners.msPlayer.MSSceneListener;
 import cz.minestrike.me.limeth.minestrike.scene.Scene;
@@ -49,6 +50,7 @@ public class Lobby extends Scene
 		msPlayer.teleport(spawn);
 		equip(msPlayer, true);
 		msPlayer.updateNameTag();
+		msPlayer.updateTabHeaderAndFooter();
 		
 		return true;
 	}
@@ -109,6 +111,18 @@ public class Lobby extends Scene
 	{
 		for(MSPlayer msPlayer : getPlayers())
 			msPlayer.sendMessage(message);
+	}
+	
+	@Override
+	public String getTabHeader(MSPlayer msPlayer)
+	{
+		return Translation.TAB_HEADER.getMessage();
+	}
+	
+	@Override
+	public String getTabFooter(MSPlayer msPlayer)
+	{
+		return Translation.TAB_LOBBY_FOOTER.getMessage();
 	}
 	
 	@Override

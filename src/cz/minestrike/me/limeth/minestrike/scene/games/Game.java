@@ -478,6 +478,18 @@ public abstract class Game<Lo extends GameLobby, Me extends GameMenu, Ma extends
 		return players;
 	}
 	
+	public void updateTabHeadersAndFooters()
+	{
+		for(MSPlayer msPlayer : getPlayers())
+			msPlayer.updateTabHeaderAndFooter();
+	}
+	
+	public void updateTabHeadersAndFooters(Predicate<MSPlayer> predicate)
+	{
+		for(MSPlayer msPlayer : getPlayers(predicate))
+			msPlayer.updateTabHeaderAndFooter();
+	}
+	
 	public void playSound(String path, Location loc, float volume, float pitch, Predicate<MSPlayer> predicate)
 	{
 		if(loc != null)

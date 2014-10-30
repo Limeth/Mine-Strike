@@ -64,19 +64,21 @@ public class DefuseGameListener extends MSSceneListener<DefuseGame>
 		
 		game.setDead(msPlayer, true);
 		
-		if(team == Team.TERRORISTS && game.isBombPlaced())
-			return;
+		if(team != Team.TERRORISTS || !game.isBombPlaced())
+			if(game.isDead(team))
+			{
+				RoundEndReason endReason = team == Team.TERRORISTS ? RoundEndReason.T_KILLED : RoundEndReason.CT_KILLED;
+				
+				if(!game.getRound().hasEnded())
+				{
+					game.roundEnd(endReason);
+					return;
+				}
+			}
 		
-		if(game.isDead(team))
-		{
-			RoundEndReason endReason = team == Team.TERRORISTS ? RoundEndReason.T_KILLED : RoundEndReason.CT_KILLED;
-			
-			if(!game.getRound().hasEnded())
-				game.roundEnd(endReason);
-		}
+		game.updateTabHeadersAndFooters();
 	}
 	
-	@SuppressWarnings("deprecation")
 	@EventHandler
 	public void onBlockPlace(BlockPlaceEvent event, MSPlayer msPlayer)
 	{

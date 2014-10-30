@@ -41,6 +41,7 @@ import cz.minestrike.me.limeth.minestrike.util.collections.FilledArrayList;
 import cz.projectsurvive.limeth.dynamicdisplays.DynamicDisplays;
 import cz.projectsurvive.limeth.dynamicdisplays.PlayerDisplay;
 import cz.projectsurvive.limeth.dynamicdisplays.TimedPlayerDisplay;
+import cz.projectsurvive.me.limeth.Title;
 import ftbastler.HeadsUpDisplay;
 
 public class DefuseGame extends TeamGame<GameLobby, TeamGameMenu, DefuseGameMap, DefuseEquipmentProvider>
@@ -118,6 +119,7 @@ public class DefuseGame extends TeamGame<GameLobby, TeamGameMenu, DefuseGameMap,
 		
 		bombGiven = false;
 		giveBomb();
+		updateTabHeadersAndFooters();
 		
 		return true;
 	}
@@ -192,7 +194,22 @@ public class DefuseGame extends TeamGame<GameLobby, TeamGameMenu, DefuseGameMap,
 			showWitherBar(msPlayer);
 		
 		playSound("projectsurvive:counterstrike.radio.bombpl");
-		broadcast(Translation.GAME_BOMB_PLANTED.getMessage());
+		
+		for(MSPlayer msPlayer : getPlayingPlayers())
+		{
+			Team team = getTeam(msPlayer);
+			Player player = msPlayer.getPlayer();
+			String content;
+			
+			if(team == Team.TERRORISTS)
+				content = Translation.ACTIONBAR_GAME_DEFUSE_BOMB_PLANTED_T.getMessage();
+			else if(team == Team.COUNTER_TERRORISTS)
+				content = Translation.ACTIONBAR_GAME_DEFUSE_BOMB_PLANTED_CT.getMessage();
+			else
+				continue;
+			
+			Title.send(player, null, content);
+		}
 	}
 	
 	public void defuse()
@@ -226,6 +243,16 @@ public class DefuseGame extends TeamGame<GameLobby, TeamGameMenu, DefuseGameMap,
 		
 		bombBlock.setType(Material.AIR);
 		bombBlock = null;
+	}
+	
+	@Override
+	public boolean onJoin(MSPlayer msPlayer)
+	{
+		if(!super.onJoin(msPlayer))
+			return false;
+		
+		msPlayer.updateTabHeaderAndFooter();
+		return true;
 	}
 	
 	public void showWitherBar(MSPlayer msPlayer)
@@ -337,6 +364,7 @@ public class DefuseGame extends TeamGame<GameLobby, TeamGameMenu, DefuseGameMap,
 		String winSound = victorTeam.getWinSound();
 		
 		playSound(winSound);
+		updateTabHeadersAndFooters();
 		
 		if(newScore >= REQUIRED_ROUNDS)
 			matchEnd(victorTeam);
@@ -425,26 +453,13 @@ public class DefuseGame extends TeamGame<GameLobby, TeamGameMenu, DefuseGameMap,
 	@Override
 	public boolean joinArena(MSPlayer msPlayer, Team team)
 	{
-		Structure<?> previousStructure = msPlayer.getPlayerStructure();
-		PlayerState previousState = msPlayer.getPlayerState();
-		boolean dead = isDeadAfterJoin(msPlayer, team);
-		
-		setDead(msPlayer, dead);
-		setTeam(msPlayer, team);
-		msPlayer.setPlayerStructure(getMapStructure());
-		msPlayer.setPlayerState(PlayerState.JOINED_GAME);
-		
-		ArenaJoinEvent event = new ArenaJoinEvent(this, msPlayer);
+		ArenaJoinEvent event = new ArenaJoinEvent(this, msPlayer, team);
 		PluginManager pm = Bukkit.getPluginManager();
 		
 		pm.callEvent(event);
 		
 		if(event.isCancelled())
-		{
-			msPlayer.setPlayerStructure(previousStructure);
-			msPlayer.setPlayerState(previousState);
 			return false;
-		}
 		
 		boolean passed = super.joinArena(msPlayer, team);
 		
@@ -454,28 +469,30 @@ public class DefuseGame extends TeamGame<GameLobby, TeamGameMenu, DefuseGameMap,
 		if(!hasPhase())
 			start();
 		
+		boolean dead = isDeadAfterJoin(msPlayer, team);
+		
+		setDead(msPlayer, dead);
+		setTeam(msPlayer, team);
+		msPlayer.setPlayerStructure(getMapStructure());
+		msPlayer.setPlayerState(PlayerState.JOINED_GAME);
+		
 		Location spawnLoc = spawnAndEquip(msPlayer, true);
 		
 		if(spawnLoc == null)
-		{
-			msPlayer.setPlayerStructure(previousStructure);
-			msPlayer.setPlayerState(previousState);
 			return false;
-		}
 		
 		setBalance(msPlayer, MoneyAward.START_CASUAL.getAmount());
 		showWitherBar(msPlayer);
 		
 		if(team != null)
 		{
-			msPlayer.sendMessage(ChatColor.GRAY + "You have joined the " + team.getColoredName() + ChatColor.GRAY + ".");
-			
 			if(!isBombGiven() && team == Team.TERRORISTS)
 				giveBomb();
+			
+			updateTabHeadersAndFooters();
 		}
-		else
-			msPlayer.sendMessage(ChatColor.GRAY + "You have joined the spectators.");
 		
+		msPlayer.sendMessage(Team.getJoinMessage(team).getMessage());
 		return true;
 	}
 	
@@ -701,6 +718,34 @@ public class DefuseGame extends TeamGame<GameLobby, TeamGameMenu, DefuseGameMap,
 			setCTScore(score);
 		else
 			throw new IllegalArgumentException("Invalid team " + team);
+	}
+	
+	@Override
+	public String getTabHeader(MSPlayer msPlayer)
+	{
+		return Translation.TAB_HEADER.getMessage();
+	}
+	
+	@Override
+	public String getTabFooter(MSPlayer msPlayer)
+	{
+		int ctAlive = 0;
+		int tAlive = 0;
+		
+		for(MSPlayer currentPlayer : getPlayers())
+		{
+			if(isDead(currentPlayer))
+				continue;
+			
+			Team team = getTeam(currentPlayer);
+			
+			if(team == Team.COUNTER_TERRORISTS)
+				ctAlive++;
+			else if(team == Team.TERRORISTS)
+				tAlive++;
+		}
+		
+		return Translation.TAB_GAME_DEFUSE_FOOTER.getMessage(ctScore, tScore, ctAlive, tAlive);
 	}
 	
 	public int addTScore(int amount)

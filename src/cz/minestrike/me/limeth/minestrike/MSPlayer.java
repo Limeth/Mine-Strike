@@ -7,6 +7,7 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.function.Predicate;
 
+import net.darkseraphim.actionbar.ActionBarAPI;
 import net.minecraft.server.v1_7_R4.EnumClientCommand;
 import net.minecraft.server.v1_7_R4.PacketPlayInClientCommand;
 
@@ -16,6 +17,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.craftbukkit.v1_7_R4.entity.CraftPlayer;
 import org.bukkit.entity.Player;
@@ -55,6 +57,8 @@ import cz.minestrike.me.limeth.storagemanager.mysql.MySQLService;
 import cz.projectsurvive.limeth.dynamicdisplays.DynamicDisplays;
 import cz.projectsurvive.limeth.dynamicdisplays.PlayerDisplay;
 import cz.projectsurvive.limeth.dynamicdisplays.TimedPlayerDisplay;
+import cz.projectsurvive.me.limeth.TabHeader;
+import cz.projectsurvive.me.limeth.Title;
 
 public class MSPlayer implements Record
 {
@@ -370,6 +374,29 @@ public class MSPlayer implements Record
 			suffix = suffix.substring(0, 16);
 		
 		return suffix;
+	}
+	
+	public String getTabHeader()
+	{
+		Scene scene = getScene();
+		
+		return scene.getTabHeader(this);
+	}
+	
+	public String getTabFooter()
+	{
+		Scene scene = getScene();
+		
+		return scene.getTabFooter(this);
+	}
+	
+	public void updateTabHeaderAndFooter()
+	{
+		String header = getTabHeader();
+		String footer = getTabFooter();
+		Player player = getPlayer();
+		
+		TabHeader.send(header, footer, player);
 	}
 	
 	public void showRankInfo(long ticks)
@@ -1016,11 +1043,14 @@ public class MSPlayer implements Record
 		
 		if(player != null && player.isOnline())
 		{
+			if((notifyXP || notifyLevel) && amount > 0)
+				player.playSound(player.getLocation(), Sound.ORB_PICKUP, 1, 1);
+			
 			if(notifyXP)
 				if(amount > 0)
-					player.sendMessage(Translation.XP_GAIN.getMessage(amount));
+					ActionBarAPI.sendActionBar(Translation.XP_GAIN.getMessage(amount), player);
 				else
-					player.sendMessage(Translation.XP_LOSS.getMessage(-amount));
+					ActionBarAPI.sendActionBar(Translation.XP_LOSS.getMessage(-amount), player);
 			
 			if(notifyLevel)
 			{
@@ -1028,9 +1058,9 @@ public class MSPlayer implements Record
 				
 				if(newRank != oldRank)
 					if(amount > 0)
-						player.sendMessage(Translation.XP_LEVEL_UPGRADE.getMessage(newRank.getName()));
+						Title.send(player, null, Translation.XP_LEVEL_UPGRADE.getMessage(newRank.getName()));
 					else
-						player.sendMessage(Translation.XP_LEVEL_DOWNGRADE.getMessage(newRank.getName()));
+						Title.send(player, null, Translation.XP_LEVEL_DOWNGRADE.getMessage(newRank.getName()));
 			}
 		}
 		

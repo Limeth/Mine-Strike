@@ -22,6 +22,8 @@ public abstract class Scene implements MSListenerRedirector
 	public abstract Set<Player> getBukkitPlayers(Predicate<? super MSPlayer> condition);
 	public abstract boolean onJoin(MSPlayer msPlayer);
 	public abstract boolean onQuit(MSPlayer msPlayer, SceneQuitReason reason, boolean teleport);
+	public abstract String getTabHeader(MSPlayer msPlayer);
+	public abstract String getTabFooter(MSPlayer msPlayer);
 	
 	public String getPrefix(MSPlayer msPlayer)
 	{

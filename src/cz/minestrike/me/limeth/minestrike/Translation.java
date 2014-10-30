@@ -18,6 +18,9 @@ public enum Translation
 	TEAM_TERRORISTS("Terrorists", "Teroristé"),
 	TEAM_COUNTERTERRORISTS("Counter-Terrorists", "Zásahová Jednotka"),
 	
+	GAME_JOIN_TEAM_T("&7You have joined the &6Terrorists&7.", "&7Pripojil(a) jste se k &6Teroristum&7."),
+	GAME_JOIN_TEAM_CT("&7You have joined the &9Counter-Terrorists&7.", "&7Pripojil(a) jste se k &9Zásahové Jednotce&7."),
+	GAME_JOIN_SPECTATORS("&7You have joined the &fSpectators&7.", "&7Pripojil(a) jste se k &fPozorovatelum&7."),
 	GAME_TEAMSELECT_FULL("&cThis team has more players, please join the other one.", "&cTento tym ma prevahu, pripojte se prosim do druheho tymu."),
 	GAME_ROUND_END("{1} have won!", "{1} vyhráli!"),
 	GAME_MATCH_END_1("This match win", "Tento zápas vyhrávají"),
@@ -39,7 +42,7 @@ public enum Translation
 	GAME_SHOP_ERROR_UNAVAILABLE_GAME("&cYou can not purchase any equipment in this game type.", "&cV tomto herním módu nelze nakupovat vybavení."),
 	GAME_BOMB_RECEIVED("&c&lYou have the bomb, plant it at a bombsite.", "&c&lMás bombu, aktivuj ji na stanovisti."),
 	GAME_BOMB_INVALIDPLACEMENT("&cThe bomb must be planted at a bombsite.", "&cBomba musí byt polozena na stanovisti."),
-	GAME_BOMB_PLANTED("&c&lThe bomb has been planted!", "&c&lBomba byla polozena!"),
+	@Deprecated GAME_BOMB_PLANTED("&c&lThe bomb has been planted!", "&c&lBomba byla polozena!"),
 	GAME_BOMB_DEFUSED("&e&lThe bomb has been defused.", "&e&lBomba byla zneskodnena."),
 	GAME_DEATH_UNKNOWN("&7Player &r{1}&7 died.", "&7Hrác &r{1}&7 zemrel."),
 	GAME_DEATH_SUICIDE_SOLO("&7Player &r{1}&7 was killed by their &r{2}&7.", "&7Hrác &r{1}&7 byl zabit svym &r{2}&7."),
@@ -90,6 +93,13 @@ public enum Translation
 	COMMAND_TOP_COOLDOWN("&cYou can use this command in {1} seconds again.", "&cTento príkaz muzete znovu pouzit za {1} sekund."),
 	COMMAND_TOP_INVALIDPAGE("&cInvalid page!", "&cNesprávná strana!"),
 	COMMAND_TOP_ENTRY("&8[&7{1}&8|&f{2}&8]&f {3}&7   {4} XP", "&8[&7{1}&8|&7{2}&8]&f {3}&7   {4} ZK"),
+	
+	TAB_HEADER("&8&l»&9&lMINE&f&l-&6&lSTRIKE&8&l«"),
+	TAB_LOBBY_FOOTER("&lWebsite not specified.", "&lWeb nebyl urcen."),
+	TAB_GAME_DEFUSE_FOOTER("&9{3} &8[ &9&l{1} &f: &6&l{2} &8] &6{4}"),
+	
+	ACTIONBAR_GAME_DEFUSE_BOMB_PLANTED_T("&4&lThe bomb has been planted, don't let them defuse it.", "&4&lBomba byla polozena, kryj ji."),
+	ACTIONBAR_GAME_DEFUSE_BOMB_PLANTED_CT("&4&lThe bomb has been planted, defuse it.", "&4&lBomba byla polozena, zneskodni ji."),
 	;
 	
 	public static final String ENGLISH_NAME = "en", CZECH_NAME = "cz", DEFAULT_LANGUAGE_NAME = ENGLISH_NAME;
@@ -102,6 +112,11 @@ public enum Translation
 		this.defaultEN = defaultEN;
 		this.defaultCZ = defaultCZ;
 		setMessage(defaultEN);
+	}
+	
+	private Translation(String def)
+	{
+		this(def, def);
 	}
 	
 	public static void load()
