@@ -92,8 +92,8 @@ public class Gun extends CustomizedEquipment<GunType>
 		int range = gunType.getRange();
 		Vector direction = location.getDirection();
 		Vector inaccuracyDirection = msPlayer.getInaccuracyVector(this);
-		Vector recoilDirection = msPlayer.getRecoilVector(direction, gunType);
-		direction.add(recoilDirection).add(inaccuracyDirection);
+		msPlayer.modifyByRecoil(direction, this);
+		direction.add(inaccuracyDirection);
 		direction.multiply(range / direction.length()); //Normalize to range
 		msPlayer.increaseRecoil(gunType.getRecoilMagnitude());
 		

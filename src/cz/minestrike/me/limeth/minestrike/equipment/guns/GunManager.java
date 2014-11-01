@@ -11,6 +11,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
 import cz.minestrike.me.limeth.minestrike.BodyPart;
+import cz.minestrike.me.limeth.minestrike.MSConstant;
 import cz.minestrike.me.limeth.minestrike.MSPlayer;
 import cz.minestrike.me.limeth.minestrike.equipment.Equipment;
 import cz.minestrike.me.limeth.minestrike.equipment.containers.HotbarContainer;
@@ -100,7 +101,15 @@ public class GunManager
 				Player bukkitVictim = (Player) rawBukkitVictim;
 				MSPlayer msVictim = MSPlayer.get(bukkitVictim);
 				Location effectLoc = new Location(bukkitWorld, mop.pos.a, mop.pos.b, mop.pos.c);
+				double distance = eyeLoc.distance(effectLoc);
+				double rangeModifier = type.getRangeModifier();
 				double damage = type.getDamage() / damageDivision;
+				
+//				if(bukkitPlayer.isOp())
+//					bukkitPlayer.sendMessage("damage: " + damage + "\nrangeModifier: " + rangeModifier + "\ndistance: " + distance
+//							+ "\nexp: " + (distance / (500 * MSConstant.CS_UNITS_TO_METERS_MODIFIER)) + "\nresult: " + (Math.pow(rangeModifier, distance / (500 * MSConstant.CS_UNITS_TO_METERS_MODIFIER))* damage));
+				
+				damage *= Math.pow(rangeModifier, distance / (500 * MSConstant.CS_UNITS_TO_METERS_MODIFIER));
 				double hitY = mop.pos.b;
 				double victimY = mop.entity.locY;
 				double relHitY = hitY - victimY;

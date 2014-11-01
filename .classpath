@@ -7,8 +7,12 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/DynamicDisplays"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="C:/Users/Limeth/Desktop/Coding/Java/Projects/Minecraft/Libraries/ProtocolLib-Spigot-3.6.0-SNAPSHOT.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Limeth/Desktop/Coding/Java/Projects/Minecraft/Libraries/worldedit-5.6.3.jar"/>
 	<classpathentry kind="lib" path="C:/Users/Limeth/Desktop/Coding/Java/Projects/Minecraft/Libraries/NametagEdit.jar"/>
 	<classpathentry kind="lib" path="C:/Users/Limeth/Desktop/Coding/Java/Projects/Minecraft/Bukkit/1.8-based-1.7.10.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Limeth/Desktop/Coding/Java/Projects/Minecraft/Libraries/worldedit/worldedit-6.0.0-SNAPSHOT.jar" sourcepath="C:/Users/Limeth/Desktop/Coding/Java/Projects/Minecraft/Libraries/worldedit/worldedit-6.0.0-SNAPSHOT-sources.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="jar:file:/C:/Users/Limeth/Desktop/Coding/Java/Projects/Minecraft/Libraries/worldedit/worldedit-6.0.0-SNAPSHOT-javadoc.jar!/"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

@@ -14,9 +14,9 @@ import org.bukkit.util.Vector;
 
 import com.sk89q.worldedit.IncompleteRegionException;
 import com.sk89q.worldedit.LocalSession;
-import com.sk89q.worldedit.LocalWorld;
 import com.sk89q.worldedit.WorldEdit;
 import com.sk89q.worldedit.regions.RegionSelector;
+import com.sk89q.worldedit.session.SessionManager;
 
 import cz.minestrike.me.limeth.minestrike.MSConfig;
 import cz.minestrike.me.limeth.minestrike.areas.schemes.Scheme;
@@ -264,7 +264,8 @@ public class RegionList extends FilledArrayList<Region>
 				Player player = (Player) sender;
 				String playerName = player.getName();
 				WorldEdit worldEdit = WorldEdit.getInstance();
-				LocalSession weSession = worldEdit.getSession(playerName);
+				SessionManager sessionManager = worldEdit.getSessionManager();
+				LocalSession weSession = sessionManager.findByName(playerName);
 				
 				if(weSession == null)
 				{
@@ -272,7 +273,7 @@ public class RegionList extends FilledArrayList<Region>
 					return;
 				}
 				
-				LocalWorld weWorld = weSession.getSelectionWorld();
+				com.sk89q.worldedit.world.World weWorld = weSession.getSelectionWorld();
 				RegionSelector selector = weSession.getRegionSelector(weWorld);
 				com.sk89q.worldedit.regions.Region weRegion;
 				

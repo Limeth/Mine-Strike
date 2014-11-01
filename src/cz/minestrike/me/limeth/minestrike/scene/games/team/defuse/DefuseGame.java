@@ -461,11 +461,6 @@ public class DefuseGame extends TeamGame<GameLobby, TeamGameMenu, DefuseGameMap,
 		if(event.isCancelled())
 			return false;
 		
-		boolean passed = super.joinArena(msPlayer, team);
-		
-		if(!passed)
-			return false;
-		
 		if(!hasPhase())
 			start();
 		
@@ -492,6 +487,7 @@ public class DefuseGame extends TeamGame<GameLobby, TeamGameMenu, DefuseGameMap,
 			updateTabHeadersAndFooters();
 		}
 		
+		msPlayer.updateNameTag();
 		msPlayer.sendMessage(Team.getJoinMessage(team).getMessage());
 		return true;
 	}

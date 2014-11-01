@@ -853,30 +853,55 @@ public class MSPlayer implements Record
 		return base < MAXIMAL_INACCURACY ? base : MAXIMAL_INACCURACY;
 	}
 	
-	public Vector getRecoilVector(Vector direction, GunType gunType)
+	public void modifyByRecoil(Vector vec, Gun gun)
 	{
-	/*	double rawRecoil = getRecoil();
-		double magnitude = gunType.getRecoilMagnitude();
-		double recoil = magnitude * rawRecoil;
-		double xVar = gunType.getRecoilAngleVariance();
-		double yVar = gunType.getRecoilMagnitudeVariance();
-		double length = direction.length();
-		double xDir = direction.getX();
-		double yDir = direction.getY();
-		double zDir = direction.getZ();
+		float recoil = getRecoil();
+		double y = vec.getY();
+		double z = vec.getZ();
+		double theta = recoil / 100; //Pitch
+		double thetaSin = Math.sin(theta);
+		double thetaCos = Math.cos(theta);
 		
-		Vector yVec = new Vector(xDir >= 0 ? length - xDir : xDir - length, yDir, zDir >= 0 ? length - zDir : zDir - length);
+		vec.setY(y * thetaCos - z * thetaSin);
+		vec.setZ(z * thetaCos + y * thetaSin);
 		
-		getPlayer().sendMessage(yVec.toString());
+		double x = vec.getX();
+		z = vec.getZ();
+		double gamma = theta * (Math.random() - 0.5);
+		double gammaSin = Math.sin(gamma);
+		double gammaCos = Math.cos(gamma);
 		
-		yVec.multiply((Math.random() - 0.5) * 2 * yVar);
-		
-		Vector vec = yVec.clone().multiply(recoil);
-		
-		return vec;*/
-		
-		return new Vector(0, 0, 0);
+		vec.setX(x * gammaCos - z * gammaSin);
+		vec.setZ(z * gammaCos + x * gammaSin);
 	}
+	
+	/*
+var rotateY3D = function(theta) {
+    var sin_t = sin(theta);
+    var cos_t = cos(theta);
+    
+    for (var n=0; n<nodes.length; n++) {
+        var node = nodes[n];
+        var x = node[0];
+        var z = node[2];
+        node[0] = x * cos_t - z * sin_t;
+        node[2] = z * cos_t + x * sin_t;
+    }
+};
+
+var rotateX3D = function(theta) {
+    var sin_t = sin(theta);
+    var cos_t = cos(theta);
+    
+    for (var n=0; n<nodes.length; n++) {
+        var node = nodes[n];
+        var y = node[1];
+        var z = node[2];
+        node[1] = y * cos_t - z * sin_t;
+        node[2] = z * cos_t + y * sin_t;
+    }
+};
+	 */
 	
 	public float increaseRecoil(float by)
 	{

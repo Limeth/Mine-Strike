@@ -29,9 +29,9 @@ import com.comphenix.protocol.events.PacketListener;
 import com.comphenix.protocol.reflect.StructureModifier;
 import com.sk89q.worldedit.IncompleteRegionException;
 import com.sk89q.worldedit.LocalSession;
-import com.sk89q.worldedit.LocalWorld;
 import com.sk89q.worldedit.WorldEdit;
 import com.sk89q.worldedit.regions.RegionSelector;
+import com.sk89q.worldedit.session.SessionManager;
 
 import cz.minestrike.me.limeth.minestrike.MSConfig;
 import cz.minestrike.me.limeth.minestrike.MSPlayer;
@@ -643,8 +643,9 @@ public class MSExecutor implements CommandExecutor
 				Player player = (Player) sender;
 				String playerName = player.getName();
 				WorldEdit worldEdit = WorldEdit.getInstance();
-				LocalSession weSession = worldEdit.getSession(playerName);
-				LocalWorld weWorld = weSession.getSelectionWorld();
+				SessionManager sessionManager = worldEdit.getSessionManager();
+				LocalSession weSession = sessionManager.findByName(playerName);
+				com.sk89q.worldedit.world.World weWorld = weSession.getSelectionWorld();
 				RegionSelector selector = weSession.getRegionSelector(weWorld);
 				com.sk89q.worldedit.regions.Region weRegion;
 				

@@ -24,12 +24,17 @@ public abstract class TeamGame<Lo extends GameLobby, Me extends TeamGameMenu, Ma
 		super(gameType, id, name, owner, open, lobbyId, menuId, maps);
 	}
 	
-	public boolean joinArena(MSPlayer msPlayer, Team team)
-	{		
-		msPlayer.updateNameTag();
-		return true;
-	}
+	/**
+	 * @param msPlayer
+	 * @param team
+	 * @return True if passed
+	 */
+	public abstract boolean joinArena(MSPlayer msPlayer, Team team);
 	
+	/**
+	 * @param msPlayer
+	 * @return True if passed
+	 */
 	public boolean quitArena(MSPlayer msPlayer)
 	{
 		boolean success = super.quitArena(msPlayer);

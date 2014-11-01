@@ -79,7 +79,8 @@ public enum GunType implements Equipment
 	private final Integer recoilAngleVarianceAlt, recoilMagnitudeVarianceAlt, bulletsAlt;
 	private final Boolean automaticAlt;
 	
-	private GunType(Class<? extends GunExtension> extensionClass, String name, String directoryName, String textureName, boolean primary, boolean loadingContinuously, float reloadTime, float weaponArmorRatio, int damage, float rangeModifier, float cycleTime, int penetration, int killAwardCompetitive, int killAwardCasual, int movementSpeed,
+	private GunType(Class<? extends GunExtension> extensionClass, String name, String directoryName, String textureName, boolean primary, boolean loadingContinuously, float reloadTime,
+			float weaponArmorRatio, int damage, float rangeModifier, float cycleTime, int penetration, int killAwardCompetitive, int killAwardCasual, int movementSpeed,
 			int clipSize, int spareCapacity, int price, int range, boolean automatic, float flinchVelocityModifierLarge, float flinchVelocityModifierSmall, float spread,
 			float inaccuracySneak, float inaccuracyStand, float inaccuracyFire, float inaccuracyMove, float inaccuracyJump, float inaccuracyLand, float inaccuracyLadder,
 			float recoveryTimeSneak, float recoveryTimeStand, int recoilAngleVariance, float recoilMagnitude, int recoilMagnitudeVariance, int bullets,
@@ -98,7 +99,7 @@ public enum GunType implements Equipment
 		this.armorReducedDamage = this.damage * weaponArmorRatio;
 		this.armorReduction = 1F - weaponArmorRatio;
 		this.armorAbsorptionCost = armorReduction / 2F;
-		this.rangeModifier = rangeModifier * MSConstant.CS_UNITS_TO_METERS_MODIFIER;
+		this.rangeModifier = rangeModifier;
 		this.cycleTime = cycleTime * 20F;
 		this.penetration = penetration;
 		this.killAwardCompetitive = killAwardCompetitive;

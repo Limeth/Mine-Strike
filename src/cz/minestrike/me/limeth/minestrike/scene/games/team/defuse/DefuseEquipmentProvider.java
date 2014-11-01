@@ -2,10 +2,13 @@ package cz.minestrike.me.limeth.minestrike.scene.games.team.defuse;
 
 import java.util.ArrayList;
 
+import net.minecraft.server.v1_7_R4.NBTTagList;
+import net.minecraft.server.v1_7_R4.NBTTagString;
 import net.minecraft.util.org.apache.commons.lang3.ArrayUtils;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.craftbukkit.v1_7_R4.inventory.CraftItemStack;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -38,12 +41,23 @@ public class DefuseEquipmentProvider implements EquipmentProvider
 {
 	static
 	{
+		NBTTagList destroyable = new NBTTagList(); //For some reason doesn't work
+		
+		destroyable.add(new NBTTagString("obsidian"));
+		
 		ItemStack defaultKit = new ItemStack(Material.IRON_PICKAXE);
 		defaultKit.addUnsafeEnchantment(Enchantment.DIG_SPEED, 4);
 		ItemMeta defaultKitMeta = defaultKit.getItemMeta();
 		
 		defaultKitMeta.setDisplayName(Translation.EQUIPMENT_DEFUSEKIT_DEFAULT.getMessage());
 		defaultKit.setItemMeta(defaultKitMeta);
+		
+		net.minecraft.server.v1_7_R4.ItemStack nmsDefaultKit = CraftItemStack.asNMSCopy(defaultKit);
+		
+		nmsDefaultKit.tag.set("CanDestroy", destroyable);
+		
+		defaultKit = CraftItemStack.asCraftMirror(nmsDefaultKit);
+		
 		DEFUSE_KIT_DEFAULT = new SimpleEquipment("KIT_DEFAULT", defaultKit, 0, MSConstant.MOVEMENT_SPEED_DEFAULT, "projectsurvive:counterstrike.weapons.movement");
 		
 		ItemStack boughtKit = new ItemStack(Material.DIAMOND_PICKAXE);
@@ -52,6 +66,13 @@ public class DefuseEquipmentProvider implements EquipmentProvider
 		
 		boughtKitMeta.setDisplayName(Translation.EQUIPMENT_DEFUSEKIT_BOUGHT.getMessage());
 		boughtKit.setItemMeta(boughtKitMeta);
+		
+		net.minecraft.server.v1_7_R4.ItemStack nmsBoughtKit = CraftItemStack.asNMSCopy(boughtKit);
+		
+		nmsBoughtKit.tag.set("CanDestroy", destroyable);
+		
+		boughtKit = CraftItemStack.asCraftMirror(nmsBoughtKit);
+		
 		DEFUSE_KIT_BOUGHT = new SimpleEquipment("KIT_BOUGHT", boughtKit, 400, MSConstant.MOVEMENT_SPEED_DEFAULT, "projectsurvive:counterstrike.weapons.movement");
 		
 		ItemStack bomb = new ItemStack(Material.OBSIDIAN);
