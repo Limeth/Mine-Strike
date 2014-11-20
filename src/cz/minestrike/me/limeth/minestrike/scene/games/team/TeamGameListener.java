@@ -11,21 +11,17 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 
 import cz.minestrike.me.limeth.minestrike.MSPlayer;
-import cz.minestrike.me.limeth.minestrike.areas.schemes.GameLobby;
-import cz.minestrike.me.limeth.minestrike.areas.schemes.GameMap;
-import cz.minestrike.me.limeth.minestrike.areas.schemes.GameMenu;
 import cz.minestrike.me.limeth.minestrike.events.GameSpawnEvent;
 import cz.minestrike.me.limeth.minestrike.events.SneakPacketEvent;
 import cz.minestrike.me.limeth.minestrike.listeners.msPlayer.MSSceneListener;
-import cz.minestrike.me.limeth.minestrike.scene.games.EquipmentProvider;
 import cz.minestrike.me.limeth.minestrike.scene.games.PlayerState;
 import cz.minestrike.me.limeth.minestrike.scene.games.Team;
 import cz.minestrike.me.limeth.minestrike.scene.games.VoiceSound;
 import cz.minestrike.me.limeth.minestrike.util.SoundManager;
 
-public class TeamGameListener extends MSSceneListener<TeamGame<? extends GameLobby, ? extends GameMenu, ? extends GameMap, ? extends EquipmentProvider>>
+public class TeamGameListener extends MSSceneListener<TeamGame>
 {
-	public TeamGameListener(TeamGame<? extends GameLobby, ? extends GameMenu, ? extends GameMap, ? extends EquipmentProvider> game)
+	public TeamGameListener(TeamGame game)
 	{
 		super(game);
 	}
@@ -43,7 +39,7 @@ public class TeamGameListener extends MSSceneListener<TeamGame<? extends GameLob
 		if(victim.equals(damagerEntity))
 			return;
 		
-		TeamGame<? extends GameLobby, ? extends GameMenu, ? extends GameMap, ? extends EquipmentProvider> game = getScene();
+		TeamGame game = getScene();
 		Player damager = (Player) damagerEntity;
 		MSPlayer msDamager = MSPlayer.get(damager);
 		Team damagerTeam = game.getTeam(msDamager);
@@ -75,7 +71,7 @@ public class TeamGameListener extends MSSceneListener<TeamGame<? extends GameLob
 		if(message.length() <= 0 || message.charAt(0) != '@')
 			return;
 		
-		TeamGame<?, ?, ?, ?> game = getScene();
+		TeamGame game = getScene();
 		Team team = game.getTeam(msPlayer);
 		
 		if(team == null)
@@ -100,7 +96,7 @@ public class TeamGameListener extends MSSceneListener<TeamGame<? extends GameLob
 	public void onGameSpawn(GameSpawnEvent event)
 	{
 		MSPlayer msPlayer = event.getMSPlayer();
-		TeamGame<?, ?, ?, ?> game = getScene();
+		TeamGame game = getScene();
 		
 		if(!game.isPlayerPlaying().test(msPlayer))
 			return;
@@ -114,7 +110,7 @@ public class TeamGameListener extends MSSceneListener<TeamGame<? extends GameLob
 	@EventHandler
 	public void onSneakPacket(SneakPacketEvent event, MSPlayer msViewer)
 	{
-		TeamGame<?, ?, ?, ?> game = getScene();
+		TeamGame game = getScene();
 		
 		if(!game.isPlayerPlaying().test(msViewer))
 			return;

@@ -5,16 +5,15 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 
 import cz.minestrike.me.limeth.minestrike.MSPlayer;
-import cz.minestrike.me.limeth.minestrike.areas.schemes.GameLobby;
-import cz.minestrike.me.limeth.minestrike.areas.schemes.GameMap;
-import cz.minestrike.me.limeth.minestrike.scene.games.EquipmentProvider;
+import cz.minestrike.me.limeth.minestrike.areas.Structure;
+import cz.minestrike.me.limeth.minestrike.areas.schemes.GameMenu;
 import cz.minestrike.me.limeth.minestrike.scene.games.Game;
 import cz.minestrike.me.limeth.minestrike.scene.games.GameType;
 import cz.minestrike.me.limeth.minestrike.scene.games.Team;
 import cz.minestrike.me.limeth.minestrike.scene.games.VoiceSound;
 import cz.minestrike.me.limeth.minestrike.util.collections.FilledArrayList;
 
-public abstract class TeamGame<Lo extends GameLobby, Me extends TeamGameMenu, Ma extends GameMap, EM extends EquipmentProvider> extends Game<Lo, Me, Ma, EM>
+public abstract class TeamGame extends Game
 {
 	public static final String CUSTOM_DATA_TEAM = "MineStrike.game.team";
 	private TeamGameListener teamGameListener;
@@ -46,7 +45,7 @@ public abstract class TeamGame<Lo extends GameLobby, Me extends TeamGameMenu, Ma
 		return true;
 	}
 	
-	public Game<Lo, Me, Ma, EM> setup()
+	public Game setup()
 	{
 		super.setup();
 		teamGameListener = new TeamGameListener(this);
@@ -100,5 +99,23 @@ public abstract class TeamGame<Lo extends GameLobby, Me extends TeamGameMenu, Ma
 		String soundName = sound.getAbsoluteName(team);
 		
 		playSound(soundName, location, Float.MAX_VALUE, 1, p -> { return getTeam(p) == team; });
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public Structure<? extends TeamGameMenu> getMenuStructure()
+	{
+		return (Structure<? extends TeamGameMenu>) super.getMenuStructure();
+	}
+	
+	@Override
+	public void setMenuStructure(Structure<? extends GameMenu> menuStructure)
+	{
+		GameMenu menu = menuStructure.getScheme();
+		
+		if(!(menu instanceof TeamGameMenu))
+			throw new IllegalArgumentException("The menu must be an instance of TeamGameMenu.");
+		
+		super.setMenuStructure(menuStructure);
 	}
 }

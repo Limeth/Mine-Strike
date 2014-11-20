@@ -23,7 +23,9 @@ public class MSConstant
 	public static final boolean DEBUG = true;
 	public static final Random RANDOM = new Random();
 	public static final String CONSOLE_PREFIX = ChatColor.BLUE + "Mine" + ChatColor.GRAY + "-" + ChatColor.GOLD + "Strike" + ChatColor.GRAY + ": " + ChatColor.RESET,
-			INVENTORY_NAME_PREFIX = ChatColor.DARK_BLUE + "" + ChatColor.BOLD + "Mine-Strike" + ChatColor.BLACK + " | " + ChatColor.BOLD;
+			INVENTORY_NAME_PREFIX = ChatColor.DARK_BLUE + "" + ChatColor.BOLD + "Mine-Strike" + ChatColor.BLACK + " | " + ChatColor.BOLD,
+			PERMISSION_ADVANCED_TEAM_JOIN = "MineStrike.advancedTeamJoin",
+			PERMISSION_VOTE_STRENGTH = "MineStrike.voteStrength";
 	public static final int INVENTORY_WIDTH = 9;
 	public static final float CS_NORMAL_SPEED = 250, CS_MAX_HEALTH = 100,
 			CS_UNITS_TO_METERS_MODIFIER = 0.01905F, CS_UNITS_TO_METERS_PER_TICK_MODIFIER = CS_UNITS_TO_METERS_MODIFIER / 20,

@@ -22,10 +22,13 @@ import cz.minestrike.me.limeth.minestrike.areas.Point;
 import cz.minestrike.me.limeth.minestrike.areas.RegionList;
 import cz.minestrike.me.limeth.minestrike.areas.Structure;
 import cz.minestrike.me.limeth.minestrike.areas.schemes.GameLobby;
+import cz.minestrike.me.limeth.minestrike.areas.schemes.GameMap;
+import cz.minestrike.me.limeth.minestrike.areas.schemes.GameMenu;
 import cz.minestrike.me.limeth.minestrike.events.ArenaJoinEvent;
 import cz.minestrike.me.limeth.minestrike.events.GameQuitEvent.SceneQuitReason;
 import cz.minestrike.me.limeth.minestrike.events.GameSpawnEvent;
 import cz.minestrike.me.limeth.minestrike.listeners.msPlayer.MSSceneListener;
+import cz.minestrike.me.limeth.minestrike.scene.games.Game;
 import cz.minestrike.me.limeth.minestrike.scene.games.GamePhase;
 import cz.minestrike.me.limeth.minestrike.scene.games.GamePhaseType;
 import cz.minestrike.me.limeth.minestrike.scene.games.GameType;
@@ -34,7 +37,6 @@ import cz.minestrike.me.limeth.minestrike.scene.games.PlayerState;
 import cz.minestrike.me.limeth.minestrike.scene.games.Team;
 import cz.minestrike.me.limeth.minestrike.scene.games.VoiceSound;
 import cz.minestrike.me.limeth.minestrike.scene.games.team.TeamGame;
-import cz.minestrike.me.limeth.minestrike.scene.games.team.TeamGameMenu;
 import cz.minestrike.me.limeth.minestrike.scene.games.team.defuse.Round.RoundPhase;
 import cz.minestrike.me.limeth.minestrike.util.SoundManager;
 import cz.minestrike.me.limeth.minestrike.util.collections.FilledArrayList;
@@ -44,7 +46,7 @@ import cz.projectsurvive.limeth.dynamicdisplays.TimedPlayerDisplay;
 import cz.projectsurvive.me.limeth.Title;
 import ftbastler.HeadsUpDisplay;
 
-public class DefuseGame extends TeamGame<GameLobby, TeamGameMenu, DefuseGameMap, DefuseEquipmentProvider>
+public class DefuseGame extends TeamGame
 {
 	public static final String CUSTOM_DATA_DEAD = "MineStrike.game.dead", CUSTOM_DATA_BALANCE = "MineStrike.game.balance";
 	public static final int MONEY_CAP = 10000, REQUIRED_ROUNDS = 8,
@@ -428,7 +430,7 @@ public class DefuseGame extends TeamGame<GameLobby, TeamGameMenu, DefuseGameMap,
 	
 	public boolean isDeadAfterJoin(MSPlayer msPlayer, Team team)
 	{
-		GamePhase<?, ?, ?, ?> gamePhase = getPhase();
+		GamePhase<? extends Game> gamePhase = getPhase();
 		
 		if(!(gamePhase instanceof Round))
 			return false;
@@ -500,7 +502,7 @@ public class DefuseGame extends TeamGame<GameLobby, TeamGameMenu, DefuseGameMap,
 	
 	public Round getRound()
 	{
-		GamePhase<GameLobby, TeamGameMenu, DefuseGameMap, DefuseEquipmentProvider> phase = getPhase();
+		GamePhase<? extends Game> phase = getPhase();
 		
 		if(!(phase instanceof Round))
 			throw new RuntimeException("The current phase isn't an instance of Round");
@@ -610,21 +612,21 @@ public class DefuseGame extends TeamGame<GameLobby, TeamGameMenu, DefuseGameMap,
 		
 		if(playerState == PlayerState.LOBBY_GAME)
 		{
-			Structure<GameLobby> lobbyStructure = getLobbyStructure();
+			Structure<? extends GameLobby> lobbyStructure = getLobbyStructure();
 			GameLobby lobby = lobbyStructure.getScheme();
 			spawnPoint = lobbyStructure.getAbsolutePoint(lobby.getSpawnLocation());
 		}
 		else if(playerState == PlayerState.MENU_GAME)
 		{
-			Structure<TeamGameMenu> menuStructure = getMenuStructure();
-			TeamGameMenu menu = menuStructure.getScheme();
+			Structure<? extends GameMenu> menuStructure = getMenuStructure();
+			GameMenu menu = menuStructure.getScheme();
 			spawnPoint = menuStructure.getAbsolutePoint(menu.getSpawnPoint());
 		}
 		else if(playerState == PlayerState.JOINED_GAME)
 		{
 			Team team = getTeam(msPlayer);
-			Structure<DefuseGameMap> mapStructure = getMapStructure();
-			DefuseGameMap map = mapStructure.getScheme();
+			Structure<? extends GameMap> mapStructure = getMapStructure();
+			GameMap map = mapStructure.getScheme();
 			
 			if(team != null && !isDead(msPlayer))
 			{
@@ -817,6 +819,39 @@ public class DefuseGame extends TeamGame<GameLobby, TeamGameMenu, DefuseGameMap,
 	public int getXPForKill(MSPlayer msVictim, MSPlayer msKiller)
 	{
 		return XP_KILL;
+	}
+	
+	@Override
+	public DefuseEquipmentProvider getEquipmentProvider()
+	{
+		return (DefuseEquipmentProvider) super.getEquipmentProvider();
+	}
+	
+	@Override
+	public void setMap(GameMap map)
+	{
+		if(!(map instanceof DefuseGameMap))
+			throw new IllegalArgumentException("The map must be an instance of DefuseGameMap.");
+		
+		super.setMap(map);
+	}
+	
+	@Override
+	public void setMapStructure(Structure<GameMap> mapStructure)
+	{
+		GameMap map = mapStructure.getScheme();
+		
+		if(!(map instanceof DefuseGameMap))
+			throw new IllegalArgumentException("The map must be an instance of DefuseGameMap.");
+		
+		super.setMapStructure(mapStructure);
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public Structure<? extends DefuseGameMap> getMapStructure()
+	{
+		return (Structure<? extends DefuseGameMap>) super.getMapStructure();
 	}
 	
 	public static enum RoundEndReason

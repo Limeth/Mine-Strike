@@ -11,6 +11,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.block.Action;
+import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
@@ -21,13 +22,12 @@ import org.bukkit.scoreboard.Score;
 import org.bukkit.scoreboard.Scoreboard;
 
 import cz.minestrike.me.limeth.minestrike.MSConfig;
+import cz.minestrike.me.limeth.minestrike.MSConstant;
 import cz.minestrike.me.limeth.minestrike.MSPlayer;
 import cz.minestrike.me.limeth.minestrike.MineStrike;
 import cz.minestrike.me.limeth.minestrike.Translation;
 import cz.minestrike.me.limeth.minestrike.areas.Structure;
-import cz.minestrike.me.limeth.minestrike.areas.schemes.GameLobby;
 import cz.minestrike.me.limeth.minestrike.areas.schemes.GameMap;
-import cz.minestrike.me.limeth.minestrike.areas.schemes.GameMenu;
 import cz.minestrike.me.limeth.minestrike.events.GameEquipEvent;
 import cz.minestrike.me.limeth.minestrike.listeners.msPlayer.MSSceneListener;
 import cz.minestrike.me.limeth.minestrike.renderers.MapPollRenderer;
@@ -36,29 +36,31 @@ import cz.minestrike.me.limeth.minestrike.util.RendererUtil;
 import cz.minestrike.me.limeth.minestrike.util.collections.FilledArrayList;
 import cz.minestrike.me.limeth.minestrike.util.collections.FilledHashMap;
 
-public class MapPoll<Lo extends GameLobby, Me extends GameMenu, Ma extends GameMap, EM extends EquipmentProvider> extends GamePhase<Lo, Me, Ma, EM> implements Runnable
+public class MapPoll extends GamePhase<Game> implements Runnable
 {
 	public static final String OBJECTIVE_ID = "mapPoll";
 	public static final int SELECTED_MAX = 5, VOTING_SECONDS = 50 /* incl. changing */, CHANGING_SECONDS = 10; // + 10
 	private final PollListener listener;
-	private final FilledHashMap<String, Ma> votes;
+	private final FilledHashMap<GameMap, Integer> votedMaps;
+	private final FilledHashMap<String, GameMap> votedPlayers;
 	private int secondsLeft;
 	private Integer taskId;
-	private FilledHashMap<Short, Ma> selectedMaps;
+	private FilledHashMap<Short, GameMap> selectedMaps;
 	private Objective objective;
-	private Ma votedMap;
+	private GameMap votedMap;
 	
-	public MapPoll(Game<Lo, Me, Ma, EM> game)
+	public MapPoll(Game game)
 	{
 		super(game, GamePhaseType.FINISHED);
 		
 		listener = new PollListener(game);
-		votes = new FilledHashMap<String, Ma>();
+		votedMaps = new FilledHashMap<GameMap, Integer>();
+		votedPlayers = new FilledHashMap<String, GameMap>();
 		secondsLeft = VOTING_SECONDS;
 	}
 
 	@Override
-	public GamePhase<Lo, Me, Ma, EM> start()
+	public GamePhase<Game> start()
 	{
 		selectMaps();
 		setRenderers();
@@ -70,16 +72,12 @@ public class MapPoll<Lo extends GameLobby, Me extends GameMenu, Ma extends GameM
 	
 	public void endVoting()
 	{
-		Game<Lo, Me, Ma, EM> game = getGame();
+		Game game = getGame();
 		Integer mostVotes = null;
 		
-		for(Ma map : selectedMaps.values())
+		for(GameMap map : selectedMaps.values())
 		{
-			int votes = 0;
-			
-			for(Ma currentMap : this.votes.values())
-				if(map == currentMap)
-					votes++;
+			int votes = this.votedMaps.get(map);
 			
 			if(mostVotes == null || votes > mostVotes)
 			{
@@ -91,6 +89,9 @@ public class MapPoll<Lo extends GameLobby, Me extends GameMenu, Ma extends GameM
 		String votedMapName = votedMap.getName();
 		
 		game.broadcast(Translation.GAME_POLL_CHANGING.getMessage(votedMapName));
+		
+		for(MSPlayer msPlayer : game.getPlayers())
+			msPlayer.clearHotbar();
 	}
 	
 	public void end()
@@ -102,11 +103,11 @@ public class MapPoll<Lo extends GameLobby, Me extends GameMenu, Ma extends GameM
 	
 	private void changeMap()
 	{
-		Game<Lo, Me, Ma, EM> game = getGame();
+		Game game = getGame();
 		
 		game.setMap(votedMap);
 		
-		Structure<Ma> structure = game.getMapStructure();
+		Structure<? extends GameMap> structure = game.getMapStructure();
 		
 		for(MSPlayer msPlayer : game.getPlayers(p -> { return p.getPlayerState() == PlayerState.JOINED_GAME; }))
 			msPlayer.setPlayerStructure(structure);
@@ -155,22 +156,23 @@ public class MapPoll<Lo extends GameLobby, Me extends GameMenu, Ma extends GameM
 	
 	private void selectMaps()
 	{
-		Game<Lo, Me, Ma, EM> game = getGame();
-		FilledArrayList<Ma> availableMaps = game.getMaps();
+		Game game = getGame();
+		FilledArrayList<GameMap> availableMaps = game.getMaps();
 		int amount = availableMaps.size();
 		
 		if(amount > SELECTED_MAX)
 			amount = SELECTED_MAX;
 		
 		FilledArrayList<Short> availableIds = MapAllocator.allocate(amount);
-		selectedMaps = new FilledHashMap<Short, Ma>();
+		selectedMaps = new FilledHashMap<Short, GameMap>();
 		int i = 0;
 		
 		for(short mapId : availableIds)
 		{
-			Ma map = availableMaps.get(i);
+			GameMap map = availableMaps.get(i);
 			
 			selectedMaps.put(mapId, map);
+			votedMaps.put(map, 0);
 			i++;
 		}
 	}
@@ -179,10 +181,10 @@ public class MapPoll<Lo extends GameLobby, Me extends GameMenu, Ma extends GameM
 	{
 		World world = MSConfig.getWorld();
 		
-		for(Entry<Short, Ma> entry : selectedMaps.entrySet())
+		for(Entry<Short, GameMap> entry : selectedMaps.entrySet())
 		{
 			Short viewId = entry.getKey();
-			Ma map = entry.getValue();
+			GameMap map = entry.getValue();
 			
 			try
 			{
@@ -199,7 +201,7 @@ public class MapPoll<Lo extends GameLobby, Me extends GameMenu, Ma extends GameM
 	
 	private void initObjective()
 	{
-		Game<?, ?, ?, ?> game = getGame();
+		Game game = getGame();
 		Scoreboard sb = game.getScoreboard();
 		objective = sb.getObjective(OBJECTIVE_ID);
 		
@@ -248,15 +250,11 @@ public class MapPoll<Lo extends GameLobby, Me extends GameMenu, Ma extends GameM
 	
 	private void updateObjectiveVotes()
 	{
-		for(Ma map : selectedMaps.values())
+		for(GameMap map : selectedMaps.values())
 		{
 			OfflinePlayer entry = getPollEntry(map);
 			Score score = objective.getScore(entry);
-			int votes = 0;
-			
-			for(Ma votedMap : this.votes.values())
-				if(map.equals(votedMap))
-					votes++;
+			int votes = this.votedMaps.get(map);
 			
 			score.setScore(votes);
 		}
@@ -264,7 +262,7 @@ public class MapPoll<Lo extends GameLobby, Me extends GameMenu, Ma extends GameM
 	
 	private void equipPlayers()
 	{
-		Game<Lo, Me, Ma, EM> game = getGame();
+		Game game = getGame();
 		
 		for(MSPlayer msPlayer : game.getPlayingPlayers())
 			equipPlayer(msPlayer);
@@ -278,10 +276,10 @@ public class MapPoll<Lo extends GameLobby, Me extends GameMenu, Ma extends GameM
 		
 		msPlayer.clearHotbar();
 		
-		for(Entry<Short, Ma> entry : selectedMaps.entrySet())
+		for(Entry<Short, GameMap> entry : selectedMaps.entrySet())
 		{
 			short mapId = entry.getKey();
-			Ma map = entry.getValue();
+			GameMap map = entry.getValue();
 			String name = map.getName();
 			ItemStack is = new ItemStack(Material.MAP, 1, mapId);
 			ItemMeta im = is.getItemMeta();
@@ -308,9 +306,9 @@ public class MapPoll<Lo extends GameLobby, Me extends GameMenu, Ma extends GameM
 		listener.redirect(event, msPlayer);
 	}
 	
-	public FilledHashMap<String, Ma> getVotes()
+	public FilledHashMap<GameMap, Integer> getVotes()
 	{
-		return votes;
+		return votedMaps;
 	}
 
 	public boolean isVoteable()
@@ -318,14 +316,14 @@ public class MapPoll<Lo extends GameLobby, Me extends GameMenu, Ma extends GameM
 		return votedMap == null;
 	}
 	
-	public Ma getVotedMap()
+	public GameMap getVotedMap()
 	{
 		return votedMap;
 	}
 
-	private class PollListener extends MSSceneListener<Game<Lo, Me, Ma, EM>>
+	private class PollListener extends MSSceneListener<Game>
 	{
-		public PollListener(Game<Lo, Me, Ma, EM> game)
+		public PollListener(Game game)
 		{
 			super(game);
 		}
@@ -333,10 +331,19 @@ public class MapPoll<Lo extends GameLobby, Me extends GameMenu, Ma extends GameM
 		@EventHandler
 		public void onGameEquip(GameEquipEvent event, MSPlayer msPlayer)
 		{
-			Game<Lo, Me, Ma, EM> game = getScene();
+			Game game = getScene();
 			
 			if(game.isPlayerPlaying().test(msPlayer))
 				equipPlayer(msPlayer);
+		}
+		
+		@EventHandler
+		public void onPlayerDropItem(PlayerDropItemEvent event, MSPlayer msPlayer)
+		{
+			Game game = getScene();
+			
+			if(game.isPlayerPlaying().test(msPlayer))
+				event.setCancelled(true);
 		}
 		
 		@EventHandler
@@ -357,13 +364,13 @@ public class MapPoll<Lo extends GameLobby, Me extends GameMenu, Ma extends GameM
 				return;
 			
 			short durability = item.getDurability();
-			Ma map = selectedMaps.get(durability);
+			GameMap map = selectedMaps.get(durability);
 			
 			if(map == null)
 				return;
 			
 			String playerName = player.getName();
-			Ma previousMap = votes.get(playerName);
+			GameMap previousMap = votedPlayers.get(playerName);
 			
 			if(previousMap != null)
 			{
@@ -374,8 +381,12 @@ public class MapPoll<Lo extends GameLobby, Me extends GameMenu, Ma extends GameM
 			}
 			
 			String mapName = map.getName();
+			int points = votedMaps.get(map);
+			int strength = player.hasPermission(MSConstant.PERMISSION_VOTE_STRENGTH) ? 2 : 1;
 			
-			votes.put(playerName, map);
+			msPlayer.clearHotbar();
+			votedPlayers.put(playerName, map);
+			votedMaps.put(map, points + strength);
 			updateObjectiveVotes();
 			player.sendMessage(Translation.GAME_POLL_VOTE_SUCCESS.getMessage(mapName));
 		}

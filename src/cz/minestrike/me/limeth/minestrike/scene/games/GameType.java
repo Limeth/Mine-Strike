@@ -10,23 +10,23 @@ public enum GameType
 {
 	DEFUSE(DefuseGame.class, DefuseEquipmentProvider.class);
 	
-	private final Class<? extends Game<?, ?, ?, ?>> clazz;
+	private final Class<? extends Game> clazz;
 	private final Class<? extends EquipmentProvider> equipmentManagerClazz;
 	
-	private GameType(Class<? extends Game<?, ?, ?, ?>> clazz, Class<? extends EquipmentProvider> equipmentManagerClazz)
+	private GameType(Class<? extends Game> clazz, Class<? extends EquipmentProvider> equipmentManagerClazz)
 	{
 		this.clazz = clazz;
 		this.equipmentManagerClazz = equipmentManagerClazz;
 	}
 	
-	public Game<?, ?, ?, ?> construct(String id, String name) throws NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException
+	public Game construct(String id, String name) throws NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException
 	{
-		Constructor<? extends Game<?, ?, ?, ?>> constructor = clazz.getDeclaredConstructor(String.class, String.class);
+		Constructor<? extends Game> constructor = clazz.getDeclaredConstructor(String.class, String.class);
 		
 		return constructor.newInstance(id, name);
 	}
 
-	public Class<? extends Game<?, ?, ?, ?>> getCorrespondingClass()
+	public Class<? extends Game> getCorrespondingClass()
 	{
 		return clazz;
 	}
@@ -36,7 +36,7 @@ public enum GameType
 		return equipmentManagerClazz;
 	}
 	
-	public EquipmentProvider newEquipmentManager(Game<?, ?, ?, ?> game) throws NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException
+	public EquipmentProvider newEquipmentManager(Game game) throws NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException
 	{
 		Constructor<? extends EquipmentProvider> constructor = equipmentManagerClazz.getDeclaredConstructor(game.getClass());
 		

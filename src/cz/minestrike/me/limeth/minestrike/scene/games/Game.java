@@ -39,13 +39,12 @@ import cz.minestrike.me.limeth.minestrike.events.GameEquipEvent;
 import cz.minestrike.me.limeth.minestrike.events.GameJoinEvent;
 import cz.minestrike.me.limeth.minestrike.events.GameQuitEvent;
 import cz.minestrike.me.limeth.minestrike.events.GameQuitEvent.SceneQuitReason;
-import cz.minestrike.me.limeth.minestrike.listeners.msPlayer.MSSceneListener;
 import cz.minestrike.me.limeth.minestrike.scene.Scene;
 import cz.minestrike.me.limeth.minestrike.util.PlayerUtil;
 import cz.minestrike.me.limeth.minestrike.util.SoundManager;
 import cz.minestrike.me.limeth.minestrike.util.collections.FilledArrayList;
 
-public abstract class Game<Lo extends GameLobby, Me extends GameMenu, Ma extends GameMap, EM extends EquipmentProvider> extends Scene
+public abstract class Game extends Scene
 {
 	private static final String SOUND_JOIN = "projectsurvive:counterstrike.ui.valve_logo_music";
 	@Expose private final GameType type;
@@ -58,15 +57,15 @@ public abstract class Game<Lo extends GameLobby, Me extends GameMenu, Ma extends
 	@Expose private String lobbyId;
 	@Expose private String menuId;
 	@Expose private FilledArrayList<String> maps;
-	private FilledArrayList<Ma> lazyCorrespondingMaps;
-	private Structure<Lo> lobbyStructure;
-	private Structure<Me> menuStructure;
-	private Structure<Ma> mapStructure;
-	private GamePhase<Lo, Me, Ma, EM> phase;
-	private MSInventoryListener<Game<Lo, Me, Ma, EM>> inventoryListener;
-	private MSSceneListener<Game<Lo, Me, Ma, EM>> shoppingListener;
-	private MSSceneListener<Game<Lo, Me, Ma, EM>> interactionListener;
-	private EM equipmentProvider;
+	private FilledArrayList<GameMap> lazyCorrespondingMaps;
+	private Structure<? extends GameLobby> lobbyStructure;
+	private Structure<? extends GameMenu> menuStructure;
+	private Structure<? extends GameMap> mapStructure;
+	private GamePhase<? extends Game> phase;
+	private MSInventoryListener inventoryListener;
+	private MSShoppingListener shoppingListener;
+	private MSInteractionListener interactionListener;
+	private EquipmentProvider equipmentProvider;
 	private Scoreboard scoreboard;
 	
 	public Game(GameType gameType, String id, String name, MSPlayer owner, boolean open, String lobbyId, String menuId, FilledArrayList<String> maps)
@@ -183,18 +182,18 @@ public abstract class Game<Lo extends GameLobby, Me extends GameMenu, Ma extends
 	}
 	
 	@SuppressWarnings("unchecked")
-	public Game<Lo, Me, Ma, EM> setup()
+	public Game setup()
 	{
 		Scheme lobbyScheme = SchemeManager.getScheme(lobbyId);
 		
 		if(lobbyScheme == null)
 			throw new RuntimeException("Lobby scheme of id '" + lobbyId + "' not found");
 		
-		Lo lobby;
+		GameLobby lobby;
 		
 		try
 		{
-			lobby = (Lo) lobbyScheme;
+			lobby = (GameLobby) lobbyScheme;
 		}
 		catch(Exception e) { throw new RuntimeException("Lobby scheme of id '" + lobbyId + "' is an incorrect instance"); }
 		
@@ -203,15 +202,15 @@ public abstract class Game<Lo extends GameLobby, Me extends GameMenu, Ma extends
 		if(menuScheme == null)
 			throw new RuntimeException("Menu scheme of id '" + menuId + "' not found");
 		
-		Me menu;
+		GameMenu menu;
 		
 		try
 		{
-			menu = (Me) menuScheme;
+			menu = (GameMenu) menuScheme;
 		}
 		catch(Exception e) { throw new RuntimeException("Menu scheme of id '" + menuId + "' is an incorrect instance"); }
 		
-		FilledArrayList<Ma> maps = getMaps();
+		FilledArrayList<GameMap> maps = getMaps();
 		
 		if(maps.size() <= 0)
 			throw new RuntimeException("Map list is empty");
@@ -225,9 +224,9 @@ public abstract class Game<Lo extends GameLobby, Me extends GameMenu, Ma extends
 		if(open)
 			setMap(maps.get(maps.size() - 1)); //TODO move to start
 		
-		inventoryListener = new MSInventoryListener<Game<Lo, Me, Ma, EM>>(this);
-		shoppingListener = new MSShoppingListener<Game<Lo, Me, Ma, EM>>(this);
-		interactionListener = new MSInteractionListener<Game<Lo, Me, Ma, EM>>(this);
+		inventoryListener = new MSInventoryListener(this);
+		shoppingListener = new MSShoppingListener(this);
+		interactionListener = new MSInteractionListener(this);
 		players = new HashSet<MSPlayer>();
 		invited = open ? null : new HashSet<String>();
 		scoreboard = Bukkit.getScoreboardManager().getNewScoreboard();
@@ -240,24 +239,24 @@ public abstract class Game<Lo extends GameLobby, Me extends GameMenu, Ma extends
 	{
 		try
 		{
-			equipmentProvider = (EM) type.newEquipmentManager(this);
+			equipmentProvider = (EquipmentProvider) type.newEquipmentManager(this);
 		}
 		catch(Exception e) { throw new EquipmentManagerInitializationException(e, getClass(), type); }
 	}
 	
 	@SuppressWarnings("unchecked")
-	private FilledArrayList<Ma> initCorrespondingMaps()
+	private FilledArrayList<GameMap> initCorrespondingMaps()
 	{
-		FilledArrayList<Ma> correspondingMaps = new FilledArrayList<Ma>();
+		FilledArrayList<GameMap> correspondingMaps = new FilledArrayList<GameMap>();
 		
 		for(String mapId : maps)
 		{
 			Scheme scheme = SchemeManager.getScheme(mapId);
-			Ma map;
+			GameMap map;
 			
 			try
 			{
-				map = (Ma) scheme;
+				map = (GameMap) scheme;
 			}
 			catch(Exception e)
 			{
@@ -273,12 +272,12 @@ public abstract class Game<Lo extends GameLobby, Me extends GameMenu, Ma extends
 	
 	public void startMapPoll()
 	{
-		MapPoll<Lo, Me, Ma, EM> poll = new MapPoll<Lo, Me, Ma, EM>(this);
+		MapPoll poll = new MapPoll(this);
 		
 		setPhase(poll);
 	}
 	
-	public FilledArrayList<Ma> getMaps()
+	public FilledArrayList<GameMap> getMaps()
 	{
 		return lazyCorrespondingMaps != null ? lazyCorrespondingMaps : initCorrespondingMaps();
 	}
@@ -348,9 +347,9 @@ public abstract class Game<Lo extends GameLobby, Me extends GameMenu, Ma extends
 		
 		try
 		{
-			if(((Lo) SchemeManager.getScheme(lobbyId)) == null)
+			if(((GameLobby) SchemeManager.getScheme(lobbyId)) == null)
 				return false;
-			else if(((Me) SchemeManager.getScheme(menuId)) == null)
+			else if(((GameMenu) SchemeManager.getScheme(menuId)) == null)
 				return false;
 		}
 		catch(ClassCastException e) { return false; }
@@ -361,7 +360,7 @@ public abstract class Game<Lo extends GameLobby, Me extends GameMenu, Ma extends
 		return true;
 	}
 	
-	public Game<Lo, Me, Ma, EM> register()
+	public Game register()
 	{
 		GameManager.register(this);
 		
@@ -605,7 +604,7 @@ public abstract class Game<Lo extends GameLobby, Me extends GameMenu, Ma extends
 		return maps;
 	}
 	
-	public void setMap(Ma map)
+	public void setMap(GameMap map)
 	{
 		Validate.notNull(map, "The map cannot be null!");
 		
@@ -627,12 +626,12 @@ public abstract class Game<Lo extends GameLobby, Me extends GameMenu, Ma extends
 		return phase != null;
 	}
 
-	public GamePhase<Lo, Me, Ma, EM> getPhase()
+	public GamePhase<? extends Game> getPhase()
 	{
 		return phase;
 	}
 
-	public void setPhase(GamePhase<Lo, Me, Ma, EM> phase)
+	public void setPhase(GamePhase<? extends Game> phase)
 	{
 		if(phase != null)
 			phase.start();
@@ -675,32 +674,32 @@ public abstract class Game<Lo extends GameLobby, Me extends GameMenu, Ma extends
 		this.name = name;
 	}
 	
-	public Structure<Lo> getLobbyStructure()
+	public Structure<? extends GameLobby> getLobbyStructure()
 	{
 		return lobbyStructure;
 	}
 
-	public void setLobbyStructure(Structure<Lo> lobbyStructure)
+	public void setLobbyStructure(Structure<? extends GameLobby> lobbyStructure)
 	{
 		this.lobbyStructure = lobbyStructure;
 	}
 
-	public Structure<Me> getMenuStructure()
+	public Structure<? extends GameMenu> getMenuStructure()
 	{
 		return menuStructure;
 	}
 
-	public void setMenuStructure(Structure<Me> menuStructure)
+	public void setMenuStructure(Structure<? extends GameMenu> menuStructure)
 	{
 		this.menuStructure = menuStructure;
 	}
 
-	public Structure<Ma> getMapStructure()
+	public Structure<? extends GameMap> getMapStructure()
 	{
 		return mapStructure;
 	}
 
-	public void setMapStructure(Structure<Ma> mapStructure)
+	public void setMapStructure(Structure<GameMap> mapStructure)
 	{
 		this.mapStructure = mapStructure;
 	}
@@ -717,7 +716,7 @@ public abstract class Game<Lo extends GameLobby, Me extends GameMenu, Ma extends
 		this.menuId = menuId;
 	}
 	
-	public EM getEquipmentProvider()
+	public EquipmentProvider getEquipmentProvider()
 	{
 		return equipmentProvider;
 	}

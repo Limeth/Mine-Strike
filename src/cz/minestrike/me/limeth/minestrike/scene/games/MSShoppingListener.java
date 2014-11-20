@@ -23,9 +23,9 @@ import cz.minestrike.me.limeth.minestrike.listeners.msPlayer.MSSceneListener;
 import cz.minestrike.me.limeth.minestrike.util.PlayerUtil;
 import cz.minestrike.me.limeth.minestrike.util.collections.FilledArrayList;
 
-public class MSShoppingListener<T extends Game<?, ?, ?, ?>> extends MSSceneListener<T>
+public class MSShoppingListener extends MSSceneListener<Game>
 {
-	public MSShoppingListener(T game)
+	public MSShoppingListener(Game game)
 	{
 		super(game);
 	}
@@ -54,7 +54,7 @@ public class MSShoppingListener<T extends Game<?, ?, ?, ?>> extends MSSceneListe
 		if(state != PlayerState.JOINED_GAME)
 			return;
 		
-		Game<?, ?, ?, ? extends EquipmentProvider> game = getScene();
+		Game game = getScene();
 		Inventory topInv = view.getTopInventory();
 		int slot = event.getRawSlot();
 		EquipmentProvider ep = game.getEquipmentProvider();

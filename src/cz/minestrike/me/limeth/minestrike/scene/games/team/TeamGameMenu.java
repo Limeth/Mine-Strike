@@ -6,12 +6,14 @@ import org.bukkit.DyeColor;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.BlockState;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.material.Button;
 import org.bukkit.material.Colorable;
 import org.bukkit.material.MaterialData;
 
+import cz.minestrike.me.limeth.minestrike.MSConstant;
 import cz.minestrike.me.limeth.minestrike.MSPlayer;
 import cz.minestrike.me.limeth.minestrike.MineStrike;
 import cz.minestrike.me.limeth.minestrike.Translation;
@@ -24,6 +26,7 @@ import cz.minestrike.me.limeth.minestrike.areas.schemes.Scheme;
 import cz.minestrike.me.limeth.minestrike.areas.schemes.SchemeType;
 import cz.minestrike.me.limeth.minestrike.scene.Scene;
 import cz.minestrike.me.limeth.minestrike.scene.games.Team;
+import cz.projectsurvive.me.limeth.Title;
 
 public class TeamGameMenu extends GameMenu
 {
@@ -85,7 +88,8 @@ public class TeamGameMenu extends GameMenu
 					return;
 				}
 				
-				TeamGame<?, ?, ?, ?> teamGame = (TeamGame<?, ?, ?, ?>) scene;
+				Player player = msPlayer.getPlayer();
+				TeamGame teamGame = (TeamGame) scene;
 				Set<MSPlayer> playingPlayers = teamGame.getPlayingPlayers();
 				int tPlayers = 0, ctPlayers = 0;
 				
@@ -99,10 +103,11 @@ public class TeamGameMenu extends GameMenu
 						ctPlayers++;
 				}
 				
-				if((team == Team.TERRORISTS && tPlayers > ctPlayers)
-						|| (team == Team.COUNTER_TERRORISTS && ctPlayers > tPlayers))
+				if(!player.hasPermission(MSConstant.PERMISSION_ADVANCED_TEAM_JOIN) && ((team == Team.TERRORISTS && tPlayers > ctPlayers)
+						|| (team == Team.COUNTER_TERRORISTS && ctPlayers > tPlayers)))
 				{
-					msPlayer.sendMessage(Translation.GAME_TEAMSELECT_FULL.getMessage());
+					Title.sendRaw(player, Translation.GAME_TEAMSELECT_FULL_TITLE.getMessage(),
+							Translation.GAME_TEAMSELECT_FULL_SUBTITLE.getMessage());
 					return;
 				}
 				

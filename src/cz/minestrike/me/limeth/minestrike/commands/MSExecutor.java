@@ -452,7 +452,7 @@ public class MSExecutor implements CommandExecutor
 			{
 				String games = "";
 				
-				for(Game<?, ?, ?, ?> game : GameManager.GAMES)
+				for(Game game : GameManager.GAMES)
 					games += (game.isSetUp() ? ChatColor.GREEN : ChatColor.RED) + game.getName() + " (" + game.getId() + ")" + ChatColor.RESET + ", ";
 				
 				sender.sendMessage(games);
@@ -467,7 +467,7 @@ public class MSExecutor implements CommandExecutor
 				
 				Player player = (Player) sender;
 				String id = args[2];
-				Game<?, ?, ?, ?> game = GameManager.getGame(id);
+				Game game = GameManager.getGame(id);
 				
 				if(game == null)
 				{
@@ -497,7 +497,7 @@ public class MSExecutor implements CommandExecutor
 					for(int i = 5; i < args.length; i++)
 						name += " " + args[i];
 					
-					Game<?, ?, ?, ?> game = type.construct(id, name);
+					Game game = type.construct(id, name);
 					
 					game.register();
 					sender.sendMessage(ChatColor.GREEN + "Game " + ChatColor.YELLOW + name + ChatColor.GREEN + " (id '" + id + "') successfully added.");
@@ -511,7 +511,7 @@ public class MSExecutor implements CommandExecutor
 			else if(args[1].equalsIgnoreCase("setup") && args.length > 2)
 			{
 				String id = args[2];
-				Game<?, ?, ?, ?> game = GameManager.getGame(id);
+				Game game = GameManager.getGame(id);
 				
 				if(game == null)
 				{
@@ -543,7 +543,7 @@ public class MSExecutor implements CommandExecutor
 			else if(args[1].equalsIgnoreCase("select") && args.length > 2)
 			{
 				String id = args[2];
-				Game<?, ?, ?, ?> game = GameManager.getGame(id);
+				Game game = GameManager.getGame(id);
 				
 				if(game == null)
 				{

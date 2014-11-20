@@ -29,6 +29,7 @@ import cz.minestrike.me.limeth.minestrike.listeners.ErrorListener;
 import cz.minestrike.me.limeth.minestrike.listeners.InteractionListener;
 import cz.minestrike.me.limeth.minestrike.listeners.InventoryListener;
 import cz.minestrike.me.limeth.minestrike.listeners.PermissionListener;
+import cz.minestrike.me.limeth.minestrike.listeners.clan.ClanListener;
 import cz.minestrike.me.limeth.minestrike.listeners.msPlayer.MSListenerManager;
 import cz.minestrike.me.limeth.minestrike.listeners.packet.PacketManager;
 import cz.minestrike.me.limeth.minestrike.scene.games.GameManager;
@@ -168,6 +169,9 @@ public class MineStrike extends JavaPlugin
 		pm.registerEvents(new InteractionListener(), this);
 		pm.registerEvents(new InventoryListener(), this);
 		pm.registerEvents(new PermissionListener(), this);
+		
+		if(pm.isPluginEnabled("PSClans"))
+			pm.registerEvents(new ClanListener(), this);
 	}
 	
 	private void registerMSListeners()

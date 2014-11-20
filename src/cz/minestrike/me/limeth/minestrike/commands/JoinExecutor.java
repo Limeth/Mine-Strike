@@ -36,13 +36,13 @@ public class JoinExecutor implements CommandExecutor
 			
 			if(scene instanceof Game)
 			{
-				player.sendMessage(ChatColor.RED + "You are already playing in game " + ChatColor.YELLOW + ((Game<?, ?, ?, ?>) scene).getName() + ChatColor.RED + ".");
+				player.sendMessage(ChatColor.RED + "You are already playing in game " + ChatColor.YELLOW + ((Game) scene).getName() + ChatColor.RED + ".");
 				player.sendMessage(ChatColor.RED + "To leave the game, type " + ChatColor.YELLOW + ChatColor.ITALIC + "/leave" + ChatColor.RED + ".");
 				return true;
 			}
 			
 			String id = args[0];
-			Game<?, ?, ?, ?> game = GameManager.getGame(id);
+			Game game = GameManager.getGame(id);
 			
 			if(game == null)
 			{

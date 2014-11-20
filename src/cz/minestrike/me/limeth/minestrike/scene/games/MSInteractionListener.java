@@ -13,9 +13,9 @@ import cz.minestrike.me.limeth.minestrike.equipment.Equipment;
 import cz.minestrike.me.limeth.minestrike.listeners.msPlayer.MSSceneListener;
 import cz.minestrike.me.limeth.minestrike.scene.Scene;
 
-public class MSInteractionListener<T extends Game<?, ?, ?, ?>> extends MSSceneListener<T>
+public class MSInteractionListener extends MSSceneListener<Game>
 {
-	public MSInteractionListener(T game)
+	public MSInteractionListener(Game game)
 	{
 		super(game);
 	}
@@ -28,7 +28,7 @@ public class MSInteractionListener<T extends Game<?, ?, ?, ?>> extends MSSceneLi
 		if(!(scene instanceof Game))
 			throw new RuntimeException("The scene " + scene + " isn't an instance of game.");
 		
-		Game<?, ?, ?, ?> game = (Game<?, ?, ?, ?>) scene;
+		Game game = (Game) scene;
 		
 		if(!game.isPlayerPlaying().test(msPlayer))
 			return;

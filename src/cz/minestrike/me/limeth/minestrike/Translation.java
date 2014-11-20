@@ -21,7 +21,8 @@ public enum Translation
 	GAME_JOIN_TEAM_T("&7You have joined the &6Terrorists&7.", "&7Pripojil(a) jste se k &6Teroristum&7."),
 	GAME_JOIN_TEAM_CT("&7You have joined the &9Counter-Terrorists&7.", "&7Pripojil(a) jste se k &9Zásahové Jednotce&7."),
 	GAME_JOIN_SPECTATORS("&7You have joined the &fSpectators&7.", "&7Pripojil(a) jste se k &fPozorovatelum&7."),
-	GAME_TEAMSELECT_FULL("&cThis team has more players, please join the other one.", "&cTento tym ma prevahu, pripojte se prosim do druheho tymu."),
+	GAME_TEAMSELECT_FULL_TITLE("&cThis team has more players.", "&cTento tym ma prevahu."),
+	GAME_TEAMSELECT_FULL_SUBTITLE("&cPlease join the other one, or purchase &8[&bVIP&8]&c.", "&cPripojte se prosim do druheho, nebo si kupte &8[&bVIP&8]&c."),
 	GAME_ROUND_END("{1} have won!", "{1} vyhráli!"),
 	GAME_MATCH_END_1("This match win", "Tento zápas vyhrávají"),
 	GAME_MATCH_END_2("{1}", "{1}"),
@@ -100,6 +101,9 @@ public enum Translation
 	
 	ACTIONBAR_GAME_DEFUSE_BOMB_PLANTED_T("&4&lThe bomb has been planted, don't let them defuse it.", "&4&lBomba byla polozena, kryj ji."),
 	ACTIONBAR_GAME_DEFUSE_BOMB_PLANTED_CT("&4&lThe bomb has been planted, defuse it.", "&4&lBomba byla polozena, zneskodni ji."),
+	
+	CLAN_CREATE_ERROR_LOWRANK("&cYour rank must be &6Gold I &cor higher to create a clan. Purchase &8[&bVIP&8] &cto create it now.",
+			"&cVase hodnost musí byt alespon &6Gold I&c. Kupte si &8[&bVIP&8] &cpro vytvorení klanu nyní."),
 	;
 	
 	public static final String ENGLISH_NAME = "en", CZECH_NAME = "cz", DEFAULT_LANGUAGE_NAME = ENGLISH_NAME;

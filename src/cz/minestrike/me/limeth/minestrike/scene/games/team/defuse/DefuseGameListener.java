@@ -93,7 +93,7 @@ public class DefuseGameListener extends MSSceneListener<DefuseGame>
 		DefuseGame game = getScene();
 		Block block = event.getBlock();
 		Location loc = block.getLocation();
-		Structure<DefuseGameMap> structure = game.getMapStructure();
+		Structure<? extends DefuseGameMap> structure = game.getMapStructure();
 		DefuseGameMap map = structure.getScheme();
 		Location relLoc = structure.getRelativeLocation(loc);
 		RegionList bombSites = map.getBombSites();

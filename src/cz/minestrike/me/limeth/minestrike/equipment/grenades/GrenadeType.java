@@ -148,7 +148,7 @@ public enum GrenadeType implements Equipment, DamageSource
 			}
 			
 			@SuppressWarnings("unchecked")
-			Game<?, ?, ?, ? extends EquipmentProvider> game = (Game<?, ?, ?, ? extends EquipmentProvider>) scene;
+			Game game = (Game) scene;
 			EquipmentProvider ep = game.getEquipmentProvider();
 			Gun gun = ep.getGun(msPlayer, true);
 			
@@ -472,7 +472,7 @@ public enum GrenadeType implements Equipment, DamageSource
 		
 		if(scene instanceof TeamGame)
 		{
-			TeamGame<?, ?, ?, ?> teamGame = (TeamGame<?, ?, ?, ?>) scene;
+			TeamGame teamGame = (TeamGame) scene;
 			
 			teamGame.playRadioSound(msPlayer, throwSound);
 		}
@@ -525,13 +525,13 @@ public enum GrenadeType implements Equipment, DamageSource
 		if(!(scene instanceof Game))
 			throw new IllegalArgumentException("The scene must be an instance of game.");
 		
-		Game<?, ?, ?, ?> game = (Game<?, ?, ?, ?>) scene;
+		Game game = (Game) scene;
 		
 		if(!(game instanceof TeamGame))
 			return price.getNone();
 		else
 		{
-			TeamGame<?, ?, ?, ?> teamGame = (TeamGame<?, ?, ?, ?>) game;
+			TeamGame teamGame = (TeamGame) game;
 			Team team = teamGame.getTeam(msPlayer);
 			
 			return price.get(team);

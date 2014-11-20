@@ -8,10 +8,10 @@ import cz.minestrike.me.limeth.minestrike.scene.games.Game;
 public class GameEquipEvent extends MSPlayerEvent implements GameEvent
 {
 	private static final HandlerList handlers = new HandlerList();
-	private Game<?, ?, ?, ?> game;
+	private Game game;
 	private boolean forced;
 	
-	public GameEquipEvent(Game<?, ?, ?, ?> game, MSPlayer who, boolean forced)
+	public GameEquipEvent(Game game, MSPlayer who, boolean forced)
 	{
 		super(who);
 		
@@ -25,7 +25,7 @@ public class GameEquipEvent extends MSPlayerEvent implements GameEvent
 	}
 
 	@Override
-	public Game<?, ?, ?, ?> getGame()
+	public Game getGame()
 	{
 		return game;
 	}

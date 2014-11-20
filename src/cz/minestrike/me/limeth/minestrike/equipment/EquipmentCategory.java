@@ -207,13 +207,13 @@ public class EquipmentCategory
 		if(!(scene instanceof Game))
 			return null;
 		
-		Game<?, ?, ?, ?> game = (Game<?, ?, ?, ?>) scene;
+		Game game = (Game) scene;
 		
 		if(!(game instanceof TeamGame))
 			return getEntries();
 		else
 		{
-			TeamGame<?, ?, ?, ?> teamGame = (TeamGame<?, ?, ?, ?>) game;
+			TeamGame teamGame = (TeamGame) game;
 			Team team = teamGame.getTeam(msPlayer);
 			
 			return getEntries(team);

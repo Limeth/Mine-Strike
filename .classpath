@@ -14,5 +14,6 @@
 			<attribute name="javadoc_location" value="jar:file:/C:/Users/Limeth/Desktop/Coding/Java/Projects/Minecraft/Libraries/worldedit/worldedit-6.0.0-SNAPSHOT-javadoc.jar!/"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry combineaccessrules="false" kind="src" path="/PSClans"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

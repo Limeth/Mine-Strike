@@ -10,11 +10,11 @@ import cz.minestrike.me.limeth.minestrike.scene.games.Game;
 public class GameSpawnEvent extends MSPlayerEvent implements Cancellable, GameEvent
 {
 	private static final HandlerList handlers = new HandlerList();
-	private Game<?, ?, ?, ?> game;
+	private Game game;
 	private boolean cancelled;
 	private boolean teleport;
 	
-	public GameSpawnEvent(Game<?, ?, ?, ?> game, MSPlayer who, boolean teleport)
+	public GameSpawnEvent(Game game, MSPlayer who, boolean teleport)
 	{
 		super(who);
 		
@@ -35,7 +35,7 @@ public class GameSpawnEvent extends MSPlayerEvent implements Cancellable, GameEv
 	}
 
 	@Override
-	public Game<?, ?, ?, ?> getGame()
+	public Game getGame()
 	{
 		return game;
 	}

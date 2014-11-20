@@ -16,9 +16,9 @@ import cz.minestrike.me.limeth.minestrike.events.GameQuitEvent.SceneQuitReason;
 import cz.minestrike.me.limeth.minestrike.listeners.msPlayer.MSSceneListener;
 import cz.minestrike.me.limeth.minestrike.util.PlayerUtil;
 
-public class MSInventoryListener<T extends Game<?, ?, ?, ?>> extends MSSceneListener<T>
+public class MSInventoryListener extends MSSceneListener<Game>
 {
-	public MSInventoryListener(T game)
+	public MSInventoryListener(Game game)
 	{
 		super(game);
 	}
@@ -51,7 +51,7 @@ public class MSInventoryListener<T extends Game<?, ?, ?, ?>> extends MSSceneList
 			}
 			else if(item.equals(MSConstant.QUIT_MENU_ITEM))
 			{
-				T game = getScene();
+				Game game = getScene();
 				
 				game.quitArena(msPlayer);
 			}

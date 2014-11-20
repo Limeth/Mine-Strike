@@ -10,11 +10,11 @@ import cz.minestrike.me.limeth.minestrike.scene.games.Game;
 public class GameQuitEvent extends MSPlayerEvent implements Cancellable, GameEvent
 {
 	private static final HandlerList handlers = new HandlerList();
-	private Game<?, ?, ?, ?> game;
+	private Game game;
 	private SceneQuitReason reason;
 	private boolean cancelled;
 	
-	public GameQuitEvent(Game<?, ?, ?, ?> game, MSPlayer msPlayer, SceneQuitReason reason)
+	public GameQuitEvent(Game game, MSPlayer msPlayer, SceneQuitReason reason)
 	{
 		super(msPlayer);
 		
@@ -47,7 +47,7 @@ public class GameQuitEvent extends MSPlayerEvent implements Cancellable, GameEve
 	}
 
 	@Override
-	public Game<?, ?, ?, ?> getGame()
+	public Game getGame()
 	{
 		return game;
 	}
