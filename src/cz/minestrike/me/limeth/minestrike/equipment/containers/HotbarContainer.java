@@ -1,5 +1,8 @@
 package cz.minestrike.me.limeth.minestrike.equipment.containers;
 
+import java.util.Iterator;
+import java.util.NoSuchElementException;
+
 import org.apache.commons.lang.Validate;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
@@ -104,5 +107,45 @@ public class HotbarContainer implements Container
 	public boolean apply(MSPlayer msPlayer, Equipment equipment)
 	{
 		return apply(msPlayer.getPlayer().getInventory(), msPlayer, equipment);
+	}
+	
+	@Override
+	public Iterator<Equipment> iterator()
+	{
+		return new Iterator<Equipment>() {
+			private Integer index;
+			
+			@Override
+			public Equipment next()
+			{
+				for(int i = index == null ? 0 : (index + 1); i < contents.length; i++)
+					if(contents[i] != null)
+					{
+						index = i;
+						return contents[i];
+					}
+				
+				throw new NoSuchElementException();
+			}
+			
+			@Override
+			public boolean hasNext()
+			{
+				for(int i = index == null ? 0 : (index + 1); i < contents.length; i++)
+					if(contents[i] != null)
+						return true;
+				
+				return false;
+			}
+			
+			@Override
+			public void remove()
+			{
+				if(index == null)
+					throw new NoSuchElementException();
+				
+				contents[index] = null;
+			}
+		};
 	}
 }

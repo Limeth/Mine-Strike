@@ -2,7 +2,7 @@ name: MineStrike
 version: 1.0.3
 main: cz.minestrike.me.limeth.minestrike.MineStrike
 author: Limeth
-depend: [StorageManager, WorldEdit, ProtocolLib]
+depend: [StorageManager, WorldEdit, ProtocolLib, DynamicDisplays]
 softdepend: [PSClans]
 commands:
     ms:

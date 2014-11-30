@@ -32,6 +32,7 @@ import cz.minestrike.me.limeth.minestrike.equipment.guns.Gun;
 import cz.minestrike.me.limeth.minestrike.equipment.guns.GunType;
 import cz.minestrike.me.limeth.minestrike.equipment.simple.Helmet;
 import cz.minestrike.me.limeth.minestrike.equipment.simple.Kevlar;
+import cz.minestrike.me.limeth.minestrike.equipment.simple.KevlarAndHelmet;
 import cz.minestrike.me.limeth.minestrike.equipment.simple.Knife;
 import cz.minestrike.me.limeth.minestrike.scene.games.EquipmentProvider;
 import cz.minestrike.me.limeth.minestrike.scene.games.Team;
@@ -58,7 +59,7 @@ public class DefuseEquipmentProvider implements EquipmentProvider
 		
 		defaultKit = CraftItemStack.asCraftMirror(nmsDefaultKit);
 		
-		DEFUSE_KIT_DEFAULT = new SimpleEquipment("KIT_DEFAULT", defaultKit, 0, MSConstant.MOVEMENT_SPEED_DEFAULT, "projectsurvive:counterstrike.weapons.movement");
+		DEFUSE_KIT_DEFAULT = new SimpleEquipment("KIT_DEFAULT", defaultKit, 0, MSConstant.MOVEMENT_SPEED_DEFAULT, "projectsurvive:counterstrike.weapons.movement", false, false);
 		
 		ItemStack boughtKit = new ItemStack(Material.DIAMOND_PICKAXE);
 		boughtKit.addUnsafeEnchantment(Enchantment.DIG_SPEED, 2);
@@ -73,7 +74,7 @@ public class DefuseEquipmentProvider implements EquipmentProvider
 		
 		boughtKit = CraftItemStack.asCraftMirror(nmsBoughtKit);
 		
-		DEFUSE_KIT_BOUGHT = new SimpleEquipment("KIT_BOUGHT", boughtKit, 400, MSConstant.MOVEMENT_SPEED_DEFAULT, "projectsurvive:counterstrike.weapons.movement");
+		DEFUSE_KIT_BOUGHT = new SimpleEquipment("KIT_BOUGHT", boughtKit, 400, MSConstant.MOVEMENT_SPEED_DEFAULT, "projectsurvive:counterstrike.weapons.movement", false, true);
 		
 		ItemStack bomb = new ItemStack(Material.OBSIDIAN);
 		ItemMeta bombIM = bomb.getItemMeta();
@@ -81,7 +82,7 @@ public class DefuseEquipmentProvider implements EquipmentProvider
 		bombIM.setDisplayName(ChatColor.YELLOW + "" + ChatColor.BOLD + "C4");
 		bomb.setItemMeta(bombIM);
 		
-		BOMB = new SimpleEquipment("BOMB", bomb, 0, MSConstant.MOVEMENT_SPEED_DEFAULT, "projectsurvive:counterstrike.weapons.c4.c4_draw");
+		BOMB = new SimpleEquipment("BOMB", bomb, 0, MSConstant.MOVEMENT_SPEED_DEFAULT, "projectsurvive:counterstrike.weapons.c4.c4_draw", true, true);
 		
 		FilledArrayList<EquipmentCategory> categories = new FilledArrayList<EquipmentCategory>();
 		
@@ -469,57 +470,114 @@ public class DefuseEquipmentProvider implements EquipmentProvider
 		return DEFUSE_KIT_BOUGHT.equals(type);
 	}
 
-	@Override
 	public void purchase(MSPlayer msPlayer, Equipment equipment) throws EquipmentPurchaseException
 	{
+		if(!canBeAdded(msPlayer, equipment, true))
+			return;
+		
 		int price = equipment.getPrice(msPlayer);
 		DefuseGame game = getGame();
 		int balance = game.getBalance(msPlayer);
-		Equipment source = equipment.getSource();
-		
-		if(equipment instanceof GrenadeType)
-			try
-			{
-				checkGrenadeAddition(msPlayer, (GrenadeType) equipment);
-			}
-			catch(Exception e)
-			{
-				throw new EquipmentPurchaseException(equipment, e.getMessage());
-			}
 		
 		if(price > balance)
 			throw new EquipmentPurchaseException(equipment, Translation.GAME_SHOP_ERROR_BALANCE.getMessage(equipment.getDisplayName()));
 		
-		if(equipment.purchase(msPlayer))
-			if(source instanceof GrenadeType)
-				addGrenade(msPlayer, (GrenadeType) equipment);
-			else if(source instanceof GunType)
-			{
-				Gun gun;
-				
-				if(equipment instanceof GunType)
-				{
-					GunType gunType = (GunType) equipment;
-					gun = new Gun(gunType);
-				}
-				else
-					gun = ((Gun) equipment).clone();
-				
-				gun.setOwnerName(msPlayer.getName());
-				setGun(msPlayer, gun);
-			}
-			else if(source instanceof Kevlar)
-			{
-				setKevlar(msPlayer, true);
-			}
-			else if(source.equals(DEFUSE_KIT_BOUGHT))
-			{
-				equipDefuseKit(msPlayer, true);
-			}
-			else
-				throw new EquipmentPurchaseException(equipment, Translation.GAME_SHOP_ERROR_UNKNOWN.getMessage(equipment.getClass().getSimpleName()));
+		Equipment thrownEquipment = add(msPlayer, equipment);
+		
+		if(thrownEquipment != null)
+			game.drop(thrownEquipment, msPlayer, true);
 		
 		game.addBalance(msPlayer, -price);
+	}
+	
+	public boolean canBeAdded(MSPlayer msPlayer, Equipment equipment, boolean purchase)
+	{
+		Equipment sourceEquipment = equipment.getSource();
+		
+		if(sourceEquipment instanceof GrenadeType)
+			try
+			{
+				checkGrenadeAddition(msPlayer, (GrenadeType) equipment);
+				return true;
+			}
+			catch(Exception e)
+			{
+				return false;
+			}
+		else if(sourceEquipment instanceof GunType)
+		{
+			GunType gunType = (GunType) sourceEquipment;
+			boolean primary = gunType.isPrimary();
+			
+			return getGun(msPlayer, primary) == null || purchase;
+		}
+		else if(sourceEquipment instanceof Kevlar)
+			return getKevlarDurability(msPlayer) < 1;
+		else if(sourceEquipment instanceof Helmet)
+			return !hasHelmet(msPlayer);
+		else if(sourceEquipment instanceof KevlarAndHelmet)
+			return getKevlarDurability(msPlayer) < 1 || !hasHelmet(msPlayer);
+		else if(sourceEquipment.equals(DEFUSE_KIT_BOUGHT))
+			return !hasBoughtDefuseKit(msPlayer);
+		else if(sourceEquipment.equals(BOMB))
+			return !hasBomb(msPlayer);
+		
+		return false;
+	}
+	
+	/**
+	 * @return Thrown equipment
+	 */
+	public Equipment add(MSPlayer msPlayer, Equipment equipment)
+	{
+		Equipment sourceEquipment = equipment.getSource();
+		
+		if(sourceEquipment instanceof GrenadeType)
+			addGrenade(msPlayer, (GrenadeType) equipment);
+		else if(sourceEquipment instanceof GunType)
+		{
+			GunType gunType = (GunType) sourceEquipment;
+			boolean primary = gunType.isPrimary();
+			Gun previousGun = getGun(msPlayer, primary);
+			Gun gun;
+			
+			if(equipment instanceof GunType)
+				gun = new Gun(gunType);
+			else
+				gun = ((Gun) equipment).clone();
+			
+			gun.setOwnerName(msPlayer.getName());
+			setGun(msPlayer, gun);
+			
+			return previousGun;
+		}
+		else if(sourceEquipment instanceof Kevlar)
+			setKevlar(msPlayer, true);
+		else if(sourceEquipment instanceof Helmet)
+			setHelmet(msPlayer, true);
+		else if(sourceEquipment instanceof KevlarAndHelmet)
+		{
+			setKevlar(msPlayer, true);
+			setHelmet(msPlayer, true);
+		}
+		else if(sourceEquipment.equals(DEFUSE_KIT_BOUGHT))
+			equipDefuseKit(msPlayer, true);
+		else if(sourceEquipment.equals(BOMB))
+			equipBomb(msPlayer);
+		
+		return null;
+	}
+	
+	@Override
+	public boolean pickup(MSPlayer msPlayer, Equipment equipment)
+	{
+		if(canBeAdded(msPlayer, equipment, false))
+		{
+			add(msPlayer, equipment);
+			return true;
+		}
+		
+		return false;
 	}
 	
 	@SuppressWarnings("unchecked")

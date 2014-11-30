@@ -15,6 +15,7 @@ public interface EquipmentProvider
 	/* Must have a constructor with the current game. */
 	
 	public void equip(MSPlayer msPlayer);
+	public boolean pickup(MSPlayer msPlayer, Equipment equipment);
 	public void purchase(MSPlayer msPlayer, Equipment equipment) throws EquipmentPurchaseException;
 	public void setGun(MSPlayer msPlayer, Gun gun);
 	public Gun getGun(MSPlayer msPlayer, boolean primary);

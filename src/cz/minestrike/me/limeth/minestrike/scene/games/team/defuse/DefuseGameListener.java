@@ -18,6 +18,8 @@ import cz.minestrike.me.limeth.minestrike.areas.RegionList;
 import cz.minestrike.me.limeth.minestrike.areas.Structure;
 import cz.minestrike.me.limeth.minestrike.areas.schemes.GameMap;
 import cz.minestrike.me.limeth.minestrike.areas.schemes.Scheme;
+import cz.minestrike.me.limeth.minestrike.equipment.Equipment;
+import cz.minestrike.me.limeth.minestrike.equipment.containers.HotbarContainer;
 import cz.minestrike.me.limeth.minestrike.events.ArenaQuitEvent;
 import cz.minestrike.me.limeth.minestrike.events.GameQuitEvent;
 import cz.minestrike.me.limeth.minestrike.events.ShopOpenEvent;
@@ -38,18 +40,21 @@ public class DefuseGameListener extends MSSceneListener<DefuseGame>
 	public void onArenaQuit(ArenaQuitEvent event, MSPlayer msPlayer)
 	{
 		checkLoss(msPlayer);
+		msPlayer.clearContainers();
 	}
 	
 	@EventHandler
 	public void onGameQuit(GameQuitEvent event, MSPlayer msPlayer)
 	{
 		checkLoss(msPlayer);
+		msPlayer.clearContainers();
 	}
 	
 	@EventHandler
 	public void onPlayerDeath(PlayerDeathEvent event, MSPlayer msPlayer)
 	{
 		checkLoss(msPlayer);
+		msPlayer.clearContainers();
 	}
 	
 	public void checkLoss(MSPlayer msPlayer)
@@ -61,8 +66,13 @@ public class DefuseGameListener extends MSSceneListener<DefuseGame>
 			return;
 		
 		Team team = game.getTeam(msPlayer);
+		HotbarContainer hotbarContainer = msPlayer.getHotbarContainer();
 		
 		game.setDead(msPlayer, true);
+		
+		for(Equipment equipment : hotbarContainer)
+			if(equipment.isDroppedOnDeath())
+				game.drop(equipment, msPlayer, false);
 		
 		if(team != Team.TERRORISTS || !game.isBombPlaced())
 			if(game.isDead(team))

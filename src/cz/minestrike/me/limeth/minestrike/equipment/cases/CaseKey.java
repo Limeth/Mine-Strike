@@ -166,4 +166,16 @@ public class CaseKey implements Equipment
 	{
 		throw new NotImplementedException();
 	}
+	
+	@Override
+	public boolean isDroppedOnDeath()
+	{
+		return false;
+	}
+	
+	@Override
+	public boolean isDroppableManually()
+	{
+		return false;
+	}
 }

@@ -19,6 +19,7 @@ import cz.minestrike.me.limeth.minestrike.MSConstant;
 import cz.minestrike.me.limeth.minestrike.MSPlayer;
 import cz.minestrike.me.limeth.minestrike.Translation;
 import cz.minestrike.me.limeth.minestrike.areas.Point;
+import cz.minestrike.me.limeth.minestrike.areas.Region;
 import cz.minestrike.me.limeth.minestrike.areas.RegionList;
 import cz.minestrike.me.limeth.minestrike.areas.Structure;
 import cz.minestrike.me.limeth.minestrike.areas.schemes.GameLobby;
@@ -107,7 +108,8 @@ public class DefuseGame extends TeamGame
 	
 	public boolean roundPrepare()
 	{
-		removeBomb();
+		clearBombsites();
+		clearDrops();
 		
 		for(MSPlayer msPlayer : getPlayingPlayers())
 		{
@@ -218,7 +220,7 @@ public class DefuseGame extends TeamGame
 	{
 		Round round = getRound();
 		
-		removeBomb();
+		clearBombsites();
 		round.cancel();
 		playSound("projectsurvive:counterstrike.radio.bombdef");
 		broadcast(Translation.GAME_BOMB_DEFUSED.getMessage());
@@ -234,17 +236,28 @@ public class DefuseGame extends TeamGame
 		double z = bombBlock.getZ() + 0.5;
 		World world = bombBlock.getWorld();
 		
-		removeBomb();
+		clearBombsites();
 		world.createExplosion(x, y, z, MSConstant.BOMB_POWER, false, false);
 	}
 	
-	public void removeBomb()
+	public void clearBombsites()
 	{
-		if(bombBlock == null)
-			return;
-		
-		bombBlock.setType(Material.AIR);
 		bombBlock = null;
+		Structure<? extends DefuseGameMap> structure = getMapStructure();
+		DefuseGameMap scheme = structure.getScheme();
+		World world = MSConfig.getWorld();
+		RegionList bombSites = scheme.getBombSites();
+		
+		for(Region bombSite : bombSites)
+			for(Point relativePoint : bombSite)
+			{
+				Point absolutePoint = structure.getAbsolutePoint(relativePoint);
+				Block block = absolutePoint.getBlock(world);
+				Material material = block.getType();
+				
+				if(material == DefuseEquipmentProvider.BOMB.getOriginalItemStack().getType())
+					block.setType(Material.AIR);
+			}
 	}
 	
 	@Override
@@ -413,7 +426,7 @@ public class DefuseGame extends TeamGame
 						ChatColor.DARK_GRAY + "× × ×",
 					};
 			PlayerDisplay display = new TimedPlayerDisplay(player)
-					.startCountdown(Round.VOTE_TIME).setLines(endMessages)
+					.startCountdown(Round.VOTE_TIME).setLines(endMessages[1], endMessages[2], endMessages)
 					.setDistance(2);
 			
 			DynamicDisplays.setDisplay(player, display);
@@ -701,7 +714,7 @@ public class DefuseGame extends TeamGame
 		else
 			throw new IllegalArgumentException("Invalid team " + team);
 	}
-	
+	             
 	public void setScore(int tScore, int ctScore)
 	{
 		this.tScore = tScore;

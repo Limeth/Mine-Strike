@@ -31,6 +31,6 @@ public class Helmet extends SimpleEquipment
 	
 	private Helmet()
 	{
-		super("HELMET", ITEM, null, MSConstant.MOVEMENT_SPEED_DEFAULT, null);
+		super("HELMET", ITEM, null, MSConstant.MOVEMENT_SPEED_DEFAULT, null, false, false);
 	}
 }

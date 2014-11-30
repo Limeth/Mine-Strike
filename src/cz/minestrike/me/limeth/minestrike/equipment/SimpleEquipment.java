@@ -13,14 +13,18 @@ public class SimpleEquipment implements Equipment
 	private final Integer price;
 	private final float speed;
 	private final String soundDraw;
+	private final boolean droppableManually;
+	private final boolean droppedOnDeath;
 	
-	public SimpleEquipment(String id, ItemStack item, Integer price, float speed, String soundDraw)
+	public SimpleEquipment(String id, ItemStack item, Integer price, float speed, String soundDraw, boolean droppableManually, boolean droppedOnDeath)
 	{
 		this.id = id;
 		this.item = item;
 		this.price = price;
 		this.speed = speed;
 		this.soundDraw = soundDraw;
+		this.droppableManually = droppableManually;
+		this.droppedOnDeath = droppedOnDeath;
 	}
 
 	@Override
@@ -100,6 +104,18 @@ public class SimpleEquipment implements Equipment
 	public String toString()
 	{
 		return getId();
+	}
+	
+	@Override
+	public boolean isDroppableManually()
+	{
+		return droppableManually;
+	}
+	
+	@Override
+	public boolean isDroppedOnDeath()
+	{
+		return droppedOnDeath;
 	}
 	
 	@Override

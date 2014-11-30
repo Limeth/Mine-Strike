@@ -31,6 +31,6 @@ public class Kevlar extends SimpleEquipment
 	
 	private Kevlar()
 	{
-		super("KEVLAR", ITEM, 650, MSConstant.MOVEMENT_SPEED_DEFAULT, null);
+		super("KEVLAR", ITEM, 650, MSConstant.MOVEMENT_SPEED_DEFAULT, null, false, false);
 	}
 }

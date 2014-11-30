@@ -614,6 +614,18 @@ public enum GrenadeType implements Equipment, DamageSource
 	}
 	
 	@Override
+	public boolean isDroppedOnDeath()
+	{
+		return true;
+	}
+	
+	@Override
+	public boolean isDroppableManually()
+	{
+		return false;
+	}
+	
+	@Override
 	public FilledArrayList<ItemButton> getSelectionButtons(MSPlayer msPlayer)
 	{
 		return new FilledArrayList<ItemButton>();

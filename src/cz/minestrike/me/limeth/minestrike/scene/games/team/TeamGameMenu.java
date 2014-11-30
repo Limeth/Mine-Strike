@@ -106,7 +106,7 @@ public class TeamGameMenu extends GameMenu
 				if(!player.hasPermission(MSConstant.PERMISSION_ADVANCED_TEAM_JOIN) && ((team == Team.TERRORISTS && tPlayers > ctPlayers)
 						|| (team == Team.COUNTER_TERRORISTS && ctPlayers > tPlayers)))
 				{
-					Title.sendRaw(player, Translation.GAME_TEAMSELECT_FULL_TITLE.getMessage(),
+					Title.send(player, Translation.GAME_TEAMSELECT_FULL_TITLE.getMessage(),
 							Translation.GAME_TEAMSELECT_FULL_SUBTITLE.getMessage());
 					return;
 				}

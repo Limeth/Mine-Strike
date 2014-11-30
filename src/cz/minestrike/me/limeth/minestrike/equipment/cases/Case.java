@@ -268,4 +268,16 @@ public enum Case implements Equipment
 		
 		return buttons;
 	}
+	
+	@Override
+	public boolean isDroppedOnDeath()
+	{
+		return false;
+	}
+	
+	@Override
+	public boolean isDroppableManually()
+	{
+		return false;
+	}
 }

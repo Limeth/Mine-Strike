@@ -1,5 +1,8 @@
 package cz.minestrike.me.limeth.minestrike.equipment.containers;
 
+import java.util.Iterator;
+import java.util.NoSuchElementException;
+
 import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -232,10 +235,13 @@ public class ArmorContainer implements Container
 
 	public void setHelmet(Equipment helmet)
 	{
-		Equipment source = helmet.getSource();
-		
-		if(!(source instanceof Helmet))
-			throw new IllegalArgumentException("The equipment's source must be Helmet.");
+		if(helmet != null)
+		{
+			Equipment source = helmet.getSource();
+			
+			if(!(source instanceof Helmet))
+				throw new IllegalArgumentException("The equipment's source must be Helmet.");
+		}
 		
 		this.helmet = helmet;
 	}
@@ -268,5 +274,56 @@ public class ArmorContainer implements Container
 			kevlar = null;
 		
 		this.kevlarDurability = kevlarDurability;
+	}
+	
+	@Override
+	public Iterator<Equipment> iterator()
+	{
+		return new Iterator<Equipment>() {
+			private Boolean kevlar;
+			
+			@Override
+			public Equipment next()
+			{
+				if(kevlar == null)
+				{
+					if(ArmorContainer.this.kevlar != null)
+					{
+						kevlar = true;
+						return ArmorContainer.this.kevlar;
+					}
+					else if(ArmorContainer.this.helmet != null)
+					{
+						kevlar = false;
+						return ArmorContainer.this.helmet;
+					}
+				}
+				else if(kevlar && ArmorContainer.this.helmet != null)
+				{
+					kevlar = false;
+					return ArmorContainer.this.helmet;
+				}
+				
+				throw new NoSuchElementException();
+			}
+			
+			@Override
+			public boolean hasNext()
+			{
+				return kevlar == null && (ArmorContainer.this.kevlar != null || ArmorContainer.this.helmet != null)
+						|| kevlar == true && ArmorContainer.this.helmet != null;
+			}
+			
+			@Override
+			public void remove()
+			{
+				if(kevlar == null)
+					throw new NoSuchElementException();
+				else if(kevlar)
+					setKevlar(null);
+				else
+					setHelmet(null);
+			}
+		};
 	}
 }

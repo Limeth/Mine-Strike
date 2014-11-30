@@ -36,7 +36,7 @@ public class KevlarAndHelmet extends SimpleEquipment
 	
 	private KevlarAndHelmet()
 	{
-		super("KEVLAR_AND_HELMET", ITEM, 1000, MSConstant.MOVEMENT_SPEED_DEFAULT, null);
+		super("KEVLAR_AND_HELMET", ITEM, 1000, MSConstant.MOVEMENT_SPEED_DEFAULT, null, false, false);
 	}
 	
 	@Override

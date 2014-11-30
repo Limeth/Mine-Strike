@@ -1,6 +1,8 @@
 package cz.minestrike.me.limeth.minestrike.areas;
 
 import java.util.HashSet;
+import java.util.Iterator;
+import java.util.NoSuchElementException;
 import java.util.Random;
 
 import org.apache.commons.lang.Validate;
@@ -18,7 +20,7 @@ import cz.minestrike.me.limeth.minestrike.MSConfig;
 import cz.minestrike.me.limeth.minestrike.MineStrike;
 import cz.minestrike.me.limeth.minestrike.util.SquareBitSet;
 
-public class Region
+public class Region implements Iterable<Point>
 {
 	@Expose private Point lower, higher;
 	private SquareBitSet lazySpawnableArea;
@@ -263,6 +265,55 @@ public class Region
 		Validate.notNull(higher, "The higher point cannot be null!");
 		
 		set(lower, higher);
+	}
+	
+	@Override
+	public Iterator<Point> iterator()
+	{
+		return new Iterator<Point>()
+		{
+			private final Point lower = Region.this.lower.clone();
+			private final Point higher = Region.this.higher.clone();
+			private Integer x, y, z;
+			
+			@Override
+			public Point next()
+			{
+				if(!hasNext())
+					throw new NoSuchElementException();
+				
+				if(x == null || y == null || z == null)
+				{
+					x = lower.getX();
+					y = lower.getY();
+					z = lower.getZ();
+				}
+				else
+				{
+					x++;
+					
+					if(x >= higher.getX() + 1)
+					{
+						x = lower.getX();
+						y++;
+					}
+					
+					if(y >= higher.getY() + 1)
+					{
+						y = lower.getY();
+						z++;
+					}
+				}
+				
+				return new Point(x, y, z);
+			}
+			
+			@Override
+			public boolean hasNext()
+			{
+				return x == null || y == null || z == null || x < higher.getX() || y < higher.getY() || z < higher.getZ();
+			}
+		};
 	}
 	
 	@Override

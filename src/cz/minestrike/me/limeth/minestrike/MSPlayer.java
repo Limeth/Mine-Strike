@@ -402,12 +402,14 @@ public class MSPlayer implements Record
 	public void showRankInfo(long ticks)
 	{
 		Player player = getPlayer();
-		String[] lines = getRankInfo();
+		String[] rankDisplay = getRankDisplay();
+		String rankTitle = getRankTitle();
+		String rankSubtitle = getRankSubtitle();
 		
 		PlayerDisplay display = new TimedPlayerDisplay(player)
 				.startCountdown(ticks)
 				.setDistance(2)
-				.setLines(lines);
+				.setLines(rankTitle, rankSubtitle, rankDisplay);
 		
 		DynamicDisplays.setDisplay(player, display);
 	}
@@ -421,7 +423,7 @@ public class MSPlayer implements Record
 		ChatColor.LIGHT_PURPLE
 	};
 	
-	public String[] getRankInfo()
+	public String[] getRankDisplay()
 	{
 		Rank rank = getRank();
 		long lastRequiredXP = rank != null ? rank.getRequiredXP() : 0;
@@ -462,6 +464,52 @@ public class MSPlayer implements Record
 			progressBar,
 			bottom
 		};
+	}
+	
+	public String getRankTitle()
+	{
+		Rank rank = getRank();
+		
+		if(rank == null)
+			return null;
+		
+		return Translation.DISPLAY_RANK_TITLE.getMessage(rank.getTag(), rank.getName());
+	}
+	
+	public String getRankSubtitle()
+	{
+		Rank rank = getRank();
+		
+		if(rank == null)
+			return Translation.DISPLAY_RANK_NOTYET_1.getMessage();
+		
+		Rank nextRank = Rank.getNext(rank);
+		
+		if(nextRank == null)
+			return null;
+		
+		long lastRequiredXP = rank != null ? rank.getRequiredXP() : 0;
+		long requiredXP = nextRank.getRequiredXP();
+		long xp = getXP();
+		long relativeXP = xp - lastRequiredXP;
+		long relativeRequiredXP = requiredXP - lastRequiredXP;
+		double progress = (double) relativeXP / (double) relativeRequiredXP;
+		int progressBarLength = RANK_PROGRESS_COLORS.length * 8;
+		String progressBar = "";
+		
+		for(double d = 0; d < 1; d += 1D / progressBarLength)
+		{
+			ChatColor color;
+			
+			if(d < progress)
+				color = RANK_PROGRESS_COLORS[(int) (d * RANK_PROGRESS_COLORS.length)];
+			else
+				color = RANK_PROGRESS_BACKGROUND;
+			
+			progressBar += color.toString() + '|';
+		}
+		
+		return Translation.DISPLAY_RANK_SUBTITLE.getMessage(progressBar, relativeXP, relativeRequiredXP);
 	}
 	
 	public float updateMovementSpeed(int heldSlot)

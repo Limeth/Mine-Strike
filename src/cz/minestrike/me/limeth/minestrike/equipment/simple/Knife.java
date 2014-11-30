@@ -51,7 +51,7 @@ public class Knife extends SimpleEquipment
 	
 	private Knife()
 	{
-		super("KNIFE", ITEM, 0, MSConstant.MOVEMENT_SPEED_DEFAULT, SOUND_DRAW);
+		super("KNIFE", ITEM, 0, MSConstant.MOVEMENT_SPEED_DEFAULT, SOUND_DRAW, false, false);
 	}
 	
 	@Override

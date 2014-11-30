@@ -58,7 +58,6 @@ public class InteractionListener implements Listener
 		event.setDroppedExp(0);
 		drops.clear();
 		msPlayer.respawnDelayed();
-		msPlayer.clearContainers();
 		event.setDeathMessage(null);
 	}
 	

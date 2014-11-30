@@ -32,5 +32,7 @@ public interface Equipment
 	 * @return Whether it should add the item to the player's inventory
 	 */
 	public boolean purchase(MSPlayer msPlayer) throws EquipmentPurchaseException;
+	public boolean isDroppedOnDeath();
+	public boolean isDroppableManually();
 	public String getDefaultSkin(MSPlayer msPlayer);
 }

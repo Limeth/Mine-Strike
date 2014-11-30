@@ -5,7 +5,7 @@ import org.bukkit.inventory.Inventory;
 import cz.minestrike.me.limeth.minestrike.MSPlayer;
 import cz.minestrike.me.limeth.minestrike.equipment.Equipment;
 
-public interface Container
+public interface Container extends Iterable<Equipment>
 {
 	public int getSize();
 	public void clear();

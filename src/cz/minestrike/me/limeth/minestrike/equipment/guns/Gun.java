@@ -426,4 +426,16 @@ public class Gun extends CustomizedEquipment<GunType>
 	{
 		return secondaryState ? getEquipment().getBulletsAlt() : getEquipment().getBullets();
 	}
+	
+	@Override
+	public boolean isDroppedOnDeath()
+	{
+		return true;
+	}
+	
+	@Override
+	public boolean isDroppableManually()
+	{
+		return true;
+	}
 }

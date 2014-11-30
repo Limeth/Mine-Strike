@@ -76,6 +76,18 @@ public class CustomizedEquipment<T extends Equipment> implements Equipment
 	{
 		return equipment.getId();
 	}
+	
+	@Override
+	public boolean isDroppableManually()
+	{
+		return equipment.isDroppableManually();
+	}
+	
+	@Override
+	public boolean isDroppedOnDeath()
+	{
+		return equipment.isDroppedOnDeath();
+	}
 
 	@SuppressWarnings("rawtypes")
 	@Override

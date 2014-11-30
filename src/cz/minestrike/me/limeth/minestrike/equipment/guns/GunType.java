@@ -521,6 +521,18 @@ public enum GunType implements Equipment
 		return "DEFAULT";
 	}
 	
+	@Override
+	public boolean isDroppableManually()
+	{
+		return false;
+	}
+	
+	@Override
+	public boolean isDroppedOnDeath()
+	{
+		return false;
+	}
+	
 	public GunExtension newExtension(Gun gun)
 	{
 		try

@@ -1,26 +1,35 @@
 package cz.minestrike.me.limeth.minestrike.scene.games;
 
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
+import net.minecraft.server.v1_7_R4.EntityItem;
 import net.minecraft.server.v1_7_R4.PacketPlayOutNamedSoundEffect;
+import net.minecraft.server.v1_7_R4.WorldServer;
 
 import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
+import org.bukkit.World;
 import org.bukkit.command.CommandSender;
 import org.bukkit.craftbukkit.libs.com.google.gson.annotations.Expose;
+import org.bukkit.craftbukkit.v1_7_R4.CraftWorld;
+import org.bukkit.craftbukkit.v1_7_R4.inventory.CraftItemStack;
 import org.bukkit.entity.Damageable;
+import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
+import org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.scoreboard.Scoreboard;
+import org.bukkit.util.Vector;
 
 import cz.minestrike.me.limeth.minestrike.MSConstant;
 import cz.minestrike.me.limeth.minestrike.MSPlayer;
@@ -32,6 +41,7 @@ import cz.minestrike.me.limeth.minestrike.areas.schemes.GameMap;
 import cz.minestrike.me.limeth.minestrike.areas.schemes.GameMenu;
 import cz.minestrike.me.limeth.minestrike.areas.schemes.Scheme;
 import cz.minestrike.me.limeth.minestrike.areas.schemes.SchemeManager;
+import cz.minestrike.me.limeth.minestrike.equipment.Equipment;
 import cz.minestrike.me.limeth.minestrike.equipment.EquipmentCategory;
 import cz.minestrike.me.limeth.minestrike.equipment.EquipmentManagerInitializationException;
 import cz.minestrike.me.limeth.minestrike.events.ArenaQuitEvent;
@@ -67,6 +77,7 @@ public abstract class Game extends Scene
 	private MSInteractionListener interactionListener;
 	private EquipmentProvider equipmentProvider;
 	private Scoreboard scoreboard;
+	private HashMap<Item, Equipment> drops;
 	
 	public Game(GameType gameType, String id, String name, MSPlayer owner, boolean open, String lobbyId, String menuId, FilledArrayList<String> maps)
 	{
@@ -222,7 +233,7 @@ public abstract class Game extends Scene
 		menuStructure = PlotManager.registerStructure(menu);
 		
 		if(open)
-			setMap(maps.get(maps.size() - 1)); //TODO move to start
+			setMap(maps.get(MSConstant.RANDOM.nextInt(maps.size()))); //TODO move to start
 		
 		inventoryListener = new MSInventoryListener(this);
 		shoppingListener = new MSShoppingListener(this);
@@ -230,6 +241,7 @@ public abstract class Game extends Scene
 		players = new HashSet<MSPlayer>();
 		invited = open ? null : new HashSet<String>();
 		scoreboard = Bukkit.getScoreboardManager().getNewScoreboard();
+		drops = new HashMap<Item, Equipment>();
 		
 		return this;
 	}
@@ -721,14 +733,70 @@ public abstract class Game extends Scene
 		return equipmentProvider;
 	}
 	
+	public Scoreboard getScoreboard()
+	{
+		return scoreboard;
+	}
+	
+	public Item drop(Location loc, Vector velocity, Equipment equipment, MSPlayer msPlayer)
+	{
+		World world = loc.getWorld();
+		WorldServer nmsWorld = ((CraftWorld) world).getHandle();
+		ItemStack itemStack = equipment.newItemStack(msPlayer);
+		net.minecraft.server.v1_7_R4.ItemStack nmsItemStack = CraftItemStack.asNMSCopy(itemStack);
+		EntityItem nmsItem = new EntityItem(nmsWorld, loc.getX(), loc.getY(), loc.getZ(), nmsItemStack);
+		
+		nmsItem.motX = velocity.getX();
+		nmsItem.motY = velocity.getY();
+		nmsItem.motZ = velocity.getZ();
+		nmsItem.pickupDelay = 10;
+		
+		nmsWorld.addEntity(nmsItem, SpawnReason.CUSTOM);
+		
+		Item item = (Item) nmsItem.getBukkitEntity();
+		
+		drops.put(item, equipment);
+		
+		return item;
+	}
+	
+	public Item drop(Equipment equipment, MSPlayer msPlayer, boolean viewAxis)
+	{
+		Player player = msPlayer.getPlayer();
+		Location location = player.getEyeLocation();
+		Vector velocity;
+		
+		if(viewAxis)
+			velocity = location.getDirection();
+		else
+			velocity = new Vector(Math.random() * 2 - 1, 1, Math.random() * 2 - 1);
+		
+		return drop(location, velocity, equipment, msPlayer);
+	}
+	
+	public Equipment getDrop(Item item)
+	{
+		return drops.get(item);
+	}
+	
+	public Equipment removeDrop(Item item)
+	{
+		item.remove();
+		
+		return drops.remove(item);
+	}
+	
+	public void clearDrops()
+	{
+		for(Item drop : drops.keySet())
+			drop.remove();
+		
+		drops.clear();
+	}
+	
 	@Override
 	public String toString()
 	{
 		return "Game [type=" + type + ", id=" + id + ", name=" + name + "]";
-	}
-	
-	public Scoreboard getScoreboard()
-	{
-		return scoreboard;
 	}
 }
