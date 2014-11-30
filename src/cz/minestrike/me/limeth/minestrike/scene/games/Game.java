@@ -767,9 +767,9 @@ public abstract class Game extends Scene
 		Vector velocity;
 		
 		if(viewAxis)
-			velocity = location.getDirection();
+			velocity = location.getDirection().multiply(0.25);
 		else
-			velocity = new Vector(Math.random() * 2 - 1, 1, Math.random() * 2 - 1);
+			velocity = new Vector((Math.random() - 0.5) / 2, Math.random() / 4, (Math.random() - 0.5) / 2);
 		
 		return drop(location, velocity, equipment, msPlayer);
 	}
