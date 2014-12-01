@@ -493,6 +493,7 @@ public class DefuseEquipmentProvider implements EquipmentProvider
 	public boolean canBeAdded(MSPlayer msPlayer, Equipment equipment, boolean purchase)
 	{
 		Equipment sourceEquipment = equipment.getSource();
+		Team team = game.getTeam(msPlayer);
 		
 		if(sourceEquipment instanceof GrenadeType)
 			try
@@ -518,9 +519,9 @@ public class DefuseEquipmentProvider implements EquipmentProvider
 		else if(sourceEquipment instanceof KevlarAndHelmet)
 			return getKevlarDurability(msPlayer) < 1 || !hasHelmet(msPlayer);
 		else if(sourceEquipment.equals(DEFUSE_KIT_BOUGHT))
-			return !hasBoughtDefuseKit(msPlayer);
+			return team == Team.COUNTER_TERRORISTS && !hasBoughtDefuseKit(msPlayer);
 		else if(sourceEquipment.equals(BOMB))
-			return !hasBomb(msPlayer);
+			return team == Team.TERRORISTS && !hasBomb(msPlayer);
 		
 		return false;
 	}
