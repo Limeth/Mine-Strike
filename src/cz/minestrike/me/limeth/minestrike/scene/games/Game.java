@@ -105,7 +105,11 @@ public abstract class Game extends Scene
 	public void start()
 	{
 		if(open)
-			setMap(getMaps().get(MSConstant.RANDOM.nextInt(maps.size())));
+		{
+			FilledArrayList<GameMap> maps = getMaps();
+			
+			setMap(maps.get(MSConstant.RANDOM.nextInt(maps.size())));
+		}
 	}
 	
 	public void joinMenu(MSPlayer msPlayer)
