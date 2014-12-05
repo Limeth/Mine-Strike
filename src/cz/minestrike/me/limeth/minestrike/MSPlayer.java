@@ -1261,6 +1261,11 @@ var rotateX3D = function(theta) {
 		return hotbarContainer;
 	}
 	
+	public Equipment getEquipmentInHand()
+	{
+		return hotbarContainer.getHeld(this);
+	}
+	
 	public double getReceivedDamage(MSPlayer msPlayer)
 	{
 		Double dmg = receivedDamage.get(msPlayer);

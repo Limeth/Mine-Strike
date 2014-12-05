@@ -462,6 +462,16 @@ public enum GrenadeType implements Equipment, DamageSource
 		return true;
 	}
 	
+	@Override
+	public void onSelect(MSPlayer msPlayer)
+	{
+	}
+	
+	@Override
+	public void onDeselect(MSPlayer msPlayer)
+	{
+	}
+	
 	private void throwGrenade(MSPlayer msPlayer, double force)
 	{
 		Scene scene = msPlayer.getScene();

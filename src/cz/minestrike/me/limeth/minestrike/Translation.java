@@ -68,6 +68,8 @@ public enum Translation
 	EQUIPMENT_RARITY_RARE("Rare", "Vzácny"),
 	EQUIPMENT_RARITY_UNIQUE("Unique", "Unikátní"),
 	EQUIPMENT_RARITY_LEGENDARY("Legendary", "Legendární"),
+	EQUIPMENT_RADAR("&5Radar"),
+	EQUIPMENT_KNIFE("&fKnife", "&fNuz"),
 	
 	BUTTON_INVENTORY_USE("Open Inventory", "Otevrít Inventár"),
 	BUTTON_INVENTORY_BACK("&fBack", "&fZpet"),

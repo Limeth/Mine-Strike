@@ -5,7 +5,6 @@ import net.minecraft.server.v1_7_R4.EnumMovingObjectType;
 import net.minecraft.server.v1_7_R4.MovingObjectPosition;
 
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -18,6 +17,7 @@ import org.bukkit.util.Vector;
 import cz.minestrike.me.limeth.minestrike.BodyPart;
 import cz.minestrike.me.limeth.minestrike.MSConstant;
 import cz.minestrike.me.limeth.minestrike.MSPlayer;
+import cz.minestrike.me.limeth.minestrike.Translation;
 import cz.minestrike.me.limeth.minestrike.equipment.SimpleEquipment;
 import cz.minestrike.me.limeth.minestrike.util.BoundUtil;
 import cz.minestrike.me.limeth.minestrike.util.LoreAttributes;
@@ -31,7 +31,7 @@ public class Knife extends SimpleEquipment
 		ItemStack item = new ItemStack(Material.FIREWORK_CHARGE);
 		FireworkEffectMeta im = (FireworkEffectMeta) item.getItemMeta();
 		
-		im.setDisplayName(ChatColor.WHITE + "Knife");
+		im.setDisplayName(Translation.EQUIPMENT_KNIFE.getMessage());
 		item.setItemMeta(im);
 		
 		ITEM = item;

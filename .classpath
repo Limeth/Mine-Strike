@@ -15,5 +15,6 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry combineaccessrules="false" kind="src" path="/PSClans"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/PSMaps"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

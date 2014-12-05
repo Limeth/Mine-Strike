@@ -14,7 +14,6 @@ import cz.minestrike.me.limeth.minestrike.MSPlayer;
 import cz.minestrike.me.limeth.minestrike.equipment.Equipment;
 import cz.minestrike.me.limeth.minestrike.equipment.containers.Container;
 import cz.minestrike.me.limeth.minestrike.equipment.guns.Gun;
-import cz.minestrike.me.limeth.minestrike.equipment.guns.extensions.GunExtension;
 import cz.minestrike.me.limeth.minestrike.util.SoundManager;
 
 public class InventoryListener implements Listener
@@ -58,15 +57,9 @@ public class InventoryListener implements Listener
 		Equipment newEquipment = hotbarContainer.getItem(newIndex);
 		Equipment oldEquipment = hotbarContainer.getItem(oldIndex);
 		
-		if(msPlayer.hasGunTask())
-			msPlayer.getGunTask().cancel();
-		
-		if(oldEquipment != null && oldEquipment instanceof Gun)
+		if(oldEquipment != null)
 		{
-			Gun oldGun = (Gun) oldEquipment;
-			GunExtension extension = oldGun.getExtension();
-			
-			extension.onDeselect(msPlayer);
+			oldEquipment.onDeselect(msPlayer);
 		}
 		
 		if(newEquipment != null)
@@ -74,14 +67,7 @@ public class InventoryListener implements Listener
 			Location loc = player.getEyeLocation();
 			String sound = newEquipment.getSoundDraw();
 			
-			if(newEquipment instanceof Gun)
-			{
-				Gun newGun = (Gun) newEquipment;
-				GunExtension extension = newGun.getExtension();
-				
-				extension.onSelect(msPlayer);
-			}
-			
+			newEquipment.onSelect(msPlayer);
 			SoundManager.play(sound, loc, player);
 		}
 		

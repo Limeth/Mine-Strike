@@ -119,6 +119,16 @@ public class SimpleEquipment implements Equipment
 	}
 	
 	@Override
+	public void onSelect(MSPlayer msPlayer)
+	{
+	}
+	
+	@Override
+	public void onDeselect(MSPlayer msPlayer)
+	{
+	}
+	
+	@Override
 	public boolean purchase(MSPlayer msPlayer) throws EquipmentPurchaseException
 	{
 		return true;

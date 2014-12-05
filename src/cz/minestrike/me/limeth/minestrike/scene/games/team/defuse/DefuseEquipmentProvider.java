@@ -34,6 +34,7 @@ import cz.minestrike.me.limeth.minestrike.equipment.simple.Helmet;
 import cz.minestrike.me.limeth.minestrike.equipment.simple.Kevlar;
 import cz.minestrike.me.limeth.minestrike.equipment.simple.KevlarAndHelmet;
 import cz.minestrike.me.limeth.minestrike.equipment.simple.Knife;
+import cz.minestrike.me.limeth.minestrike.equipment.simple.Radar;
 import cz.minestrike.me.limeth.minestrike.scene.games.EquipmentProvider;
 import cz.minestrike.me.limeth.minestrike.scene.games.Team;
 import cz.minestrike.me.limeth.minestrike.util.collections.FilledArrayList;
@@ -105,7 +106,8 @@ public class DefuseEquipmentProvider implements EquipmentProvider
 	}
 	
 	public static final SimpleEquipment DEFUSE_KIT_DEFAULT, DEFUSE_KIT_BOUGHT, BOMB;
-	public static final int INDEX_GUN_PRIMARY = 0, INDEX_GUN_SECONDARY = 1, INDEX_GRENADES = 2, INDEX_EXTRA = 7, INDEX_KNIFE = 8, GRENADE_AMOUNT = 3;
+	public static final int INDEX_GUN_PRIMARY = 0, INDEX_GUN_SECONDARY = 1, INDEX_GRENADES = 2, INDEX_EXTRA = 6, INDEX_KNIFE = 7,
+			INDEX_RADAR = 8, GRENADE_AMOUNT = 4;
 	private static final FilledArrayList<EquipmentCategory> EQUIPMENT_CATEGORIES;
 	private final DefuseGame game;
 	
@@ -135,6 +137,25 @@ public class DefuseEquipmentProvider implements EquipmentProvider
 		
 		if(team == Team.COUNTER_TERRORISTS)
 			equipDefuseKit(msPlayer, false);
+		
+		equipRadar(msPlayer);
+	}
+	
+	public void equipRadar(MSPlayer msPlayer)
+	{
+		HotbarContainer gameContainer = msPlayer.getHotbarContainer();
+		InventoryContainer invContainer = msPlayer.getInventoryContainer();
+		Player player = msPlayer.getPlayer();
+		PlayerInventory inv = player.getInventory();
+		Equipment equipment = invContainer.getEquippedCustomizedEquipment(Radar.RADAR);
+		
+		if(equipment == null)
+			equipment = Radar.RADAR;
+		
+		ItemStack item = equipment.newItemStack(msPlayer);
+		
+		gameContainer.setItem(INDEX_RADAR, equipment);
+		inv.setItem(INDEX_RADAR, item);
 	}
 	
 	public void equipBomb(MSPlayer msPlayer)

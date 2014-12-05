@@ -225,22 +225,25 @@ public class Region implements Iterable<Point>
 		return higher.getZ() - lower.getZ() + 1;
 	}
 	
-	public void moveTo(Point point)
+	public Region moveTo(Point point)
 	{
 		higher.subtract(lower).add(point);
 		lower = point;
+		return this;
 	}
 	
-	public void add(Point point)
+	public Region add(Point point)
 	{
 		lower.add(point);
 		higher.add(point);
+		return this;
 	}
 	
-	public void subtract(Point point)
+	public Region subtract(Point point)
 	{
 		lower.subtract(point);
 		higher.subtract(point);
+		return this;
 	}
 	
 	public final Point getLower()
@@ -248,11 +251,12 @@ public class Region implements Iterable<Point>
 		return lower.clone();
 	}
 
-	public final void setLower(Point lower)
+	public final Region setLower(Point lower)
 	{
 		Validate.notNull(lower, "The lower point cannot be null!");
 		
 		set(lower, higher);
+		return this;
 	}
 
 	public final Point getHigher()
@@ -260,11 +264,12 @@ public class Region implements Iterable<Point>
 		return higher.clone();
 	}
 
-	public final void setHigher(Point higher)
+	public final Region setHigher(Point higher)
 	{
 		Validate.notNull(higher, "The higher point cannot be null!");
 		
 		set(lower, higher);
+		return this;
 	}
 	
 	@Override

@@ -227,6 +227,16 @@ public enum Case implements Equipment
 	}
 	
 	@Override
+	public void onSelect(MSPlayer msPlayer)
+	{
+	}
+	
+	@Override
+	public void onDeselect(MSPlayer msPlayer)
+	{
+	}
+	
+	@Override
 	public FilledArrayList<ItemButton> getSelectionButtons(MSPlayer msPlayer)
 	{
 		FilledArrayList<ItemButton> buttons = new FilledArrayList<ItemButton>();

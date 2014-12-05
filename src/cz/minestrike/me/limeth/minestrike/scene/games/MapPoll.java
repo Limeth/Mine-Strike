@@ -28,6 +28,7 @@ import cz.minestrike.me.limeth.minestrike.MineStrike;
 import cz.minestrike.me.limeth.minestrike.Translation;
 import cz.minestrike.me.limeth.minestrike.areas.Structure;
 import cz.minestrike.me.limeth.minestrike.areas.schemes.GameMap;
+import cz.minestrike.me.limeth.minestrike.events.EquipmentPickupEvent;
 import cz.minestrike.me.limeth.minestrike.events.GameEquipEvent;
 import cz.minestrike.me.limeth.minestrike.listeners.msPlayer.MSSceneListener;
 import cz.minestrike.me.limeth.minestrike.renderers.MapPollRenderer;
@@ -344,6 +345,12 @@ public class MapPoll extends GamePhase<Game> implements Runnable
 			
 			if(game.isPlayerPlaying().test(msPlayer))
 				event.setCancelled(true);
+		}
+		
+		@EventHandler
+		public void onEquipmentPickup(EquipmentPickupEvent event, MSPlayer msPlayer)
+		{
+			event.setCancelled(true);
 		}
 		
 		@EventHandler

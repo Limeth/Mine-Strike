@@ -131,6 +131,18 @@ public class CustomizedEquipment<T extends Equipment> implements Equipment
 	}
 	
 	@Override
+	public void onSelect(MSPlayer msPlayer)
+	{
+		equipment.onSelect(msPlayer);
+	}
+	
+	@Override
+	public void onDeselect(MSPlayer msPlayer)
+	{
+		equipment.onDeselect(msPlayer);
+	}
+	
+	@Override
 	public boolean purchase(MSPlayer msPlayer) throws EquipmentPurchaseException
 	{
 		return equipment.purchase(msPlayer);

@@ -6,6 +6,7 @@ import org.bukkit.event.Event;
 
 import cz.minestrike.me.limeth.minestrike.MSPlayer;
 import cz.minestrike.me.limeth.minestrike.areas.Structure;
+import cz.minestrike.me.limeth.minestrike.areas.schemes.GameMap;
 import cz.minestrike.me.limeth.minestrike.areas.schemes.GameMenu;
 import cz.minestrike.me.limeth.minestrike.scene.games.Game;
 import cz.minestrike.me.limeth.minestrike.scene.games.GameType;
@@ -29,6 +30,7 @@ public abstract class TeamGame extends Game
 	 * @return True if passed
 	 */
 	public abstract boolean joinArena(MSPlayer msPlayer, Team team);
+	public abstract RadarView getRadarView();
 	
 	/**
 	 * @param msPlayer
@@ -45,11 +47,39 @@ public abstract class TeamGame extends Game
 		return true;
 	}
 	
+	@Override
 	public Game setup()
 	{
 		super.setup();
 		teamGameListener = new TeamGameListener(this);
 		return this;
+	}
+	
+	@Override
+	public void start()
+	{
+		super.start();
+		getRadarView().startIconLoop();
+	}
+	
+	@Override
+	public void setMap(GameMap map)
+	{
+		super.setMap(map);
+		getRadarView().updateSurface().sendSurface();
+	}
+	
+	@Override
+	public boolean onJoin(MSPlayer msPlayer)
+	{
+		if(!super.onJoin(msPlayer))
+			return false;
+		
+		Player player = msPlayer.getPlayer();
+		
+		getRadarView().sendSurface(player);
+		
+		return true;
 	}
 	
 	@Override

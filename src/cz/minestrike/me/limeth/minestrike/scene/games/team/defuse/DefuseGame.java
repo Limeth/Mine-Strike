@@ -37,6 +37,7 @@ import cz.minestrike.me.limeth.minestrike.scene.games.MoneyAward;
 import cz.minestrike.me.limeth.minestrike.scene.games.PlayerState;
 import cz.minestrike.me.limeth.minestrike.scene.games.Team;
 import cz.minestrike.me.limeth.minestrike.scene.games.VoiceSound;
+import cz.minestrike.me.limeth.minestrike.scene.games.team.RadarView;
 import cz.minestrike.me.limeth.minestrike.scene.games.team.TeamGame;
 import cz.minestrike.me.limeth.minestrike.scene.games.team.defuse.Round.RoundPhase;
 import cz.minestrike.me.limeth.minestrike.util.SoundManager;
@@ -58,6 +59,7 @@ public class DefuseGame extends TeamGame
 	private Block bombBlock;
 	private boolean bombGiven;
 	private MSSceneListener<DefuseGame> defuseGameListener;
+	private RadarView radarView;
 	
 	public DefuseGame(String id, String name, MSPlayer owner, boolean open, String lobby, String menu, FilledArrayList<String> maps)
 	{
@@ -73,6 +75,7 @@ public class DefuseGame extends TeamGame
 	public DefuseGame setup()
 	{
 		super.setup();
+		radarView = new RadarView(this);
 		defuseGameListener = new DefuseGameListener(this);
 		
 		return this;
@@ -81,6 +84,8 @@ public class DefuseGame extends TeamGame
 	@Override
 	public void start()
 	{
+		super.start();
+		
 		Round round = new Round(this);
 		winsInRow = 0;
 		lastWinner = null;
@@ -94,6 +99,12 @@ public class DefuseGame extends TeamGame
 		setBombBlock(null);
 		setScore(0, 0);
 		setPhase(round);
+	}
+	
+	@Override
+	public RadarView getRadarView()
+	{
+		return radarView;
 	}
 
 	@Override
@@ -803,6 +814,7 @@ public class DefuseGame extends TeamGame
 	{
 		this.bombBlock = bombBlock;
 	}
+	
 	public int getWinsInRow()
 	{
 		return winsInRow;

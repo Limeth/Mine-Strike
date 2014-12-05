@@ -37,6 +37,11 @@ public class Structure<T extends Scheme> implements MSListenerRedirector
 		this.plot = plot;
 	}
 	
+	public Point getBase()
+	{
+		return Point.valueOf(plot.getLocation());
+	}
+	
 	public Location getAbsoluteLocation(Location relative)
 	{
 		return plot.getAbsoluteLocation(relative);

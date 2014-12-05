@@ -35,4 +35,6 @@ public interface Equipment
 	public boolean isDroppedOnDeath();
 	public boolean isDroppableManually();
 	public String getDefaultSkin(MSPlayer msPlayer);
+	public void onSelect(MSPlayer msPlayer);
+	public void onDeselect(MSPlayer msPlayer);
 }

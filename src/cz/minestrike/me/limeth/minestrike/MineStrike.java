@@ -125,6 +125,7 @@ public class MineStrike extends JavaPlugin
 		MSPlayer.clearOnlinePlayers();
 		disconnectService();
 		PacketManager.unregisterListeners();
+		Bukkit.getScheduler().cancelTasks(this);
 		info("Mine-Strike successfully disabled!");
 		
 		instance = null;

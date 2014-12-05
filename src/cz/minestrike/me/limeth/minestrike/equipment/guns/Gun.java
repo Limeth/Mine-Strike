@@ -137,6 +137,23 @@ public class Gun extends CustomizedEquipment<GunType>
 		return getExtension().onRightClick(msPlayer);
 	}
 	
+	@Override
+	public void onSelect(MSPlayer msPlayer)
+	{
+		getEquipment().onSelect(msPlayer);
+		getExtension().onSelect(msPlayer);
+	}
+	
+	@Override
+	public void onDeselect(MSPlayer msPlayer)
+	{
+		if(msPlayer.hasGunTask())
+			msPlayer.getGunTask().cancel();
+		
+		getEquipment().onDeselect(msPlayer);
+		getExtension().onDeselect(msPlayer);
+	}
+	
 	public void applyAttributes(LoreAttributes attributes)
 	{
 		GunType type = getEquipment();

@@ -9,6 +9,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
+import org.bukkit.event.player.PlayerRespawnEvent;
 
 import cz.minestrike.me.limeth.minestrike.MSPlayer;
 import cz.minestrike.me.limeth.minestrike.events.GameSpawnEvent;
@@ -93,9 +94,18 @@ public class TeamGameListener extends MSSceneListener<TeamGame>
 	}
 	
 	@EventHandler
-	public void onGameSpawn(GameSpawnEvent event)
+	public void onPlayerRespawn(PlayerRespawnEvent event, MSPlayer msPlayer)
 	{
-		MSPlayer msPlayer = event.getMSPlayer();
+		TeamGame game = getScene();
+		RadarView radarView = game.getRadarView();
+		Player player = msPlayer.getPlayer();
+		
+		radarView.sendSurface(player);
+	}
+	
+	@EventHandler
+	public void onGameSpawn(GameSpawnEvent event, MSPlayer msPlayer)
+	{
 		TeamGame game = getScene();
 		
 		if(!game.isPlayerPlaying().test(msPlayer))

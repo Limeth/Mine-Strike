@@ -99,9 +99,14 @@ public abstract class Game extends Scene
 		Collections.shuffle(this.maps);
 	}
 	
-	public abstract void start();
 	public abstract Predicate<MSPlayer> isPlayerPlaying();
 	public abstract int getXPForKill(MSPlayer msVictim, MSPlayer msKiller);
+	
+	public void start()
+	{
+		if(open)
+			setMap(getMaps().get(MSConstant.RANDOM.nextInt(maps.size())));
+	}
 	
 	public void joinMenu(MSPlayer msPlayer)
 	{
@@ -231,10 +236,6 @@ public abstract class Game extends Scene
 		
 		lobbyStructure = PlotManager.registerStructure(lobby);
 		menuStructure = PlotManager.registerStructure(menu);
-		
-		if(open)
-			setMap(maps.get(MSConstant.RANDOM.nextInt(maps.size()))); //TODO move to start
-		
 		inventoryListener = new MSInventoryListener(this);
 		shoppingListener = new MSShoppingListener(this);
 		interactionListener = new MSInteractionListener(this);
