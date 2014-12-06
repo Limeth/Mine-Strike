@@ -18,6 +18,7 @@ public abstract class TeamGame extends Game
 {
 	public static final String CUSTOM_DATA_TEAM = "MineStrike.game.team";
 	private TeamGameListener teamGameListener;
+	private RadarView radarView;
 	
 	public TeamGame(GameType gameType, String id, String name, MSPlayer owner, boolean open, String lobbyId, String menuId, FilledArrayList<String> maps)
 	{
@@ -30,7 +31,7 @@ public abstract class TeamGame extends Game
 	 * @return True if passed
 	 */
 	public abstract boolean joinArena(MSPlayer msPlayer, Team team);
-	public abstract RadarView getRadarView();
+	public abstract RadarView createRadarView();
 	
 	/**
 	 * @param msPlayer
@@ -59,7 +60,7 @@ public abstract class TeamGame extends Game
 	public void start()
 	{
 		super.start();
-		getRadarView().startIconLoop();
+		radarView = createRadarView();
 	}
 	
 	@Override
@@ -129,6 +130,11 @@ public abstract class TeamGame extends Game
 		String soundName = sound.getAbsoluteName(team);
 		
 		playSound(soundName, location, Float.MAX_VALUE, 1, p -> { return getTeam(p) == team; });
+	}
+	
+	public RadarView getRadarView()
+	{
+		return radarView;
 	}
 	
 	@SuppressWarnings("unchecked")

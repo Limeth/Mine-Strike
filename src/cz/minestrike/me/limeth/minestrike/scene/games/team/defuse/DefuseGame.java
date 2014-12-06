@@ -59,7 +59,6 @@ public class DefuseGame extends TeamGame
 	private Block bombBlock;
 	private boolean bombGiven;
 	private MSSceneListener<DefuseGame> defuseGameListener;
-	private RadarView radarView;
 	
 	public DefuseGame(String id, String name, MSPlayer owner, boolean open, String lobby, String menu, FilledArrayList<String> maps)
 	{
@@ -75,7 +74,6 @@ public class DefuseGame extends TeamGame
 	public DefuseGame setup()
 	{
 		super.setup();
-		radarView = new RadarView(this);
 		defuseGameListener = new DefuseGameListener(this);
 		
 		return this;
@@ -102,9 +100,9 @@ public class DefuseGame extends TeamGame
 	}
 	
 	@Override
-	public RadarView getRadarView()
+	public RadarView createRadarView()
 	{
-		return radarView;
+		return new RadarView(this);
 	}
 
 	@Override
