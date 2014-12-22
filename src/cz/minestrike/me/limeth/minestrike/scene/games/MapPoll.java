@@ -5,7 +5,6 @@ import java.util.Map.Entry;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
-import org.bukkit.OfflinePlayer;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
@@ -106,9 +105,7 @@ public class MapPoll extends GamePhase<Game> implements Runnable
 	{
 		Game game = getGame();
 		
-		game.setMap(votedMap);
-		
-		Structure<? extends GameMap> structure = game.getMapStructure();
+		Structure<? extends GameMap> structure = game.setMap(votedMap);
 		
 		for(MSPlayer msPlayer : game.getPlayers(p -> { return p.getPlayerState() == PlayerState.JOINED_GAME; }))
 			msPlayer.setPlayerStructure(structure);
@@ -253,7 +250,7 @@ public class MapPoll extends GamePhase<Game> implements Runnable
 	{
 		for(GameMap map : selectedMaps.values())
 		{
-			OfflinePlayer entry = getPollEntry(map);
+			String entry = getPollEntry(map);
 			Score score = objective.getScore(entry);
 			int votes = this.votedMaps.get(map);
 			
@@ -291,14 +288,14 @@ public class MapPoll extends GamePhase<Game> implements Runnable
 		}
 	}
 	
-	private static OfflinePlayer getPollEntry(GameMap map)
+	private static String getPollEntry(GameMap map)
 	{
 		String name = ChatColor.YELLOW + map.getName();
 		
 		if(name.length() > 16)
 			name = name.substring(0, 16);
 		
-		return Bukkit.getOfflinePlayer(name);
+		return name;
 	}
 
 	@Override

@@ -64,10 +64,13 @@ public abstract class TeamGame extends Game
 	}
 	
 	@Override
-	public void setMap(GameMap map)
+	public Structure<? extends GameMap> setMap(GameMap map)
 	{
-		super.setMap(map);
+		Structure<? extends GameMap> structure = super.setMap(map);
+		
 		getRadarView().updateSurface().sendSurface();
+		
+		return structure;
 	}
 	
 	@Override

@@ -52,7 +52,7 @@ public class GameManager
 			game.setOpen(true);
 			game.register();
 			
-			if(game.isSetUp())
+			if(game.isReadyForSetup())
 				game.setup();
 		}
 	}

@@ -453,7 +453,7 @@ public class MSExecutor implements CommandExecutor
 				String games = "";
 				
 				for(Game game : GameManager.GAMES)
-					games += (game.isSetUp() ? ChatColor.GREEN : ChatColor.RED) + game.getName() + " (" + game.getId() + ")" + ChatColor.RESET + ", ";
+					games += (game.isReadyForSetup() ? ChatColor.GREEN : ChatColor.RED) + game.getName() + " (" + game.getId() + ")" + ChatColor.RESET + ", ";
 				
 				sender.sendMessage(games);
 			}

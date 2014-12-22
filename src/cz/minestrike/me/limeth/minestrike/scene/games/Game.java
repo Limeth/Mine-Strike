@@ -104,7 +104,7 @@ public abstract class Game extends Scene
 	
 	public void start()
 	{
-		if(open)
+		if(open && mapStructure == null)
 		{
 			FilledArrayList<GameMap> maps = getMaps();
 			
@@ -357,7 +357,7 @@ public abstract class Game extends Scene
 	}
 
 	@SuppressWarnings("unchecked")
-	public boolean isSetUp()
+	public boolean isReadyForSetup()
 	{
 		if(lobbyId == null || menuId == null)
 			return false;
@@ -621,7 +621,7 @@ public abstract class Game extends Scene
 		return maps;
 	}
 	
-	public void setMap(GameMap map)
+	public Structure<? extends GameMap> setMap(GameMap map)
 	{
 		Validate.notNull(map, "The map cannot be null!");
 		
@@ -630,12 +630,12 @@ public abstract class Game extends Scene
 			GameMap currentMap = mapStructure.getScheme();
 			
 			if(currentMap.equals(map))
-				return;
+				return mapStructure;
 			
 			PlotManager.unregisterStructure(mapStructure);
 		}
 		
-		mapStructure = PlotManager.registerStructure(map);
+		return mapStructure = PlotManager.registerStructure(map);
 	}
 	
 	public boolean hasPhase()

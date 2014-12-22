@@ -851,12 +851,12 @@ public class DefuseGame extends TeamGame
 	}
 	
 	@Override
-	public void setMap(GameMap map)
+	public Structure<? extends GameMap> setMap(GameMap map)
 	{
 		if(!(map instanceof DefuseGameMap))
 			throw new IllegalArgumentException("The map must be an instance of DefuseGameMap.");
 		
-		super.setMap(map);
+		return super.setMap(map);
 	}
 	
 	@Override
