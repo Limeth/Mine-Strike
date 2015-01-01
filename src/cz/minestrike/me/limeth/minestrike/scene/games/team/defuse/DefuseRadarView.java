@@ -28,10 +28,7 @@ public class DefuseRadarView extends RadarView
 		DefuseGame game = getGame();
 		Structure<? extends DefuseGameMap> mapStructure = game.getMapStructure();
 		DefuseGameMap map = mapStructure.getScheme();
-		Point base = map.getBase();
 		Region region = map.getRegion();
-		int minX = base.getX();
-		int minY = base.getZ();
 		int width = region.getWidth();
 		int height = region.getDepth();
 		int bombSiteIndex = 0;
@@ -43,7 +40,7 @@ public class DefuseRadarView extends RadarView
 			Point iconPoint = bombSite.getMidpoint();
 			Location iconLocation = iconPoint.getLocation(MSConfig.getWorld());
 			
-			icon.setLocation(iconLocation, minX, minY, width, height);
+			icon.setLocation(iconLocation, 0, 0, width, height);
 			icons.add(icon);
 			
 			bombSiteIndex++;
