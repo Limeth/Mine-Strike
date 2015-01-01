@@ -1,5 +1,7 @@
 package cz.minestrike.me.limeth.minestrike.scene.games.team;
 
+import java.util.Collections;
+
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
@@ -53,14 +55,15 @@ public abstract class TeamGame extends Game
 	{
 		super.setup();
 		teamGameListener = new TeamGameListener(this);
+		radarView = createRadarView();
 		return this;
 	}
 	
 	@Override
-	public void start()
+	public void firstStart()
 	{
-		super.start();
-		radarView = createRadarView();
+		super.firstStart();
+		getRadarView().startIconLoop();
 	}
 	
 	@Override
@@ -81,7 +84,7 @@ public abstract class TeamGame extends Game
 		
 		Player player = msPlayer.getPlayer();
 		
-		getRadarView().sendSurface(player);
+		getRadarView().sendSurface(Collections.singleton(player));
 		
 		return true;
 	}

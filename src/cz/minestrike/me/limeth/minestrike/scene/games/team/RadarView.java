@@ -1,11 +1,12 @@
 package cz.minestrike.me.limeth.minestrike.scene.games.team;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Color;
-import org.bukkit.Location;
 import org.bukkit.entity.Player;
+
+import com.google.common.collect.Lists;
 
 import cz.minestrike.me.limeth.minestrike.MSConfig;
 import cz.minestrike.me.limeth.minestrike.MSPlayer;
@@ -20,7 +21,6 @@ import cz.minestrike.me.limeth.minestrike.scene.games.Team;
 import cz.projectsurvive.me.limeth.psmaps.AdditiveNoiseFilter;
 import cz.projectsurvive.me.limeth.psmaps.DepthFilter;
 import cz.projectsurvive.me.limeth.psmaps.MapIcon;
-import cz.projectsurvive.me.limeth.psmaps.MapSender;
 import cz.projectsurvive.me.limeth.psmaps.MapSurface;
 import cz.projectsurvive.me.limeth.psmaps.MapView;
 import cz.projectsurvive.me.limeth.psmaps.OverlayMapSurface;
@@ -47,7 +47,7 @@ public class RadarView extends MapView implements Runnable
 	}
 	
 	@Override
-	public MapSurface getSurface()
+	public MapSurface getSurface(Player player)
 	{
 		return finalSurface;
 	}
@@ -56,14 +56,15 @@ public class RadarView extends MapView implements Runnable
 	{
 		Structure<? extends GameMap> structure = game.getMapStructure();
 		GameMap scheme = structure.getScheme();
-		Point base = scheme.getBase();
+		Point schemeBase = scheme.getBase();
+		Point structureBase = structure.getBase();
 		Region schemeRegion = scheme.getRegion();
-		Region structureRegion = schemeRegion.clone().subtract(base).add(structure.getBase());
+		Region structureRegion = schemeRegion.clone().subtract(schemeBase).add(structureBase);
 		Point lower = structureRegion.getLower();
 		Point higher = structureRegion.getHigher();
 		
 		regionMapSurface.setRegion(lower.getX(), lower.getY(), lower.getZ(), higher.getX(), higher.getY(), higher.getZ());
-		regionMapSurface.render();
+		finalSurface.render();
 		return this;
 	}
 	
@@ -73,42 +74,9 @@ public class RadarView extends MapView implements Runnable
 		sendIcons();
 	}
 	
-	public void sendSurface()
+	@Override
+	public List<MapIcon> getIcons(Player player)
 	{
-		for(MSPlayer msPlayer : game.getPlayers())
-		{
-			Equipment equipment = msPlayer.getEquipmentInHand();
-			
-			if(equipment == null || !(equipment instanceof Radar))
-				continue;
-			
-			Player player = msPlayer.getPlayer();
-			
-			sendSurface(player);
-		}
-	}
-	
-	public void sendIcons()
-	{
-		boolean watched = false;
-		
-		for(MSPlayer msPlayer : game.getPlayers())
-		{
-			Equipment equipment = msPlayer.getEquipmentInHand();
-			
-			if(equipment == null || !(equipment instanceof Radar))
-				continue;
-			
-			watched = true;
-			break;
-		}
-		
-		if(!watched)
-			return;
-		
-		ArrayList<MapIcon> spectatorIcons = new ArrayList<MapIcon>();
-		ArrayList<MapIcon> tIcons = new ArrayList<MapIcon>();
-		ArrayList<MapIcon> ctIcons = new ArrayList<MapIcon>();
 		Structure<? extends GameMap> structure = game.getMapStructure();
 		Point base = structure.getBase();
 		GameMap scheme = structure.getScheme();
@@ -117,41 +85,53 @@ public class RadarView extends MapView implements Runnable
 		int minY = base.getZ();
 		int width = region.getWidth();
 		int height = region.getDepth();
-		short mapId = getMapId();
+		MSPlayer msPlayer = MSPlayer.get(player);
+		Equipment equipment = msPlayer.getEquipmentInHand();
 		
-		for(MSPlayer msPlayer : game.getPlayingPlayers())
+		if(equipment == null || !(equipment instanceof Radar))
+			return Lists.newArrayList();
+		
+		Team team = game.getTeam(msPlayer);
+		Integer iconIndex = null;
+		
+		if(team == Team.TERRORISTS)
 		{
-			Player player = msPlayer.getPlayer();
-			Location location = player.getLocation();
-			Team team = game.getTeam(msPlayer);
-			int iconType = team == Team.TERRORISTS ? ICON_TEAMMATE_T : ICON_TEAMMATE_CT;
-			MapIcon icon = new MapIcon(iconType);
-			
-			icon.setLocation(location, minX, minY, width, height);
-			spectatorIcons.add(icon);
-			(team == Team.TERRORISTS ? tIcons : ctIcons).add(icon);
+			iconIndex = ICON_PLAYER_T;
+		}
+		else if(team == Team.COUNTER_TERRORISTS)
+		{
+			iconIndex = ICON_PLAYER_CT;
 		}
 		
-		for(MSPlayer msPlayer : game.getPlayers())
+		List<MapIcon> icons;
+		
+		if(iconIndex != null)
 		{
-			Equipment equipment = msPlayer.getEquipmentInHand();
+			MapIcon icon = new MapIcon(iconIndex);
 			
-			if(equipment == null || !(equipment instanceof Radar))
-				continue;
+			icon.setLocation(player.getLocation(), minX, minY, width, height);
 			
-			Team team = game.getTeam(msPlayer);
-			Player player = msPlayer.getPlayer();
-			ArrayList<MapIcon> icons;
-			
-			if(team == Team.TERRORISTS)
-				icons = tIcons;
-			else if(team == Team.COUNTER_TERRORISTS)
-				icons = ctIcons;
-			else
-				icons = spectatorIcons;
-			
-			MapSender.sendIcons(player, mapId, icons.toArray(new MapIcon[icons.size()]));
+			icons = Lists.newArrayList(icon);
 		}
+		else
+			icons = Lists.newArrayList();
+		
+		return icons;
+	}
+	
+	public void sendIcons()
+	{
+		sendIcons(game.getBukkitPlayers());
+	}
+	
+	public void sendSurface()
+	{
+		sendSurface(game.getBukkitPlayers());
+	}
+	
+	public void send()
+	{
+		send(game.getBukkitPlayers());
 	}
 	
 	public RadarView startIconLoop()
@@ -191,15 +171,11 @@ public class RadarView extends MapView implements Runnable
 		}
 		
 		@Override
-		public byte[][] getSurface(byte[][] surface)
+		public void render(byte[][] surface)
 		{
-			TeamGame game = view.getGame();
-			
 			for(int x = 0; x < 3; x++)
 				for(int y = 0; y < 3; y++)
 					surface[y + 3][x + 3] = MapSurface.matchColor(Color.RED);
-			
-			return surface;
 		}
 		
 		public RadarView getView()

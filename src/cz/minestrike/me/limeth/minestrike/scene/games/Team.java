@@ -7,21 +7,23 @@ import cz.minestrike.me.limeth.minestrike.Translation;
 
 public enum Team
 {
-	TERRORISTS(Translation.TEAM_TERRORISTS, Translation.GAME_JOIN_TEAM_T, ChatColor.GOLD, DyeColor.ORANGE, "anarchist", "terwin"),
-	COUNTER_TERRORISTS(Translation.TEAM_COUNTERTERRORISTS, Translation.GAME_JOIN_TEAM_CT, ChatColor.BLUE, DyeColor.BLUE, "seal", "ctwin");
+	TERRORISTS(Translation.TEAM_TERRORISTS, Translation.GAME_JOIN_TEAM_T, "T", ChatColor.GOLD, DyeColor.ORANGE, "anarchist", "terwin"),
+	COUNTER_TERRORISTS(Translation.TEAM_COUNTERTERRORISTS, Translation.GAME_JOIN_TEAM_CT, "CT", ChatColor.BLUE, DyeColor.BLUE, "seal", "ctwin");
 	
 	private static final Translation JOIN_MESSAGE_SPECTATORS = Translation.GAME_JOIN_SPECTATORS;
 	private final Translation name;
 	private final Translation joinMessage;
+	private final String abbreviation;
 	private final ChatColor chatColor;
 	private final DyeColor dyeColor;
 	private final String voiceDirectory;
 	private final String winSound;
 	
-	private Team(Translation name, Translation joinMessage, ChatColor chatColor, DyeColor dyeColor, String voice, String winSound)
+	private Team(Translation name, Translation joinMessage, String abbreviation, ChatColor chatColor, DyeColor dyeColor, String voice, String winSound)
 	{
 		this.name = name;
 		this.joinMessage = joinMessage;
+		this.abbreviation = abbreviation;
 		this.chatColor = chatColor;
 		this.dyeColor = dyeColor;
 		this.voiceDirectory = "projectsurvive:counterstrike.player.vo." + voice + ".";
@@ -48,6 +50,11 @@ public enum Team
 	public Translation getJoinMessage()
 	{
 		return joinMessage;
+	}
+	
+	public String getAbbreviation()
+	{
+		return abbreviation;
 	}
 	
 	public String getColoredName()

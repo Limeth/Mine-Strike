@@ -162,8 +162,7 @@ public class EquipmentCustomization
 				String type = LoreAttributes.TEMP.get("Type");
 				String[] types = type.split(" \\| ");
 				
-				if(types.length <= 1)
-					LoreAttributes.TEMP.put("Type", type + " | " + skin);
+				LoreAttributes.TEMP.put("Type", types[0] + " | " + skin);
 			}
 			else
 				LoreAttributes.TEMP.put("Skin", skin);

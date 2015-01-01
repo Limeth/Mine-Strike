@@ -1,5 +1,6 @@
 package cz.minestrike.me.limeth.minestrike.scene.games.team;
 
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.Set;
 
@@ -100,7 +101,7 @@ public class TeamGameListener extends MSSceneListener<TeamGame>
 		RadarView radarView = game.getRadarView();
 		Player player = msPlayer.getPlayer();
 		
-		radarView.sendSurface(player);
+		radarView.sendSurface(Collections.singleton(player));
 	}
 	
 	@EventHandler

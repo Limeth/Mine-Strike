@@ -37,7 +37,7 @@ public enum Case implements Equipment
 		@Override
 		protected CaseContent[] initContents()
 		{
-			//Knifesd
+			//Knife
 			CustomizedEquipment<Knife> knife = new CustomizedEquipment<Knife>(Knife.KNIFE,
 					EquipmentCustomization.skin("Gut - " + ChatColor.GOLD + "Daemon", "GUT_DAEMON", Color.ORANGE));
 			

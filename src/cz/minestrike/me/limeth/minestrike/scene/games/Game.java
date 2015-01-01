@@ -102,14 +102,17 @@ public abstract class Game extends Scene
 	public abstract Predicate<MSPlayer> isPlayerPlaying();
 	public abstract int getXPForKill(MSPlayer msVictim, MSPlayer msKiller);
 	
+	public void firstStart()
+	{
+		FilledArrayList<GameMap> maps = getMaps();
+		
+		setMap(maps.get(MSConstant.RANDOM.nextInt(maps.size())));
+	}
+	
 	public void start()
 	{
 		if(open && mapStructure == null)
-		{
-			FilledArrayList<GameMap> maps = getMaps();
-			
-			setMap(maps.get(MSConstant.RANDOM.nextInt(maps.size())));
-		}
+			firstStart();
 	}
 	
 	public void joinMenu(MSPlayer msPlayer)

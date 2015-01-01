@@ -102,7 +102,7 @@ public class DefuseGame extends TeamGame
 	@Override
 	public RadarView createRadarView()
 	{
-		return new RadarView(this);
+		return new DefuseRadarView(this);
 	}
 
 	@Override
@@ -153,7 +153,6 @@ public class DefuseGame extends TeamGame
 		return true;
 	}
 	
-	@SuppressWarnings("deprecation")
 	public MSPlayer giveBomb()
 	{
 		Set<MSPlayer> terrorists = getPlayingPlayers(p -> { return getTeam(p) == Team.TERRORISTS; });
@@ -683,7 +682,6 @@ public class DefuseGame extends TeamGame
 		return spawnLocation;
 	}
 	
-	@SuppressWarnings("deprecation")
 	@Override
 	public void equip(MSPlayer msPlayer, boolean force)
 	{

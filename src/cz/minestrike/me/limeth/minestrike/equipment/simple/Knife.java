@@ -19,6 +19,9 @@ import cz.minestrike.me.limeth.minestrike.MSConstant;
 import cz.minestrike.me.limeth.minestrike.MSPlayer;
 import cz.minestrike.me.limeth.minestrike.Translation;
 import cz.minestrike.me.limeth.minestrike.equipment.SimpleEquipment;
+import cz.minestrike.me.limeth.minestrike.scene.Scene;
+import cz.minestrike.me.limeth.minestrike.scene.games.Team;
+import cz.minestrike.me.limeth.minestrike.scene.games.team.TeamGame;
 import cz.minestrike.me.limeth.minestrike.util.BoundUtil;
 import cz.minestrike.me.limeth.minestrike.util.LoreAttributes;
 import cz.minestrike.me.limeth.minestrike.util.SoundManager;
@@ -134,10 +137,20 @@ public class Knife extends SimpleEquipment
 	public ItemStack newItemStack(MSPlayer msPlayer)
 	{
 		ItemStack is = super.newItemStack(msPlayer);
+		Scene scene = msPlayer.getScene();
+		Team team = Team.COUNTER_TERRORISTS;
+		
+		if(scene instanceof TeamGame)
+		{
+			Team playerTeam = ((TeamGame) scene).getTeam(msPlayer);
+			
+			if(playerTeam != null)
+				team = playerTeam;
+		}
 		
 		LoreAttributes.TEMP.clear();
 		LoreAttributes.extract(is, LoreAttributes.TEMP);
-		LoreAttributes.TEMP.put("Type", getId());
+		LoreAttributes.TEMP.put("Type", getId() + " | DEFAULT_" + team.getAbbreviation());
 		LoreAttributes.TEMP.apply(is);
 		
 		return is;
