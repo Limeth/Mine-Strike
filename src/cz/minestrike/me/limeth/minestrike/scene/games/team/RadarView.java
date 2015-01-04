@@ -18,15 +18,15 @@ import cz.minestrike.me.limeth.minestrike.areas.schemes.GameMap;
 import cz.minestrike.me.limeth.minestrike.equipment.Equipment;
 import cz.minestrike.me.limeth.minestrike.equipment.simple.Radar;
 import cz.minestrike.me.limeth.minestrike.scene.games.Team;
-import cz.projectsurvive.me.limeth.psmaps.AdditiveNoiseFilter;
-import cz.projectsurvive.me.limeth.psmaps.DepthFilter;
 import cz.projectsurvive.me.limeth.psmaps.MapIcon;
-import cz.projectsurvive.me.limeth.psmaps.MapSurface;
-import cz.projectsurvive.me.limeth.psmaps.MapView;
-import cz.projectsurvive.me.limeth.psmaps.OverlayMapSurface;
-import cz.projectsurvive.me.limeth.psmaps.RegionMapSurface;
+import cz.projectsurvive.me.limeth.psmaps.filters.AdditiveNoiseFilter;
+import cz.projectsurvive.me.limeth.psmaps.filters.DepthFilter;
+import cz.projectsurvive.me.limeth.psmaps.surfaces.MapSurface;
+import cz.projectsurvive.me.limeth.psmaps.surfaces.OverlayMapSurface;
+import cz.projectsurvive.me.limeth.psmaps.surfaces.RegionMapSurface;
+import cz.projectsurvive.me.limeth.psmaps.views.SingleMapView;
 
-public class RadarView extends MapView implements Runnable
+public class RadarView extends SingleMapView implements Runnable
 {
 	public static final long UPDATE_INTERVAL = 20L;
 	public static final int ICON_PLAYER_T = 0, ICON_PLAYER_CT = 1, ICON_TEAMMATE_T = 2, ICON_TEAMMATE_CT = 3,

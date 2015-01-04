@@ -11,7 +11,7 @@ import cz.minestrike.me.limeth.minestrike.equipment.SimpleEquipment;
 import cz.minestrike.me.limeth.minestrike.scene.Scene;
 import cz.minestrike.me.limeth.minestrike.scene.games.team.RadarView;
 import cz.minestrike.me.limeth.minestrike.scene.games.team.TeamGame;
-import cz.minestrike.me.limeth.minestrike.util.MapAllocator;
+import cz.projectsurvive.me.limeth.psmaps.MapAllocator;
 import cz.projectsurvive.me.limeth.psmaps.MapSender;
 
 public class Radar extends SimpleEquipment

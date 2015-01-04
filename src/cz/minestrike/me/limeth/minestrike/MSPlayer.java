@@ -28,12 +28,14 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.util.Vector;
+import org.skife.jdbi.v2.DBI;
 
 import ca.wacos.nametagedit.NametagAPI;
 import cz.minestrike.me.limeth.minestrike.areas.Structure;
 import cz.minestrike.me.limeth.minestrike.areas.schemes.Scheme;
+import cz.minestrike.me.limeth.minestrike.dbi.MSPlayerDAO;
+import cz.minestrike.me.limeth.minestrike.dbi.MSPlayerData;
 import cz.minestrike.me.limeth.minestrike.equipment.Equipment;
-import cz.minestrike.me.limeth.minestrike.equipment.EquipmentManager;
 import cz.minestrike.me.limeth.minestrike.equipment.containers.ArmorContainer;
 import cz.minestrike.me.limeth.minestrike.equipment.containers.HotbarContainer;
 import cz.minestrike.me.limeth.minestrike.equipment.containers.InventoryContainer;
@@ -48,19 +50,13 @@ import cz.minestrike.me.limeth.minestrike.scene.games.Game;
 import cz.minestrike.me.limeth.minestrike.scene.games.PlayerState;
 import cz.minestrike.me.limeth.minestrike.scene.lobby.Lobby;
 import cz.minestrike.me.limeth.minestrike.util.SoundManager;
-import cz.minestrike.me.limeth.storagemanager.Record;
-import cz.minestrike.me.limeth.storagemanager.RecordData;
-import cz.minestrike.me.limeth.storagemanager.RecordStructure;
-import cz.minestrike.me.limeth.storagemanager.RecordStructure.RecordStructureBuilder;
-import cz.minestrike.me.limeth.storagemanager.RecordStructureColumn;
-import cz.minestrike.me.limeth.storagemanager.mysql.MySQLService;
 import cz.projectsurvive.limeth.dynamicdisplays.DynamicDisplays;
 import cz.projectsurvive.limeth.dynamicdisplays.PlayerDisplay;
 import cz.projectsurvive.limeth.dynamicdisplays.TimedPlayerDisplay;
 import cz.projectsurvive.me.limeth.TabHeader;
 import cz.projectsurvive.me.limeth.Title;
 
-public class MSPlayer implements Record
+public class MSPlayer
 {
 	private static final float
 			MAXIMAL_INACCURACY = 100,
@@ -70,17 +66,7 @@ public class MSPlayer implements Record
 			RECOIL_RESTORATION_PER_SECOND = 2,
 			MAXIMAL_RECOIL = 1;
 	private static final HashSet<MSPlayer> ONLINE_PLAYERS = new HashSet<MSPlayer>();
-	public static final RecordStructure RECORD_STRUCTURE = new RecordStructureBuilder()
-																.setPrimaryKey("username")
-																.addColumn(new RecordStructureColumn(String.class, "username", 16))
-																.addColumn(new RecordStructureColumn(Integer.class, "xp"))
-																.addColumn(new RecordStructureColumn(Integer.class, "kills"))
-																.addColumn(new RecordStructureColumn(Integer.class, "assists"))
-																.addColumn(new RecordStructureColumn(Integer.class, "deaths"))
-																.addColumn(new RecordStructureColumn(Integer.class, "balance"))
-																.addColumn(new RecordStructureColumn(Long.class, "playtime"))
-																.addColumn(new RecordStructureColumn(String.class, "inventory", (int) Short.MAX_VALUE))
-																.build();
+
 	private static Integer MOVEMENT_LOOP_ID;
 	
 	public static HashSet<MSPlayer> getOnlinePlayers()
@@ -131,7 +117,7 @@ public class MSPlayer implements Record
 		}
 		
 		if(msPlayer == null)
-			msPlayer = new MSPlayer(playerName, new RecordData(RECORD_STRUCTURE));
+			msPlayer = new MSPlayer(playerName);
 		
 		register(msPlayer);
 		
@@ -145,15 +131,13 @@ public class MSPlayer implements Record
 	
 	public static MSPlayer load(String playerName) throws SQLException
 	{
-		MySQLService service = MineStrike.getService();
-		RecordData[] data = service.load(RECORD_STRUCTURE, MSConfig.getMySQLTablePlayers(), "WHERE `username` = ?", playerName);
+		MSPlayerDAO dao = MineStrike.getDBI().open(MSPlayerDAO.class);
+		MSPlayerData data = dao.selectData(MSConfig.getMySQLTablePlayers(), playerName);
+		InventoryContainer container = dao.selectEquipment(MSConfig.getMySQLTableEquipment(), playerName);
 		
-		if(data.length <= 0)
-			return null;
+		dao.close();
 		
-		MSPlayer msPlayer = new MSPlayer(playerName, data[0]);
-		
-		return msPlayer;
+		return new MSPlayer(data, container);
 	}
 	
 	public static boolean register(MSPlayer msPlayer)
@@ -220,10 +204,9 @@ public class MSPlayer implements Record
 	}
 	
 	private final HashMap<String, Object> customData = new HashMap<String, Object>();
-	private final String playerName;
-	private RecordData lazyData;
+	private final MSPlayerData data;
 	private Player player;
-	private InventoryContainer lazyInventoryContainer;
+	private InventoryContainer inventoryContainer;
 	private HotbarContainer hotbarContainer;
 	private ArmorContainer armorContainer;
 	private Long joinedAt;
@@ -243,15 +226,18 @@ public class MSPlayer implements Record
 	private Integer $rankXP;
 	private Rank $rank;
 	
-	public MSPlayer(String playerName, RecordData data)
+	public MSPlayer(MSPlayerData data, InventoryContainer inventoryContainer)
 	{
-		data.set("username", playerName);
-		
-		this.playerName = playerName;
-		this.lazyData = data;
+		this.data = data;
+		this.inventoryContainer = inventoryContainer;
 		this.playerState = PlayerState.LOBBY_SERVER;
 		this.hotbarContainer = new HotbarContainer();
 		this.armorContainer = new ArmorContainer();
+	}
+	
+	public MSPlayer(String playerName)
+	{
+		this(new MSPlayerData(playerName), new InventoryContainer());
 	}
 	
 	public void redirectEvent(Event event)
@@ -306,7 +292,7 @@ public class MSPlayer implements Record
 		String prefix = getPrefix();
 		String suffix = getSuffix();
 		
-		return (prefix != null ? prefix : "") + playerName + (suffix != null ? suffix : "");
+		return (prefix != null ? prefix : "") + getName() + (suffix != null ? suffix : "");
 	}
 	
 	public void updateNameTag()
@@ -314,14 +300,14 @@ public class MSPlayer implements Record
 		String prefix = getPrefix();
 		String suffix = getSuffix();
 		
-		NametagAPI.setNametagHard(playerName, prefix, suffix);
+		NametagAPI.setNametagHard(getName(), prefix, suffix);
 	}
 	
 	public void updatePrefix()
 	{
 		String prefix = getPrefix();
 		
-		NametagAPI.setPrefix(playerName, prefix);
+		NametagAPI.setPrefix(getName(), prefix);
 	}
 	
 	public String getPrefix()
@@ -358,7 +344,7 @@ public class MSPlayer implements Record
 	{
 		String suffix = getSuffix();
 		
-		NametagAPI.setSuffix(playerName, suffix);
+		NametagAPI.setSuffix(getName(), suffix);
 	}
 	
 	public String getSuffix()
@@ -554,7 +540,7 @@ public class MSPlayer implements Record
 	public Player getPlayer()
 	{
 		if(player == null)
-			player = Bukkit.getPlayerExact(playerName);
+			player = Bukkit.getPlayerExact(getName());
 		
 		return player;
 	}
@@ -688,7 +674,7 @@ public class MSPlayer implements Record
 			}
 		}
 		
-		MineStrike.debug("{" + playerName + "} " + key + " -> " + value + trace);
+		MineStrike.debug("{" + getName() + "} " + key + " -> " + value + trace);
 		
 		customData.put(key, value);
 	}
@@ -733,20 +719,16 @@ public class MSPlayer implements Record
 	
 	public String getName()
 	{
-		return playerName;
-	}
-
-	@Override
-	public RecordStructure getStructure()
-	{
-		return RECORD_STRUCTURE;
+		return data.getUsername();
 	}
 	
-	public void save() throws SQLException
+	public void save()
 	{
-		MySQLService service = MineStrike.getService();
+		DBI dbi = MineStrike.getDBI();
+		MSPlayerDAO dao = dbi.open(MSPlayerDAO.class);
 		
-		service.save(getData(), MSConfig.getMySQLTablePlayers());
+		dao.insertData(MSConfig.getMySQLTablePlayers(), data);
+		//TODO insert inventory
 	}
 	
 	public void clearContainers()
@@ -1013,53 +995,6 @@ var rotateX3D = function(theta) {
 		this.lazyScene = scene;
 	}
 	
-	public void set(String key, Object value)
-	{
-		lazyData.set(key, value);
-	}
-	
-	public <T> T get(Class<T> clazz, String key)
-	{
-		if(key.equals("inventory"))
-			updateData();
-		
-		return lazyData.get(clazz, key);
-	}
-	
-	public <T> T get(Class<T> clazz, String key, T ifNull)
-	{
-		if(key.equals("inventory"))
-			updateData();
-		
-		return lazyData.get(clazz, key, ifNull);
-	}
-	
-	public RecordData getData()
-	{
-		updateData();
-		
-		return lazyData;
-	}
-	
-	private void updateData()
-	{
-		InventoryContainer invContainer = getInventoryContainer();
-		Equipment[] equipment = invContainer.getContents();
-		String gsonEquipment = EquipmentManager.toGson(equipment);
-		Long currentPlaytime = pullCurrentPlaytime();
-		
-		lazyData.set("inventory", gsonEquipment);
-		
-		if(currentPlaytime != null)
-			lazyData.set("playtime", lazyData.get(Integer.class, "playtime", 0) + currentPlaytime);
-	}
-
-	public void setData(RecordData data)
-	{
-		lazyInventoryContainer = null;
-		this.lazyData = data;
-	}
-	
 	private Long pullCurrentPlaytime()
 	{
 		if(joinedAt == null)
@@ -1074,7 +1009,7 @@ var rotateX3D = function(theta) {
 	
 	public void setXP(int xp, boolean updateNametag)
 	{
-		lazyData.set("xp", xp < 0 ? 0 : xp);
+		data.setXp(xp < 0 ? 0 : xp);
 		
 		if(updateNametag)
 			updateNameTag();
@@ -1087,7 +1022,7 @@ var rotateX3D = function(theta) {
 	
 	public int getXP()
 	{
-		return lazyData.get(Integer.class, "xp", 0);
+		return data.getXp();
 	}
 	
 	public Rank getRank()
@@ -1152,12 +1087,12 @@ var rotateX3D = function(theta) {
 	
 	public int getKills()
 	{
-		return lazyData.get(Integer.class, "kills", 0);
+		return data.getKills();
 	}
 	
 	public void setKills(int kills)
 	{
-		lazyData.set("kills", kills);
+		data.setKills(kills);
 	}
 	
 	public int addKills(int amount)
@@ -1171,12 +1106,12 @@ var rotateX3D = function(theta) {
 	
 	public int getAssists()
 	{
-		return lazyData.get(Integer.class, "assists", 0);
+		return data.getAssists();
 	}
 	
 	public void setAssists(int assists)
 	{
-		lazyData.set("assists", assists);
+		data.setAssists(assists);
 	}
 	
 	public int addAssists(int amount)
@@ -1190,12 +1125,12 @@ var rotateX3D = function(theta) {
 	
 	public int getDeaths()
 	{
-		return lazyData.get(Integer.class, "deaths", 0);
+		return data.getDeaths();
 	}
 	
 	public void setDeaths(int deaths)
 	{
-		lazyData.set("deaths", deaths);
+		data.setDeaths(deaths);
 	}
 	
 	public int addDeaths(int amount)
@@ -1238,22 +1173,10 @@ var rotateX3D = function(theta) {
 	{
 		return customData;
 	}
-
+	
 	public InventoryContainer getInventoryContainer()
 	{
-		if(lazyInventoryContainer == null)
-		{
-			lazyInventoryContainer = new InventoryContainer();
-			String string = lazyData.get(String.class, "inventory", "");
-			Equipment[] equipment = EquipmentManager.fromGson(string);
-			
-			for(int i = 0; i < equipment.length; i++)
-				lazyInventoryContainer.setItem(i, equipment[i]);
-			
-			lazyInventoryContainer.addDefaults();
-		}
-		
-		return lazyInventoryContainer;
+		return inventoryContainer;
 	}
 
 	public HotbarContainer getHotbarContainer()
@@ -1364,5 +1287,15 @@ var rotateX3D = function(theta) {
 	public void setJoinedAt(Long joinedAt)
 	{
 		this.joinedAt = joinedAt;
+	}
+	
+	public long getPlaytime()
+	{
+		return data.getPlaytime();
+	}
+	
+	public void setPlaytime(long playtime)
+	{
+		data.setPlaytime(playtime);
 	}
 }

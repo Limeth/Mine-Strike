@@ -1,5 +1,6 @@
 package cz.minestrike.me.limeth.minestrike.scene.games;
 
+import java.util.ArrayList;
 import java.util.Map.Entry;
 
 import org.bukkit.Bukkit;
@@ -31,10 +32,10 @@ import cz.minestrike.me.limeth.minestrike.events.EquipmentPickupEvent;
 import cz.minestrike.me.limeth.minestrike.events.GameEquipEvent;
 import cz.minestrike.me.limeth.minestrike.listeners.msPlayer.MSSceneListener;
 import cz.minestrike.me.limeth.minestrike.renderers.MapPollRenderer;
-import cz.minestrike.me.limeth.minestrike.util.MapAllocator;
 import cz.minestrike.me.limeth.minestrike.util.RendererUtil;
 import cz.minestrike.me.limeth.minestrike.util.collections.FilledArrayList;
 import cz.minestrike.me.limeth.minestrike.util.collections.FilledHashMap;
+import cz.projectsurvive.me.limeth.psmaps.MapAllocator;
 
 public class MapPoll extends GamePhase<Game> implements Runnable
 {
@@ -161,7 +162,7 @@ public class MapPoll extends GamePhase<Game> implements Runnable
 		if(amount > SELECTED_MAX)
 			amount = SELECTED_MAX;
 		
-		FilledArrayList<Short> availableIds = MapAllocator.allocate(amount);
+		ArrayList<Short> availableIds = MapAllocator.allocate(amount);
 		selectedMaps = new FilledHashMap<Short, GameMap>();
 		int i = 0;
 		

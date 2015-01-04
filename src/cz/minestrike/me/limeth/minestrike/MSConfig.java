@@ -25,7 +25,7 @@ public class MSConfig
 	public static final File SERVER_PROPERTIES = new File("server.properties");
 	private static World world;
 	private static DirectedPoint spawn;
-	private static String languageName, mysqlIP, mysqlDatabase, mysqlUsername, mysqlPassword, mysqlTablePlayers;
+	private static String languageName, mysqlIP, mysqlDatabase, mysqlUsername, mysqlPassword, mysqlTablePlayers, mysqlTableEquipment;
 	private static int mysqlPort;
 	private static Location lazySpawnLocation;
 	
@@ -61,6 +61,7 @@ public class MSConfig
 		
 		JsonObject mysqlTables = mysql.get("tables").getAsJsonObject();
 		mysqlTablePlayers = mysqlTables.get("players").getAsString();
+		mysqlTableEquipment = mysqlTables.get("equipment").getAsString();
 		
 		//Init
 		world.setSpawnLocation(spawn.getX(), spawn.getY(), spawn.getZ());
@@ -99,8 +100,9 @@ public class MSConfig
 		mysql.addProperty("password", "password");
 		
 		JsonObject mysqlTables = new JsonObject();
-		
+
 		mysqlTables.addProperty("players", "minestrike_players");
+		mysqlTables.addProperty("equipment", "minestrike_equipment");
 		mysql.add("tables", mysqlTables);
 		
 		root.add("mysql", mysql);
@@ -163,6 +165,11 @@ public class MSConfig
 		return mysqlDatabase;
 	}
 	
+	public static String getMySQLURL()
+	{
+		return "jdbc:mysql://" + getMySQLIP() + ":" + getMySQLPort() + "/" + getMySQLDatabase();
+	}
+	
 	public static String getMySQLUsername()
 	{
 		return mysqlUsername;
@@ -176,5 +183,10 @@ public class MSConfig
 	public static String getMySQLTablePlayers()
 	{
 		return mysqlTablePlayers;
+	}
+	
+	public static String getMySQLTableEquipment()
+	{
+		return mysqlTableEquipment;
 	}
 }

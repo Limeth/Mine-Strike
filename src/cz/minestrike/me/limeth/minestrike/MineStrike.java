@@ -1,7 +1,6 @@
 package cz.minestrike.me.limeth.minestrike;
 
 import java.io.File;
-import java.sql.SQLException;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -14,6 +13,7 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.skife.jdbi.v2.DBI;
 
 import com.comphenix.protocol.ProtocolLibrary;
 import com.comphenix.protocol.ProtocolManager;
@@ -34,12 +34,11 @@ import cz.minestrike.me.limeth.minestrike.listeners.msPlayer.MSListenerManager;
 import cz.minestrike.me.limeth.minestrike.listeners.packet.PacketManager;
 import cz.minestrike.me.limeth.minestrike.scene.games.GameManager;
 import cz.minestrike.me.limeth.minestrike.util.SoundManager;
-import cz.minestrike.me.limeth.storagemanager.mysql.MySQLService;
 
 public class MineStrike extends JavaPlugin
 {
 	private static MineStrike instance;
-	private static MySQLService service;
+	private static DBI dbi;
 	private static MSListenerManager msListenerManager;
 	private static ProtocolManager protocolManager;
 	private static Logger logger;
@@ -71,7 +70,7 @@ public class MineStrike extends JavaPlugin
 			registerBukkitListeners();
 			PacketManager.registerListeners();
 			loadData();
-			connectService();
+			createDBI();
 			redirectCommands();
 			MSPlayer.loadOnlinePlayers();
 			MSPlayer.startMovementLoop();
@@ -123,7 +122,6 @@ public class MineStrike extends JavaPlugin
 		
 		MSPlayer.stopMovementLoop();
 		MSPlayer.clearOnlinePlayers();
-		disconnectService();
 		PacketManager.unregisterListeners();
 		Bukkit.getScheduler().cancelTasks(this);
 		info("Mine-Strike successfully disabled!");
@@ -131,19 +129,9 @@ public class MineStrike extends JavaPlugin
 		instance = null;
 	}
 	
-	private void connectService() throws SQLException
+	private void createDBI()
 	{
-		service = new MySQLService(MSConfig.getMySQLIP(), MSConfig.getMySQLPort(), MSConfig.getMySQLDatabase(), MSConfig.getMySQLUsername(), MSConfig.getMySQLPassword());
-		
-		service.connect();
-		service.prepareTable(MSPlayer.RECORD_STRUCTURE, MSConfig.getMySQLTablePlayers());
-	}
-	
-	private void disconnectService()
-	{
-		service.disconnect();
-		
-		service = null;
+		dbi = new DBI(MSConfig.getMySQLURL(), MSConfig.getMySQLUsername(), MSConfig.getMySQLPassword());
 	}
 	
 	private void loadData() throws Exception
@@ -226,9 +214,9 @@ public class MineStrike extends JavaPlugin
 		}
 	}
 	
-	public static MySQLService getService()
+	public static DBI getDBI()
 	{
-		return service;
+		return dbi;
 	}
 
 	public static MineStrike getInstance()

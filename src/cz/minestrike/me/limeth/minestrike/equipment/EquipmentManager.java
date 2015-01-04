@@ -30,11 +30,13 @@ import cz.minestrike.me.limeth.minestrike.util.collections.FilledHashSet;
 public class EquipmentManager
 {
 	private static final FilledHashSet<Equipment> TYPES;
-	private static final GsonBuilder BUILDER = new GsonBuilder()
+	private static final Gson GSON = new GsonBuilder()
 		.registerTypeAdapter(Equipment.class, EquipmentAdapter.INSTANCE)
 		.registerTypeAdapter(EquipmentCustomization.class, EquipmentCustomizationAdapter.INSTANCE)
 		.registerTypeAdapter(CustomizedEquipment.class, CustomizedEquipmentAdapter.INSTANCE)
-		.registerTypeAdapter(Gun.class, GunAdapter.INSTANCE);
+		.registerTypeAdapter(Gun.class, GunAdapter.INSTANCE)
+		.create();
+	private static final JsonParser PARSER = new JsonParser();
 	
 	static
 	{
@@ -77,59 +79,72 @@ public class EquipmentManager
 		return null;
 	}
 	
-	public static String toGson(Equipment[] array)
+	public static String toJsonAll(Equipment[] array)
 	{
-		Gson gson = BUILDER.create();
 		JsonArray result = new JsonArray();
 		
 		for(Equipment equipment : array)
-		{
-			Class<? extends Equipment> clazz = equipment.getEquipmentClass();
-			JsonElement element = gson.toJsonTree(equipment, clazz);
-			
-			result.add(element);
-		}
+			result.add(toJsonElement(equipment));
 		
-		return gson.toJson(result);
+		return GSON.toJson(result);
 	}
 	
-	public static Equipment[] fromGson(String string)
+	public static JsonElement toJsonElement(Equipment equipment)
 	{
-		JsonParser parser = new JsonParser();
-		Gson gson = BUILDER.create();
-		JsonElement rootElement = parser.parse(string);
+		Class<? extends Equipment> clazz = equipment.getEquipmentClass();
+		
+		return GSON.toJsonTree(equipment, clazz);
+	}
+	
+	public static String toJson(Equipment equipment)
+	{
+		return GSON.toJson(toJsonElement(equipment));
+	}
+	
+	public static Equipment[] fromJsonArray(String string)
+	{
+		JsonElement rootElement = PARSER.parse(string);
 		
 		if(!(rootElement instanceof JsonArray))
 			return new CustomizedEquipment[0];
 		
 		JsonArray rootArray = rootElement.getAsJsonArray();
-		int size = rootArray.size();
-		Equipment[] result = new Equipment[size];
+		Equipment[] result = new Equipment[rootArray.size()];
 		int i = 0;
 		
 		for(JsonElement element : rootArray)
 		{
-			Class<? extends Equipment> clazz;
-			
-			if(element instanceof JsonObject)
-			{
-				JsonObject object = (JsonObject) element;
-				String typeId = object.get("id").getAsString();
-				Equipment equipment = EquipmentManager.getEquipment(typeId);
-				
-				clazz = equipment.getEquipmentClass();
-				
-				if(clazz == Equipment.class)
-					clazz = CustomizedEquipment.class;
-			}
-			else
-				clazz = Equipment.class;
-			
-			result[i] = gson.fromJson(element, clazz);
+			result[i] = fromJsonElement(element);
 			i++;
 		}
 		
 		return result;
+	}
+	
+	public static Equipment fromJsonElement(JsonElement element)
+	{
+		Class<? extends Equipment> clazz;
+		
+		if(element instanceof JsonObject)
+		{
+			JsonObject object = (JsonObject) element;
+			String typeId = object.get("id").getAsString();
+			Equipment equipment = EquipmentManager.getEquipment(typeId);
+			
+			clazz = equipment.getEquipmentClass();
+			
+			if(clazz == Equipment.class)
+				clazz = CustomizedEquipment.class;
+		}
+		else
+			clazz = Equipment.class;
+		
+		return GSON.fromJson(element, clazz);
+	}
+	
+	public static Equipment fromJson(String json)
+	{
+		return fromJsonElement(PARSER.parse(json));
 	}
 	
 	@SuppressWarnings("unchecked")

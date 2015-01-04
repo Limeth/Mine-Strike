@@ -3,7 +3,6 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="one-point-eight"/>
 	<classpathentry kind="src" path="fanciful"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/StorageManager"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/DynamicDisplays"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="C:/Users/Limeth/Desktop/Coding/Java/Projects/Minecraft/Libraries/ProtocolLib-Spigot-3.6.0-SNAPSHOT.jar"/>
@@ -16,5 +15,6 @@
 	</classpathentry>
 	<classpathentry combineaccessrules="false" kind="src" path="/PSClans"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/PSMaps"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/JDBI"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

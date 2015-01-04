@@ -1,7 +1,5 @@
 package cz.minestrike.me.limeth.minestrike.listeners;
 
-import java.sql.SQLException;
-
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -9,7 +7,6 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
 import cz.minestrike.me.limeth.minestrike.MSPlayer;
-import cz.minestrike.me.limeth.minestrike.MineStrike;
 import cz.minestrike.me.limeth.minestrike.events.GameQuitEvent.SceneQuitReason;
 import cz.minestrike.me.limeth.minestrike.scene.Scene;
 
@@ -42,17 +39,7 @@ public class ConnectionListener implements Listener
 		MSPlayer msPlayer = MSPlayer.get(player);
 		
 		msPlayer.quitScene(SceneQuitReason.LOG_OUT, false, false);
-		
-		try
-		{
-			msPlayer.save();
-		}
-		catch(SQLException e)
-		{
-			MineStrike.warn("An error occured while saving player data for player '" + player.getName() + "'.");
-			e.printStackTrace();
-		}
-		
+		msPlayer.save();
 		MSPlayer.remove(msPlayer);
 	}
 }

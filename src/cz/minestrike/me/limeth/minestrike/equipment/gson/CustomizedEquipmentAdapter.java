@@ -1,19 +1,12 @@
 package cz.minestrike.me.limeth.minestrike.equipment.gson;
 
-import java.lang.reflect.Type;
-
-import org.bukkit.craftbukkit.libs.com.google.gson.JsonDeserializationContext;
-import org.bukkit.craftbukkit.libs.com.google.gson.JsonDeserializer;
-import org.bukkit.craftbukkit.libs.com.google.gson.JsonElement;
-import org.bukkit.craftbukkit.libs.com.google.gson.JsonObject;
-import org.bukkit.craftbukkit.libs.com.google.gson.JsonParseException;
-import org.bukkit.craftbukkit.libs.com.google.gson.JsonSerializationContext;
-import org.bukkit.craftbukkit.libs.com.google.gson.JsonSerializer;
-
 import cz.minestrike.me.limeth.minestrike.equipment.CustomizedEquipment;
 import cz.minestrike.me.limeth.minestrike.equipment.Equipment;
 import cz.minestrike.me.limeth.minestrike.equipment.EquipmentCustomization;
 import cz.minestrike.me.limeth.minestrike.equipment.EquipmentManager;
+import org.bukkit.craftbukkit.libs.com.google.gson.*;
+
+import java.lang.reflect.Type;
 
 public class CustomizedEquipmentAdapter implements
 	JsonSerializer<CustomizedEquipment<? extends Equipment>>,
@@ -30,7 +23,7 @@ public class CustomizedEquipmentAdapter implements
 		String typeId = object.get("id").getAsString();
 		Equipment equipmentType = EquipmentManager.getEquipment(typeId);
 		JsonElement customizationElement = object.get("customization");
-		EquipmentCustomization customization = customizationElement == null || customizationElement.isJsonNull() ? null : context.deserialize(customizationElement, EquipmentCustomization.class);
+		EquipmentCustomization customization = customizationElement == null || customizationElement.isJsonNull() ? null : context.<EquipmentCustomization>deserialize(customizationElement, EquipmentCustomization.class);
 		boolean equipped = object.get("equipped").getAsBoolean();
 		
 		return new CustomizedEquipment<Equipment>(equipmentType, customization, equipped);
