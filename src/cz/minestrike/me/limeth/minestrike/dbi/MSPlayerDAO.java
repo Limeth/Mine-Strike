@@ -1,20 +1,18 @@
 package cz.minestrike.me.limeth.minestrike.dbi;
 
-import org.skife.jdbi.v2.Batch;
-import org.skife.jdbi.v2.DBI;
-import org.skife.jdbi.v2.Handle;
-import org.skife.jdbi.v2.sqlobject.Bind;
-import org.skife.jdbi.v2.sqlobject.BindBean;
-import org.skife.jdbi.v2.sqlobject.SqlQuery;
-import org.skife.jdbi.v2.sqlobject.SqlUpdate;
-import org.skife.jdbi.v2.sqlobject.customizers.Define;
-import org.skife.jdbi.v2.sqlobject.customizers.RegisterMapper;
-
 import cz.minestrike.me.limeth.minestrike.MSConfig;
 import cz.minestrike.me.limeth.minestrike.MineStrike;
 import cz.minestrike.me.limeth.minestrike.equipment.containers.InventoryContainer;
+import org.skife.jdbi.v2.Batch;
+import org.skife.jdbi.v2.DBI;
+import org.skife.jdbi.v2.Handle;
+import org.skife.jdbi.v2.sqlobject.*;
+import org.skife.jdbi.v2.sqlobject.customizers.Define;
+import org.skife.jdbi.v2.sqlobject.customizers.RegisterMapper;
+import org.skife.jdbi.v2.sqlobject.stringtemplate.UseStringTemplate3StatementLocator;
 
 @RegisterMapper(MSPlayerDataMapper.class)
+@UseStringTemplate3StatementLocator
 public interface MSPlayerDAO
 {
 	String FIELD_DATA_USERNAME = "username";
@@ -34,23 +32,23 @@ public interface MSPlayerDAO
 		DBI dbi = MineStrike.getDBI();
 		Handle handle = dbi.open();
 		Batch batch = handle.createBatch();
-		
-		batch.define("table", MSConfig.getMySQLTablePlayers());
-		batch.add("CREATE TABLE IF NOT EXISTS <table> ("
-		    	+ "`" + FIELD_DATA_USERNAME + "` varchar(16) COLLATE utf8_czech_ci NOT NULL,"
-				+ "`" + FIELD_DATA_XP + "` int(11) NOT NULL,"
-				+ "`" + FIELD_DATA_KILLS + "` int(11) NOT NULL,"
-				+ "`" + FIELD_DATA_ASSISTS + "` int(11) NOT NULL,"
-				+ "`" + FIELD_DATA_DEATHS + "` int(11) NOT NULL,"
-				+ "`" + FIELD_DATA_PLAYTIME + "` bigint(20) NOT NULL,"
-				+ "PRIMARY KEY (`" + FIELD_DATA_USERNAME + "`)"
-			+ ") ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_czech_ci;");
-		batch.add("ALTER TABLE <table> ADD COLUMN `" + FIELD_DATA_USERNAME + "` varchar(16) COLLATE utf8_czech_ci NOT NULL");
-		batch.add("ALTER TABLE <table> ADD COLUMN `" + FIELD_DATA_XP + "` int(11) NOT NULL");
-		batch.add("ALTER TABLE <table> ADD COLUMN `" + FIELD_DATA_KILLS + "` int(11) NOT NULL");
-		batch.add("ALTER TABLE <table> ADD COLUMN `" + FIELD_DATA_ASSISTS + "` int(11) NOT NULL");
-		batch.add("ALTER TABLE <table> ADD COLUMN `" + FIELD_DATA_DEATHS + "` int(11) NOT NULL");
-		batch.add("ALTER TABLE <table> ADD COLUMN `" + FIELD_DATA_PLAYTIME + "` bigint(20) NOT NULL");
+		String table = MSConfig.getMySQLTablePlayers();
+
+		batch.add("CREATE TABLE IF NOT EXISTS " + table + " (" +
+		          "`" + FIELD_DATA_USERNAME + "` varchar(16) COLLATE utf8_czech_ci NOT NULL," +
+		          "`" + FIELD_DATA_XP + "` int(11) NOT NULL," +
+		          "`" + FIELD_DATA_KILLS + "` int(11) NOT NULL," +
+		          "`" + FIELD_DATA_ASSISTS + "` int(11) NOT NULL," +
+		          "`" + FIELD_DATA_DEATHS + "` int(11) NOT NULL," +
+		          "`" + FIELD_DATA_PLAYTIME + "` bigint(20) NOT NULL," +
+		          "PRIMARY KEY (`" + FIELD_DATA_USERNAME + "`)" +
+		          ") ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_czech_ci");
+		prepareColumn(batch, table, FIELD_DATA_USERNAME, "varchar(16) COLLATE utf8_czech_ci NOT NULL");
+		prepareColumn(batch, table, FIELD_DATA_XP, "int(11) NOT NULL");
+		prepareColumn(batch, table, FIELD_DATA_KILLS, "int(11) NOT NULL");
+		prepareColumn(batch, table, FIELD_DATA_ASSISTS, "int(11) NOT NULL");
+		prepareColumn(batch, table, FIELD_DATA_DEATHS, "int(11) NOT NULL");
+		prepareColumn(batch, table, FIELD_DATA_PLAYTIME, "bigint(20) NOT NULL");
 		batch.execute();
 		handle.close();
 	}
@@ -60,26 +58,53 @@ public interface MSPlayerDAO
 		DBI dbi = MineStrike.getDBI();
 		Handle handle = dbi.open();
 		Batch batch = handle.createBatch();
-		
-		batch.define("table", MSConfig.getMySQLTableEquipment());
-		batch.add("CREATE TABLE IF NOT EXISTS <table> ("
-		    	+ "`" + FIELD_EQUIPMENT_USERNAME + "` varchar(16) COLLATE utf8_czech_ci NOT NULL,"
-				+ "`" + FIELD_EQUIPMENT_SERVER + "` varchar(16) NOT NULL,"
-				+ "`" + FIELD_EQUIPMENT_ID + "` varchar(64) NOT NULL,"
-				+ "`" + FIELD_EQUIPMENT_DATA + "` varchar(256) NOT NULL,"
-			+ ") ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_czech_ci;");
-		batch.add("ALTER TABLE <table> ADD COLUMN `" + FIELD_EQUIPMENT_USERNAME + "` varchar(16) COLLATE utf8_czech_ci NOT NULL");
-		batch.add("ALTER TABLE <table> ADD COLUMN `" + FIELD_EQUIPMENT_SERVER + "` varchar(16) NOT NULL");
-		batch.add("ALTER TABLE <table> ADD COLUMN `" + FIELD_EQUIPMENT_ID + "` varchar(64) NOT NULL");
-		batch.add("ALTER TABLE <table> ADD COLUMN `" + FIELD_EQUIPMENT_DATA + "` varchar(256) NOT NULL");
+		String table = MSConfig.getMySQLTableEquipment();
+
+		batch.add("CREATE TABLE IF NOT EXISTS `" + table + "` (" +
+		          "`" + FIELD_EQUIPMENT_USERNAME + "` varchar(16) COLLATE utf8_czech_ci NOT NULL," +
+		          "`" + FIELD_EQUIPMENT_SERVER + "` varchar(16) NOT NULL," +
+		          "`" + FIELD_EQUIPMENT_ID + "` varchar(64) NOT NULL," +
+		          "`" + FIELD_EQUIPMENT_DATA + "` varchar(256) NOT NULL" +
+		          ") ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_czech_ci");
+		prepareColumn(batch, table, FIELD_EQUIPMENT_USERNAME, "varchar(16) COLLATE utf8_czech_ci NOT NULL");
+		prepareColumn(batch, table, FIELD_EQUIPMENT_SERVER, "varchar(16) NOT NULL");
+		prepareColumn(batch, table, FIELD_EQUIPMENT_ID, "varchar(64) NOT NULL");
+		prepareColumn(batch, table, FIELD_EQUIPMENT_DATA, "varchar(256) NOT NULL");
 		batch.execute();
 		handle.close();
+	}
+
+	static void prepareColumn(Batch batch, String tableName, String columnName, String type)
+	{
+		batch.add("SET @s = (SELECT IF(\n" +
+		          "    (SELECT COUNT(*)\n" +
+		          "        FROM INFORMATION_SCHEMA.COLUMNS\n" +
+		          "        WHERE table_name = '" + tableName + "'\n" +
+		          "        AND table_schema = DATABASE()\n" +
+		          "        AND column_name = '" + columnName + "'\n" +
+		          "    ) > 0,\n" +
+		          "    \"SELECT 1\",\n" +
+		          "    \"ALTER TABLE `" + tableName + "` ADD `" + columnName + "` " + type + "\"\n" +
+		          "))");
+		batch.add("PREPARE stmt FROM @s");
+		batch.add("EXECUTE stmt");
+        batch.add("DEALLOCATE PREPARE stmt");
 	}
 	
 	static void prepareTables()
 	{
 		prepareTableData();
 		prepareTableEquipment();
+	}
+	
+	static void overrideEquipment(String playerName, InventoryContainer inventoryContainer)
+	{
+		DBI dbi = MineStrike.getDBI();
+		Handle handle = dbi.open();
+		MSPlayerDAO dao = handle.attach(MSPlayerDAO.class);
+		
+		dao.clearEquipment(MSConfig.getMySQLTableEquipment(), playerName);
+		dao.insertEquipment(MSConfig.getMySQLTableEquipment(), playerName, inventoryContainer);
 	}
 	
 	@SqlQuery("SELECT * FROM <table> WHERE `" + FIELD_DATA_USERNAME + "` = :" + FIELD_DATA_USERNAME + "")
@@ -92,8 +117,14 @@ public interface MSPlayerDAO
 	@SqlQuery("SELECT * FROM <table> WHERE `" + FIELD_EQUIPMENT_SERVER + "` = '" + VALUE_EQUIPMENT_SERVER + "' AND `" + FIELD_DATA_USERNAME + "` = :username")
 	public InventoryContainer selectEquipment(@Define("table") String tableName, @Bind("username") String playerName);
 	
-	@SqlUpdate("INSERT INTO <table> (`" + FIELD_EQUIPMENT_USERNAME + "`, `" + FIELD_EQUIPMENT_SERVER + "`, `" + FIELD_EQUIPMENT_ID + "`, `" + FIELD_EQUIPMENT_DATA + "`) VALUES"
-			+ "()") //TODO
+	/**Use the static {@link #overrideEquipment(String, InventoryContainer)} method instead.*/
+	@Deprecated
+	@SqlBatch("INSERT INTO <table> (`" + FIELD_EQUIPMENT_USERNAME + "`, `" + FIELD_EQUIPMENT_SERVER + "`, `" + FIELD_EQUIPMENT_ID + "`, `" + FIELD_EQUIPMENT_DATA + "`) VALUES"
+			+ "(:username, '" + VALUE_EQUIPMENT_SERVER + "', :equipment.id, :equipment.data)")
+	void insertEquipment(@Define("table") String tableName, @Bind("username") String playerName, @BindEquipment("equipment") InventoryContainer container);
+	
+	@SqlUpdate("DELETE FROM <table> WHERE `" + FIELD_EQUIPMENT_USERNAME + "` = :username")
+	void clearEquipment(@Define("table") String tableName, @Bind("username") String playerName);
 	
 	void close();
 }

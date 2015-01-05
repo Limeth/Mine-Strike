@@ -31,6 +31,11 @@
 			<location>C:/Users/Limeth/Desktop/Coding/Java/Projects/Minecraft/Libraries/fanciful-master/src/main</location>
 		</link>
 		<link>
+			<name>jdbi-src</name>
+			<type>2</type>
+			<location>C:/Users/Limeth/Desktop/Coding/Java/Libraries/jdbi/jdbi-2.56-sources</location>
+		</link>
+		<link>
 			<name>one-point-eight</name>
 			<type>2</type>
 			<location>C:/Users/Limeth/workspace/OnePointEight/src</location>

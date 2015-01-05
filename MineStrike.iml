@@ -22,11 +22,7 @@
     <content url="file://$MODULE_DIR$">
       <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
     </content>
-    <content url="file://$USER_HOME$/workspace/OnePointEight/src">
-      <sourceFolder url="file://$USER_HOME$/workspace/OnePointEight/src" isTestSource="false" />
-    </content>
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="module" module-name="StorageManager" />
     <orderEntry type="module" module-name="DynamicDisplays" />
     <orderEntry type="inheritedJdk" />
     <orderEntry type="module-library">
@@ -71,5 +67,8 @@
     </orderEntry>
     <orderEntry type="module" module-name="PSClans" />
     <orderEntry type="module" module-name="PSMaps" />
+    <orderEntry type="library" exported="" name="org.jdbi:jdbi:2.55" level="project" />
+    <orderEntry type="module" module-name="OnePointEight" />
+    <orderEntry type="library" exported="" name="antlr:stringtemplate:3.0" level="project" />
   </component>
 </module>

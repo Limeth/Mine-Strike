@@ -15,6 +15,5 @@
 	</classpathentry>
 	<classpathentry combineaccessrules="false" kind="src" path="/PSClans"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/PSMaps"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/JDBI"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

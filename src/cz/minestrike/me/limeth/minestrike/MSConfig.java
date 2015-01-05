@@ -101,8 +101,8 @@ public class MSConfig
 		
 		JsonObject mysqlTables = new JsonObject();
 
-		mysqlTables.addProperty("players", "minestrike_players");
-		mysqlTables.addProperty("equipment", "minestrike_equipment");
+		mysqlTables.addProperty("players", "minestrike_players2");
+		mysqlTables.addProperty("equipment", "minestrike_equipment2");
 		mysql.add("tables", mysqlTables);
 		
 		root.add("mysql", mysql);

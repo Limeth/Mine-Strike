@@ -1,10 +1,21 @@
 package cz.minestrike.me.limeth.minestrike;
 
-import java.io.File;
-import java.util.Set;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
+import com.comphenix.protocol.ProtocolLibrary;
+import com.comphenix.protocol.ProtocolManager;
+import cz.minestrike.me.limeth.minestrike.areas.PlotManager;
+import cz.minestrike.me.limeth.minestrike.areas.schemes.SchemeManager;
+import cz.minestrike.me.limeth.minestrike.commands.JoinExecutor;
+import cz.minestrike.me.limeth.minestrike.commands.MSExecutor;
+import cz.minestrike.me.limeth.minestrike.commands.QuitExecutor;
+import cz.minestrike.me.limeth.minestrike.commands.TopExecutor;
+import cz.minestrike.me.limeth.minestrike.dbi.MSPlayerDAO;
+import cz.minestrike.me.limeth.minestrike.dbi.MSPlayerData;
+import cz.minestrike.me.limeth.minestrike.listeners.*;
+import cz.minestrike.me.limeth.minestrike.listeners.clan.ClanListener;
+import cz.minestrike.me.limeth.minestrike.listeners.msPlayer.MSListenerManager;
+import cz.minestrike.me.limeth.minestrike.listeners.packet.PacketManager;
+import cz.minestrike.me.limeth.minestrike.scene.games.GameManager;
+import cz.minestrike.me.limeth.minestrike.util.SoundManager;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.World;
@@ -15,25 +26,10 @@ import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.skife.jdbi.v2.DBI;
 
-import com.comphenix.protocol.ProtocolLibrary;
-import com.comphenix.protocol.ProtocolManager;
-
-import cz.minestrike.me.limeth.minestrike.areas.PlotManager;
-import cz.minestrike.me.limeth.minestrike.areas.schemes.SchemeManager;
-import cz.minestrike.me.limeth.minestrike.commands.JoinExecutor;
-import cz.minestrike.me.limeth.minestrike.commands.MSExecutor;
-import cz.minestrike.me.limeth.minestrike.commands.QuitExecutor;
-import cz.minestrike.me.limeth.minestrike.commands.TopExecutor;
-import cz.minestrike.me.limeth.minestrike.listeners.ConnectionListener;
-import cz.minestrike.me.limeth.minestrike.listeners.ErrorListener;
-import cz.minestrike.me.limeth.minestrike.listeners.InteractionListener;
-import cz.minestrike.me.limeth.minestrike.listeners.InventoryListener;
-import cz.minestrike.me.limeth.minestrike.listeners.PermissionListener;
-import cz.minestrike.me.limeth.minestrike.listeners.clan.ClanListener;
-import cz.minestrike.me.limeth.minestrike.listeners.msPlayer.MSListenerManager;
-import cz.minestrike.me.limeth.minestrike.listeners.packet.PacketManager;
-import cz.minestrike.me.limeth.minestrike.scene.games.GameManager;
-import cz.minestrike.me.limeth.minestrike.util.SoundManager;
+import java.io.File;
+import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class MineStrike extends JavaPlugin
 {
@@ -45,6 +41,9 @@ public class MineStrike extends JavaPlugin
 	
 	public static void main(String[] args) throws Exception
 	{
+		System.out.println(MSPlayerData.class.newInstance());
+		System.exit(0);
+
 		for(Rank rank : Rank.values())
 			System.out.println(rank + " " + rank.getRequiredXP());
 		
@@ -70,7 +69,7 @@ public class MineStrike extends JavaPlugin
 			registerBukkitListeners();
 			PacketManager.registerListeners();
 			loadData();
-			createDBI();
+			setupDBI();
 			redirectCommands();
 			MSPlayer.loadOnlinePlayers();
 			MSPlayer.startMovementLoop();
@@ -129,9 +128,11 @@ public class MineStrike extends JavaPlugin
 		instance = null;
 	}
 	
-	private void createDBI()
+	private static void setupDBI()
 	{
 		dbi = new DBI(MSConfig.getMySQLURL(), MSConfig.getMySQLUsername(), MSConfig.getMySQLPassword());
+		
+		MSPlayerDAO.prepareTables();
 	}
 	
 	private void loadData() throws Exception

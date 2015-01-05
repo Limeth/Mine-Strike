@@ -8,7 +8,6 @@ import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.enchantments.Enchantment;
-import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -208,9 +207,8 @@ public enum Case implements Equipment
 		FilledArrayList<CaseContent> rarityContents = getContents(rarity);
 		CaseContent resultContent = rarityContents.get(random.nextInt(rarityContents.size()));
 		Equipment result = resultContent.getEquipment();
-		Player player = msPlayer.getPlayer();
 		
-		container.add(result);
+		container.addItem(result);
 		new CaseOpening(msPlayer, this, resultContent).start();
 	}
 	

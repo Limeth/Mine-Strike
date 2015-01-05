@@ -179,7 +179,7 @@ public class CustomizedEquipment<T extends Equipment> implements Equipment
 		{
 			InventoryContainer invContainer = msPlayer.getInventoryContainer();
 			int selectionIndex = msPlayer.getCustomData(Integer.class, InventoryContainer.SELECTION_INDEX_DATA);
-			Equipment selectedEquipment = invContainer.get(selectionIndex);
+			Equipment selectedEquipment = invContainer.getItem(selectionIndex);
 			
 			if(!(selectedEquipment instanceof CustomizedEquipment))
 			{
@@ -217,7 +217,7 @@ public class CustomizedEquipment<T extends Equipment> implements Equipment
 		{
 			InventoryContainer invContainer = msPlayer.getInventoryContainer();
 			int selectionIndex = msPlayer.getCustomData(Integer.class, InventoryContainer.SELECTION_INDEX_DATA);
-			Equipment selectedEquipment = invContainer.get(selectionIndex);
+			Equipment selectedEquipment = invContainer.getItem(selectionIndex);
 			
 			if(!(selectedEquipment instanceof CustomizedEquipment))
 			{

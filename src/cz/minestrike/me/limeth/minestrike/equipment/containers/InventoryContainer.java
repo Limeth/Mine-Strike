@@ -27,7 +27,6 @@ import cz.minestrike.me.limeth.minestrike.util.collections.FilledHashSet;
 
 public class InventoryContainer extends ScalableContainer
 {
-	private static final long serialVersionUID = -8525702276639421368L;
 	public static final Equipment[] DEFAULT_EQUIPMENT = {
 		new Gun(GunType.USP_S), new Gun(GunType.CZ75), new Gun(GunType.M4A1_S)
 	};
@@ -106,7 +105,7 @@ public class InventoryContainer extends ScalableContainer
 	{
 		for(Equipment equipment : DEFAULT_EQUIPMENT)
 			if(!containsSource(equipment.getSource()))
-				add(0, equipment);
+				addItem(0, equipment);
 	}
 	
 	public boolean containsSource(Equipment source)
@@ -260,7 +259,7 @@ public class InventoryContainer extends ScalableContainer
 	{
 		InventoryContainer invContainer = msPlayer.getInventoryContainer();
 		int selectionIndex = msPlayer.getCustomData(Integer.class, SELECTION_INDEX_DATA);
-		Equipment selectedEquipment = invContainer.get(selectionIndex);
+		Equipment selectedEquipment = invContainer.getItem(selectionIndex);
 		FilledArrayList<ItemButton> selectionButtons = selectedEquipment.getSelectionButtons(msPlayer);
 		
 		selectionButtons.add(BUTTON_BACK);
@@ -312,10 +311,10 @@ public class InventoryContainer extends ScalableContainer
 			int equipmentIndex = x + (y + scroll) * inventoryWidth;
 			InventoryContainer invContainer = msPlayer.getInventoryContainer();
 			
-			if(equipmentIndex < 0 || equipmentIndex >= invContainer.size())
+			if(equipmentIndex < 0 || equipmentIndex >= invContainer.getSize())
 				return;
 			
-			Equipment equipment = invContainer.get(equipmentIndex);
+			Equipment equipment = invContainer.getItem(equipmentIndex);
 			
 			if(equipment == null)
 				return;
@@ -337,7 +336,7 @@ public class InventoryContainer extends ScalableContainer
 			{
 				int scroll = msPlayer.getCustomData(Integer.class, SCROLL_DATA, 0);
 				InventoryContainer invContainer = msPlayer.getInventoryContainer();
-				int rows = (int) Math.ceil((double) invContainer.size() / (double) inventoryHeight);
+				int rows = (int) Math.ceil((double) invContainer.getSize() / (double) inventoryHeight);
 				
 				if(rows - scroll <= inventoryHeight)
 					return;
@@ -355,7 +354,7 @@ public class InventoryContainer extends ScalableContainer
 	{
 		InventoryContainer invContainer = msPlayer.getInventoryContainer();
 		int selectionIndex = msPlayer.getCustomData(Integer.class, SELECTION_INDEX_DATA);
-		Equipment selectedEquipment = invContainer.get(selectionIndex);
+		Equipment selectedEquipment = invContainer.getItem(selectionIndex);
 		FilledArrayList<ItemButton> selectionButtons = selectedEquipment.getSelectionButtons(msPlayer);
 		
 		selectionButtons.add(BUTTON_BACK);

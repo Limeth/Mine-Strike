@@ -1,8 +1,8 @@
 package cz.minestrike.me.limeth.minestrike.dbi;
 
-import java.io.Serializable;
-
 import net.minecraft.util.com.google.common.base.Preconditions;
+
+import java.io.Serializable;
 
 public final class MSPlayerData implements Serializable
 {
@@ -28,6 +28,11 @@ public final class MSPlayerData implements Serializable
 	public MSPlayerData(String username)
 	{
 		this(username, 0, 0, 0, 0, 0);
+	}
+
+	public MSPlayerData()
+	{
+		this(null, 0, 0, 0, 0, 0);
 	}
 
 	public String getUsername()

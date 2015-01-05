@@ -1,56 +1,79 @@
 package cz.minestrike.me.limeth.minestrike.equipment.containers;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import org.apache.commons.lang.Validate;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
+import com.google.common.collect.Lists;
+
 import cz.minestrike.me.limeth.minestrike.MSPlayer;
 import cz.minestrike.me.limeth.minestrike.equipment.Equipment;
 
-public class ScalableContainer extends ArrayList<Equipment> implements Container
+public class ScalableContainer implements Container
 {
-	private static final long serialVersionUID = -3664492331537095431L;
+	private ArrayList<Equipment> contents = Lists.newArrayList();
 
 	@Override
 	public int getSize()
 	{
-		return size();
+		return contents.size();
 	}
 
 	@Override
 	public Equipment[] getContents()
 	{
-		return toArray(new Equipment[size()]);
+		return contents.toArray(new Equipment[contents.size()]);
+	}
+	
+	public void addItem(int index, Equipment equipment)
+	{
+		contents.add(index, equipment);
+	}
+	
+	public void addItem(Equipment equipment)
+	{
+		contents.add(equipment);
 	}
 
 	@Override
 	public void setItem(int index, Equipment equipment)
 	{
-		if(index >= size())
+		if(index >= contents.size())
 		{
-			while(index > size())
-				add(size(), null);
+			while(index > contents.size())
+				contents.add(contents.size(), null);
 			
-			add(index, equipment);
+			contents.add(index, equipment);
 		}
 		
-		set(index, equipment);
+		contents.set(index, equipment);
 	}
 
 	@Override
 	public Equipment getItem(int index)
 	{
-		return get(index);
+		return contents.get(index);
 	}
 
+	public boolean contains(Equipment equipment)
+	{
+		return contents.contains(equipment);
+	}
+	
+	public boolean remove(Equipment equipment)
+	{
+		return contents.remove(equipment);
+	}
+	
 	@Override
 	public void apply(Inventory inv, MSPlayer msPlayer)
 	{
-		for(int i = 0; i < size() && i < inv.getSize(); i++)
+		for(int i = 0; i < contents.size() && i < inv.getSize(); i++)
 		{
-			Equipment equipment = get(i);
+			Equipment equipment = contents.get(i);
 			ItemStack item = equipment != null ? equipment.newItemStack(msPlayer) : null;
 			
 			inv.setItem(i, item);
@@ -69,9 +92,9 @@ public class ScalableContainer extends ArrayList<Equipment> implements Container
 		Validate.notNull(equipment, "The equipment must not be null!");
 		boolean found = false;
 		
-		for(int i = 0; i < size(); i++)
+		for(int i = 0; i < contents.size(); i++)
 		{
-			Equipment current = get(i);
+			Equipment current = contents.get(i);
 			
 			if(current != equipment)
 				continue;
@@ -89,5 +112,17 @@ public class ScalableContainer extends ArrayList<Equipment> implements Container
 	public boolean apply(MSPlayer msPlayer, Equipment equipment)
 	{
 		return apply(msPlayer.getPlayer().getInventory(), msPlayer, equipment);
+	}
+
+	@Override
+	public Iterator<Equipment> iterator()
+	{
+		return contents.iterator();
+	}
+
+	@Override
+	public void clear()
+	{
+		contents.clear();
 	}
 }

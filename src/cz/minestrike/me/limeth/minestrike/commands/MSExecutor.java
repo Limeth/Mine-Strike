@@ -1,38 +1,13 @@
 package cz.minestrike.me.limeth.minestrike.commands;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
-import net.minecraft.server.v1_7_R4.WatchableObject;
-
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.World;
-import org.bukkit.block.Block;
-import org.bukkit.block.BlockFace;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
-import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
-
 import com.comphenix.protocol.PacketType;
-import com.comphenix.protocol.events.ListenerPriority;
-import com.comphenix.protocol.events.PacketAdapter;
-import com.comphenix.protocol.events.PacketContainer;
-import com.comphenix.protocol.events.PacketEvent;
-import com.comphenix.protocol.events.PacketListener;
+import com.comphenix.protocol.events.*;
 import com.comphenix.protocol.reflect.StructureModifier;
 import com.sk89q.worldedit.IncompleteRegionException;
 import com.sk89q.worldedit.LocalSession;
 import com.sk89q.worldedit.WorldEdit;
 import com.sk89q.worldedit.regions.RegionSelector;
 import com.sk89q.worldedit.session.SessionManager;
-
 import cz.minestrike.me.limeth.minestrike.MSConfig;
 import cz.minestrike.me.limeth.minestrike.MSPlayer;
 import cz.minestrike.me.limeth.minestrike.MineStrike;
@@ -54,6 +29,20 @@ import cz.minestrike.me.limeth.minestrike.scene.games.Game;
 import cz.minestrike.me.limeth.minestrike.scene.games.GameManager;
 import cz.minestrike.me.limeth.minestrike.scene.games.GameType;
 import cz.minestrike.me.limeth.minestrike.util.collections.FilledArrayList;
+import net.minecraft.server.v1_7_R4.WatchableObject;
+import org.bukkit.*;
+import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandExecutor;
+import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
+
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class MSExecutor implements CommandExecutor
 {
@@ -333,7 +322,7 @@ public class MSExecutor implements CommandExecutor
 			MSPlayer msTarget = MSPlayer.get(target);
 			InventoryContainer container = msTarget.getInventoryContainer();
 			
-			container.add(equipment);
+			container.addItem(equipment);
 			sender.sendMessage(ChatColor.GREEN + "Equipment " + equipment.getDisplayName() + ChatColor.GREEN + " added to " + target.getName() + "'s inventory.");
 		}
 		else if(args[0].equalsIgnoreCase("xp"))
@@ -433,7 +422,7 @@ public class MSExecutor implements CommandExecutor
 			MSPlayer msPlayer = MSPlayer.get(player);
 			InventoryContainer container = msPlayer.getInventoryContainer();
 			
-			container.add(equipment);
+			container.addItem(equipment);
 			sender.sendMessage(ChatColor.GREEN + "Equipment '" + equipment.getDisplayName() + ChatColor.GREEN
 					+ "' added to " + player.getName() + "'s inventory.");
 		}

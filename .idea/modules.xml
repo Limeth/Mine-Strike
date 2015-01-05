@@ -2,7 +2,12 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/../dynamicdisplays/DynamicDisplays.iml" filepath="$PROJECT_DIR$/../dynamicdisplays/DynamicDisplays.iml" />
       <module fileurl="file://$PROJECT_DIR$/MineStrike.iml" filepath="$PROJECT_DIR$/MineStrike.iml" />
+      <module fileurl="file://$USER_HOME$/workspace/OnePointEight/OnePointEight.iml" filepath="$USER_HOME$/workspace/OnePointEight/OnePointEight.iml" />
+      <module fileurl="file://$USER_HOME$/workspace/PSClans/PSClans.iml" filepath="$USER_HOME$/workspace/PSClans/PSClans.iml" />
+      <module fileurl="file://$USER_HOME$/workspace/PSMaps/PSMaps.iml" filepath="$USER_HOME$/workspace/PSMaps/PSMaps.iml" />
+      <module fileurl="file://$USER_HOME$/workspace/RawChatManager/RawChatManager.iml" filepath="$USER_HOME$/workspace/RawChatManager/RawChatManager.iml" />
     </modules>
   </component>
 </project>

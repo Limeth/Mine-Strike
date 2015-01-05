@@ -190,7 +190,7 @@ public abstract class Game extends Scene
 	
 	public Set<MSPlayer> getPlayingPlayers(Predicate<MSPlayer> predicate)
 	{
-		return getPlayers(p -> { return isPlayerPlaying().test(p) && predicate.test(p); });
+		return getPlayers(p -> isPlayerPlaying().test(p) && predicate.test(p));
 	}
 	
 	@Override
@@ -246,10 +246,10 @@ public abstract class Game extends Scene
 		inventoryListener = new MSInventoryListener(this);
 		shoppingListener = new MSShoppingListener(this);
 		interactionListener = new MSInteractionListener(this);
-		players = new HashSet<MSPlayer>();
-		invited = open ? null : new HashSet<String>();
+		players = new HashSet<>();
+		invited = open ? null : new HashSet<>();
 		scoreboard = Bukkit.getScoreboardManager().getNewScoreboard();
-		drops = new HashMap<Item, Equipment>();
+		drops = new HashMap<>();
 		
 		return this;
 	}
@@ -259,7 +259,7 @@ public abstract class Game extends Scene
 	{
 		try
 		{
-			equipmentProvider = (EquipmentProvider) type.newEquipmentManager(this);
+			equipmentProvider = type.newEquipmentManager(this);
 		}
 		catch(Exception e) { throw new EquipmentManagerInitializationException(e, getClass(), type); }
 	}
@@ -267,7 +267,7 @@ public abstract class Game extends Scene
 	@SuppressWarnings("unchecked")
 	private FilledArrayList<GameMap> initCorrespondingMaps()
 	{
-		FilledArrayList<GameMap> correspondingMaps = new FilledArrayList<GameMap>();
+		FilledArrayList<GameMap> correspondingMaps = new FilledArrayList<>();
 		
 		for(String mapId : maps)
 		{
@@ -367,17 +367,14 @@ public abstract class Game extends Scene
 		
 		try
 		{
-			if(((GameLobby) SchemeManager.getScheme(lobbyId)) == null)
+			if((SchemeManager.getScheme(lobbyId)) == null)
 				return false;
-			else if(((GameMenu) SchemeManager.getScheme(menuId)) == null)
+			else if(SchemeManager.getScheme(menuId) == null)
 				return false;
 		}
 		catch(ClassCastException e) { return false; }
-		
-		if(getMaps().size() <= 0)
-			return false;
-		
-		return true;
+
+		return getMaps().size() > 0;
 	}
 	
 	public Game register()
@@ -469,22 +466,12 @@ public abstract class Game extends Scene
 	
 	public Set<Player> getBukkitPlayers(Predicate<? super MSPlayer> condition)
 	{
-		HashSet<Player> players = new HashSet<Player>();
-		
-		for(MSPlayer player : getPlayers(condition))
-			players.add(player.getPlayer());
-		
-		return players;
+		return getPlayers(condition).stream().map(MSPlayer::getPlayer).collect(Collectors.toSet());
 	}
 	
 	public Set<Player> getBukkitPlayers()
 	{
-		HashSet<Player> players = new HashSet<Player>();
-		
-		for(MSPlayer player : getPlayers())
-			players.add(player.getPlayer());
-		
-		return players;
+		return getPlayers().stream().map(MSPlayer::getPlayer).collect(Collectors.toSet());
 	}
 	
 	public Set<MSPlayer> getPlayers(Predicate<? super MSPlayer> condition)
@@ -505,8 +492,7 @@ public abstract class Game extends Scene
 	
 	public void updateTabHeadersAndFooters(Predicate<MSPlayer> predicate)
 	{
-		for(MSPlayer msPlayer : getPlayers(predicate))
-			msPlayer.updateTabHeaderAndFooter();
+		getPlayers(predicate).forEach(cz.minestrike.me.limeth.minestrike.MSPlayer::updateTabHeaderAndFooter);
 	}
 	
 	public void playSound(String path, Location loc, float volume, float pitch, Predicate<MSPlayer> predicate)

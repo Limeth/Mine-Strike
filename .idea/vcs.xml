@@ -2,6 +2,11 @@
 <project version="4">
   <component name="VcsDirectoryMappings">
     <mapping directory="" vcs="" />
+    <mapping directory="$PROJECT_DIR$/../dynamicdisplays" vcs="Git" />
     <mapping directory="$PROJECT_DIR$" vcs="Git" />
+    <mapping directory="$USER_HOME$/workspace/OnePointEight" vcs="Git" />
+    <mapping directory="$USER_HOME$/workspace/PSClans" vcs="Git" />
+    <mapping directory="$USER_HOME$/workspace/PSMaps" vcs="Git" />
+    <mapping directory="$USER_HOME$/workspace/RawChatManager" vcs="Git" />
   </component>
 </project>
