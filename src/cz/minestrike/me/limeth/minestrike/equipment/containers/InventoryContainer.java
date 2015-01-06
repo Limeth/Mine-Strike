@@ -1,5 +1,16 @@
 package cz.minestrike.me.limeth.minestrike.equipment.containers;
 
+import com.avaje.ebeaninternal.server.lib.util.NotFoundException;
+import cz.minestrike.me.limeth.minestrike.MSConstant;
+import cz.minestrike.me.limeth.minestrike.MSPlayer;
+import cz.minestrike.me.limeth.minestrike.Translation;
+import cz.minestrike.me.limeth.minestrike.equipment.*;
+import cz.minestrike.me.limeth.minestrike.equipment.guns.Gun;
+import cz.minestrike.me.limeth.minestrike.equipment.guns.GunType;
+import cz.minestrike.me.limeth.minestrike.util.PlayerUtil;
+import cz.minestrike.me.limeth.minestrike.util.SoundManager;
+import cz.minestrike.me.limeth.minestrike.util.collections.FilledArrayList;
+import cz.minestrike.me.limeth.minestrike.util.collections.FilledHashSet;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -8,28 +19,19 @@ import org.bukkit.inventory.InventoryView;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import com.avaje.ebeaninternal.server.lib.util.NotFoundException;
-
-import cz.minestrike.me.limeth.minestrike.MSConstant;
-import cz.minestrike.me.limeth.minestrike.MSPlayer;
-import cz.minestrike.me.limeth.minestrike.Translation;
-import cz.minestrike.me.limeth.minestrike.equipment.ClickSound;
-import cz.minestrike.me.limeth.minestrike.equipment.CustomizedEquipment;
-import cz.minestrike.me.limeth.minestrike.equipment.Equipment;
-import cz.minestrike.me.limeth.minestrike.equipment.EquipmentCategoryEntry;
-import cz.minestrike.me.limeth.minestrike.equipment.ItemButton;
-import cz.minestrike.me.limeth.minestrike.equipment.guns.Gun;
-import cz.minestrike.me.limeth.minestrike.equipment.guns.GunType;
-import cz.minestrike.me.limeth.minestrike.util.PlayerUtil;
-import cz.minestrike.me.limeth.minestrike.util.SoundManager;
-import cz.minestrike.me.limeth.minestrike.util.collections.FilledArrayList;
-import cz.minestrike.me.limeth.minestrike.util.collections.FilledHashSet;
+import java.util.Collection;
 
 public class InventoryContainer extends ScalableContainer
 {
 	public static final Equipment[] DEFAULT_EQUIPMENT = {
 		new Gun(GunType.USP_S), new Gun(GunType.CZ75), new Gun(GunType.M4A1_S)
 	};
+
+	public InventoryContainer(Collection<Equipment> equipment) {
+		addAllItems(equipment);
+	}
+
+	public InventoryContainer() {}
 	
 	public Equipment getFirstBySource(Equipment source)
 	{

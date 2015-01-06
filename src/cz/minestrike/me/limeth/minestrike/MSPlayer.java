@@ -1,35 +1,5 @@
 package cz.minestrike.me.limeth.minestrike;
 
-import java.sql.SQLException;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map.Entry;
-import java.util.Set;
-import java.util.function.Predicate;
-
-import net.darkseraphim.actionbar.ActionBarAPI;
-import net.minecraft.server.v1_7_R4.EnumClientCommand;
-import net.minecraft.server.v1_7_R4.PacketPlayInClientCommand;
-
-import org.apache.commons.lang.Validate;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Chunk;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.Sound;
-import org.bukkit.block.Block;
-import org.bukkit.craftbukkit.v1_7_R4.entity.CraftPlayer;
-import org.bukkit.entity.Player;
-import org.bukkit.event.Event;
-import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.PlayerInventory;
-import org.bukkit.plugin.PluginManager;
-import org.bukkit.util.Vector;
-import org.skife.jdbi.v2.DBI;
-
 import ca.wacos.nametagedit.NametagAPI;
 import cz.minestrike.me.limeth.minestrike.areas.Structure;
 import cz.minestrike.me.limeth.minestrike.areas.schemes.Scheme;
@@ -55,6 +25,31 @@ import cz.projectsurvive.limeth.dynamicdisplays.PlayerDisplay;
 import cz.projectsurvive.limeth.dynamicdisplays.TimedPlayerDisplay;
 import cz.projectsurvive.me.limeth.TabHeader;
 import cz.projectsurvive.me.limeth.Title;
+import net.darkseraphim.actionbar.ActionBarAPI;
+import net.minecraft.server.v1_7_R4.EnumClientCommand;
+import net.minecraft.server.v1_7_R4.PacketPlayInClientCommand;
+import org.apache.commons.lang.Validate;
+import org.bukkit.*;
+import org.bukkit.block.Block;
+import org.bukkit.craftbukkit.v1_7_R4.entity.CraftPlayer;
+import org.bukkit.entity.Player;
+import org.bukkit.event.Event;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.PlayerInventory;
+import org.bukkit.plugin.PluginManager;
+import org.bukkit.util.Vector;
+import org.skife.jdbi.v2.DBI;
+import org.skife.jdbi.v2.Handle;
+
+import java.sql.SQLException;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map.Entry;
+import java.util.Set;
+import java.util.function.Predicate;
 
 public class MSPlayer
 {
@@ -133,8 +128,13 @@ public class MSPlayer
 	{
 		MSPlayerDAO dao = MineStrike.getDBI().open(MSPlayerDAO.class);
 		MSPlayerData data = dao.selectData(MSConfig.getMySQLTablePlayers(), playerName);
-		InventoryContainer container = dao.selectEquipment(MSConfig.getMySQLTableEquipment(), playerName);
-		
+
+		if(data == null)
+			return new MSPlayer(playerName);
+
+		Collection<Equipment> equipment = dao.selectEquipment(MSConfig.getMySQLTableEquipment(), playerName);
+		InventoryContainer container = new InventoryContainer(equipment);
+
 		dao.close();
 		
 		return new MSPlayer(data, container);
@@ -725,10 +725,14 @@ public class MSPlayer
 	public void save()
 	{
 		DBI dbi = MineStrike.getDBI();
-		MSPlayerDAO dao = dbi.open(MSPlayerDAO.class);
-		
+		Handle handle = dbi.open();
+		MSPlayerDAO dao = handle.attach(MSPlayerDAO.class);
+		String playerName = getName();
+
+		dao.clearEquipment(MSConfig.getMySQLTableEquipment(), playerName);
 		dao.insertData(MSConfig.getMySQLTablePlayers(), data);
-		//TODO insert inventory
+		dao.insertEquipment(MSConfig.getMySQLTableEquipment(), playerName, getInventoryContainer());
+		dao.close();
 	}
 	
 	public void clearContainers()

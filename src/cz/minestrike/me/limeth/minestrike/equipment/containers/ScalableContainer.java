@@ -1,16 +1,15 @@
 package cz.minestrike.me.limeth.minestrike.equipment.containers;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-
+import com.google.common.collect.Lists;
+import cz.minestrike.me.limeth.minestrike.MSPlayer;
+import cz.minestrike.me.limeth.minestrike.equipment.Equipment;
 import org.apache.commons.lang.Validate;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
-import com.google.common.collect.Lists;
-
-import cz.minestrike.me.limeth.minestrike.MSPlayer;
-import cz.minestrike.me.limeth.minestrike.equipment.Equipment;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
 
 public class ScalableContainer implements Container
 {
@@ -36,6 +35,11 @@ public class ScalableContainer implements Container
 	public void addItem(Equipment equipment)
 	{
 		contents.add(equipment);
+	}
+
+	public void addAllItems(Collection<Equipment> equipment)
+	{
+		contents.addAll(equipment);
 	}
 
 	@Override

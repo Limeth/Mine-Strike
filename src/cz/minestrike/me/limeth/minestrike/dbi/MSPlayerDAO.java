@@ -2,7 +2,7 @@ package cz.minestrike.me.limeth.minestrike.dbi;
 
 import cz.minestrike.me.limeth.minestrike.MSConfig;
 import cz.minestrike.me.limeth.minestrike.MineStrike;
-import cz.minestrike.me.limeth.minestrike.equipment.containers.InventoryContainer;
+import cz.minestrike.me.limeth.minestrike.equipment.Equipment;
 import org.skife.jdbi.v2.Batch;
 import org.skife.jdbi.v2.DBI;
 import org.skife.jdbi.v2.Handle;
@@ -11,7 +11,9 @@ import org.skife.jdbi.v2.sqlobject.customizers.Define;
 import org.skife.jdbi.v2.sqlobject.customizers.RegisterMapper;
 import org.skife.jdbi.v2.sqlobject.stringtemplate.UseStringTemplate3StatementLocator;
 
-@RegisterMapper(MSPlayerDataMapper.class)
+import java.util.Collection;
+
+@RegisterMapper({MSPlayerDataMapper.class, EquipmentMapper.class})
 @UseStringTemplate3StatementLocator
 public interface MSPlayerDAO
 {
@@ -97,31 +99,19 @@ public interface MSPlayerDAO
 		prepareTableEquipment();
 	}
 	
-	static void overrideEquipment(String playerName, InventoryContainer inventoryContainer)
-	{
-		DBI dbi = MineStrike.getDBI();
-		Handle handle = dbi.open();
-		MSPlayerDAO dao = handle.attach(MSPlayerDAO.class);
-		
-		dao.clearEquipment(MSConfig.getMySQLTableEquipment(), playerName);
-		dao.insertEquipment(MSConfig.getMySQLTableEquipment(), playerName, inventoryContainer);
-	}
-	
 	@SqlQuery("SELECT * FROM <table> WHERE `" + FIELD_DATA_USERNAME + "` = :" + FIELD_DATA_USERNAME + "")
 	MSPlayerData selectData(@Define("table") String tableName, @Bind("username") String playerName);
 	
-	@SqlUpdate("INSERT INTO <table> (`" + FIELD_DATA_USERNAME + "`, `" + FIELD_DATA_XP + "`, `" + FIELD_DATA_KILLS + "`, `" + FIELD_DATA_ASSISTS + "`, `" + FIELD_DATA_DEATHS + "`, `" + FIELD_DATA_PLAYTIME + "`) VALUES"
+	@SqlUpdate("REPLACE INTO <table> (`" + FIELD_DATA_USERNAME + "`, `" + FIELD_DATA_XP + "`, `" + FIELD_DATA_KILLS + "`, `" + FIELD_DATA_ASSISTS + "`, `" + FIELD_DATA_DEATHS + "`, `" + FIELD_DATA_PLAYTIME + "`) VALUES"
 			+ "(:player." + FIELD_DATA_USERNAME + ", :player." + FIELD_DATA_XP + ", :player." + FIELD_DATA_KILLS + ", :player." + FIELD_DATA_ASSISTS + ", :player." + FIELD_DATA_DEATHS + ", :player." + FIELD_DATA_PLAYTIME + ")")
 	void insertData(@Define("table") String tableName, @BindBean("player") MSPlayerData msPlayer);
 	
 	@SqlQuery("SELECT * FROM <table> WHERE `" + FIELD_EQUIPMENT_SERVER + "` = '" + VALUE_EQUIPMENT_SERVER + "' AND `" + FIELD_DATA_USERNAME + "` = :username")
-	public InventoryContainer selectEquipment(@Define("table") String tableName, @Bind("username") String playerName);
-	
-	/**Use the static {@link #overrideEquipment(String, InventoryContainer)} method instead.*/
-	@Deprecated
+	public Collection<Equipment> selectEquipment(@Define("table") String tableName, @Bind("username") String playerName);
+
 	@SqlBatch("INSERT INTO <table> (`" + FIELD_EQUIPMENT_USERNAME + "`, `" + FIELD_EQUIPMENT_SERVER + "`, `" + FIELD_EQUIPMENT_ID + "`, `" + FIELD_EQUIPMENT_DATA + "`) VALUES"
 			+ "(:username, '" + VALUE_EQUIPMENT_SERVER + "', :equipment.id, :equipment.data)")
-	void insertEquipment(@Define("table") String tableName, @Bind("username") String playerName, @BindEquipment("equipment") InventoryContainer container);
+	void insertEquipment(@Define("table") String tableName, @Bind("username") String playerName, @BindEquipment("equipment") Iterable<Equipment> container);
 	
 	@SqlUpdate("DELETE FROM <table> WHERE `" + FIELD_EQUIPMENT_USERNAME + "` = :username")
 	void clearEquipment(@Define("table") String tableName, @Bind("username") String playerName);
