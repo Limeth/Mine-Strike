@@ -14,7 +14,8 @@ import java.lang.annotation.*;
 @Target({ElementType.PARAMETER})
 public @interface BindEquipment
 {
-	String value() default "___jdbi_bare___";
+	String EMPTY_VALUE = "___jdbi_bare___";
+	String value() default EMPTY_VALUE;
 	
 	class BindEquipmentFactory implements BinderFactory
 	{
@@ -26,13 +27,15 @@ public @interface BindEquipment
 	            {
 	                String prefix;
 	                
-	                if ("___jdbi_bare___".equals(bind.value()))
+	                if (EMPTY_VALUE.equals(bind.value()))
 	                    prefix = "";
 	                else
 	                    prefix = bind.value() + ".";
-	                
-                	q.bind(prefix + "id", arg.getId());
-                	q.bind(prefix + "data", EquipmentManager.toJson(arg));
+
+		            q.bind(prefix + MSPlayerDAO.FIELD_EQUIPMENT_CATEGORY, arg.getCategory().name());
+		            q.bind(prefix + MSPlayerDAO.FIELD_EQUIPMENT_TRADABLE, arg.isTradable());
+                	q.bind(prefix + MSPlayerDAO.FIELD_EQUIPMENT_TYPE, arg.getId());
+                	q.bind(prefix + MSPlayerDAO.FIELD_EQUIPMENT_DATA, EquipmentManager.toJson(arg));
 	            }
 	        };
 	    }

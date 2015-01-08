@@ -1,7 +1,16 @@
 package cz.minestrike.me.limeth.minestrike.equipment.cases;
 
-import java.util.Random;
-
+import cz.minestrike.me.limeth.minestrike.MSConstant;
+import cz.minestrike.me.limeth.minestrike.MSPlayer;
+import cz.minestrike.me.limeth.minestrike.Translation;
+import cz.minestrike.me.limeth.minestrike.equipment.*;
+import cz.minestrike.me.limeth.minestrike.equipment.containers.InventoryContainer;
+import cz.minestrike.me.limeth.minestrike.equipment.guns.Gun;
+import cz.minestrike.me.limeth.minestrike.equipment.guns.GunType;
+import cz.minestrike.me.limeth.minestrike.equipment.simple.Knife;
+import cz.minestrike.me.limeth.minestrike.util.SoundManager;
+import cz.minestrike.me.limeth.minestrike.util.collections.FilledArrayList;
+import cz.minestrike.me.limeth.minestrike.util.collections.FilledHashMap;
 import org.apache.commons.lang.Validate;
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
@@ -11,23 +20,9 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
-import cz.minestrike.me.limeth.minestrike.MSConstant;
-import cz.minestrike.me.limeth.minestrike.MSPlayer;
-import cz.minestrike.me.limeth.minestrike.Translation;
-import cz.minestrike.me.limeth.minestrike.equipment.ClickSound;
-import cz.minestrike.me.limeth.minestrike.equipment.CustomizedEquipment;
-import cz.minestrike.me.limeth.minestrike.equipment.Equipment;
-import cz.minestrike.me.limeth.minestrike.equipment.EquipmentCustomization;
-import cz.minestrike.me.limeth.minestrike.equipment.ItemButton;
-import cz.minestrike.me.limeth.minestrike.equipment.containers.InventoryContainer;
-import cz.minestrike.me.limeth.minestrike.equipment.guns.Gun;
-import cz.minestrike.me.limeth.minestrike.equipment.guns.GunType;
-import cz.minestrike.me.limeth.minestrike.equipment.simple.Knife;
-import cz.minestrike.me.limeth.minestrike.util.SoundManager;
-import cz.minestrike.me.limeth.minestrike.util.collections.FilledArrayList;
-import cz.minestrike.me.limeth.minestrike.util.collections.FilledHashMap;
+
+import java.util.Random;
 
 public enum Case implements Equipment
 {
@@ -287,5 +282,17 @@ public enum Case implements Equipment
 	public boolean isDroppableManually()
 	{
 		return false;
+	}
+
+	@Override
+	public EquipmentCategory getCategory()
+	{
+		return EquipmentCategory.CASES;
+	}
+
+	@Override
+	public boolean isTradable()
+	{
+		return true;
 	}
 }

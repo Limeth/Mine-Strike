@@ -1,5 +1,6 @@
 package cz.minestrike.me.limeth.minestrike.equipment.simple;
 
+import cz.minestrike.me.limeth.minestrike.equipment.EquipmentCategory;
 import net.minecraft.server.v1_7_R4.EntityPlayer;
 import net.minecraft.server.v1_7_R4.EnumMovingObjectType;
 import net.minecraft.server.v1_7_R4.MovingObjectPosition;
@@ -54,7 +55,7 @@ public class Knife extends SimpleEquipment
 	
 	private Knife()
 	{
-		super("KNIFE", ITEM, 0, MSConstant.MOVEMENT_SPEED_DEFAULT, SOUND_DRAW, false, false);
+		super("KNIFE", ITEM, EquipmentCategory.KNIFES, false, 0, MSConstant.MOVEMENT_SPEED_DEFAULT, SOUND_DRAW, false, false);
 	}
 	
 	@Override

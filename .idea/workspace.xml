@@ -7,41 +7,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8c5aa0ec-ae5e-4311-882f-bf2a5d8f137d" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/1_8_based_1_7_10.xml" />
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../dynamicdisplays/DynamicDisplays.iml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/HolographicDisplays.xml" />
       <change type="NEW" beforePath="" afterPath="$USER_HOME$/workspace/OnePointEight/OnePointEight.iml" />
       <change type="NEW" beforePath="" afterPath="$USER_HOME$/workspace/PSClans/PSClans.iml" />
       <change type="NEW" beforePath="" afterPath="$USER_HOME$/workspace/PSMaps/PSMaps.iml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/PermissionsEx.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/ProtocolLib_Spigot_3_6_0_SNAPSHOT.xml" />
       <change type="NEW" beforePath="" afterPath="$USER_HOME$/workspace/RawChatManager/RawChatManager.iml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/java.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/worldedit_6_0_0_SNAPSHOT.xml" />
-      <change type="DELETED" beforePath="C:\Users\Limeth\git\dynamicdisplays\bin\cz\projectsurvive\limeth\dynamicdisplays\DynamicDisplays.class" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Limeth\git\dynamicdisplays\bin\cz\projectsurvive\limeth\dynamicdisplays\PlayerDisplay.class" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Limeth\git\dynamicdisplays\bin\cz\projectsurvive\limeth\dynamicdisplays\TimedPlayerDisplay$Executor.class" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Limeth\git\dynamicdisplays\bin\cz\projectsurvive\limeth\dynamicdisplays\TimedPlayerDisplay.class" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Limeth\git\dynamicdisplays\bin\cz\projectsurvive\limeth\dynamicdisplays\commands\DDExecutor.class" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Limeth\git\dynamicdisplays\bin\cz\projectsurvive\limeth\dynamicdisplays\listeners\ConnectionListener.class" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Limeth\git\dynamicdisplays\bin\cz\projectsurvive\limeth\dynamicdisplays\listeners\EntityListener.class" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Limeth\git\dynamicdisplays\bin\plugin.yml" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Limeth\git\mine-strike\bin\mkremins\fanciful\FancyMessage.class" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Limeth\git\mine-strike\bin\mkremins\fanciful\JsonRepresentedObject.class" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Limeth\git\mine-strike\bin\mkremins\fanciful\JsonString.class" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Limeth\git\mine-strike\bin\mkremins\fanciful\MessagePart$1.class" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Limeth\git\mine-strike\bin\mkremins\fanciful\MessagePart.class" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Limeth\git\mine-strike\bin\mkremins\fanciful\TextualComponent$ArbitraryTextTypeComponent$1.class" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Limeth\git\mine-strike\bin\mkremins\fanciful\TextualComponent$ArbitraryTextTypeComponent.class" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Limeth\git\mine-strike\bin\mkremins\fanciful\TextualComponent$ComplexTextTypeComponent$1.class" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Limeth\git\mine-strike\bin\mkremins\fanciful\TextualComponent$ComplexTextTypeComponent.class" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Limeth\git\mine-strike\bin\mkremins\fanciful\TextualComponent.class" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Limeth\git\mine-strike\bin\net\amoebaman\util\ArrayWrapper.class" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Limeth\git\mine-strike\bin\net\amoebaman\util\Reflection.class" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Limeth\git\mine-strike\out\artifacts\MineStrike_jar\MineStrike.jar" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Limeth\workspace\OnePointEight\bin\cz\projectsurvive\me\limeth\OnePointEight.class" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Limeth\workspace\OnePointEight\bin\cz\projectsurvive\me\limeth\TabHeader.class" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Limeth\workspace\OnePointEight\bin\cz\projectsurvive\me\limeth\Title.class" afterPath="" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" />
+      <change type="DELETED" beforePath="C:\Users\Limeth\git\mine-strike\bin\cz\minestrike\me\limeth\minestrike\equipment\EquipmentCategoryEntry.class" afterPath="" />
       <change type="DELETED" beforePath="C:\Users\Limeth\workspace\OnePointEight\bin\mkremins\fanciful\FancyMessage.class" afterPath="" />
       <change type="DELETED" beforePath="C:\Users\Limeth\workspace\OnePointEight\bin\mkremins\fanciful\JsonRepresentedObject.class" afterPath="" />
       <change type="DELETED" beforePath="C:\Users\Limeth\workspace\OnePointEight\bin\mkremins\fanciful\JsonString.class" afterPath="" />
@@ -53,23 +25,7 @@
       <change type="DELETED" beforePath="C:\Users\Limeth\workspace\OnePointEight\bin\mkremins\fanciful\TextualComponent.class" afterPath="" />
       <change type="DELETED" beforePath="C:\Users\Limeth\workspace\OnePointEight\bin\net\amoebaman\util\ArrayWrapper.class" afterPath="" />
       <change type="DELETED" beforePath="C:\Users\Limeth\workspace\OnePointEight\bin\net\amoebaman\util\Reflection.class" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Limeth\workspace\OnePointEight\bin\net\darkseraphim\actionbar\ActionBarAPI.class" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Limeth\workspace\OnePointEight\bin\net\darkseraphim\actionbar\PacketPlayOutActionBar.class" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Limeth\workspace\OnePointEight\bin\net\darkseraphim\actionbar\ProxyHashBiMap$Inverse.class" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Limeth\workspace\OnePointEight\bin\net\darkseraphim\actionbar\ProxyHashBiMap.class" afterPath="" />
       <change type="DELETED" beforePath="C:\Users\Limeth\workspace\RawChatManager\bin\.gitignore" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Limeth\workspace\RawChatManager\bin\cz\projectsurvive\me\limeth\rawchatmanager\ChatArgumentHandler.class" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Limeth\workspace\RawChatManager\bin\cz\projectsurvive\me\limeth\rawchatmanager\ChatArgumentManager.class" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Limeth\workspace\RawChatManager\bin\cz\projectsurvive\me\limeth\rawchatmanager\ChatFormat.class" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Limeth\workspace\RawChatManager\bin\cz\projectsurvive\me\limeth\rawchatmanager\ChatListener.class" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Limeth\workspace\RawChatManager\bin\cz\projectsurvive\me\limeth\rawchatmanager\ChatTile.class" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Limeth\workspace\RawChatManager\bin\cz\projectsurvive\me\limeth\rawchatmanager\RCMExecutor.class" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Limeth\workspace\RawChatManager\bin\cz\projectsurvive\me\limeth\rawchatmanager\RawChatManager.class" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Limeth\workspace\RawChatManager\bin\cz\projectsurvive\me\limeth\rawchatmanager\handlers\ChatMessageHandler.class" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Limeth\workspace\RawChatManager\bin\cz\projectsurvive\me\limeth\rawchatmanager\handlers\ChatPEXPrefixHandler.class" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Limeth\workspace\RawChatManager\bin\cz\projectsurvive\me\limeth\rawchatmanager\handlers\ChatPEXSuffixHandler.class" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Limeth\workspace\RawChatManager\bin\cz\projectsurvive\me\limeth\rawchatmanager\handlers\ChatPlayerHandler.class" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Limeth\workspace\RawChatManager\bin\cz\projectsurvive\me\limeth\rawchatmanager\handlers\ChatTimeHandler.class" afterPath="" />
       <change type="DELETED" beforePath="C:\Users\Limeth\workspace\RawChatManager\bin\mkremins\fanciful\FancyMessage.class" afterPath="" />
       <change type="DELETED" beforePath="C:\Users\Limeth\workspace\RawChatManager\bin\mkremins\fanciful\JsonRepresentedObject.class" afterPath="" />
       <change type="DELETED" beforePath="C:\Users\Limeth\workspace\RawChatManager\bin\mkremins\fanciful\JsonString.class" afterPath="" />
@@ -81,11 +37,32 @@
       <change type="DELETED" beforePath="C:\Users\Limeth\workspace\RawChatManager\bin\mkremins\fanciful\TextualComponent.class" afterPath="" />
       <change type="DELETED" beforePath="C:\Users\Limeth\workspace\RawChatManager\bin\net\amoebaman\util\ArrayWrapper.class" afterPath="" />
       <change type="DELETED" beforePath="C:\Users\Limeth\workspace\RawChatManager\bin\net\amoebaman\util\Reflection.class" afterPath="" />
+      <change type="MOVED" beforePath="C:\Users\Limeth\git\mine-strike\src\cz\minestrike\me\limeth\minestrike\equipment\EquipmentCategory.java" afterPath="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/equipment/EquipmentSection.java" />
+      <change type="MOVED" beforePath="C:\Users\Limeth\git\mine-strike\src\cz\minestrike\me\limeth\minestrike\equipment\EquipmentCategoryEntry.java" afterPath="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/equipment/EquipmentSectionEntry.java" />
+      <change type="MODIFICATION" beforePath="$USER_HOME$/workspace/OnePointEight/bin/net/darkseraphim/actionbar/ActionBarAPI.class" afterPath="$USER_HOME$/workspace/OnePointEight/bin/net/darkseraphim/actionbar/ActionBarAPI.class" />
       <change type="MODIFICATION" beforePath="$USER_HOME$/workspace/PSMaps/bin/cz/projectsurvive/me/limeth/psmaps/filters/AdditiveNoiseFilter.class" afterPath="$USER_HOME$/workspace/PSMaps/bin/cz/projectsurvive/me/limeth/psmaps/filters/AdditiveNoiseFilter.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bin/cz/minestrike/me/limeth/minestrike/dbi/BindEquipment$BindEquipmentFactory$1.class" afterPath="$PROJECT_DIR$/bin/cz/minestrike/me/limeth/minestrike/dbi/BindEquipment$BindEquipmentFactory$1.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bin/cz/minestrike/me/limeth/minestrike/dbi/BindEquipment$BindEquipmentFactory.class" afterPath="$PROJECT_DIR$/bin/cz/minestrike/me/limeth/minestrike/dbi/BindEquipment$BindEquipmentFactory.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bin/cz/minestrike/me/limeth/minestrike/dbi/BindEquipment.class" afterPath="$PROJECT_DIR$/bin/cz/minestrike/me/limeth/minestrike/dbi/BindEquipment.class" />
       <change type="MODIFICATION" beforePath="$USER_HOME$/workspace/PSMaps/bin/cz/projectsurvive/me/limeth/psmaps/filters/BlockColorFilter.class" afterPath="$USER_HOME$/workspace/PSMaps/bin/cz/projectsurvive/me/limeth/psmaps/filters/BlockColorFilter.class" />
       <change type="MODIFICATION" beforePath="$USER_HOME$/workspace/PSMaps/bin/cz/projectsurvive/me/limeth/psmaps/BlockData.class" afterPath="$USER_HOME$/workspace/PSMaps/bin/cz/projectsurvive/me/limeth/psmaps/BlockData.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bin/cz/minestrike/me/limeth/minestrike/equipment/cases/Case$1.class" afterPath="$PROJECT_DIR$/bin/cz/minestrike/me/limeth/minestrike/equipment/cases/Case$1.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bin/cz/minestrike/me/limeth/minestrike/equipment/cases/Case$2.class" afterPath="$PROJECT_DIR$/bin/cz/minestrike/me/limeth/minestrike/equipment/cases/Case$2.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bin/cz/minestrike/me/limeth/minestrike/equipment/cases/Case.class" afterPath="$PROJECT_DIR$/bin/cz/minestrike/me/limeth/minestrike/equipment/cases/Case.class" />
       <change type="MODIFICATION" beforePath="$USER_HOME$/workspace/PSClans/bin/cz/projectsurvive/me/limeth/psclans/CaseInsensitiveSet.class" afterPath="$USER_HOME$/workspace/PSClans/bin/cz/projectsurvive/me/limeth/psclans/CaseInsensitiveSet.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bin/cz/minestrike/me/limeth/minestrike/equipment/cases/CaseKey$1.class" afterPath="$PROJECT_DIR$/bin/cz/minestrike/me/limeth/minestrike/equipment/cases/CaseKey$1.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bin/cz/minestrike/me/limeth/minestrike/equipment/cases/CaseKey.class" afterPath="$PROJECT_DIR$/bin/cz/minestrike/me/limeth/minestrike/equipment/cases/CaseKey.class" />
+      <change type="MODIFICATION" beforePath="$USER_HOME$/workspace/RawChatManager/bin/cz/projectsurvive/me/limeth/rawchatmanager/ChatArgumentHandler.class" afterPath="$USER_HOME$/workspace/RawChatManager/bin/cz/projectsurvive/me/limeth/rawchatmanager/ChatArgumentHandler.class" />
+      <change type="MODIFICATION" beforePath="$USER_HOME$/workspace/RawChatManager/bin/cz/projectsurvive/me/limeth/rawchatmanager/ChatArgumentManager.class" afterPath="$USER_HOME$/workspace/RawChatManager/bin/cz/projectsurvive/me/limeth/rawchatmanager/ChatArgumentManager.class" />
       <change type="MODIFICATION" beforePath="$USER_HOME$/workspace/PSClans/bin/cz/projectsurvive/me/limeth/psclans/ChatClanHandler.class" afterPath="$USER_HOME$/workspace/PSClans/bin/cz/projectsurvive/me/limeth/psclans/ChatClanHandler.class" />
+      <change type="MODIFICATION" beforePath="$USER_HOME$/workspace/RawChatManager/bin/cz/projectsurvive/me/limeth/rawchatmanager/ChatFormat.class" afterPath="$USER_HOME$/workspace/RawChatManager/bin/cz/projectsurvive/me/limeth/rawchatmanager/ChatFormat.class" />
+      <change type="MODIFICATION" beforePath="$USER_HOME$/workspace/RawChatManager/bin/cz/projectsurvive/me/limeth/rawchatmanager/ChatListener.class" afterPath="$USER_HOME$/workspace/RawChatManager/bin/cz/projectsurvive/me/limeth/rawchatmanager/ChatListener.class" />
+      <change type="MODIFICATION" beforePath="$USER_HOME$/workspace/RawChatManager/bin/cz/projectsurvive/me/limeth/rawchatmanager/handlers/ChatMessageHandler.class" afterPath="$USER_HOME$/workspace/RawChatManager/bin/cz/projectsurvive/me/limeth/rawchatmanager/handlers/ChatMessageHandler.class" />
+      <change type="MODIFICATION" beforePath="$USER_HOME$/workspace/RawChatManager/bin/cz/projectsurvive/me/limeth/rawchatmanager/handlers/ChatPEXPrefixHandler.class" afterPath="$USER_HOME$/workspace/RawChatManager/bin/cz/projectsurvive/me/limeth/rawchatmanager/handlers/ChatPEXPrefixHandler.class" />
+      <change type="MODIFICATION" beforePath="$USER_HOME$/workspace/RawChatManager/bin/cz/projectsurvive/me/limeth/rawchatmanager/handlers/ChatPEXSuffixHandler.class" afterPath="$USER_HOME$/workspace/RawChatManager/bin/cz/projectsurvive/me/limeth/rawchatmanager/handlers/ChatPEXSuffixHandler.class" />
+      <change type="MODIFICATION" beforePath="$USER_HOME$/workspace/RawChatManager/bin/cz/projectsurvive/me/limeth/rawchatmanager/handlers/ChatPlayerHandler.class" afterPath="$USER_HOME$/workspace/RawChatManager/bin/cz/projectsurvive/me/limeth/rawchatmanager/handlers/ChatPlayerHandler.class" />
+      <change type="MODIFICATION" beforePath="$USER_HOME$/workspace/RawChatManager/bin/cz/projectsurvive/me/limeth/rawchatmanager/ChatTile.class" afterPath="$USER_HOME$/workspace/RawChatManager/bin/cz/projectsurvive/me/limeth/rawchatmanager/ChatTile.class" />
+      <change type="MODIFICATION" beforePath="$USER_HOME$/workspace/RawChatManager/bin/cz/projectsurvive/me/limeth/rawchatmanager/handlers/ChatTimeHandler.class" afterPath="$USER_HOME$/workspace/RawChatManager/bin/cz/projectsurvive/me/limeth/rawchatmanager/handlers/ChatTimeHandler.class" />
       <change type="MODIFICATION" beforePath="$USER_HOME$/workspace/PSClans/bin/cz/projectsurvive/me/limeth/psclans/Clan.class" afterPath="$USER_HOME$/workspace/PSClans/bin/cz/projectsurvive/me/limeth/psclans/Clan.class" />
       <change type="MODIFICATION" beforePath="$USER_HOME$/workspace/PSClans/bin/cz/projectsurvive/me/limeth/psclans/events/ClanCreateEvent.class" afterPath="$USER_HOME$/workspace/PSClans/bin/cz/projectsurvive/me/limeth/psclans/events/ClanCreateEvent.class" />
       <change type="MODIFICATION" beforePath="$USER_HOME$/workspace/PSClans/bin/cz/projectsurvive/me/limeth/psclans/events/ClanInteractionEvent.class" afterPath="$USER_HOME$/workspace/PSClans/bin/cz/projectsurvive/me/limeth/psclans/events/ClanInteractionEvent.class" />
@@ -98,9 +75,32 @@
       <change type="MODIFICATION" beforePath="$USER_HOME$/workspace/PSClans/bin/cz/projectsurvive/me/limeth/psclans/events/ClanRenameEvent.class" afterPath="$USER_HOME$/workspace/PSClans/bin/cz/projectsurvive/me/limeth/psclans/events/ClanRenameEvent.class" />
       <change type="MODIFICATION" beforePath="$USER_HOME$/workspace/PSClans/bin/cz/projectsurvive/me/limeth/psclans/CommandExecutorClan.class" afterPath="$USER_HOME$/workspace/PSClans/bin/cz/projectsurvive/me/limeth/psclans/CommandExecutorClan.class" />
       <change type="MODIFICATION" beforePath="$USER_HOME$/workspace/PSClans/bin/cz/projectsurvive/me/limeth/psclans/Config.class" afterPath="$USER_HOME$/workspace/PSClans/bin/cz/projectsurvive/me/limeth/psclans/Config.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../dynamicdisplays/bin/cz/projectsurvive/limeth/dynamicdisplays/listeners/ConnectionListener.class" afterPath="$PROJECT_DIR$/../dynamicdisplays/bin/cz/projectsurvive/limeth/dynamicdisplays/listeners/ConnectionListener.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bin/cz/minestrike/me/limeth/minestrike/equipment/CustomizedEquipment.class" afterPath="$PROJECT_DIR$/bin/cz/minestrike/me/limeth/minestrike/equipment/CustomizedEquipment.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../dynamicdisplays/bin/cz/projectsurvive/limeth/dynamicdisplays/commands/DDExecutor.class" afterPath="$PROJECT_DIR$/../dynamicdisplays/bin/cz/projectsurvive/limeth/dynamicdisplays/commands/DDExecutor.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bin/cz/minestrike/me/limeth/minestrike/scene/games/team/defuse/DefuseEquipmentProvider.class" afterPath="$PROJECT_DIR$/bin/cz/minestrike/me/limeth/minestrike/scene/games/team/defuse/DefuseEquipmentProvider.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bin/cz/minestrike/me/limeth/minestrike/scene/games/team/defuse/DefuseGame.class" afterPath="$PROJECT_DIR$/bin/cz/minestrike/me/limeth/minestrike/scene/games/team/defuse/DefuseGame.class" />
       <change type="MODIFICATION" beforePath="$USER_HOME$/workspace/PSMaps/bin/cz/projectsurvive/me/limeth/psmaps/filters/DepthFilter.class" afterPath="$USER_HOME$/workspace/PSMaps/bin/cz/projectsurvive/me/limeth/psmaps/filters/DepthFilter.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../dynamicdisplays/bin/cz/projectsurvive/limeth/dynamicdisplays/DynamicDisplays.class" afterPath="$PROJECT_DIR$/../dynamicdisplays/bin/cz/projectsurvive/limeth/dynamicdisplays/DynamicDisplays.class" />
       <change type="MODIFICATION" beforePath="$USER_HOME$/workspace/PSMaps/bin/cz/projectsurvive/me/limeth/psmaps/surfaces/EditableMapSurface.class" afterPath="$USER_HOME$/workspace/PSMaps/bin/cz/projectsurvive/me/limeth/psmaps/surfaces/EditableMapSurface.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bin/cz/minestrike/me/limeth/minestrike/dbi/EquipmentMapper.class" afterPath="$PROJECT_DIR$/bin/cz/minestrike/me/limeth/minestrike/dbi/EquipmentMapper.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../dynamicdisplays/bin/cz/projectsurvive/limeth/dynamicdisplays/listeners/EntityListener.class" afterPath="$PROJECT_DIR$/../dynamicdisplays/bin/cz/projectsurvive/limeth/dynamicdisplays/listeners/EntityListener.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bin/cz/minestrike/me/limeth/minestrike/equipment/Equipment.class" afterPath="$PROJECT_DIR$/bin/cz/minestrike/me/limeth/minestrike/equipment/Equipment.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bin/cz/minestrike/me/limeth/minestrike/equipment/EquipmentCategory.class" afterPath="$PROJECT_DIR$/bin/cz/minestrike/me/limeth/minestrike/equipment/EquipmentCategory.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bin/cz/minestrike/me/limeth/minestrike/scene/games/EquipmentProvider.class" afterPath="$PROJECT_DIR$/bin/cz/minestrike/me/limeth/minestrike/scene/games/EquipmentProvider.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bin/cz/minestrike/me/limeth/minestrike/scene/games/Game.class" afterPath="$PROJECT_DIR$/bin/cz/minestrike/me/limeth/minestrike/scene/games/Game.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bin/cz/minestrike/me/limeth/minestrike/equipment/grenades/GrenadeType$1.class" afterPath="$PROJECT_DIR$/bin/cz/minestrike/me/limeth/minestrike/equipment/grenades/GrenadeType$1.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bin/cz/minestrike/me/limeth/minestrike/equipment/grenades/GrenadeType$2.class" afterPath="$PROJECT_DIR$/bin/cz/minestrike/me/limeth/minestrike/equipment/grenades/GrenadeType$2.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bin/cz/minestrike/me/limeth/minestrike/equipment/grenades/GrenadeType$3$EffectHandler$1.class" afterPath="$PROJECT_DIR$/bin/cz/minestrike/me/limeth/minestrike/equipment/grenades/GrenadeType$3$EffectHandler$1.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bin/cz/minestrike/me/limeth/minestrike/equipment/grenades/GrenadeType$3$EffectHandler.class" afterPath="$PROJECT_DIR$/bin/cz/minestrike/me/limeth/minestrike/equipment/grenades/GrenadeType$3$EffectHandler.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bin/cz/minestrike/me/limeth/minestrike/equipment/grenades/GrenadeType$3.class" afterPath="$PROJECT_DIR$/bin/cz/minestrike/me/limeth/minestrike/equipment/grenades/GrenadeType$3.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bin/cz/minestrike/me/limeth/minestrike/equipment/grenades/GrenadeType$4$1.class" afterPath="$PROJECT_DIR$/bin/cz/minestrike/me/limeth/minestrike/equipment/grenades/GrenadeType$4$1.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bin/cz/minestrike/me/limeth/minestrike/equipment/grenades/GrenadeType$4$2.class" afterPath="$PROJECT_DIR$/bin/cz/minestrike/me/limeth/minestrike/equipment/grenades/GrenadeType$4$2.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bin/cz/minestrike/me/limeth/minestrike/equipment/grenades/GrenadeType$4.class" afterPath="$PROJECT_DIR$/bin/cz/minestrike/me/limeth/minestrike/equipment/grenades/GrenadeType$4.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bin/cz/minestrike/me/limeth/minestrike/equipment/grenades/GrenadeType$5.class" afterPath="$PROJECT_DIR$/bin/cz/minestrike/me/limeth/minestrike/equipment/grenades/GrenadeType$5.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bin/cz/minestrike/me/limeth/minestrike/equipment/grenades/GrenadeType.class" afterPath="$PROJECT_DIR$/bin/cz/minestrike/me/limeth/minestrike/equipment/grenades/GrenadeType.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bin/cz/minestrike/me/limeth/minestrike/equipment/guns/Gun.class" afterPath="$PROJECT_DIR$/bin/cz/minestrike/me/limeth/minestrike/equipment/guns/Gun.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bin/cz/minestrike/me/limeth/minestrike/equipment/guns/GunType.class" afterPath="$PROJECT_DIR$/bin/cz/minestrike/me/limeth/minestrike/equipment/guns/GunType.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bin/cz/minestrike/me/limeth/minestrike/equipment/simple/Helmet.class" afterPath="$PROJECT_DIR$/bin/cz/minestrike/me/limeth/minestrike/equipment/simple/Helmet.class" />
       <change type="MODIFICATION" beforePath="$USER_HOME$/workspace/PSMaps/bin/cz/projectsurvive/me/limeth/psmaps/surfaces/ImageMapSurface$ScaleMethod$1.class" afterPath="$USER_HOME$/workspace/PSMaps/bin/cz/projectsurvive/me/limeth/psmaps/surfaces/ImageMapSurface$ScaleMethod$1.class" />
       <change type="MODIFICATION" beforePath="$USER_HOME$/workspace/PSMaps/bin/cz/projectsurvive/me/limeth/psmaps/surfaces/ImageMapSurface$ScaleMethod$2.class" afterPath="$USER_HOME$/workspace/PSMaps/bin/cz/projectsurvive/me/limeth/psmaps/surfaces/ImageMapSurface$ScaleMethod$2.class" />
       <change type="MODIFICATION" beforePath="$USER_HOME$/workspace/PSMaps/bin/cz/projectsurvive/me/limeth/psmaps/surfaces/ImageMapSurface$ScaleMethod$3.class" afterPath="$USER_HOME$/workspace/PSMaps/bin/cz/projectsurvive/me/limeth/psmaps/surfaces/ImageMapSurface$ScaleMethod$3.class" />
@@ -108,9 +108,13 @@
       <change type="MODIFICATION" beforePath="$USER_HOME$/workspace/PSMaps/bin/cz/projectsurvive/me/limeth/psmaps/surfaces/ImageMapSurface.class" afterPath="$USER_HOME$/workspace/PSMaps/bin/cz/projectsurvive/me/limeth/psmaps/surfaces/ImageMapSurface.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bin/cz/minestrike/me/limeth/minestrike/equipment/containers/InventoryContainer$1.class" afterPath="$PROJECT_DIR$/bin/cz/minestrike/me/limeth/minestrike/equipment/containers/InventoryContainer$1.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bin/cz/minestrike/me/limeth/minestrike/equipment/containers/InventoryContainer.class" afterPath="$PROJECT_DIR$/bin/cz/minestrike/me/limeth/minestrike/equipment/containers/InventoryContainer.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bin/cz/minestrike/me/limeth/minestrike/equipment/simple/Kevlar.class" afterPath="$PROJECT_DIR$/bin/cz/minestrike/me/limeth/minestrike/equipment/simple/Kevlar.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bin/cz/minestrike/me/limeth/minestrike/equipment/simple/KevlarAndHelmet.class" afterPath="$PROJECT_DIR$/bin/cz/minestrike/me/limeth/minestrike/equipment/simple/KevlarAndHelmet.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bin/cz/minestrike/me/limeth/minestrike/equipment/simple/Knife.class" afterPath="$PROJECT_DIR$/bin/cz/minestrike/me/limeth/minestrike/equipment/simple/Knife.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bin/cz/minestrike/me/limeth/minestrike/scene/lobby/Lobby.class" afterPath="$PROJECT_DIR$/bin/cz/minestrike/me/limeth/minestrike/scene/lobby/Lobby.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bin/cz/minestrike/me/limeth/minestrike/MSPlayer.class" afterPath="$PROJECT_DIR$/bin/cz/minestrike/me/limeth/minestrike/MSPlayer.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bin/cz/minestrike/me/limeth/minestrike/dbi/MSPlayerDAO.class" afterPath="$PROJECT_DIR$/bin/cz/minestrike/me/limeth/minestrike/dbi/MSPlayerDAO.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bin/cz/minestrike/me/limeth/minestrike/dbi/MSPlayerDataMapper.class" afterPath="$PROJECT_DIR$/bin/cz/minestrike/me/limeth/minestrike/dbi/MSPlayerDataMapper.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bin/cz/minestrike/me/limeth/minestrike/scene/games/MSShoppingListener.class" afterPath="$PROJECT_DIR$/bin/cz/minestrike/me/limeth/minestrike/scene/games/MSShoppingListener.class" />
       <change type="MODIFICATION" beforePath="$USER_HOME$/workspace/PSMaps/bin/cz/projectsurvive/me/limeth/psmaps/MapAllocator.class" afterPath="$USER_HOME$/workspace/PSMaps/bin/cz/projectsurvive/me/limeth/psmaps/MapAllocator.class" />
       <change type="MODIFICATION" beforePath="$USER_HOME$/workspace/PSMaps/bin/cz/projectsurvive/me/limeth/psmaps/MapIcon.class" afterPath="$USER_HOME$/workspace/PSMaps/bin/cz/projectsurvive/me/limeth/psmaps/MapIcon.class" />
       <change type="MODIFICATION" beforePath="$USER_HOME$/workspace/PSMaps/bin/cz/projectsurvive/me/limeth/psmaps/MapSender$1.class" afterPath="$USER_HOME$/workspace/PSMaps/bin/cz/projectsurvive/me/limeth/psmaps/MapSender$1.class" />
@@ -118,34 +122,60 @@
       <change type="MODIFICATION" beforePath="$USER_HOME$/workspace/PSMaps/bin/cz/projectsurvive/me/limeth/psmaps/surfaces/MapSurface.class" afterPath="$USER_HOME$/workspace/PSMaps/bin/cz/projectsurvive/me/limeth/psmaps/surfaces/MapSurface.class" />
       <change type="MODIFICATION" beforePath="$USER_HOME$/workspace/PSMaps/bin/cz/projectsurvive/me/limeth/psmaps/MapTextureColors.class" afterPath="$USER_HOME$/workspace/PSMaps/bin/cz/projectsurvive/me/limeth/psmaps/MapTextureColors.class" />
       <change type="MODIFICATION" beforePath="$USER_HOME$/workspace/PSMaps/bin/cz/projectsurvive/me/limeth/psmaps/views/MapView.class" afterPath="$USER_HOME$/workspace/PSMaps/bin/cz/projectsurvive/me/limeth/psmaps/views/MapView.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bin/cz/minestrike/me/limeth/minestrike/MineStrike.class" afterPath="$PROJECT_DIR$/bin/cz/minestrike/me/limeth/minestrike/MineStrike.class" />
       <change type="MODIFICATION" beforePath="$USER_HOME$/workspace/PSMaps/bin/cz/projectsurvive/me/limeth/psmaps/views/MultiMapView$1.class" afterPath="$USER_HOME$/workspace/PSMaps/bin/cz/projectsurvive/me/limeth/psmaps/views/MultiMapView$1.class" />
       <change type="MODIFICATION" beforePath="$USER_HOME$/workspace/PSMaps/bin/cz/projectsurvive/me/limeth/psmaps/views/MultiMapView.class" afterPath="$USER_HOME$/workspace/PSMaps/bin/cz/projectsurvive/me/limeth/psmaps/views/MultiMapView.class" />
       <change type="MODIFICATION" beforePath="$USER_HOME$/workspace/PSMaps/bin/cz/projectsurvive/me/limeth/psmaps/filters/MultiplicativeNoiseFilter.class" afterPath="$USER_HOME$/workspace/PSMaps/bin/cz/projectsurvive/me/limeth/psmaps/filters/MultiplicativeNoiseFilter.class" />
       <change type="MODIFICATION" beforePath="$USER_HOME$/workspace/PSClans/bin/cz/projectsurvive/me/limeth/psclans/MySQLConnection.class" afterPath="$USER_HOME$/workspace/PSClans/bin/cz/projectsurvive/me/limeth/psclans/MySQLConnection.class" />
+      <change type="MODIFICATION" beforePath="$USER_HOME$/workspace/OnePointEight/bin/cz/projectsurvive/me/limeth/OnePointEight.class" afterPath="$USER_HOME$/workspace/OnePointEight/bin/cz/projectsurvive/me/limeth/OnePointEight.class" />
       <change type="MODIFICATION" beforePath="$USER_HOME$/workspace/PSMaps/bin/cz/projectsurvive/me/limeth/psmaps/surfaces/OverlayMapSurface.class" afterPath="$USER_HOME$/workspace/PSMaps/bin/cz/projectsurvive/me/limeth/psmaps/surfaces/OverlayMapSurface.class" />
       <change type="MODIFICATION" beforePath="$USER_HOME$/workspace/PSClans/bin/cz/projectsurvive/me/limeth/psclans/PSClans.class" afterPath="$USER_HOME$/workspace/PSClans/bin/cz/projectsurvive/me/limeth/psclans/PSClans.class" />
       <change type="MODIFICATION" beforePath="$USER_HOME$/workspace/PSMaps/bin/cz/projectsurvive/me/limeth/psmaps/PSMaps$1.class" afterPath="$USER_HOME$/workspace/PSMaps/bin/cz/projectsurvive/me/limeth/psmaps/PSMaps$1.class" />
       <change type="MODIFICATION" beforePath="$USER_HOME$/workspace/PSMaps/bin/cz/projectsurvive/me/limeth/psmaps/PSMaps.class" afterPath="$USER_HOME$/workspace/PSMaps/bin/cz/projectsurvive/me/limeth/psmaps/PSMaps.class" />
+      <change type="MODIFICATION" beforePath="$USER_HOME$/workspace/OnePointEight/bin/net/darkseraphim/actionbar/PacketPlayOutActionBar.class" afterPath="$USER_HOME$/workspace/OnePointEight/bin/net/darkseraphim/actionbar/PacketPlayOutActionBar.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../dynamicdisplays/bin/cz/projectsurvive/limeth/dynamicdisplays/PlayerDisplay.class" afterPath="$PROJECT_DIR$/../dynamicdisplays/bin/cz/projectsurvive/limeth/dynamicdisplays/PlayerDisplay.class" />
+      <change type="MODIFICATION" beforePath="$USER_HOME$/workspace/OnePointEight/bin/net/darkseraphim/actionbar/ProxyHashBiMap$Inverse.class" afterPath="$USER_HOME$/workspace/OnePointEight/bin/net/darkseraphim/actionbar/ProxyHashBiMap$Inverse.class" />
+      <change type="MODIFICATION" beforePath="$USER_HOME$/workspace/OnePointEight/bin/net/darkseraphim/actionbar/ProxyHashBiMap.class" afterPath="$USER_HOME$/workspace/OnePointEight/bin/net/darkseraphim/actionbar/ProxyHashBiMap.class" />
+      <change type="MODIFICATION" beforePath="$USER_HOME$/workspace/RawChatManager/bin/cz/projectsurvive/me/limeth/rawchatmanager/RCMExecutor.class" afterPath="$USER_HOME$/workspace/RawChatManager/bin/cz/projectsurvive/me/limeth/rawchatmanager/RCMExecutor.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bin/cz/minestrike/me/limeth/minestrike/equipment/simple/Radar.class" afterPath="$PROJECT_DIR$/bin/cz/minestrike/me/limeth/minestrike/equipment/simple/Radar.class" />
+      <change type="MODIFICATION" beforePath="$USER_HOME$/workspace/RawChatManager/bin/cz/projectsurvive/me/limeth/rawchatmanager/RawChatManager.class" afterPath="$USER_HOME$/workspace/RawChatManager/bin/cz/projectsurvive/me/limeth/rawchatmanager/RawChatManager.class" />
       <change type="MODIFICATION" beforePath="$USER_HOME$/workspace/PSMaps/bin/cz/projectsurvive/me/limeth/psmaps/surfaces/RegionMapSurface.class" afterPath="$USER_HOME$/workspace/PSMaps/bin/cz/projectsurvive/me/limeth/psmaps/surfaces/RegionMapSurface.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bin/cz/minestrike/me/limeth/minestrike/equipment/containers/ScalableContainer.class" afterPath="$PROJECT_DIR$/bin/cz/minestrike/me/limeth/minestrike/equipment/containers/ScalableContainer.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bin/cz/minestrike/me/limeth/minestrike/events/ShopOpenEvent.class" afterPath="$PROJECT_DIR$/bin/cz/minestrike/me/limeth/minestrike/events/ShopOpenEvent.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bin/cz/minestrike/me/limeth/minestrike/equipment/SimpleEquipment.class" afterPath="$PROJECT_DIR$/bin/cz/minestrike/me/limeth/minestrike/equipment/SimpleEquipment.class" />
       <change type="MODIFICATION" beforePath="$USER_HOME$/workspace/PSMaps/bin/cz/projectsurvive/me/limeth/psmaps/views/SingleMapView.class" afterPath="$USER_HOME$/workspace/PSMaps/bin/cz/projectsurvive/me/limeth/psmaps/views/SingleMapView.class" />
+      <change type="MODIFICATION" beforePath="$USER_HOME$/workspace/OnePointEight/bin/cz/projectsurvive/me/limeth/TabHeader.class" afterPath="$USER_HOME$/workspace/OnePointEight/bin/cz/projectsurvive/me/limeth/TabHeader.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bin/cz/minestrike/me/limeth/minestrike/scene/games/team/TeamGame.class" afterPath="$PROJECT_DIR$/bin/cz/minestrike/me/limeth/minestrike/scene/games/team/TeamGame.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bin/cz/minestrike/me/limeth/minestrike/scene/games/team/TeamGameListener.class" afterPath="$PROJECT_DIR$/bin/cz/minestrike/me/limeth/minestrike/scene/games/team/TeamGameListener.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../dynamicdisplays/bin/cz/projectsurvive/limeth/dynamicdisplays/TimedPlayerDisplay$Executor.class" afterPath="$PROJECT_DIR$/../dynamicdisplays/bin/cz/projectsurvive/limeth/dynamicdisplays/TimedPlayerDisplay$Executor.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../dynamicdisplays/bin/cz/projectsurvive/limeth/dynamicdisplays/TimedPlayerDisplay.class" afterPath="$PROJECT_DIR$/../dynamicdisplays/bin/cz/projectsurvive/limeth/dynamicdisplays/TimedPlayerDisplay.class" />
+      <change type="MODIFICATION" beforePath="$USER_HOME$/workspace/OnePointEight/bin/cz/projectsurvive/me/limeth/Title.class" afterPath="$USER_HOME$/workspace/OnePointEight/bin/cz/projectsurvive/me/limeth/Title.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/dbi/BindEquipment.java" afterPath="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/dbi/BindEquipment.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/equipment/cases/Case.java" afterPath="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/equipment/cases/Case.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/equipment/cases/CaseKey.java" afterPath="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/equipment/cases/CaseKey.java" />
       <change type="MODIFICATION" beforePath="$USER_HOME$/workspace/PSClans/src/cz/projectsurvive/me/limeth/psclans/Clan.java" afterPath="$USER_HOME$/workspace/PSClans/src/cz/projectsurvive/me/limeth/psclans/Clan.java" />
       <change type="MODIFICATION" beforePath="$USER_HOME$/workspace/PSClans/src/cz/projectsurvive/me/limeth/psclans/CommandExecutorClan.java" afterPath="$USER_HOME$/workspace/PSClans/src/cz/projectsurvive/me/limeth/psclans/CommandExecutorClan.java" />
       <change type="MODIFICATION" beforePath="$USER_HOME$/workspace/PSClans/src/cz/projectsurvive/me/limeth/psclans/Config.java" afterPath="$USER_HOME$/workspace/PSClans/src/cz/projectsurvive/me/limeth/psclans/Config.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/dbi/EquipmentMapper.java" afterPath="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/dbi/EquipmentMapper.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/equipment/CustomizedEquipment.java" afterPath="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/equipment/CustomizedEquipment.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/scene/games/team/defuse/DefuseEquipmentProvider.java" afterPath="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/scene/games/team/defuse/DefuseEquipmentProvider.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/equipment/Equipment.java" afterPath="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/equipment/Equipment.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/equipment/EquipmentCategory.java" afterPath="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/equipment/EquipmentCategory.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/scene/games/EquipmentProvider.java" afterPath="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/scene/games/EquipmentProvider.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/scene/games/Game.java" afterPath="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/scene/games/Game.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/equipment/grenades/GrenadeType.java" afterPath="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/equipment/grenades/GrenadeType.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/equipment/guns/Gun.java" afterPath="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/equipment/guns/Gun.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/equipment/guns/GunType.java" afterPath="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/equipment/guns/GunType.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/equipment/simple/Helmet.java" afterPath="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/equipment/simple/Helmet.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/equipment/containers/InventoryContainer.java" afterPath="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/equipment/containers/InventoryContainer.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/equipment/simple/Kevlar.java" afterPath="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/equipment/simple/Kevlar.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/equipment/simple/KevlarAndHelmet.java" afterPath="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/equipment/simple/KevlarAndHelmet.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/equipment/simple/Knife.java" afterPath="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/equipment/simple/Knife.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/dictionaries/Limeth.xml" afterPath="$PROJECT_DIR$/.idea/dictionaries/Limeth.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/MSPlayer.java" afterPath="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/MSPlayer.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/dbi/MSPlayerDAO.java" afterPath="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/dbi/MSPlayerDAO.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/dbi/MSPlayerDataMapper.java" afterPath="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/dbi/MSPlayerDataMapper.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/MineStrike.iml" afterPath="$PROJECT_DIR$/MineStrike.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/artifacts/MineStrike_jar.xml" afterPath="$PROJECT_DIR$/.idea/artifacts/MineStrike_jar.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/scene/games/MSShoppingListener.java" afterPath="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/scene/games/MSShoppingListener.java" />
       <change type="MODIFICATION" beforePath="$USER_HOME$/workspace/PSClans/src/cz/projectsurvive/me/limeth/psclans/MySQLConnection.java" afterPath="$USER_HOME$/workspace/PSClans/src/cz/projectsurvive/me/limeth/psclans/MySQLConnection.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/equipment/containers/ScalableContainer.java" afterPath="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/equipment/containers/ScalableContainer.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/modules.xml" afterPath="$PROJECT_DIR$/.idea/modules.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bin/plugin.yml" afterPath="$PROJECT_DIR$/bin/plugin.yml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/plugin.yml" afterPath="$PROJECT_DIR$/src/plugin.yml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/equipment/simple/Radar.java" afterPath="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/equipment/simple/Radar.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/events/ShopOpenEvent.java" afterPath="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/events/ShopOpenEvent.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/equipment/SimpleEquipment.java" afterPath="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/equipment/SimpleEquipment.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="mine-strike.iws" />
@@ -175,8 +205,8 @@
       <file leaf-file-name="MSPlayerDAO.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/dbi/MSPlayerDAO.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.2937788" vertical-offset="0" max-vertical-offset="2142">
-              <caret line="15" column="66" selection-start-line="15" selection-start-column="66" selection-end-line="15" selection-end-column="66" />
+            <state vertical-scroll-proportion="-0.74308753" vertical-offset="1325" max-vertical-offset="2244">
+              <caret line="40" column="39" selection-start-line="40" selection-start-column="39" selection-end-line="40" selection-end-column="39" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -217,12 +247,30 @@
         <option value="$PROJECT_DIR$/src/plugin.yml" />
         <option value="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/dbi/EquipmentMapper.java" />
         <option value="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/dbi/InventoryContainerFactory.java" />
-        <option value="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/equipment/containers/InventoryContainer.java" />
         <option value="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/equipment/containers/ScalableContainer.java" />
         <option value="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/dbi/MSPlayerDataMapper.java" />
-        <option value="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/MSPlayer.java" />
-        <option value="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/dbi/BindEquipment.java" />
+        <option value="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/equipment/EquipmentSection.java" />
+        <option value="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/equipment/EquipmentCategoryEntry.java" />
+        <option value="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/equipment/EquipmentSectionEntry.java" />
+        <option value="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/equipment/EquipmentCategory.java" />
+        <option value="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/equipment/Equipment.java" />
+        <option value="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/equipment/guns/GunType.java" />
+        <option value="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/equipment/grenades/GrenadeType.java" />
+        <option value="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/equipment/SimpleEquipment.java" />
+        <option value="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/equipment/simple/KevlarAndHelmet.java" />
+        <option value="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/equipment/simple/Knife.java" />
+        <option value="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/equipment/cases/Case.java" />
+        <option value="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/equipment/cases/CaseKey.java" />
+        <option value="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/equipment/CustomizedEquipment.java" />
+        <option value="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/scene/games/team/defuse/DefuseEquipmentProvider.java" />
+        <option value="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/equipment/simple/Helmet.java" />
+        <option value="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/equipment/simple/Radar.java" />
+        <option value="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/equipment/simple/Kevlar.java" />
         <option value="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/dbi/MSPlayerDAO.java" />
+        <option value="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/dbi/BindEquipment.java" />
+        <option value="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/MSPlayer.java" />
+        <option value="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/equipment/containers/InventoryContainer.java" />
+        <option value="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/equipment/guns/Gun.java" />
       </list>
     </option>
   </component>
@@ -230,7 +278,7 @@
     <detection-done>true</detection-done>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="width" value="1704" />
+    <option name="width" value="1761" />
     <option name="height" value="1040" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="false">
@@ -258,16 +306,6 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="PackagesPane">
-        <subPane>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="mine-strike" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
-            </PATH_ELEMENT>
-          </PATH>
-        </subPane>
-      </pane>
       <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
@@ -337,8 +375,66 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+              <option name="myItemId" value="equipment" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="mine-strike" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="mine-strike" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="minestrike" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="equipment" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="guns" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="mine-strike" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="mine-strike" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="minestrike" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
               <option name="myItemId" value="dbi" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+        </subPane>
+      </pane>
+      <pane id="PackagesPane">
+        <subPane>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="mine-strike" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
             </PATH_ELEMENT>
           </PATH>
         </subPane>
@@ -638,14 +734,15 @@
       <workItem from="1420487544732" duration="6998000" />
       <workItem from="1420495381943" duration="1563000" />
       <workItem from="1420571151218" duration="6390000" />
+      <workItem from="1420733907260" duration="4348000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="18354000" />
+    <option name="totallyTimeSpent" value="22702000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="0" width="1704" height="1040" extended-state="0" />
+    <frame x="0" y="0" width="1761" height="1040" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -659,22 +756,22 @@
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="CheckStyle" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.41727495" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.40329218" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="IDEtalk Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
@@ -695,7 +792,16 @@
     </option>
   </component>
   <component name="XDebuggerManager">
-    <breakpoint-manager />
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/equipment/cases/CaseKey.java</url>
+          <line>184</line>
+          <properties />
+        </line-breakpoint>
+      </breakpoints>
+      <option name="time" value="1" />
+    </breakpoint-manager>
     <watches-manager />
   </component>
   <component name="antWorkspaceConfiguration">
@@ -703,82 +809,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/dbi/MSPlayerDAO.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="1666" max-vertical-offset="2159">
-          <caret line="107" column="5" selection-start-line="107" selection-start-column="5" selection-end-line="107" selection-end-column="5" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/dbi/MSPlayerDataMapper.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="68" max-vertical-offset="238">
-          <caret line="4" column="13" selection-start-line="4" selection-start-column="13" selection-end-line="4" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/dbi/MSPlayerData.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1615">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/MineStrike.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="357" max-vertical-offset="3332">
-          <caret line="50" column="19" selection-start-line="50" selection-start-column="19" selection-end-line="50" selection-end-column="19" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$PROJECT_DIR$/lib/jdbi-2.55-sources.jar!/org/skife/jdbi/v2/BeanMapper.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="1326" max-vertical-offset="2227">
-          <caret line="107" column="66" selection-start-line="107" selection-start-column="66" selection-end-line="107" selection-end-column="66" />
-          <folding>
-            <element signature="e#0#5912#0" expanded="false" />
-            <element signature="imports" expanded="false" />
-            <element signature="e#1469#1497#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$PROJECT_DIR$/lib/jdbi-2.55-sources.jar!/org/skife/jdbi/v2/Batch.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="98" max-vertical-offset="2040">
-          <caret line="63" column="20" selection-start-line="63" selection-start-column="20" selection-end-line="63" selection-end-column="20" />
-          <folding>
-            <element signature="e#0#4282#0" expanded="false" />
-            <element signature="imports" expanded="false" />
-            <element signature="e#1213#1221#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/dbi/MSPlayerDAO.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2159">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$PROJECT_DIR$/lib/jdbi-2.55-sources.jar!/org/skife/jdbi/v2/Batch.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="98" max-vertical-offset="2040">
-          <caret line="63" column="20" selection-start-line="63" selection-start-column="20" selection-end-line="63" selection-end-column="20" />
-          <folding>
-            <element signature="e#0#4282#0" expanded="false" />
-            <element signature="imports" expanded="false" />
-            <element signature="e#1213#1221#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/equipment/gson/EquipmentAdapter.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="68" max-vertical-offset="476">
@@ -804,13 +834,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.27419356" vertical-offset="0" max-vertical-offset="868">
           <caret line="20" column="5" selection-start-line="20" selection-start-column="5" selection-end-line="20" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/equipment/guns/GunType.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.7453917" vertical-offset="4929" max-vertical-offset="5797">
-          <caret line="551" column="25" selection-start-line="551" selection-start-column="25" selection-end-line="551" selection-end-column="25" />
         </state>
       </provider>
     </entry>
@@ -869,7 +892,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="408">
           <caret line="18" column="0" selection-start-line="18" selection-start-column="0" selection-end-line="18" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -885,7 +907,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.09648127" vertical-offset="0" max-vertical-offset="881">
           <caret line="19" column="17" selection-start-line="19" selection-start-column="17" selection-end-line="19" selection-end-column="17" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -893,18 +914,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="553" max-vertical-offset="1139">
           <caret line="49" column="65" selection-start-line="49" selection-start-column="65" selection-end-line="49" selection-end-column="65" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/equipment/containers/InventoryContainer.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.078341015" vertical-offset="0" max-vertical-offset="6120">
-          <caret line="23" column="48" selection-start-line="23" selection-start-column="48" selection-end-line="23" selection-end-column="48" />
-          <folding>
-            <element signature="e#1294#1295#0" expanded="true" />
-            <element signature="e#1323#1324#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -925,7 +934,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.17406143" vertical-offset="408" max-vertical-offset="2227">
           <caret line="59" column="59" selection-start-line="59" selection-start-column="59" selection-end-line="59" selection-end-column="59" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -946,9 +954,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.2508513" vertical-offset="0" max-vertical-offset="881">
           <caret line="13" column="5" selection-start-line="13" selection-start-column="5" selection-end-line="13" selection-end-column="5" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -956,12 +961,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-11.36" vertical-offset="243" max-vertical-offset="4250">
           <caret line="81" column="27" selection-start-line="81" selection-start-column="27" selection-end-line="81" selection-end-column="27" />
-          <folding>
-            <element signature="e#2437#2438#0" expanded="true" />
-            <element signature="e#2485#2486#0" expanded="true" />
-            <element signature="e#2554#2555#0" expanded="true" />
-            <element signature="e#2602#2603#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -977,7 +976,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.15668203" vertical-offset="0" max-vertical-offset="1938">
           <caret line="8" column="25" selection-start-line="8" selection-start-column="25" selection-end-line="8" selection-end-column="25" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -985,9 +983,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.5092166" vertical-offset="0" max-vertical-offset="2652">
           <caret line="26" column="4" selection-start-line="26" selection-start-column="4" selection-end-line="26" selection-end-column="4" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1013,9 +1008,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-0.20767888" vertical-offset="408" max-vertical-offset="4709">
           <caret line="17" column="3" selection-start-line="17" selection-start-column="3" selection-end-line="17" selection-end-column="3" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1035,21 +1027,221 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/MSPlayer.java">
+    <entry file="file://$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/equipment/EquipmentSection.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="11078" max-vertical-offset="19278">
-          <caret line="729" column="38" selection-start-line="729" selection-start-column="38" selection-end-line="729" selection-end-column="38" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="4369">
+          <caret line="27" column="16" selection-start-line="27" selection-start-column="16" selection-end-line="27" selection-end-column="16" />
           <folding>
             <element signature="imports" expanded="true" />
+            <element signature="e#8246#8269#0" expanded="true" />
+            <element signature="e#8524#8525#0" expanded="true" />
+            <element signature="e#8548#8549#0" expanded="true" />
+            <element signature="e#8616#8617#0" expanded="true" />
+            <element signature="e#8641#8642#0" expanded="true" />
+            <element signature="e#8710#8711#0" expanded="true" />
+            <element signature="e#8764#8765#0" expanded="true" />
+            <element signature="e#8805#8806#0" expanded="true" />
+            <element signature="e#8830#8831#0" expanded="true" />
+            <element signature="e#8857#8858#0" expanded="true" />
+            <element signature="e#8873#8874#0" expanded="true" />
+            <element signature="e#8903#8904#0" expanded="true" />
+            <element signature="e#8941#8942#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/equipment/EquipmentSectionEntry.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1411">
+          <caret line="10" column="29" selection-start-line="10" selection-start-column="29" selection-end-line="10" selection-end-column="29" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/equipment/EquipmentCustomization.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.07825086" vertical-offset="0" max-vertical-offset="2992">
+          <caret line="17" column="13" selection-start-line="17" selection-start-column="13" selection-end-line="17" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/equipment/EquipmentCategory.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="255">
+          <caret line="7" column="26" selection-start-line="7" selection-start-column="26" selection-end-line="7" selection-end-column="26" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/equipment/Equipment.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="145" max-vertical-offset="748">
+          <caret line="40" column="25" selection-start-line="40" selection-start-column="25" selection-end-line="40" selection-end-column="25" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/equipment/guns/GunType.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="5309" max-vertical-offset="6001">
+          <caret line="562" column="5" selection-start-line="562" selection-start-column="5" selection-end-line="562" selection-end-column="5" />
+          <folding>
+            <element signature="e#24756#24757#0" expanded="true" />
+            <element signature="e#24796#24797#0" expanded="true" />
+            <element signature="e#24859#24860#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/equipment/grenades/GrenadeType.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="8828" max-vertical-offset="9503">
+          <caret line="653" column="20" selection-start-line="653" selection-start-column="20" selection-end-line="653" selection-end-column="20" />
+          <folding>
+            <element signature="e#17379#17380#0" expanded="true" />
+            <element signature="e#17426#17427#0" expanded="true" />
+            <element signature="e#17481#17482#0" expanded="true" />
+            <element signature="e#17521#17522#0" expanded="true" />
+            <element signature="e#17565#17566#0" expanded="true" />
+            <element signature="e#17584#17585#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/equipment/SimpleEquipment.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="1291" max-vertical-offset="2159">
+          <caret line="167" column="24" selection-start-line="167" selection-start-column="24" selection-end-line="167" selection-end-column="24" />
+          <folding>
+            <element signature="e#2998#2999#0" expanded="true" />
+            <element signature="e#3020#3021#0" expanded="true" />
+            <element signature="e#3064#3065#0" expanded="true" />
+            <element signature="e#3086#3087#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/equipment/simple/KevlarAndHelmet.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="268" max-vertical-offset="901">
+          <caret line="39" column="71" selection-start-line="39" selection-start-column="71" selection-end-line="39" selection-end-column="71" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/equipment/simple/Knife.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="332" max-vertical-offset="2363">
+          <caret line="57" column="60" selection-start-line="57" selection-start-column="60" selection-end-line="57" selection-end-column="60" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/equipment/cases/Case.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="3273" max-vertical-offset="3978">
+          <caret line="295" column="19" selection-start-line="295" selection-start-column="19" selection-end-line="295" selection-end-column="19" />
+          <folding>
+            <element signature="e#7710#7711#0" expanded="false" />
+            <element signature="e#7747#7748#0" expanded="false" />
+            <element signature="e#7791#7792#0" expanded="false" />
+            <element signature="e#7809#7810#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/equipment/cases/CaseKey.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="1845" max-vertical-offset="2550">
+          <caret line="197" column="19" selection-start-line="197" selection-start-column="19" selection-end-line="197" selection-end-column="19" />
+          <folding>
+            <element signature="e#4005#4006#0" expanded="true" />
+            <element signature="e#4042#4043#0" expanded="true" />
+            <element signature="e#4086#4087#0" expanded="true" />
+            <element signature="e#4104#4105#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/scene/games/team/defuse/DefuseEquipmentProvider.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="642" max-vertical-offset="9792">
+          <caret line="75" column="87" selection-start-line="75" selection-start-column="87" selection-end-line="75" selection-end-column="87" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/equipment/simple/Helmet.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="26" max-vertical-offset="612">
+          <caret line="34" column="60" selection-start-line="34" selection-start-column="60" selection-end-line="34" selection-end-column="60" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/equipment/simple/Radar.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="234" max-vertical-offset="850">
+          <caret line="38" column="67" selection-start-line="38" selection-start-column="67" selection-end-line="38" selection-end-column="67" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/equipment/simple/Kevlar.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.7389079" vertical-offset="26" max-vertical-offset="612">
+          <caret line="34" column="60" selection-start-line="34" selection-start-column="60" selection-end-line="34" selection-end-column="60" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/dbi/BindEquipment.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="663">
-          <caret line="13" column="32" selection-start-line="13" selection-start-column="32" selection-end-line="13" selection-end-column="32" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="714">
+          <caret line="33" column="0" selection-start-line="33" selection-start-column="0" selection-end-line="33" selection-end-column="0" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/MSPlayer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="3314" max-vertical-offset="19329">
+          <caret line="231" column="59" selection-start-line="231" selection-start-column="59" selection-end-line="231" selection-end-column="59" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#7207#7208#0" expanded="true" />
+            <element signature="e#7288#7289#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/equipment/containers/InventoryContainer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="1237" max-vertical-offset="6120">
+          <caret line="108" column="52" selection-start-line="108" selection-start-column="52" selection-end-line="108" selection-end-column="52" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/equipment/CustomizedEquipment.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-1.3634813" vertical-offset="867" max-vertical-offset="3349">
+          <caret line="15" column="13" selection-start-line="15" selection-start-column="13" selection-end-line="15" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/equipment/guns/Gun.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="228" max-vertical-offset="6341">
+          <caret line="461" column="15" selection-start-line="461" selection-start-column="15" selection-end-line="461" selection-end-column="15" />
+          <folding>
+            <element signature="e#2386#2387#0" expanded="true" />
+            <element signature="e#2409#2410#0" expanded="true" />
+            <element signature="e#11903#11904#0" expanded="true" />
+            <element signature="e#11943#11944#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1063,8 +1255,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/dbi/MSPlayerDAO.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.2937788" vertical-offset="0" max-vertical-offset="2142">
-          <caret line="15" column="66" selection-start-line="15" selection-start-column="66" selection-end-line="15" selection-end-column="66" />
+        <state vertical-scroll-proportion="-0.74308753" vertical-offset="1325" max-vertical-offset="2244">
+          <caret line="40" column="39" selection-start-line="40" selection-start-column="39" selection-end-line="40" selection-end-column="39" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>

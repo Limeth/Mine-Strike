@@ -1,5 +1,6 @@
 package cz.minestrike.me.limeth.minestrike.equipment.cases;
 
+import cz.minestrike.me.limeth.minestrike.equipment.*;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.inventory.Inventory;
@@ -10,10 +11,6 @@ import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 import cz.minestrike.me.limeth.minestrike.MSConstant;
 import cz.minestrike.me.limeth.minestrike.MSPlayer;
 import cz.minestrike.me.limeth.minestrike.Translation;
-import cz.minestrike.me.limeth.minestrike.equipment.ClickSound;
-import cz.minestrike.me.limeth.minestrike.equipment.Equipment;
-import cz.minestrike.me.limeth.minestrike.equipment.EquipmentPurchaseException;
-import cz.minestrike.me.limeth.minestrike.equipment.ItemButton;
 import cz.minestrike.me.limeth.minestrike.equipment.containers.InventoryContainer;
 import cz.minestrike.me.limeth.minestrike.util.SoundManager;
 import cz.minestrike.me.limeth.minestrike.util.collections.FilledArrayList;
@@ -187,5 +184,17 @@ public class CaseKey implements Equipment
 	public boolean isDroppableManually()
 	{
 		return false;
+	}
+
+	@Override
+	public EquipmentCategory getCategory()
+	{
+		return EquipmentCategory.CASES;
+	}
+
+	@Override
+	public boolean isTradable()
+	{
+		return true;
 	}
 }

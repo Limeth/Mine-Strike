@@ -17,17 +17,19 @@ import java.util.Collection;
 @UseStringTemplate3StatementLocator
 public interface MSPlayerDAO
 {
-	String FIELD_DATA_USERNAME = "username";
-	String FIELD_DATA_XP = "xp";
-	String FIELD_DATA_KILLS = "kills";
-	String FIELD_DATA_ASSISTS = "assists";
-	String FIELD_DATA_DEATHS = "deaths";
-	String FIELD_DATA_PLAYTIME = "playtime";
+	String FIELD_DATA_USERNAME      = "username";
+	String FIELD_DATA_XP            = "xp";
+	String FIELD_DATA_KILLS         = "kills";
+	String FIELD_DATA_ASSISTS       = "assists";
+	String FIELD_DATA_DEATHS        = "deaths";
+	String FIELD_DATA_PLAYTIME      = "playtime";
 	String FIELD_EQUIPMENT_USERNAME = FIELD_DATA_USERNAME;
-	String FIELD_EQUIPMENT_SERVER = "server";
-	String FIELD_EQUIPMENT_ID = "id";
-	String FIELD_EQUIPMENT_DATA = "data";
-	String VALUE_EQUIPMENT_SERVER = "minestrike";
+	String FIELD_EQUIPMENT_SERVER   = "server";
+	String FIELD_EQUIPMENT_CATEGORY   = "category";
+	String FIELD_EQUIPMENT_TRADABLE   = "tradable";
+	String FIELD_EQUIPMENT_TYPE     = "type";
+	String FIELD_EQUIPMENT_DATA     = "data";
+	String VALUE_EQUIPMENT_SERVER   = "minestrike";
 
 	static void prepareTableData()
 	{
@@ -65,12 +67,16 @@ public interface MSPlayerDAO
 		batch.add("CREATE TABLE IF NOT EXISTS `" + table + "` (" +
 		          "`" + FIELD_EQUIPMENT_USERNAME + "` varchar(16) COLLATE utf8_czech_ci NOT NULL," +
 		          "`" + FIELD_EQUIPMENT_SERVER + "` varchar(16) NOT NULL," +
-		          "`" + FIELD_EQUIPMENT_ID + "` varchar(64) NOT NULL," +
+		          "`" + FIELD_EQUIPMENT_CATEGORY + "` varchar(32) NOT NULL," +
+		          "`" + FIELD_EQUIPMENT_TRADABLE + "` BOOLEAN NOT NULL," +
+		          "`" + FIELD_EQUIPMENT_TYPE + "` varchar(64) NOT NULL," +
 		          "`" + FIELD_EQUIPMENT_DATA + "` varchar(256) NOT NULL" +
 		          ") ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_czech_ci");
 		prepareColumn(batch, table, FIELD_EQUIPMENT_USERNAME, "varchar(16) COLLATE utf8_czech_ci NOT NULL");
 		prepareColumn(batch, table, FIELD_EQUIPMENT_SERVER, "varchar(16) NOT NULL");
-		prepareColumn(batch, table, FIELD_EQUIPMENT_ID, "varchar(64) NOT NULL");
+		prepareColumn(batch, table, FIELD_EQUIPMENT_CATEGORY, "varchar(32) NOT NULL");
+		prepareColumn(batch, table, FIELD_EQUIPMENT_TRADABLE, "BOOLEAN NOT NULL");
+		prepareColumn(batch, table, FIELD_EQUIPMENT_TYPE, "varchar(64) NOT NULL");
 		prepareColumn(batch, table, FIELD_EQUIPMENT_DATA, "varchar(256) NOT NULL");
 		batch.execute();
 		handle.close();
@@ -109,8 +115,8 @@ public interface MSPlayerDAO
 	@SqlQuery("SELECT * FROM <table> WHERE `" + FIELD_EQUIPMENT_SERVER + "` = '" + VALUE_EQUIPMENT_SERVER + "' AND `" + FIELD_DATA_USERNAME + "` = :username")
 	public Collection<Equipment> selectEquipment(@Define("table") String tableName, @Bind("username") String playerName);
 
-	@SqlBatch("INSERT INTO <table> (`" + FIELD_EQUIPMENT_USERNAME + "`, `" + FIELD_EQUIPMENT_SERVER + "`, `" + FIELD_EQUIPMENT_ID + "`, `" + FIELD_EQUIPMENT_DATA + "`) VALUES"
-			+ "(:username, '" + VALUE_EQUIPMENT_SERVER + "', :equipment.id, :equipment.data)")
+	@SqlBatch("INSERT INTO <table> (`" + FIELD_EQUIPMENT_USERNAME + "`, `" + FIELD_EQUIPMENT_SERVER + "`, `" + FIELD_EQUIPMENT_CATEGORY + "`, `" + FIELD_EQUIPMENT_TRADABLE + "`, `" + FIELD_EQUIPMENT_TYPE + "`, `" + FIELD_EQUIPMENT_DATA + "`) VALUES"
+			+ "(:username, '" + VALUE_EQUIPMENT_SERVER + "', :equipment." + FIELD_EQUIPMENT_CATEGORY + ", :equipment." + FIELD_EQUIPMENT_TRADABLE + ", :equipment." + FIELD_EQUIPMENT_TYPE + ", :equipment." + FIELD_EQUIPMENT_DATA + ")")
 	void insertEquipment(@Define("table") String tableName, @Bind("username") String playerName, @BindEquipment("equipment") Iterable<Equipment> container);
 	
 	@SqlUpdate("DELETE FROM <table> WHERE `" + FIELD_EQUIPMENT_USERNAME + "` = :username")

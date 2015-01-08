@@ -1,22 +1,18 @@
 package cz.minestrike.me.limeth.minestrike.equipment.guns;
 
-import java.lang.reflect.InvocationTargetException;
-
-import org.bukkit.block.Block;
-import org.bukkit.inventory.ItemStack;
-
 import cz.minestrike.me.limeth.minestrike.MSConstant;
 import cz.minestrike.me.limeth.minestrike.MSPlayer;
 import cz.minestrike.me.limeth.minestrike.equipment.CustomizedEquipment;
 import cz.minestrike.me.limeth.minestrike.equipment.Equipment;
+import cz.minestrike.me.limeth.minestrike.equipment.EquipmentCategory;
 import cz.minestrike.me.limeth.minestrike.equipment.ItemButton;
-import cz.minestrike.me.limeth.minestrike.equipment.guns.extensions.BurstFireExtension;
-import cz.minestrike.me.limeth.minestrike.equipment.guns.extensions.GunExtension;
-import cz.minestrike.me.limeth.minestrike.equipment.guns.extensions.ScopeExtension;
-import cz.minestrike.me.limeth.minestrike.equipment.guns.extensions.SilencableExtension;
-import cz.minestrike.me.limeth.minestrike.equipment.guns.extensions.ZoomExtension;
+import cz.minestrike.me.limeth.minestrike.equipment.guns.extensions.*;
 import cz.minestrike.me.limeth.minestrike.scene.games.MoneyAward;
 import cz.minestrike.me.limeth.minestrike.util.collections.FilledArrayList;
+import org.bukkit.block.Block;
+import org.bukkit.inventory.ItemStack;
+
+import java.lang.reflect.InvocationTargetException;
 
 
 public enum GunType implements Equipment
@@ -124,7 +120,7 @@ public enum GunType implements Equipment
 		this.recoveryTimeStand = recoveryTimeStand;
 		this.recoilAngleVariance = recoilAngleVariance;
 		this.recoilMagnitude = recoilMagnitude;
-		this.recoilMagnitudeVariance = recoilAngleVariance;
+		this.recoilMagnitudeVariance = recoilMagnitudeVariance;
 		this.bullets = bullets;
 		
 		if(spreadAlt == null || inaccuracySneakAlt == null || inaccuracyStandAlt == null || inaccuracyFireAlt == null || inaccuracyMoveAlt == null || inaccuracyJumpAlt == null
@@ -510,7 +506,7 @@ public enum GunType implements Equipment
 	@Override
 	public FilledArrayList<ItemButton> getSelectionButtons(MSPlayer msPlayer)
 	{
-		return new FilledArrayList<ItemButton>();
+		return new FilledArrayList<>();
 	}
 	
 	@Override
@@ -554,5 +550,17 @@ public enum GunType implements Equipment
 			e.printStackTrace();
 			return null;
 		}
+	}
+
+	@Override
+	public EquipmentCategory getCategory()
+	{
+		return EquipmentCategory.FIREARMS;
+	}
+
+	@Override
+	public boolean isTradable()
+	{
+		return false;
 	}
 }

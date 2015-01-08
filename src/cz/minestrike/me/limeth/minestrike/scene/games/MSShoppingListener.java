@@ -14,8 +14,8 @@ import cz.minestrike.me.limeth.minestrike.MSPlayer;
 import cz.minestrike.me.limeth.minestrike.MineStrike;
 import cz.minestrike.me.limeth.minestrike.Translation;
 import cz.minestrike.me.limeth.minestrike.equipment.Equipment;
-import cz.minestrike.me.limeth.minestrike.equipment.EquipmentCategory;
-import cz.minestrike.me.limeth.minestrike.equipment.EquipmentCategoryEntry;
+import cz.minestrike.me.limeth.minestrike.equipment.EquipmentSection;
+import cz.minestrike.me.limeth.minestrike.equipment.EquipmentSectionEntry;
 import cz.minestrike.me.limeth.minestrike.equipment.EquipmentPurchaseException;
 import cz.minestrike.me.limeth.minestrike.equipment.containers.InventoryContainer;
 import cz.minestrike.me.limeth.minestrike.events.ShopOpenEvent;
@@ -58,12 +58,12 @@ public class MSShoppingListener extends MSSceneListener<Game>
 		Inventory topInv = view.getTopInventory();
 		int slot = event.getRawSlot();
 		EquipmentProvider ep = game.getEquipmentProvider();
-		FilledArrayList<EquipmentCategory> categories = ep.getEquipmentCategories();
-		EquipmentCategory openCat = EquipmentCategory.getByInventory(categories, topInv);
+		FilledArrayList<EquipmentSection> categories = ep.getEquipmentCategories();
+		EquipmentSection openCat = EquipmentSection.getByInventory(categories, topInv);
 		
 		if(openCat != null && slot < topInv.getSize())
 		{
-			EquipmentCategoryEntry entry = openCat.getEntry(msPlayer, slot);
+			EquipmentSectionEntry entry = openCat.getEntry(msPlayer, slot);
 			
 			if(entry == null)
 				return;
@@ -104,7 +104,7 @@ public class MSShoppingListener extends MSSceneListener<Game>
 			if(index >= categories.size())
 				return;
 			
-			EquipmentCategory cat = categories.get(index);
+			EquipmentSection cat = categories.get(index);
 			
 			if(cat == null)
 				return;

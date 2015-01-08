@@ -5,20 +5,20 @@ import org.bukkit.event.Cancellable;
 import org.bukkit.event.HandlerList;
 
 import cz.minestrike.me.limeth.minestrike.MSPlayer;
-import cz.minestrike.me.limeth.minestrike.equipment.EquipmentCategory;
+import cz.minestrike.me.limeth.minestrike.equipment.EquipmentSection;
 
 public class ShopOpenEvent extends MSPlayerEvent implements Cancellable
 {
 	private static final HandlerList handlers = new HandlerList();
-	private boolean cancelled;
-	private EquipmentCategory category;
-	
-	public ShopOpenEvent(MSPlayer who, EquipmentCategory category)
+	private boolean          cancelled;
+	private EquipmentSection category;
+
+	public ShopOpenEvent(MSPlayer who, EquipmentSection category)
 	{
 		super(who);
-		
+
 		Validate.notNull(category, "The category must not be null!");
-		
+
 		this.category = category;
 	}
 
@@ -27,9 +27,10 @@ public class ShopOpenEvent extends MSPlayerEvent implements Cancellable
 	{
 		return handlers;
 	}
-	 
-	public static HandlerList getHandlerList() {
-	    return handlers;
+
+	public static HandlerList getHandlerList()
+	{
+		return handlers;
 	}
 
 	@Override
@@ -44,12 +45,12 @@ public class ShopOpenEvent extends MSPlayerEvent implements Cancellable
 		this.cancelled = cancelled;
 	}
 	
-	public EquipmentCategory getCategory()
+	public EquipmentSection getCategory()
 	{
 		return category;
 	}
 
-	public void setCategory(EquipmentCategory category)
+	public void setCategory(EquipmentSection category)
 	{
 		Validate.notNull(category, "The category must not be null!");
 		

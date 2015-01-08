@@ -42,7 +42,7 @@ import cz.minestrike.me.limeth.minestrike.areas.schemes.GameMenu;
 import cz.minestrike.me.limeth.minestrike.areas.schemes.Scheme;
 import cz.minestrike.me.limeth.minestrike.areas.schemes.SchemeManager;
 import cz.minestrike.me.limeth.minestrike.equipment.Equipment;
-import cz.minestrike.me.limeth.minestrike.equipment.EquipmentCategory;
+import cz.minestrike.me.limeth.minestrike.equipment.EquipmentSection;
 import cz.minestrike.me.limeth.minestrike.equipment.EquipmentManagerInitializationException;
 import cz.minestrike.me.limeth.minestrike.events.ArenaQuitEvent;
 import cz.minestrike.me.limeth.minestrike.events.GameEquipEvent;
@@ -154,7 +154,7 @@ public abstract class Game extends Scene
 		PluginManager pm = Bukkit.getPluginManager();
 		Player player = msPlayer.getPlayer();
 		PlayerInventory inv = player.getInventory();
-		FilledArrayList<EquipmentCategory> categories = equipmentProvider.getEquipmentCategories();
+		FilledArrayList<EquipmentSection> categories = equipmentProvider.getEquipmentCategories();
 		
 		for(int rel = 0; rel < PlayerUtil.INVENTORY_WIDTH * 3; rel++)
 		{
@@ -168,7 +168,7 @@ public abstract class Game extends Scene
 		
 		for(int i = 0; i < categories.size(); i++)
 		{
-			EquipmentCategory category = categories.get(i);
+			EquipmentSection category = categories.get(i);
 			ItemStack icon = category.getIcon();
 			int x = 6 + i % 2;
 			int y = i / 2;

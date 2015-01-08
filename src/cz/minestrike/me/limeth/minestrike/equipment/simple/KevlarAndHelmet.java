@@ -1,5 +1,6 @@
 package cz.minestrike.me.limeth.minestrike.equipment.simple;
 
+import cz.minestrike.me.limeth.minestrike.equipment.EquipmentCategory;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
@@ -36,7 +37,7 @@ public class KevlarAndHelmet extends SimpleEquipment
 	
 	private KevlarAndHelmet()
 	{
-		super("KEVLAR_AND_HELMET", ITEM, 1000, MSConstant.MOVEMENT_SPEED_DEFAULT, null, false, false);
+		super("KEVLAR_AND_HELMET", ITEM, EquipmentCategory.ARMOR, false, 1000, MSConstant.MOVEMENT_SPEED_DEFAULT, null, false, false);
 	}
 	
 	@Override

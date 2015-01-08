@@ -229,7 +229,7 @@ public class MSPlayer
 	public MSPlayer(MSPlayerData data, InventoryContainer inventoryContainer)
 	{
 		this.data = data;
-		this.inventoryContainer = inventoryContainer;
+		this.inventoryContainer = inventoryContainer.addDefaults();
 		this.playerState = PlayerState.LOBBY_SERVER;
 		this.hotbarContainer = new HotbarContainer();
 		this.armorContainer = new ArmorContainer();
@@ -237,7 +237,7 @@ public class MSPlayer
 	
 	public MSPlayer(String playerName)
 	{
-		this(new MSPlayerData(playerName), new InventoryContainer());
+		this(new MSPlayerData(playerName), new InventoryContainer().addDefaults());
 	}
 	
 	public void redirectEvent(Event event)

@@ -247,4 +247,16 @@ public class CustomizedEquipment<T extends Equipment> implements Equipment
 		
 		return buttons;
 	}
+
+	@Override
+	public EquipmentCategory getCategory()
+	{
+		return equipment.getCategory();
+	}
+
+	@Override
+	public boolean isTradable()
+	{
+		return true;
+	}
 }

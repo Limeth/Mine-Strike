@@ -2,6 +2,7 @@ package cz.minestrike.me.limeth.minestrike.equipment.grenades;
 
 import java.util.List;
 
+import cz.minestrike.me.limeth.minestrike.equipment.EquipmentCategory;
 import net.minecraft.server.v1_7_R4.Block;
 import net.minecraft.server.v1_7_R4.BlockHalfTransparent;
 import net.minecraft.server.v1_7_R4.BlockTransparent;
@@ -639,5 +640,17 @@ public enum GrenadeType implements Equipment, DamageSource
 	public FilledArrayList<ItemButton> getSelectionButtons(MSPlayer msPlayer)
 	{
 		return new FilledArrayList<ItemButton>();
+	}
+
+	@Override
+	public EquipmentCategory getCategory()
+	{
+		return EquipmentCategory.GRENADES;
+	}
+
+	@Override
+	public boolean isTradable()
+	{
+		return false;
 	}
 }

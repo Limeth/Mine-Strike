@@ -455,4 +455,10 @@ public class Gun extends CustomizedEquipment<GunType>
 	{
 		return true;
 	}
+
+	@Override
+	public boolean isTradable()
+	{
+		return getCustomization() != null;
+	}
 }

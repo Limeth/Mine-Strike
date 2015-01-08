@@ -42,7 +42,7 @@ public class InventoryContainer extends ScalableContainer
 		return null;
 	}
 	
-	public CustomizedEquipment<? extends Equipment> getEquippedCustomizedEquipment(EquipmentCategoryEntry categoryEntry) throws NotFoundException
+	public CustomizedEquipment<? extends Equipment> getEquippedCustomizedEquipment(EquipmentSectionEntry categoryEntry) throws NotFoundException
 	{
 		Validate.notNull(categoryEntry, "The category entry must not be null!");
 		
@@ -90,7 +90,7 @@ public class InventoryContainer extends ScalableContainer
 		return null;
 	}
 	
-	public Equipment getEquippedEquipment(EquipmentCategoryEntry categoryEntry)
+	public Equipment getEquippedEquipment(EquipmentSectionEntry categoryEntry)
 	{
 		CustomizedEquipment<? extends Equipment> customized = null;
 		
@@ -103,11 +103,13 @@ public class InventoryContainer extends ScalableContainer
 		return customized != null ? customized : categoryEntry.getDefaultEquipment();
 	}
 	
-	public void addDefaults()
+	public InventoryContainer addDefaults()
 	{
 		for(Equipment equipment : DEFAULT_EQUIPMENT)
 			if(!containsSource(equipment.getSource()))
 				addItem(0, equipment);
+
+		return this;
 	}
 	
 	public boolean containsSource(Equipment source)
@@ -121,10 +123,10 @@ public class InventoryContainer extends ScalableContainer
 	
 	public void unequip(Equipment source)
 	{
-		unequip(EquipmentCategoryEntry.getContaining(source));
+		unequip(EquipmentSectionEntry.getContaining(source));
 	}
 	
-	public void unequip(EquipmentCategoryEntry entry)
+	public void unequip(EquipmentSectionEntry entry)
 	{
 		FilledHashSet<Equipment> entryContents = entry.getEquipment();
 		

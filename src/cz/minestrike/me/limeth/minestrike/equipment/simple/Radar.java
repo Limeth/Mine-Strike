@@ -1,5 +1,6 @@
 package cz.minestrike.me.limeth.minestrike.equipment.simple;
 
+import cz.minestrike.me.limeth.minestrike.equipment.EquipmentCategory;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -35,7 +36,7 @@ public class Radar extends SimpleEquipment
 	
 	public Radar()
 	{
-		super("radar", ITEM, null, MSConstant.MOVEMENT_SPEED_DEFAULT, "projectsurvive:counterstrike.weapons.movement", false, false);
+		super("radar", ITEM, EquipmentCategory.MISCELLANEOUS, false, null, MSConstant.MOVEMENT_SPEED_DEFAULT, "projectsurvive:counterstrike.weapons.movement", false, false);
 	}
 	
 	@Override

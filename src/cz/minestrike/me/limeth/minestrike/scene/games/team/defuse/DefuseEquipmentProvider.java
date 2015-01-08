@@ -1,11 +1,23 @@
 package cz.minestrike.me.limeth.minestrike.scene.games.team.defuse;
 
-import java.util.ArrayList;
-
+import cz.minestrike.me.limeth.minestrike.MSConstant;
+import cz.minestrike.me.limeth.minestrike.MSPlayer;
+import cz.minestrike.me.limeth.minestrike.Translation;
+import cz.minestrike.me.limeth.minestrike.equipment.*;
+import cz.minestrike.me.limeth.minestrike.equipment.containers.ArmorContainer;
+import cz.minestrike.me.limeth.minestrike.equipment.containers.Container;
+import cz.minestrike.me.limeth.minestrike.equipment.containers.HotbarContainer;
+import cz.minestrike.me.limeth.minestrike.equipment.containers.InventoryContainer;
+import cz.minestrike.me.limeth.minestrike.equipment.grenades.GrenadeType;
+import cz.minestrike.me.limeth.minestrike.equipment.guns.Gun;
+import cz.minestrike.me.limeth.minestrike.equipment.guns.GunType;
+import cz.minestrike.me.limeth.minestrike.equipment.simple.*;
+import cz.minestrike.me.limeth.minestrike.scene.games.EquipmentProvider;
+import cz.minestrike.me.limeth.minestrike.scene.games.Team;
+import cz.minestrike.me.limeth.minestrike.util.collections.FilledArrayList;
 import net.minecraft.server.v1_7_R4.NBTTagList;
 import net.minecraft.server.v1_7_R4.NBTTagString;
 import net.minecraft.util.org.apache.commons.lang3.ArrayUtils;
-
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.craftbukkit.v1_7_R4.inventory.CraftItemStack;
@@ -15,29 +27,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import cz.minestrike.me.limeth.minestrike.MSConstant;
-import cz.minestrike.me.limeth.minestrike.MSPlayer;
-import cz.minestrike.me.limeth.minestrike.Translation;
-import cz.minestrike.me.limeth.minestrike.equipment.Equipment;
-import cz.minestrike.me.limeth.minestrike.equipment.EquipmentCategory;
-import cz.minestrike.me.limeth.minestrike.equipment.EquipmentCategoryEntry;
-import cz.minestrike.me.limeth.minestrike.equipment.EquipmentPurchaseException;
-import cz.minestrike.me.limeth.minestrike.equipment.SimpleEquipment;
-import cz.minestrike.me.limeth.minestrike.equipment.containers.ArmorContainer;
-import cz.minestrike.me.limeth.minestrike.equipment.containers.Container;
-import cz.minestrike.me.limeth.minestrike.equipment.containers.HotbarContainer;
-import cz.minestrike.me.limeth.minestrike.equipment.containers.InventoryContainer;
-import cz.minestrike.me.limeth.minestrike.equipment.grenades.GrenadeType;
-import cz.minestrike.me.limeth.minestrike.equipment.guns.Gun;
-import cz.minestrike.me.limeth.minestrike.equipment.guns.GunType;
-import cz.minestrike.me.limeth.minestrike.equipment.simple.Helmet;
-import cz.minestrike.me.limeth.minestrike.equipment.simple.Kevlar;
-import cz.minestrike.me.limeth.minestrike.equipment.simple.KevlarAndHelmet;
-import cz.minestrike.me.limeth.minestrike.equipment.simple.Knife;
-import cz.minestrike.me.limeth.minestrike.equipment.simple.Radar;
-import cz.minestrike.me.limeth.minestrike.scene.games.EquipmentProvider;
-import cz.minestrike.me.limeth.minestrike.scene.games.Team;
-import cz.minestrike.me.limeth.minestrike.util.collections.FilledArrayList;
+import java.util.ArrayList;
 
 public class DefuseEquipmentProvider implements EquipmentProvider
 {
@@ -60,7 +50,7 @@ public class DefuseEquipmentProvider implements EquipmentProvider
 		
 		defaultKit = CraftItemStack.asCraftMirror(nmsDefaultKit);
 		
-		DEFUSE_KIT_DEFAULT = new SimpleEquipment("KIT_DEFAULT", defaultKit, 0, MSConstant.MOVEMENT_SPEED_DEFAULT, "projectsurvive:counterstrike.weapons.movement", false, false);
+		DEFUSE_KIT_DEFAULT = new SimpleEquipment("KIT_DEFAULT", defaultKit, EquipmentCategory.MISCELLANEOUS, false, 0, MSConstant.MOVEMENT_SPEED_DEFAULT, "projectsurvive:counterstrike.weapons.movement", false, false);
 		
 		ItemStack boughtKit = new ItemStack(Material.DIAMOND_PICKAXE);
 		boughtKit.addUnsafeEnchantment(Enchantment.DIG_SPEED, 2);
@@ -75,7 +65,7 @@ public class DefuseEquipmentProvider implements EquipmentProvider
 		
 		boughtKit = CraftItemStack.asCraftMirror(nmsBoughtKit);
 		
-		DEFUSE_KIT_BOUGHT = new SimpleEquipment("KIT_BOUGHT", boughtKit, 400, MSConstant.MOVEMENT_SPEED_DEFAULT, "projectsurvive:counterstrike.weapons.movement", false, true);
+		DEFUSE_KIT_BOUGHT = new SimpleEquipment("KIT_BOUGHT", boughtKit, EquipmentCategory.MISCELLANEOUS, false, 400, MSConstant.MOVEMENT_SPEED_DEFAULT, "projectsurvive:counterstrike.weapons.movement", false, true);
 		
 		ItemStack bomb = new ItemStack(Material.OBSIDIAN);
 		ItemMeta bombIM = bomb.getItemMeta();
@@ -83,24 +73,24 @@ public class DefuseEquipmentProvider implements EquipmentProvider
 		bombIM.setDisplayName(ChatColor.YELLOW + "" + ChatColor.BOLD + "C4");
 		bomb.setItemMeta(bombIM);
 		
-		BOMB = new SimpleEquipment("BOMB", bomb, 0, MSConstant.MOVEMENT_SPEED_DEFAULT, "projectsurvive:counterstrike.weapons.c4.c4_draw", true, true);
+		BOMB = new SimpleEquipment("BOMB", bomb, EquipmentCategory.MISCELLANEOUS, false, 0, MSConstant.MOVEMENT_SPEED_DEFAULT, "projectsurvive:counterstrike.weapons.c4.c4_draw", true, true);
 		
-		FilledArrayList<EquipmentCategory> categories = new FilledArrayList<EquipmentCategory>();
+		FilledArrayList<EquipmentSection> categories = new FilledArrayList<EquipmentSection>();
 		
-		categories.add(EquipmentCategory.PISTOLS);
-		categories.add(EquipmentCategory.HEAVY);
-		categories.add(EquipmentCategory.SMGS);
-		categories.add(EquipmentCategory.RIFLES);
+		categories.add(EquipmentSection.PISTOLS);
+		categories.add(EquipmentSection.HEAVY);
+		categories.add(EquipmentSection.SMGS);
+		categories.add(EquipmentSection.RIFLES);
 		
-		EquipmentCategoryEntry[] gearCTOriginal = EquipmentCategory.GEAR.getCounterTerroristsEquipment();
-		EquipmentCategoryEntry[] gearTOriginal = EquipmentCategory.GEAR.getTerroristsEquipment();
-		EquipmentCategoryEntry[] gearCTNew = new EquipmentCategoryEntry[]
-				{ EquipmentCategoryEntry.valueOf(DefuseEquipmentProvider.DEFUSE_KIT_BOUGHT) };
-		EquipmentCategoryEntry[] gearCT = ArrayUtils.addAll(gearCTNew, gearCTOriginal);
-		EquipmentCategory gear = new EquipmentCategory(EquipmentCategory.GEAR.getId(), EquipmentCategory.GEAR.getTranslation(), EquipmentCategory.GEAR.getIcon(), gearTOriginal, gearCT);
+		EquipmentSectionEntry[] gearCTOriginal = EquipmentSection.GEAR.getCounterTerroristsEquipment();
+		EquipmentSectionEntry[] gearTOriginal = EquipmentSection.GEAR.getTerroristsEquipment();
+		EquipmentSectionEntry[] gearCTNew = new EquipmentSectionEntry[]
+				{ EquipmentSectionEntry.valueOf(DefuseEquipmentProvider.DEFUSE_KIT_BOUGHT) };
+		EquipmentSectionEntry[] gearCT = ArrayUtils.addAll(gearCTNew, gearCTOriginal);
+		EquipmentSection gear = new EquipmentSection(EquipmentSection.GEAR.getId(), EquipmentSection.GEAR.getTranslation(), EquipmentSection.GEAR.getIcon(), gearTOriginal, gearCT);
 		
 		categories.add(gear);
-		categories.add(EquipmentCategory.GRENADES);
+		categories.add(EquipmentSection.GRENADES);
 		
 		EQUIPMENT_CATEGORIES = categories;
 	}
@@ -108,39 +98,39 @@ public class DefuseEquipmentProvider implements EquipmentProvider
 	public static final SimpleEquipment DEFUSE_KIT_DEFAULT, DEFUSE_KIT_BOUGHT, BOMB;
 	public static final int INDEX_GUN_PRIMARY = 0, INDEX_GUN_SECONDARY = 1, INDEX_GRENADES = 2, INDEX_EXTRA = 6, INDEX_KNIFE = 7,
 			INDEX_RADAR = 8, GRENADE_AMOUNT = 4;
-	private static final FilledArrayList<EquipmentCategory> EQUIPMENT_CATEGORIES;
-	private final DefuseGame game;
-	
+	private static final FilledArrayList<EquipmentSection> EQUIPMENT_CATEGORIES;
+	private final        DefuseGame                        game;
+
 	public DefuseEquipmentProvider(DefuseGame game)
 	{
 		this.game = game;
 	}
-	
+
 	@Override
 	public void equip(MSPlayer msPlayer)
 	{
 		DefuseGame game = getGame();
 		Team team = game.getTeam(msPlayer);
 		boolean hasSecondary = refreshGun(msPlayer, false);
-		
+
 		refreshGun(msPlayer, true);
-		
+
 		if(!hasSecondary)
 		{
 			Gun pistol = getDefaultPistol(msPlayer);
-			
+
 			pistol.setOwnerName(msPlayer.getName());
 			setGun(msPlayer, pistol);
 		}
-		
+
 		equipKnife(msPlayer);
-		
+
 		if(team == Team.COUNTER_TERRORISTS)
 			equipDefuseKit(msPlayer, false);
-		
+
 		equipRadar(msPlayer);
 	}
-	
+
 	public void equipRadar(MSPlayer msPlayer)
 	{
 		HotbarContainer gameContainer = msPlayer.getHotbarContainer();
@@ -148,16 +138,16 @@ public class DefuseEquipmentProvider implements EquipmentProvider
 		Player player = msPlayer.getPlayer();
 		PlayerInventory inv = player.getInventory();
 		Equipment equipment = invContainer.getEquippedCustomizedEquipment(Radar.RADAR);
-		
+
 		if(equipment == null)
 			equipment = Radar.RADAR;
-		
+
 		ItemStack item = equipment.newItemStack(msPlayer);
-		
+
 		gameContainer.setItem(INDEX_RADAR, equipment);
 		inv.setItem(INDEX_RADAR, item);
 	}
-	
+
 	public void equipBomb(MSPlayer msPlayer)
 	{
 		HotbarContainer gameContainer = msPlayer.getHotbarContainer();
@@ -165,46 +155,46 @@ public class DefuseEquipmentProvider implements EquipmentProvider
 		Player player = msPlayer.getPlayer();
 		PlayerInventory inv = player.getInventory();
 		Equipment equipment = invContainer.getEquippedCustomizedEquipment(BOMB);
-		
+
 		if(equipment == null)
 			equipment = BOMB;
-		
+
 		ItemStack item = equipment.newItemStack(msPlayer);
-		
+
 		gameContainer.setItem(INDEX_EXTRA, equipment);
 		inv.setItem(INDEX_EXTRA, item);
 	}
-	
+
 	public boolean hasBomb(MSPlayer msPlayer)
 	{
 		Container gameContainer = msPlayer.getHotbarContainer();
 		Equipment equipment = gameContainer.getItem(INDEX_EXTRA);
-		
+
 		if(equipment == null)
 			return false;
-		
+
 		Equipment source = equipment.getSource();
-		
+
 		return source.equals(BOMB);
 	}
-	
+
 	public boolean removeBomb(MSPlayer msPlayer)
 	{
 		boolean hasBomb = hasBomb(msPlayer);
-		
+
 		if(!hasBomb)
 			return false;
-		
+
 		Container gameContainer = msPlayer.getHotbarContainer();
 		Player player = msPlayer.getPlayer();
 		PlayerInventory inv = player.getInventory();
-		
+
 		gameContainer.setItem(INDEX_EXTRA, null);
 		inv.setItem(INDEX_EXTRA, null);
-		
+
 		return true;
 	}
-	
+
 	public void equipKnife(MSPlayer msPlayer)
 	{
 		InventoryContainer invContainer = msPlayer.getInventoryContainer();
@@ -212,49 +202,49 @@ public class DefuseEquipmentProvider implements EquipmentProvider
 		Player player = msPlayer.getPlayer();
 		PlayerInventory inv = player.getInventory();
 		Equipment equipment = invContainer.getEquippedCustomizedEquipment(Knife.KNIFE);
-		
+
 		if(equipment == null)
 			equipment = Knife.KNIFE;
-		
+
 		ItemStack item = equipment.newItemStack(msPlayer);
-		
+
 		gameContainer.setItem(INDEX_KNIFE, equipment);
 		inv.setItem(INDEX_KNIFE, item);
 	}
-	
+
 	private Gun getDefaultPistol(MSPlayer msPlayer)
 	{
 		InventoryContainer invContainer = msPlayer.getInventoryContainer();
-		EquipmentCategoryEntry firstPistolsEntry = EquipmentCategory.PISTOLS.getEntries(msPlayer)[0];
+		EquipmentSectionEntry firstPistolsEntry = EquipmentSection.PISTOLS.getEntries(msPlayer)[0];
 		Equipment equipment = invContainer.getEquippedEquipment(firstPistolsEntry);
 		Gun pistol;
-		
+
 		if(equipment instanceof Gun)
 		{
 			pistol = (Gun) equipment;
-			
+
 			pistol.refresh();
 		}
 		else if(equipment instanceof GunType)
 			pistol = new Gun((GunType) equipment);
 		else
 			throw new RuntimeException(equipment + " is not a gun.");
-		
+
 		return pistol;
 	}
-	
+
 	private boolean refreshGun(MSPlayer msPlayer, boolean primary)
 	{
 		Gun gun = getGun(msPlayer, primary);
-		
+
 		if(gun == null)
 			return false;
-		
+
 		gun.refresh();
 		setGun(msPlayer, gun);
 		return true;
 	}
-	
+
 	public void setGun(MSPlayer msPlayer, Gun gun)
 	{
 		GunType gunType = gun.getEquipment();
@@ -264,20 +254,20 @@ public class DefuseEquipmentProvider implements EquipmentProvider
 		Player player = msPlayer.getPlayer();
 		PlayerInventory inv = player.getInventory();
 		ItemStack item = gun.newItemStack(msPlayer);
-		
+
 		gameContainer.setItem(slot, gun);
 		inv.setItem(slot, item);
 	}
-	
+
 	public Gun getGun(MSPlayer msPlayer, boolean primary)
 	{
 		Container gameContainer = msPlayer.getHotbarContainer();
 		int slot = primary ? INDEX_GUN_PRIMARY : INDEX_GUN_SECONDARY;
 		Equipment equipment = gameContainer.getItem(slot);
-		
+
 		if(!(equipment instanceof Gun))
 			return null;
-		
+
 		return (Gun) equipment;
 	}
 
@@ -288,25 +278,25 @@ public class DefuseEquipmentProvider implements EquipmentProvider
 		Player player = msPlayer.getPlayer();
 		PlayerInventory inv = player.getInventory();
 		int slot = primary ? INDEX_GUN_PRIMARY : INDEX_GUN_SECONDARY;
-		
+
 		gameContainer.setItem(slot, null);
 		inv.setItem(slot, null);
 	}
-	
+
 	public boolean canHoldMoreGrenades(MSPlayer msPlayer)
 	{
 		return getGrenadeAmount(msPlayer) < GRENADE_AMOUNT;
 	}
-	
+
 	public int getGrenadeAmount(MSPlayer msPlayer)
 	{
 		ArrayList<GrenadeType> grenades = getGrenades(msPlayer);
 		int amount = 0;
-		
+
 		for(int i = 0; i < grenades.size(); i++)
 			if(grenades.get(i) != null)
 				amount++;
-		
+
 		return amount;
 	}
 
@@ -407,7 +397,7 @@ public class DefuseEquipmentProvider implements EquipmentProvider
 	{
 		ArmorContainer armorContainer = msPlayer.getArmorContainer();
 		InventoryContainer invContainer = msPlayer.getInventoryContainer();
-		EquipmentCategoryEntry entry = EquipmentCategoryEntry.valueOf(Kevlar.KEVLAR);
+		EquipmentSectionEntry entry = EquipmentSectionEntry.valueOf(Kevlar.KEVLAR);
 		Equipment kevlar = invContainer.getEquippedEquipment(entry);
 		
 		armorContainer.setKevlar(kevlar);
@@ -435,7 +425,7 @@ public class DefuseEquipmentProvider implements EquipmentProvider
 	{
 		ArmorContainer armorContainer = msPlayer.getArmorContainer();
 		InventoryContainer invContainer = msPlayer.getInventoryContainer();
-		EquipmentCategoryEntry entry = EquipmentCategoryEntry.valueOf(Helmet.HELMET);
+		EquipmentSectionEntry entry = EquipmentSectionEntry.valueOf(Helmet.HELMET);
 		Equipment helmet = invContainer.getEquippedEquipment(entry);
 		
 		armorContainer.setHelmet(helmet);
@@ -446,9 +436,9 @@ public class DefuseEquipmentProvider implements EquipmentProvider
 	{
 		ArmorContainer armorContainer = msPlayer.getArmorContainer();
 		InventoryContainer invContainer = msPlayer.getInventoryContainer();
-		EquipmentCategoryEntry kevlarEntry = EquipmentCategoryEntry.valueOf(Kevlar.KEVLAR);
+		EquipmentSectionEntry kevlarEntry = EquipmentSectionEntry.valueOf(Kevlar.KEVLAR);
 		Equipment kevlar = invContainer.getEquippedEquipment(kevlarEntry);
-		EquipmentCategoryEntry helmetEntry = EquipmentCategoryEntry.valueOf(Helmet.HELMET);
+		EquipmentSectionEntry helmetEntry = EquipmentSectionEntry.valueOf(Helmet.HELMET);
 		Equipment helmet = invContainer.getEquippedEquipment(helmetEntry);
 		
 		armorContainer.setKevlar(kevlar);
@@ -604,9 +594,9 @@ public class DefuseEquipmentProvider implements EquipmentProvider
 	
 	@SuppressWarnings("unchecked")
 	@Override
-	public FilledArrayList<EquipmentCategory> getEquipmentCategories()
+	public FilledArrayList<EquipmentSection> getEquipmentCategories()
 	{
-		return (FilledArrayList<EquipmentCategory>) EQUIPMENT_CATEGORIES.clone();
+		return (FilledArrayList<EquipmentSection>) EQUIPMENT_CATEGORIES.clone();
 	}
 
 	public DefuseGame getGame()

@@ -37,4 +37,6 @@ public interface Equipment
 	public String getDefaultSkin(MSPlayer msPlayer);
 	public void onSelect(MSPlayer msPlayer);
 	public void onDeselect(MSPlayer msPlayer);
+	public EquipmentCategory getCategory();
+	public boolean isTradable();
 }
