@@ -86,7 +86,7 @@ public class MineStrike extends JavaPlugin
 			instance = null;
 			
 			Bukkit.getPluginManager().registerEvents(new ErrorListener(), this);
-			warn("An error occured while enabling Mine-Strike.");
+			warn("An error occurred while enabling Mine-Strike.");
 			e.printStackTrace();
 		}
 	}
@@ -97,7 +97,8 @@ public class MineStrike extends JavaPlugin
 		Bukkit.broadcastMessage(Translation.DISABLING.getMessage());
 		
 		@SuppressWarnings("unchecked")
-		Set<MSPlayer> players = (Set<MSPlayer>) MSPlayer.getOnlinePlayers().clone();
+		Set<MSPlayer> playerSet = (Set<MSPlayer>) MSPlayer.getOnlinePlayers();
+		MSPlayer[] players = playerSet.toArray(new MSPlayer[playerSet.size()]);
 		
 		for(MSPlayer msPlayer : players)
 		{

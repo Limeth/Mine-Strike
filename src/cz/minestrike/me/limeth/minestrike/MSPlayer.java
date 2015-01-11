@@ -19,6 +19,7 @@ import cz.minestrike.me.limeth.minestrike.scene.Scene;
 import cz.minestrike.me.limeth.minestrike.scene.games.Game;
 import cz.minestrike.me.limeth.minestrike.scene.games.PlayerState;
 import cz.minestrike.me.limeth.minestrike.scene.lobby.Lobby;
+import cz.minestrike.me.limeth.minestrike.util.InjectedConversationTracker;
 import cz.minestrike.me.limeth.minestrike.util.SoundManager;
 import cz.projectsurvive.limeth.dynamicdisplays.DynamicDisplays;
 import cz.projectsurvive.limeth.dynamicdisplays.PlayerDisplay;
@@ -31,6 +32,7 @@ import net.minecraft.server.v1_7_R4.PacketPlayInClientCommand;
 import org.apache.commons.lang.Validate;
 import org.bukkit.*;
 import org.bukkit.block.Block;
+import org.bukkit.craftbukkit.v1_7_R4.conversations.ConversationTracker;
 import org.bukkit.craftbukkit.v1_7_R4.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
@@ -44,12 +46,12 @@ import org.skife.jdbi.v2.DBI;
 import org.skife.jdbi.v2.Handle;
 
 import java.sql.SQLException;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map.Entry;
 import java.util.Set;
-import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 public class MSPlayer
 {
@@ -58,72 +60,65 @@ public class MSPlayer
 			INACCURACY_MODIFIER = 0.1F,
 			JUMP_INACCURACY_DURATION = 1,
 			LAND_INACCURACY_DURATION = 1,
-			RECOIL_RESTORATION_PER_SECOND = 2,
-			MAXIMAL_RECOIL = 1;
-	private static final HashSet<MSPlayer> ONLINE_PLAYERS = new HashSet<MSPlayer>();
+			RECOIL_RESTORATION_PER_SECOND = 2, MAXIMAL_RECOIL = 1;
+
+	//private static final HashSet<MSPlayer> ONLINE_PLAYERS = new HashSet<MSPlayer>();
 
 	private static Integer MOVEMENT_LOOP_ID;
-	
-	public static HashSet<MSPlayer> getOnlinePlayers()
+
+	public static Set<MSPlayer> getOnlinePlayers()
 	{
-		return ONLINE_PLAYERS;
+		Player[] players = Bukkit.getOnlinePlayers();
+
+		return Arrays.stream(players).filter(InjectedConversationTracker::isInjected)
+		              .map(InjectedConversationTracker::getMSPlayer).collect(Collectors.toSet());
 	}
-	
-	public static Set<MSPlayer> getOnlinePlayers(Predicate<? super MSPlayer> predicate)
-	{
-		return ONLINE_PLAYERS;
-	}
-	
+
 	public static boolean remove(Player player)
 	{
-		MSPlayer msPlayer = get(player);
-		
-		if(msPlayer != null)
-			return remove(msPlayer);
+		if(InjectedConversationTracker.isInjected(player))
+		{
+			InjectedConversationTracker.eject(player);
+			return true;
+		}
 		else
 			return false;
 	}
-	
-	public static boolean remove(MSPlayer player)
+
+	public static MSPlayer get(Player player, boolean register)
 	{
-		return ONLINE_PLAYERS.remove(player);
-	}
-	
-	public static MSPlayer get(String playerName, boolean register)
-	{
-		for(MSPlayer msPlayer : ONLINE_PLAYERS)
-			if(msPlayer.getName().equals(playerName))
-				return msPlayer;
-		
+		if(InjectedConversationTracker.isInjected(player))
+			return InjectedConversationTracker.getMSPlayer(player);
+
 		if(!register)
 			return null;
-		
+
 		MSPlayer msPlayer;
-		
+
 		try
 		{
-			msPlayer = load(playerName);
+			msPlayer = load(player.getName());
 		}
 		catch(SQLException e)
 		{
-			MineStrike.warn("An error occured while loading player data for player '" + playerName + "'.");
+			MineStrike.warn("An error occurred while loading player data for player '" + player.getName() + "'.");
 			e.printStackTrace();
 			return null;
 		}
-		
+
 		if(msPlayer == null)
-			msPlayer = new MSPlayer(playerName);
-		
+			msPlayer = new MSPlayer(player);
+
 		register(msPlayer);
-		
+
 		return msPlayer;
 	}
-	
-	public static MSPlayer get(String playerName)
+
+	public static MSPlayer get(Player player)
 	{
-		return get(playerName, false);
+		return get(player, false);
 	}
-	
+
 	public static MSPlayer load(String playerName) throws SQLException
 	{
 		MSPlayerDAO dao = MineStrike.getDBI().open(MSPlayerDAO.class);
@@ -136,36 +131,42 @@ public class MSPlayer
 		InventoryContainer container = new InventoryContainer(equipment);
 
 		dao.close();
-		
+
 		return new MSPlayer(data, container);
 	}
-	
+
 	public static boolean register(MSPlayer msPlayer)
 	{
 		msPlayer.setJoinedAt(System.currentTimeMillis());
-		
-		return ONLINE_PLAYERS.add(msPlayer);
+
+		CraftPlayer player = (CraftPlayer) msPlayer.getPlayer();
+		ConversationTracker conversationTracker;
+
+		if(!InjectedConversationTracker.isInjected(player))
+		{
+			InjectedConversationTracker.inject(player, msPlayer);
+			return true;
+		}
+		else
+			return false;
 	}
-	
-	public static MSPlayer get(Player player)
-	{
-		return get(player.getName());
-	}
-	
+
 	public static void loadOnlinePlayers()
 	{
 		for(Player player : Bukkit.getOnlinePlayers())
-			get(player.getName(), true);
+			get(player, true);
 	}
-	
+
 	public static void clearOnlinePlayers()
 	{
-		ONLINE_PLAYERS.clear();
+		for(Player player : Bukkit.getOnlinePlayers())
+			remove(player);
 	}
-	
+
 	public static int startMovementLoop()
 	{
-		return MOVEMENT_LOOP_ID = Bukkit.getScheduler().scheduleSyncRepeatingTask(MineStrike.getInstance(), new Runnable() {
+		return MOVEMENT_LOOP_ID = Bukkit.getScheduler().scheduleSyncRepeatingTask(MineStrike.getInstance(), new Runnable()
+		{
 			@Override
 			public void run()
 			{
@@ -238,6 +239,13 @@ public class MSPlayer
 	public MSPlayer(String playerName)
 	{
 		this(new MSPlayerData(playerName), new InventoryContainer().addDefaults());
+	}
+
+	public MSPlayer(Player player)
+	{
+		this(player.getName());
+
+		this.player = player;
 	}
 	
 	public void redirectEvent(Event event)

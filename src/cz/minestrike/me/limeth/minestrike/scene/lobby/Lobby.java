@@ -1,15 +1,5 @@
 package cz.minestrike.me.limeth.minestrike.scene.lobby;
 
-import java.util.HashSet;
-import java.util.Set;
-import java.util.function.Predicate;
-
-import org.bukkit.Location;
-import org.bukkit.entity.Player;
-import org.bukkit.event.Event;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.PlayerInventory;
-
 import cz.minestrike.me.limeth.minestrike.MSConfig;
 import cz.minestrike.me.limeth.minestrike.MSConstant;
 import cz.minestrike.me.limeth.minestrike.MSPlayer;
@@ -19,6 +9,16 @@ import cz.minestrike.me.limeth.minestrike.listeners.msPlayer.MSSceneListener;
 import cz.minestrike.me.limeth.minestrike.scene.Scene;
 import cz.minestrike.me.limeth.minestrike.scene.lobby.MSLobbyInventoryListener.LobbyButton;
 import cz.minestrike.me.limeth.minestrike.util.PlayerUtil;
+import org.bukkit.Location;
+import org.bukkit.entity.Player;
+import org.bukkit.event.Event;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.PlayerInventory;
+
+import java.util.HashSet;
+import java.util.Set;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 public class Lobby extends Scene
 {
@@ -128,13 +128,13 @@ public class Lobby extends Scene
 	@Override
 	public Set<MSPlayer> getPlayers()
 	{
-		return MSPlayer.getOnlinePlayers(p -> { return p.getScene() instanceof Lobby; });
+		return MSPlayer.getOnlinePlayers().stream().filter(p -> p.getScene() instanceof Lobby).collect(Collectors.toSet());
 	}
 	
 	@Override
 	public Set<MSPlayer> getPlayers(Predicate<? super MSPlayer> predicate)
 	{
-		return MSPlayer.getOnlinePlayers(p -> { return p.getScene() instanceof Lobby && predicate.test(p); });
+		return MSPlayer.getOnlinePlayers().stream().filter(p -> p.getScene() instanceof Lobby && predicate.test(p)).collect(Collectors.toSet());
 	}
 	
 	@Override

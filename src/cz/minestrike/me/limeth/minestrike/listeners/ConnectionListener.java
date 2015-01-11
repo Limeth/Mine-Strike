@@ -25,8 +25,7 @@ public class ConnectionListener implements Listener
 	public void onPlayerJoin(PlayerJoinEvent event)
 	{
 		Player player = event.getPlayer();
-		String playerName = player.getName();
-		MSPlayer msPlayer = MSPlayer.get(playerName, true);
+		MSPlayer msPlayer = MSPlayer.get(player, true);
 		Scene scene = msPlayer.getScene();
 		
 		scene.onJoin(msPlayer);
@@ -40,6 +39,6 @@ public class ConnectionListener implements Listener
 		
 		msPlayer.quitScene(SceneQuitReason.LOG_OUT, false, false);
 		msPlayer.save();
-		MSPlayer.remove(msPlayer);
+		MSPlayer.remove(player);
 	}
 }

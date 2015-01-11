@@ -33,12 +33,12 @@
     </orderEntry>
     <orderEntry type="module" module-name="PSClans" />
     <orderEntry type="module" module-name="PSMaps" />
-    <orderEntry type="library" exported="" name="org.jdbi:jdbi:2.55" level="project" />
     <orderEntry type="module" module-name="OnePointEight" />
-    <orderEntry type="library" exported="" name="antlr:stringtemplate:3.0" level="project" />
     <orderEntry type="module" module-name="fanciful" exported="" />
     <orderEntry type="library" name="1.8-based-1.7.10" level="project" />
     <orderEntry type="library" name="ProtocolLib-Spigot-3.6.0-SNAPSHOT" level="project" />
     <orderEntry type="library" name="worldedit-6.0.0-SNAPSHOT" level="project" />
+    <orderEntry type="library" name="org.jdbi:jdbi:2.55" level="application" />
+    <orderEntry type="library" name="antlr:stringtemplate:3.0" level="application" />
   </component>
 </module>
