@@ -1,8 +1,16 @@
 package cz.minestrike.me.limeth.minestrike.scene.games;
 
-import java.util.ArrayList;
-import java.util.Map.Entry;
-
+import cz.minestrike.me.limeth.minestrike.*;
+import cz.minestrike.me.limeth.minestrike.areas.Structure;
+import cz.minestrike.me.limeth.minestrike.areas.schemes.GameMap;
+import cz.minestrike.me.limeth.minestrike.events.EquipmentPickupEvent;
+import cz.minestrike.me.limeth.minestrike.events.GameEquipEvent;
+import cz.minestrike.me.limeth.minestrike.listeners.msPlayer.MSSceneListener;
+import cz.minestrike.me.limeth.minestrike.renderers.MapPollRenderer;
+import cz.minestrike.me.limeth.minestrike.util.RendererUtil;
+import cz.minestrike.me.limeth.minestrike.util.collections.FilledArrayList;
+import cz.minestrike.me.limeth.minestrike.util.collections.FilledHashMap;
+import cz.projectsurvive.me.limeth.psmaps.MapAllocator;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -21,21 +29,8 @@ import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Score;
 import org.bukkit.scoreboard.Scoreboard;
 
-import cz.minestrike.me.limeth.minestrike.MSConfig;
-import cz.minestrike.me.limeth.minestrike.MSConstant;
-import cz.minestrike.me.limeth.minestrike.MSPlayer;
-import cz.minestrike.me.limeth.minestrike.MineStrike;
-import cz.minestrike.me.limeth.minestrike.Translation;
-import cz.minestrike.me.limeth.minestrike.areas.Structure;
-import cz.minestrike.me.limeth.minestrike.areas.schemes.GameMap;
-import cz.minestrike.me.limeth.minestrike.events.EquipmentPickupEvent;
-import cz.minestrike.me.limeth.minestrike.events.GameEquipEvent;
-import cz.minestrike.me.limeth.minestrike.listeners.msPlayer.MSSceneListener;
-import cz.minestrike.me.limeth.minestrike.renderers.MapPollRenderer;
-import cz.minestrike.me.limeth.minestrike.util.RendererUtil;
-import cz.minestrike.me.limeth.minestrike.util.collections.FilledArrayList;
-import cz.minestrike.me.limeth.minestrike.util.collections.FilledHashMap;
-import cz.projectsurvive.me.limeth.psmaps.MapAllocator;
+import java.util.ArrayList;
+import java.util.Map.Entry;
 
 public class MapPoll extends GamePhase<Game> implements Runnable
 {
@@ -86,8 +81,12 @@ public class MapPoll extends GamePhase<Game> implements Runnable
 				mostVotes = votes;
 			}
 		}
-		
+
+		FilledArrayList<GameMap> availableMaps = game.getMaps();
 		String votedMapName = votedMap.getName();
+
+		availableMaps.remove(votedMap);
+		availableMaps.add(votedMap);
 		
 		game.broadcast(Translation.GAME_POLL_CHANGING.getMessage(votedMapName));
 		
