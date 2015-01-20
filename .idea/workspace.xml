@@ -6,109 +6,8 @@
     </artifacts-to-build>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8c5aa0ec-ae5e-4311-882f-bf2a5d8f137d" name="Default" comment="Added the last ranks">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../dynamicdisplays/DynamicDisplays.iml" />
-      <change type="NEW" beforePath="" afterPath="$USER_HOME$/workspace/OnePointEight/OnePointEight.iml" />
-      <change type="NEW" beforePath="" afterPath="$USER_HOME$/workspace/PSClans/PSClans.iml" />
-      <change type="NEW" beforePath="" afterPath="$USER_HOME$/workspace/PSMaps/PSMaps.iml" />
-      <change type="NEW" beforePath="" afterPath="$USER_HOME$/workspace/RawChatManager/RawChatManager.iml" />
-      <change type="DELETED" beforePath="C:\Users\Limeth\git\mine-strike\bin\cz\minestrike\me\limeth\minestrike\equipment\EquipmentCategoryEntry.class" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Limeth\workspace\OnePointEight\bin\mkremins\fanciful\FancyMessage.class" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Limeth\workspace\OnePointEight\bin\mkremins\fanciful\JsonRepresentedObject.class" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Limeth\workspace\OnePointEight\bin\mkremins\fanciful\JsonString.class" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Limeth\workspace\OnePointEight\bin\mkremins\fanciful\MessagePart.class" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Limeth\workspace\OnePointEight\bin\mkremins\fanciful\TextualComponent$ArbitraryTextTypeComponent$1.class" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Limeth\workspace\OnePointEight\bin\mkremins\fanciful\TextualComponent$ArbitraryTextTypeComponent.class" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Limeth\workspace\OnePointEight\bin\mkremins\fanciful\TextualComponent$ComplexTextTypeComponent$1.class" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Limeth\workspace\OnePointEight\bin\mkremins\fanciful\TextualComponent$ComplexTextTypeComponent.class" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Limeth\workspace\OnePointEight\bin\mkremins\fanciful\TextualComponent.class" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Limeth\workspace\OnePointEight\bin\net\amoebaman\util\ArrayWrapper.class" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Limeth\workspace\OnePointEight\bin\net\amoebaman\util\Reflection.class" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Limeth\workspace\RawChatManager\bin\.gitignore" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Limeth\workspace\RawChatManager\bin\mkremins\fanciful\FancyMessage.class" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Limeth\workspace\RawChatManager\bin\mkremins\fanciful\JsonRepresentedObject.class" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Limeth\workspace\RawChatManager\bin\mkremins\fanciful\JsonString.class" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Limeth\workspace\RawChatManager\bin\mkremins\fanciful\MessagePart.class" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Limeth\workspace\RawChatManager\bin\mkremins\fanciful\TextualComponent$ArbitraryTextTypeComponent$1.class" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Limeth\workspace\RawChatManager\bin\mkremins\fanciful\TextualComponent$ArbitraryTextTypeComponent.class" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Limeth\workspace\RawChatManager\bin\mkremins\fanciful\TextualComponent$ComplexTextTypeComponent$1.class" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Limeth\workspace\RawChatManager\bin\mkremins\fanciful\TextualComponent$ComplexTextTypeComponent.class" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Limeth\workspace\RawChatManager\bin\mkremins\fanciful\TextualComponent.class" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Limeth\workspace\RawChatManager\bin\net\amoebaman\util\ArrayWrapper.class" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Limeth\workspace\RawChatManager\bin\net\amoebaman\util\Reflection.class" afterPath="" />
-      <change type="MODIFICATION" beforePath="$USER_HOME$/workspace/OnePointEight/bin/net/darkseraphim/actionbar/ActionBarAPI.class" afterPath="$USER_HOME$/workspace/OnePointEight/bin/net/darkseraphim/actionbar/ActionBarAPI.class" />
-      <change type="MODIFICATION" beforePath="$USER_HOME$/workspace/PSMaps/bin/cz/projectsurvive/me/limeth/psmaps/filters/AdditiveNoiseFilter.class" afterPath="$USER_HOME$/workspace/PSMaps/bin/cz/projectsurvive/me/limeth/psmaps/filters/AdditiveNoiseFilter.class" />
-      <change type="MODIFICATION" beforePath="$USER_HOME$/workspace/PSMaps/bin/cz/projectsurvive/me/limeth/psmaps/filters/BlockColorFilter.class" afterPath="$USER_HOME$/workspace/PSMaps/bin/cz/projectsurvive/me/limeth/psmaps/filters/BlockColorFilter.class" />
-      <change type="MODIFICATION" beforePath="$USER_HOME$/workspace/PSMaps/bin/cz/projectsurvive/me/limeth/psmaps/BlockData.class" afterPath="$USER_HOME$/workspace/PSMaps/bin/cz/projectsurvive/me/limeth/psmaps/BlockData.class" />
-      <change type="MODIFICATION" beforePath="$USER_HOME$/workspace/PSClans/bin/cz/projectsurvive/me/limeth/psclans/CaseInsensitiveSet.class" afterPath="$USER_HOME$/workspace/PSClans/bin/cz/projectsurvive/me/limeth/psclans/CaseInsensitiveSet.class" />
-      <change type="MODIFICATION" beforePath="$USER_HOME$/workspace/RawChatManager/bin/cz/projectsurvive/me/limeth/rawchatmanager/ChatArgumentHandler.class" afterPath="$USER_HOME$/workspace/RawChatManager/bin/cz/projectsurvive/me/limeth/rawchatmanager/ChatArgumentHandler.class" />
-      <change type="MODIFICATION" beforePath="$USER_HOME$/workspace/RawChatManager/bin/cz/projectsurvive/me/limeth/rawchatmanager/ChatArgumentManager.class" afterPath="$USER_HOME$/workspace/RawChatManager/bin/cz/projectsurvive/me/limeth/rawchatmanager/ChatArgumentManager.class" />
-      <change type="MODIFICATION" beforePath="$USER_HOME$/workspace/PSClans/bin/cz/projectsurvive/me/limeth/psclans/ChatClanHandler.class" afterPath="$USER_HOME$/workspace/PSClans/bin/cz/projectsurvive/me/limeth/psclans/ChatClanHandler.class" />
-      <change type="MODIFICATION" beforePath="$USER_HOME$/workspace/RawChatManager/bin/cz/projectsurvive/me/limeth/rawchatmanager/ChatFormat.class" afterPath="$USER_HOME$/workspace/RawChatManager/bin/cz/projectsurvive/me/limeth/rawchatmanager/ChatFormat.class" />
-      <change type="MODIFICATION" beforePath="$USER_HOME$/workspace/RawChatManager/bin/cz/projectsurvive/me/limeth/rawchatmanager/ChatListener.class" afterPath="$USER_HOME$/workspace/RawChatManager/bin/cz/projectsurvive/me/limeth/rawchatmanager/ChatListener.class" />
-      <change type="MODIFICATION" beforePath="$USER_HOME$/workspace/RawChatManager/bin/cz/projectsurvive/me/limeth/rawchatmanager/handlers/ChatMessageHandler.class" afterPath="$USER_HOME$/workspace/RawChatManager/bin/cz/projectsurvive/me/limeth/rawchatmanager/handlers/ChatMessageHandler.class" />
-      <change type="MODIFICATION" beforePath="$USER_HOME$/workspace/RawChatManager/bin/cz/projectsurvive/me/limeth/rawchatmanager/handlers/ChatPEXPrefixHandler.class" afterPath="$USER_HOME$/workspace/RawChatManager/bin/cz/projectsurvive/me/limeth/rawchatmanager/handlers/ChatPEXPrefixHandler.class" />
-      <change type="MODIFICATION" beforePath="$USER_HOME$/workspace/RawChatManager/bin/cz/projectsurvive/me/limeth/rawchatmanager/handlers/ChatPEXSuffixHandler.class" afterPath="$USER_HOME$/workspace/RawChatManager/bin/cz/projectsurvive/me/limeth/rawchatmanager/handlers/ChatPEXSuffixHandler.class" />
-      <change type="MODIFICATION" beforePath="$USER_HOME$/workspace/RawChatManager/bin/cz/projectsurvive/me/limeth/rawchatmanager/handlers/ChatPlayerHandler.class" afterPath="$USER_HOME$/workspace/RawChatManager/bin/cz/projectsurvive/me/limeth/rawchatmanager/handlers/ChatPlayerHandler.class" />
-      <change type="MODIFICATION" beforePath="$USER_HOME$/workspace/RawChatManager/bin/cz/projectsurvive/me/limeth/rawchatmanager/ChatTile.class" afterPath="$USER_HOME$/workspace/RawChatManager/bin/cz/projectsurvive/me/limeth/rawchatmanager/ChatTile.class" />
-      <change type="MODIFICATION" beforePath="$USER_HOME$/workspace/RawChatManager/bin/cz/projectsurvive/me/limeth/rawchatmanager/handlers/ChatTimeHandler.class" afterPath="$USER_HOME$/workspace/RawChatManager/bin/cz/projectsurvive/me/limeth/rawchatmanager/handlers/ChatTimeHandler.class" />
-      <change type="MODIFICATION" beforePath="$USER_HOME$/workspace/PSClans/bin/cz/projectsurvive/me/limeth/psclans/Clan.class" afterPath="$USER_HOME$/workspace/PSClans/bin/cz/projectsurvive/me/limeth/psclans/Clan.class" />
-      <change type="MODIFICATION" beforePath="$USER_HOME$/workspace/PSClans/bin/cz/projectsurvive/me/limeth/psclans/events/ClanCreateEvent.class" afterPath="$USER_HOME$/workspace/PSClans/bin/cz/projectsurvive/me/limeth/psclans/events/ClanCreateEvent.class" />
-      <change type="MODIFICATION" beforePath="$USER_HOME$/workspace/PSClans/bin/cz/projectsurvive/me/limeth/psclans/events/ClanInteractionEvent.class" afterPath="$USER_HOME$/workspace/PSClans/bin/cz/projectsurvive/me/limeth/psclans/events/ClanInteractionEvent.class" />
-      <change type="MODIFICATION" beforePath="$USER_HOME$/workspace/PSClans/bin/cz/projectsurvive/me/limeth/psclans/ClanInvitation.class" afterPath="$USER_HOME$/workspace/PSClans/bin/cz/projectsurvive/me/limeth/psclans/ClanInvitation.class" />
-      <change type="MODIFICATION" beforePath="$USER_HOME$/workspace/PSClans/bin/cz/projectsurvive/me/limeth/psclans/events/ClanInviteEvent.class" afterPath="$USER_HOME$/workspace/PSClans/bin/cz/projectsurvive/me/limeth/psclans/events/ClanInviteEvent.class" />
-      <change type="MODIFICATION" beforePath="$USER_HOME$/workspace/PSClans/bin/cz/projectsurvive/me/limeth/psclans/events/ClanJoinEvent.class" afterPath="$USER_HOME$/workspace/PSClans/bin/cz/projectsurvive/me/limeth/psclans/events/ClanJoinEvent.class" />
-      <change type="MODIFICATION" beforePath="$USER_HOME$/workspace/PSClans/bin/cz/projectsurvive/me/limeth/psclans/events/ClanKickEvent.class" afterPath="$USER_HOME$/workspace/PSClans/bin/cz/projectsurvive/me/limeth/psclans/events/ClanKickEvent.class" />
-      <change type="MODIFICATION" beforePath="$USER_HOME$/workspace/PSClans/bin/cz/projectsurvive/me/limeth/psclans/events/ClanLeaveEvent.class" afterPath="$USER_HOME$/workspace/PSClans/bin/cz/projectsurvive/me/limeth/psclans/events/ClanLeaveEvent.class" />
-      <change type="MODIFICATION" beforePath="$USER_HOME$/workspace/PSClans/bin/cz/projectsurvive/me/limeth/psclans/ClanMember.class" afterPath="$USER_HOME$/workspace/PSClans/bin/cz/projectsurvive/me/limeth/psclans/ClanMember.class" />
-      <change type="MODIFICATION" beforePath="$USER_HOME$/workspace/PSClans/bin/cz/projectsurvive/me/limeth/psclans/events/ClanRenameEvent.class" afterPath="$USER_HOME$/workspace/PSClans/bin/cz/projectsurvive/me/limeth/psclans/events/ClanRenameEvent.class" />
-      <change type="MODIFICATION" beforePath="$USER_HOME$/workspace/PSClans/bin/cz/projectsurvive/me/limeth/psclans/CommandExecutorClan.class" afterPath="$USER_HOME$/workspace/PSClans/bin/cz/projectsurvive/me/limeth/psclans/CommandExecutorClan.class" />
-      <change type="MODIFICATION" beforePath="$USER_HOME$/workspace/PSClans/bin/cz/projectsurvive/me/limeth/psclans/Config.class" afterPath="$USER_HOME$/workspace/PSClans/bin/cz/projectsurvive/me/limeth/psclans/Config.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../dynamicdisplays/bin/cz/projectsurvive/limeth/dynamicdisplays/listeners/ConnectionListener.class" afterPath="$PROJECT_DIR$/../dynamicdisplays/bin/cz/projectsurvive/limeth/dynamicdisplays/listeners/ConnectionListener.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../dynamicdisplays/bin/cz/projectsurvive/limeth/dynamicdisplays/commands/DDExecutor.class" afterPath="$PROJECT_DIR$/../dynamicdisplays/bin/cz/projectsurvive/limeth/dynamicdisplays/commands/DDExecutor.class" />
-      <change type="MODIFICATION" beforePath="$USER_HOME$/workspace/PSMaps/bin/cz/projectsurvive/me/limeth/psmaps/filters/DepthFilter.class" afterPath="$USER_HOME$/workspace/PSMaps/bin/cz/projectsurvive/me/limeth/psmaps/filters/DepthFilter.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../dynamicdisplays/bin/cz/projectsurvive/limeth/dynamicdisplays/DynamicDisplays.class" afterPath="$PROJECT_DIR$/../dynamicdisplays/bin/cz/projectsurvive/limeth/dynamicdisplays/DynamicDisplays.class" />
-      <change type="MODIFICATION" beforePath="$USER_HOME$/workspace/PSMaps/bin/cz/projectsurvive/me/limeth/psmaps/surfaces/EditableMapSurface.class" afterPath="$USER_HOME$/workspace/PSMaps/bin/cz/projectsurvive/me/limeth/psmaps/surfaces/EditableMapSurface.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../dynamicdisplays/bin/cz/projectsurvive/limeth/dynamicdisplays/listeners/EntityListener.class" afterPath="$PROJECT_DIR$/../dynamicdisplays/bin/cz/projectsurvive/limeth/dynamicdisplays/listeners/EntityListener.class" />
-      <change type="MODIFICATION" beforePath="$USER_HOME$/workspace/PSMaps/bin/cz/projectsurvive/me/limeth/psmaps/surfaces/ImageMapSurface$ScaleMethod$1.class" afterPath="$USER_HOME$/workspace/PSMaps/bin/cz/projectsurvive/me/limeth/psmaps/surfaces/ImageMapSurface$ScaleMethod$1.class" />
-      <change type="MODIFICATION" beforePath="$USER_HOME$/workspace/PSMaps/bin/cz/projectsurvive/me/limeth/psmaps/surfaces/ImageMapSurface$ScaleMethod$2.class" afterPath="$USER_HOME$/workspace/PSMaps/bin/cz/projectsurvive/me/limeth/psmaps/surfaces/ImageMapSurface$ScaleMethod$2.class" />
-      <change type="MODIFICATION" beforePath="$USER_HOME$/workspace/PSMaps/bin/cz/projectsurvive/me/limeth/psmaps/surfaces/ImageMapSurface$ScaleMethod$3.class" afterPath="$USER_HOME$/workspace/PSMaps/bin/cz/projectsurvive/me/limeth/psmaps/surfaces/ImageMapSurface$ScaleMethod$3.class" />
-      <change type="MODIFICATION" beforePath="$USER_HOME$/workspace/PSMaps/bin/cz/projectsurvive/me/limeth/psmaps/surfaces/ImageMapSurface$ScaleMethod.class" afterPath="$USER_HOME$/workspace/PSMaps/bin/cz/projectsurvive/me/limeth/psmaps/surfaces/ImageMapSurface$ScaleMethod.class" />
-      <change type="MODIFICATION" beforePath="$USER_HOME$/workspace/PSMaps/bin/cz/projectsurvive/me/limeth/psmaps/surfaces/ImageMapSurface.class" afterPath="$USER_HOME$/workspace/PSMaps/bin/cz/projectsurvive/me/limeth/psmaps/surfaces/ImageMapSurface.class" />
-      <change type="MODIFICATION" beforePath="$USER_HOME$/workspace/PSMaps/bin/cz/projectsurvive/me/limeth/psmaps/MapAllocator.class" afterPath="$USER_HOME$/workspace/PSMaps/bin/cz/projectsurvive/me/limeth/psmaps/MapAllocator.class" />
-      <change type="MODIFICATION" beforePath="$USER_HOME$/workspace/PSMaps/bin/cz/projectsurvive/me/limeth/psmaps/MapIcon.class" afterPath="$USER_HOME$/workspace/PSMaps/bin/cz/projectsurvive/me/limeth/psmaps/MapIcon.class" />
-      <change type="MODIFICATION" beforePath="$USER_HOME$/workspace/PSMaps/bin/cz/projectsurvive/me/limeth/psmaps/MapSender$1.class" afterPath="$USER_HOME$/workspace/PSMaps/bin/cz/projectsurvive/me/limeth/psmaps/MapSender$1.class" />
-      <change type="MODIFICATION" beforePath="$USER_HOME$/workspace/PSMaps/bin/cz/projectsurvive/me/limeth/psmaps/MapSender.class" afterPath="$USER_HOME$/workspace/PSMaps/bin/cz/projectsurvive/me/limeth/psmaps/MapSender.class" />
-      <change type="MODIFICATION" beforePath="$USER_HOME$/workspace/PSMaps/bin/cz/projectsurvive/me/limeth/psmaps/surfaces/MapSurface.class" afterPath="$USER_HOME$/workspace/PSMaps/bin/cz/projectsurvive/me/limeth/psmaps/surfaces/MapSurface.class" />
-      <change type="MODIFICATION" beforePath="$USER_HOME$/workspace/PSMaps/bin/cz/projectsurvive/me/limeth/psmaps/MapTextureColors.class" afterPath="$USER_HOME$/workspace/PSMaps/bin/cz/projectsurvive/me/limeth/psmaps/MapTextureColors.class" />
-      <change type="MODIFICATION" beforePath="$USER_HOME$/workspace/PSMaps/bin/cz/projectsurvive/me/limeth/psmaps/views/MapView.class" afterPath="$USER_HOME$/workspace/PSMaps/bin/cz/projectsurvive/me/limeth/psmaps/views/MapView.class" />
-      <change type="MODIFICATION" beforePath="$USER_HOME$/workspace/PSMaps/bin/cz/projectsurvive/me/limeth/psmaps/views/MultiMapView$1.class" afterPath="$USER_HOME$/workspace/PSMaps/bin/cz/projectsurvive/me/limeth/psmaps/views/MultiMapView$1.class" />
-      <change type="MODIFICATION" beforePath="$USER_HOME$/workspace/PSMaps/bin/cz/projectsurvive/me/limeth/psmaps/views/MultiMapView.class" afterPath="$USER_HOME$/workspace/PSMaps/bin/cz/projectsurvive/me/limeth/psmaps/views/MultiMapView.class" />
-      <change type="MODIFICATION" beforePath="$USER_HOME$/workspace/PSMaps/bin/cz/projectsurvive/me/limeth/psmaps/filters/MultiplicativeNoiseFilter.class" afterPath="$USER_HOME$/workspace/PSMaps/bin/cz/projectsurvive/me/limeth/psmaps/filters/MultiplicativeNoiseFilter.class" />
-      <change type="MODIFICATION" beforePath="$USER_HOME$/workspace/PSClans/bin/cz/projectsurvive/me/limeth/psclans/MySQLConnection.class" afterPath="$USER_HOME$/workspace/PSClans/bin/cz/projectsurvive/me/limeth/psclans/MySQLConnection.class" />
-      <change type="MODIFICATION" beforePath="$USER_HOME$/workspace/OnePointEight/bin/cz/projectsurvive/me/limeth/OnePointEight.class" afterPath="$USER_HOME$/workspace/OnePointEight/bin/cz/projectsurvive/me/limeth/OnePointEight.class" />
-      <change type="MODIFICATION" beforePath="$USER_HOME$/workspace/PSMaps/bin/cz/projectsurvive/me/limeth/psmaps/surfaces/OverlayMapSurface.class" afterPath="$USER_HOME$/workspace/PSMaps/bin/cz/projectsurvive/me/limeth/psmaps/surfaces/OverlayMapSurface.class" />
-      <change type="MODIFICATION" beforePath="$USER_HOME$/workspace/PSClans/bin/cz/projectsurvive/me/limeth/psclans/PSClans.class" afterPath="$USER_HOME$/workspace/PSClans/bin/cz/projectsurvive/me/limeth/psclans/PSClans.class" />
-      <change type="MODIFICATION" beforePath="$USER_HOME$/workspace/PSMaps/bin/cz/projectsurvive/me/limeth/psmaps/PSMaps$1.class" afterPath="$USER_HOME$/workspace/PSMaps/bin/cz/projectsurvive/me/limeth/psmaps/PSMaps$1.class" />
-      <change type="MODIFICATION" beforePath="$USER_HOME$/workspace/PSMaps/bin/cz/projectsurvive/me/limeth/psmaps/PSMaps.class" afterPath="$USER_HOME$/workspace/PSMaps/bin/cz/projectsurvive/me/limeth/psmaps/PSMaps.class" />
-      <change type="MODIFICATION" beforePath="$USER_HOME$/workspace/OnePointEight/bin/net/darkseraphim/actionbar/PacketPlayOutActionBar.class" afterPath="$USER_HOME$/workspace/OnePointEight/bin/net/darkseraphim/actionbar/PacketPlayOutActionBar.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../dynamicdisplays/bin/cz/projectsurvive/limeth/dynamicdisplays/PlayerDisplay.class" afterPath="$PROJECT_DIR$/../dynamicdisplays/bin/cz/projectsurvive/limeth/dynamicdisplays/PlayerDisplay.class" />
-      <change type="MODIFICATION" beforePath="$USER_HOME$/workspace/OnePointEight/bin/net/darkseraphim/actionbar/ProxyHashBiMap$Inverse.class" afterPath="$USER_HOME$/workspace/OnePointEight/bin/net/darkseraphim/actionbar/ProxyHashBiMap$Inverse.class" />
-      <change type="MODIFICATION" beforePath="$USER_HOME$/workspace/OnePointEight/bin/net/darkseraphim/actionbar/ProxyHashBiMap.class" afterPath="$USER_HOME$/workspace/OnePointEight/bin/net/darkseraphim/actionbar/ProxyHashBiMap.class" />
-      <change type="MODIFICATION" beforePath="$USER_HOME$/workspace/RawChatManager/bin/cz/projectsurvive/me/limeth/rawchatmanager/RCMExecutor.class" afterPath="$USER_HOME$/workspace/RawChatManager/bin/cz/projectsurvive/me/limeth/rawchatmanager/RCMExecutor.class" />
-      <change type="MODIFICATION" beforePath="$USER_HOME$/workspace/RawChatManager/bin/cz/projectsurvive/me/limeth/rawchatmanager/RawChatManager.class" afterPath="$USER_HOME$/workspace/RawChatManager/bin/cz/projectsurvive/me/limeth/rawchatmanager/RawChatManager.class" />
-      <change type="MODIFICATION" beforePath="$USER_HOME$/workspace/PSMaps/bin/cz/projectsurvive/me/limeth/psmaps/surfaces/RegionMapSurface.class" afterPath="$USER_HOME$/workspace/PSMaps/bin/cz/projectsurvive/me/limeth/psmaps/surfaces/RegionMapSurface.class" />
-      <change type="MODIFICATION" beforePath="$USER_HOME$/workspace/PSMaps/bin/cz/projectsurvive/me/limeth/psmaps/views/SingleMapView.class" afterPath="$USER_HOME$/workspace/PSMaps/bin/cz/projectsurvive/me/limeth/psmaps/views/SingleMapView.class" />
-      <change type="MODIFICATION" beforePath="$USER_HOME$/workspace/OnePointEight/bin/cz/projectsurvive/me/limeth/TabHeader.class" afterPath="$USER_HOME$/workspace/OnePointEight/bin/cz/projectsurvive/me/limeth/TabHeader.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../dynamicdisplays/bin/cz/projectsurvive/limeth/dynamicdisplays/TimedPlayerDisplay$Executor.class" afterPath="$PROJECT_DIR$/../dynamicdisplays/bin/cz/projectsurvive/limeth/dynamicdisplays/TimedPlayerDisplay$Executor.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../dynamicdisplays/bin/cz/projectsurvive/limeth/dynamicdisplays/TimedPlayerDisplay.class" afterPath="$PROJECT_DIR$/../dynamicdisplays/bin/cz/projectsurvive/limeth/dynamicdisplays/TimedPlayerDisplay.class" />
-      <change type="MODIFICATION" beforePath="$USER_HOME$/workspace/OnePointEight/bin/cz/projectsurvive/me/limeth/Title.class" afterPath="$USER_HOME$/workspace/OnePointEight/bin/cz/projectsurvive/me/limeth/Title.class" />
-      <change type="MODIFICATION" beforePath="$USER_HOME$/workspace/PSClans/src/cz/projectsurvive/me/limeth/psclans/Clan.java" afterPath="$USER_HOME$/workspace/PSClans/src/cz/projectsurvive/me/limeth/psclans/Clan.java" />
-      <change type="MODIFICATION" beforePath="$USER_HOME$/workspace/PSClans/src/cz/projectsurvive/me/limeth/psclans/CommandExecutorClan.java" afterPath="$USER_HOME$/workspace/PSClans/src/cz/projectsurvive/me/limeth/psclans/CommandExecutorClan.java" />
-      <change type="MODIFICATION" beforePath="$USER_HOME$/workspace/PSClans/src/cz/projectsurvive/me/limeth/psclans/Config.java" afterPath="$USER_HOME$/workspace/PSClans/src/cz/projectsurvive/me/limeth/psclans/Config.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/scene/games/MapPoll.java" afterPath="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/scene/games/MapPoll.java" />
-      <change type="MODIFICATION" beforePath="$USER_HOME$/workspace/PSClans/src/cz/projectsurvive/me/limeth/psclans/MySQLConnection.java" afterPath="$USER_HOME$/workspace/PSClans/src/cz/projectsurvive/me/limeth/psclans/MySQLConnection.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/Rank.java" afterPath="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/Rank.java" />
+    <list default="true" id="8c5aa0ec-ae5e-4311-882f-bf2a5d8f137d" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.gitignore" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="mine-strike.iws" />
@@ -209,6 +108,7 @@
         <option value="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/MSConstant.java" />
         <option value="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/scene/games/MapPoll.java" />
         <option value="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/Rank.java" />
+        <option value="$PROJECT_DIR$/.gitignore" />
       </list>
     </option>
   </component>
@@ -334,6 +234,15 @@
     <property name="OverrideImplement.overriding.sorted" value="false" />
     <property name="restartRequiresConfirmation" value="true" />
     <property name="dynamic.classpath" value="false" />
+  </component>
+  <component name="Push.Settings">
+    <excluded-roots>
+      <path value="$PROJECT_DIR$/../dynamicdisplays" />
+      <path value="$USER_HOME$/workspace/OnePointEight" />
+      <path value="$USER_HOME$/workspace/PSClans" />
+      <path value="$USER_HOME$/workspace/PSMaps" />
+      <path value="$USER_HOME$/workspace/RawChatManager" />
+    </excluded-roots>
   </component>
   <component name="RunManager" selected="JAR Application.Server">
     <configuration default="true" type="Remote" factoryName="Remote">
@@ -630,12 +539,19 @@
       <workItem from="1421610525962" duration="973000" />
       <workItem from="1421768064015" duration="546000" />
       <workItem from="1421777134456" duration="576000" />
-      <workItem from="1421777803736" duration="289000" />
+      <workItem from="1421777803736" duration="557000" />
     </task>
+    <task id="LOCAL-00001" summary="Added the last ranks">
+      <created>1421778113090</created>
+      <option name="number" value="00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1421778113090</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="34126000" />
+    <option name="totallyTimeSpent" value="34394000" />
   </component>
   <component name="TodoView" selected-index="0">
     <todo-panel id="selected-file">
@@ -691,6 +607,9 @@
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32893288" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
+  <component name="UnknownFeatures">
+    <option featureType="com.intellij.fileTypeFactory" implementationName="*.gitignore" />
+  </component>
   <component name="Vcs.Log.UiProperties">
     <option name="RECENTLY_FILTERED_USER_GROUPS">
       <collection />
@@ -703,6 +622,7 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="VcsManagerConfiguration">
+    <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="myTodoPanelSettings">
       <TodoPanelSettings />
     </option>
@@ -727,20 +647,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/dbi/MSPlayerData.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.28944382" vertical-offset="153" max-vertical-offset="1615">
-          <caret line="26" column="4" selection-start-line="26" selection-start-column="4" selection-end-line="26" selection-end-column="4" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$USER_HOME$/Desktop/Coding/Java/Projects/Minecraft/Bukkit/1.8-based-1.7.10.jar!/org/bukkit/Bukkit.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-11.36" vertical-offset="243" max-vertical-offset="4250">
-          <caret line="81" column="27" selection-start-line="81" selection-start-column="27" selection-end-line="81" selection-end-column="27" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$USER_HOME$/workspace/OnePointEight/src/cz/projectsurvive/me/limeth/TabHeader.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.4919355" vertical-offset="1477" max-vertical-offset="5644">
@@ -1083,6 +989,22 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.5510204" vertical-offset="772" max-vertical-offset="6018">
           <caret line="104" column="22" selection-start-line="104" selection-start-column="22" selection-end-line="104" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.gitignore.swp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="868">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.gitignore">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.50851303" vertical-offset="249" max-vertical-offset="1173">
+          <caret line="41" column="0" selection-start-line="41" selection-start-column="0" selection-end-line="41" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
