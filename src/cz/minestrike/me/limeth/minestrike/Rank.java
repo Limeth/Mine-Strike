@@ -6,14 +6,6 @@ public enum Rank
 {
 	/*
 	 * Characters:
-	 * - *:
-	 *   - Small: ★
-	 *   - 3 points:
-	 *   	- outline: 』
-	 *   	- opaque: 」
-	 *   - 5 points:
-	 *   	- outline: 『
-	 *   	- opaque: 「
 	 * - >
 	 *   - One: 〈
 	 *   - Two: 〉
@@ -24,6 +16,19 @@ public enum Rank
 	 *   - Two: 〆
 	 *   - Three: 々
 	 *   - Four: 〄
+	 * - *:
+	 *   - Small: ★
+	 *   - 3 points:
+	 *   	- outline: 』
+	 *   	- opaque: 」
+	 *   - 5 points:
+	 *   	- outline: 『
+	 *   	- opaque: 「
+	 * - Master: 〟
+	 * - Global Elite:
+	 *   - Left wing: 〜
+	 *   - Globe: 〝
+	 *   - Right wing: 〞
 	 */
 	
 	SILVER_I(ChatColor.GRAY + "Silver I", "〈"),
@@ -54,8 +59,10 @@ public enum Rank
 	PLATINUM_VII(ChatColor.AQUA + "Platinum VII", "「『『"),
 	PLATINUM_VIII(ChatColor.AQUA + "Platinum VIII", "「「『"),
 	PLATINUM_IX(ChatColor.AQUA + "Platinum IX", "「「「"),
-	SUPREME_MASTER(ChatColor.LIGHT_PURPLE + "Supreme Master", ChatColor.LIGHT_PURPLE + "TODO"), //TODO
-	GLOBAL_ELITE(ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD + "Global Elite", ChatColor.LIGHT_PURPLE + "TODO"); //TODO
+	MASTER(ChatColor.LIGHT_PURPLE + "Master", "〟"),
+	SUPREME_MASTER(ChatColor.LIGHT_PURPLE + "Supreme Master", "〟〟"),
+	ELITE_MASTER(ChatColor.LIGHT_PURPLE + "Elite Master", "〟〟〟"),
+	GLOBAL_ELITE(ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD + "Global Elite", "〜〝〞");
 
 	private static final double DELAY = 1000, BASE = 2.5, RANK_MODIFIER = 0.125, MODIFIER = 105000;
 	private final String name, tag;
@@ -74,6 +81,9 @@ public enum Rank
 			return null;
 		
 		Rank[] ranks = values();
+
+		if(level > ranks.length)
+			return ranks[ranks.length - 1];
 		
 		return ranks[level - 1];
 	}

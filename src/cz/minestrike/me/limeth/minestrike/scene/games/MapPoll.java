@@ -85,6 +85,7 @@ public class MapPoll extends GamePhase<Game> implements Runnable
 		FilledArrayList<GameMap> availableMaps = game.getMaps();
 		String votedMapName = votedMap.getName();
 
+		//Move the map to the end of the queue
 		availableMaps.remove(votedMap);
 		availableMaps.add(votedMap);
 		
