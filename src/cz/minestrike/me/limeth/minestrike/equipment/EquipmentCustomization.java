@@ -1,31 +1,31 @@
 package cz.minestrike.me.limeth.minestrike.equipment;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-
+import com.google.common.collect.ImmutableList;
+import cz.minestrike.me.limeth.minestrike.MSPlayer;
+import cz.minestrike.me.limeth.minestrike.util.LoreAttributes;
 import org.bukkit.Color;
 import org.bukkit.FireworkEffect;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.FireworkEffectMeta;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import com.google.common.collect.ImmutableList;
-
-import cz.minestrike.me.limeth.minestrike.MSPlayer;
-import cz.minestrike.me.limeth.minestrike.util.LoreAttributes;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 public class EquipmentCustomization
 {
 	private final String name, skin;
+	private final boolean changeSkin;
 	private final Color color;
 	private final ImmutableList<String> preLore;
 	private final ImmutableList<String> postLore;
 	
-	private EquipmentCustomization(String name, String skin, Color color, ImmutableList<String> preLore, ImmutableList<String> postLore)
+	private EquipmentCustomization(String name, String skin, boolean changeSkin, Color color, ImmutableList<String> preLore, ImmutableList<String> postLore)
 	{
 		this.name = name;
 		this.skin = skin;
+		this.changeSkin = changeSkin;
 		this.color = color;
 		this.preLore = preLore;
 		this.postLore = postLore;
@@ -44,6 +44,7 @@ public class EquipmentCustomization
 	public static class EquipmentCustomizationBuilder
 	{
 		private String name, skin;
+		private boolean changeSkin;
 		private Color color;
 		private ImmutableList.Builder<String> preLore = ImmutableList.builder();
 		private ImmutableList.Builder<String> postLore = ImmutableList.builder();
@@ -52,7 +53,7 @@ public class EquipmentCustomization
 		
 		public EquipmentCustomization build()
 		{
-			return new EquipmentCustomization(name, skin, color, preLore.build(), postLore.build());
+			return new EquipmentCustomization(name, skin, changeSkin, color, preLore.build(), postLore.build());
 		}
 		
 		public EquipmentCustomizationBuilder name(String name)
@@ -64,6 +65,7 @@ public class EquipmentCustomization
 		public EquipmentCustomizationBuilder skin(String skin)
 		{
 			this.skin = skin;
+			this.changeSkin = true;
 			return this;
 		}
 		
@@ -122,7 +124,7 @@ public class EquipmentCustomization
 			if(im.hasLore())
 				newLore = im.getLore();
 			else
-				newLore = new ArrayList<String>();
+				newLore = new ArrayList<>();
 			
 			newLore.addAll(postLore);
 			im.setLore(newLore);
@@ -135,7 +137,7 @@ public class EquipmentCustomization
 			if(im.hasLore())
 				newLore = im.getLore();
 			else
-				newLore = new ArrayList<String>();
+				newLore = new ArrayList<>();
 			
 			newLore.addAll(preLore);
 			im.setLore(newLore);
@@ -149,25 +151,28 @@ public class EquipmentCustomization
 		}
 		
 		itemStack.setItemMeta(im);
-		
-		String skin = this.skin != null ? this.skin : equipment.getDefaultSkin(msPlayer);
-		
-		if(skin != null)
+
+		if(changeSkin)
 		{
-			LoreAttributes.TEMP.clear();
-			LoreAttributes.extract(itemStack, LoreAttributes.TEMP);
-			
-			if(LoreAttributes.TEMP.containsKey("Type"))
+			String skin = this.skin != null ? this.skin : equipment.getDefaultSkin(msPlayer);
+
+			if(skin != null)
 			{
-				String type = LoreAttributes.TEMP.get("Type");
-				String[] types = type.split(" \\| ");
-				
-				LoreAttributes.TEMP.put("Type", types[0] + " | " + skin);
+				LoreAttributes.TEMP.clear();
+				LoreAttributes.extract(itemStack, LoreAttributes.TEMP);
+
+				if(LoreAttributes.TEMP.containsKey("Type"))
+				{
+					String type = LoreAttributes.TEMP.get("Type");
+					String[] types = type.split(" \\| ");
+
+					LoreAttributes.TEMP.put("Type", types[0] + " | " + skin);
+				}
+				else
+					LoreAttributes.TEMP.put("Skin", skin);
+
+				LoreAttributes.TEMP.apply(itemStack);
 			}
-			else
-				LoreAttributes.TEMP.put("Skin", skin);
-			
-			LoreAttributes.TEMP.apply(itemStack);
 		}
 	}
 

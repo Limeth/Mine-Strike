@@ -1,17 +1,5 @@
 package cz.minestrike.me.limeth.minestrike.equipment;
 
-import java.util.Collection;
-import java.util.Map;
-import java.util.Set;
-
-import org.apache.commons.lang.Validate;
-import org.bukkit.craftbukkit.libs.com.google.gson.Gson;
-import org.bukkit.craftbukkit.libs.com.google.gson.GsonBuilder;
-import org.bukkit.craftbukkit.libs.com.google.gson.JsonArray;
-import org.bukkit.craftbukkit.libs.com.google.gson.JsonElement;
-import org.bukkit.craftbukkit.libs.com.google.gson.JsonObject;
-import org.bukkit.craftbukkit.libs.com.google.gson.JsonParser;
-
 import cz.minestrike.me.limeth.minestrike.equipment.cases.Case;
 import cz.minestrike.me.limeth.minestrike.equipment.grenades.GrenadeType;
 import cz.minestrike.me.limeth.minestrike.equipment.gson.CustomizedEquipmentAdapter;
@@ -25,77 +13,79 @@ import cz.minestrike.me.limeth.minestrike.equipment.simple.Kevlar;
 import cz.minestrike.me.limeth.minestrike.equipment.simple.KevlarAndHelmet;
 import cz.minestrike.me.limeth.minestrike.equipment.simple.Knife;
 import cz.minestrike.me.limeth.minestrike.scene.games.team.defuse.DefuseEquipmentProvider;
-import cz.minestrike.me.limeth.minestrike.util.collections.FilledHashSet;
+import cz.minestrike.me.limeth.minestrike.util.collections.FilledHashMap;
+import org.apache.commons.lang.Validate;
+import org.bukkit.craftbukkit.libs.com.google.gson.*;
+
+import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 public class EquipmentManager
 {
-	private static final FilledHashSet<Equipment> TYPES;
-	private static final Gson GSON = new GsonBuilder()
-		.registerTypeAdapter(Equipment.class, EquipmentAdapter.INSTANCE)
-		.registerTypeAdapter(EquipmentCustomization.class, EquipmentCustomizationAdapter.INSTANCE)
-		.registerTypeAdapter(CustomizedEquipment.class, CustomizedEquipmentAdapter.INSTANCE)
-		.registerTypeAdapter(Gun.class, GunAdapter.INSTANCE)
-		.create();
+	private static final FilledHashMap<String, Equipment> TYPES;
+	private static final Gson       GSON   = new GsonBuilder().registerTypeAdapter(Equipment.class, EquipmentAdapter.INSTANCE).registerTypeAdapter(EquipmentCustomization.class, EquipmentCustomizationAdapter.INSTANCE).registerTypeAdapter(CustomizedEquipment.class, CustomizedEquipmentAdapter.INSTANCE).registerTypeAdapter(Gun.class, GunAdapter.INSTANCE).create();
 	private static final JsonParser PARSER = new JsonParser();
-	
+
 	static
 	{
-		TYPES = new FilledHashSet<Equipment>();
-		
+		TYPES = new FilledHashMap<>();
+
 		addAll(TYPES, GunType.values());
 		addAll(TYPES, GrenadeType.values());
-		
-		TYPES.add(Kevlar.KEVLAR);
-		TYPES.add(Helmet.HELMET);
-		TYPES.add(KevlarAndHelmet.KEVLAR_AND_HELMET);
-		TYPES.add(Knife.KNIFE);
-		
+
+		add(TYPES, Kevlar.KEVLAR);
+		add(TYPES, Helmet.HELMET);
+		add(TYPES, KevlarAndHelmet.KEVLAR_AND_HELMET);
+		add(TYPES, Knife.KNIFE);
+
 		//Defuse
-		TYPES.add(DefuseEquipmentProvider.BOMB);
-		TYPES.add(DefuseEquipmentProvider.DEFUSE_KIT_DEFAULT);
-		TYPES.add(DefuseEquipmentProvider.DEFUSE_KIT_BOUGHT);
-		
+		add(TYPES, DefuseEquipmentProvider.BOMB);
+		add(TYPES, DefuseEquipmentProvider.DEFUSE_KIT_DEFAULT);
+		add(TYPES, DefuseEquipmentProvider.DEFUSE_KIT_BOUGHT);
+
 		for(Case caze : Case.values())
 		{
-			TYPES.add(caze);
-			TYPES.add(caze.getKey());
+			add(TYPES, caze);
+			add(TYPES, caze.getKey());
 		}
 	}
-	
-	private static void addAll(Collection<Equipment> collection, Equipment... array)
+
+	private static void addAll(Map<String, Equipment> collection, Equipment... array)
 	{
 		for(Equipment object : array)
-			collection.add(object);
+			add(collection, object);
 	}
-	
+
+	private static void add(Map<String, Equipment> collection, Equipment equipment)
+	{
+		collection.put(equipment.getId(), equipment);
+	}
+
 	public static Equipment getEquipment(String id)
 	{
 		Validate.notNull(id, "The ID cannot be null!");
-		
-		for(Equipment type : TYPES)
-			if(id.equals(type.getId()))
-				return type;
-		
-		return null;
+
+		return TYPES.get(id);
 	}
-	
+
 	public static String toJsonAll(Equipment[] array)
 	{
 		JsonArray result = new JsonArray();
-		
+
 		for(Equipment equipment : array)
 			result.add(toJsonElement(equipment));
-		
+
 		return GSON.toJson(result);
 	}
-	
+
 	public static JsonElement toJsonElement(Equipment equipment)
 	{
 		Class<? extends Equipment> clazz = equipment.getEquipmentClass();
-		
+
 		return GSON.toJsonTree(equipment, clazz);
 	}
-	
+
 	public static String toJson(Equipment equipment)
 	{
 		return GSON.toJson(toJsonElement(equipment));
@@ -150,11 +140,6 @@ public class EquipmentManager
 	@SuppressWarnings("unchecked")
 	public static Set<Equipment> getEquipment()
 	{
-		return (Set<Equipment>) TYPES.clone();
-	}
-	
-	public static interface EquipmentDeserializer
-	{
-		public CustomizedEquipment<? extends Equipment> deserialize(Equipment type, Map<String, Object> map);
+		return TYPES.values().stream().collect(Collectors.toSet());
 	}
 }

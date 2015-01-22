@@ -1,12 +1,5 @@
 package cz.minestrike.me.limeth.minestrike.equipment.cases;
 
-import java.util.Random;
-
-import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.ItemStack;
-
 import cz.minestrike.me.limeth.minestrike.MSConstant;
 import cz.minestrike.me.limeth.minestrike.MSPlayer;
 import cz.minestrike.me.limeth.minestrike.MineStrike;
@@ -15,6 +8,12 @@ import cz.minestrike.me.limeth.minestrike.equipment.Equipment;
 import cz.minestrike.me.limeth.minestrike.equipment.containers.InventoryContainer;
 import cz.minestrike.me.limeth.minestrike.util.SoundManager;
 import cz.minestrike.me.limeth.minestrike.util.collections.FilledArrayList;
+import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
+
+import java.util.Random;
 
 public class CaseOpening implements Runnable
 {
@@ -27,7 +26,7 @@ public class CaseOpening implements Runnable
 	private final Case caze;
 	private final CaseContent result;
 	private Inventory inventory;
-	private FilledArrayList<Equipment> shownEquipment;
+	private FilledArrayList<CaseContent> shownContent;
 	private Integer taskId;
 	private int speed;
 	
@@ -43,7 +42,7 @@ public class CaseOpening implements Runnable
 		if(taskId != null)
 			throw new RuntimeException("This opening has already been started.");
 		
-		shownEquipment = initShownEquipment();
+		shownContent = initShownContent();
 		speed = INITIAL_SPEED;
 		SoundManager.play(SOUND_OPEN, msPlayer.getPlayer());
 		openInventory();
@@ -88,27 +87,25 @@ public class CaseOpening implements Runnable
 		player.openInventory(inventory);
 	}
 	
-	private FilledArrayList<Equipment> initShownEquipment()
+	private FilledArrayList<CaseContent> initShownContent()
 	{
-		FilledArrayList<Equipment> list = new FilledArrayList<Equipment>();
+		FilledArrayList<CaseContent> list = new FilledArrayList<>();
 		Random random = new Random();
 		
 		for(int i = 0; i < SHOWN_EQUIPMENT_AMOUNT; i++)
 		{
-			Equipment equipment;
-			
+			CaseContent content;
+
 			if(i == SHOWN_EQUIPMENT_AMOUNT - 5)
-				equipment = result.getEquipment();
+				content = result;
 			else
 			{
 				CaseContentRarity rarity = CaseContentRarity.getRandom(random);
 				FilledArrayList<CaseContent> rarityEquipment = caze.getContents(rarity);
-				CaseContent randomContent = rarityEquipment.get(random.nextInt(rarityEquipment.size()));
-				
-				equipment = randomContent.getEquipment();
+				content = rarityEquipment.get(random.nextInt(rarityEquipment.size()));
 			}
 			
-			list.add(equipment);
+			list.add(content);
 		}
 		
 		return list;
@@ -119,16 +116,16 @@ public class CaseOpening implements Runnable
 		return INITIAL_SPEED - speed;
 	}
 	
-	private FilledArrayList<Equipment> getCurrentlyShownEquipment()
+	private FilledArrayList<CaseContent> getCurrentlyShownContent()
 	{
-		FilledArrayList<Equipment> currentlyShown = new FilledArrayList<Equipment>();
+		FilledArrayList<CaseContent> currentlyShown = new FilledArrayList<>();
 		
 		for(int i = 0; i < VIEW_WIDTH; i++)
 		{
 			int index = getIndex() + i;
-			Equipment equipment = shownEquipment.get(index);
+			CaseContent content = shownContent.get(index);
 			
-			currentlyShown.add(equipment);
+			currentlyShown.add(content);
 		}
 		
 		return currentlyShown;
@@ -136,15 +133,19 @@ public class CaseOpening implements Runnable
 	
 	private void equipShownEquipment()
 	{
-		FilledArrayList<Equipment> shownEquipment = getCurrentlyShownEquipment();
+		FilledArrayList<CaseContent> shownContent = getCurrentlyShownContent();
 		
-		for(int i = 0; i < shownEquipment.size(); i++)
+		for(int i = 0; i < shownContent.size(); i++)
 		{
-			Equipment equipment = shownEquipment.get(i);
+			CaseContent content = shownContent.get(i);
+			CaseContentRarity rarity = content.getRarity();
+			Equipment equipment = content.getEquipment();
 			int index = MSConstant.INVENTORY_WIDTH * 3 + 1 + i;
 			ItemStack item = equipment.newItemStack(msPlayer);
-			
+
+			inventory.setItem(index - MSConstant.INVENTORY_WIDTH, rarity.getItemDisplayTop());
 			inventory.setItem(index, item);
+			inventory.setItem(index + MSConstant.INVENTORY_WIDTH, rarity.getItemDisplayBottom());
 		}
 	}
 	

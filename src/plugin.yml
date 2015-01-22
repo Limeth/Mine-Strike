@@ -1,5 +1,5 @@
 name: MineStrike
-version: 1.0.3
+version: 1.0.4
 main: cz.minestrike.me.limeth.minestrike.MineStrike
 author: Limeth
 depend: [WorldEdit, ProtocolLib, DynamicDisplays, PSMaps]
