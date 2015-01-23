@@ -1,15 +1,14 @@
 package cz.minestrike.me.limeth.minestrike.listeners.msPlayer;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-
+import cz.minestrike.me.limeth.minestrike.MSPlayer;
+import cz.minestrike.me.limeth.minestrike.MineStrike;
+import cz.minestrike.me.limeth.minestrike.util.collections.FilledHashMap;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
 
-import cz.minestrike.me.limeth.minestrike.MSPlayer;
-import cz.minestrike.me.limeth.minestrike.MineStrike;
-import cz.minestrike.me.limeth.minestrike.util.collections.FilledHashMap;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 
 public abstract class MSListener implements MSListenerRedirector
 {
@@ -24,30 +23,38 @@ public abstract class MSListener implements MSListenerRedirector
 	@SuppressWarnings("unchecked")
 	private FilledHashMap<Class<? extends Event>, Method> findEventMethods()
 	{
-		FilledHashMap<Class<? extends Event>, Method> methods = new FilledHashMap<Class<? extends Event>, Method>();
-		
-		for(Method method : getClass().getDeclaredMethods())
+		FilledHashMap<Class<? extends Event>, Method> methods = new FilledHashMap<>();
+		Class<?> currentClass = getClass();
+
+		while(currentClass != MSListener.class)
 		{
-			if(!method.isAnnotationPresent(EventHandler.class))
-				continue;
-			
-			if(!method.isAccessible())
-				try
-				{
-					method.setAccessible(true);
-				}
-				catch(Exception e) { continue; }
-			
-			Class<?>[] parameterTypes = method.getParameterTypes();
-			
-			if(parameterTypes.length != 2)
-				continue;
-			
-			if(!Event.class.isAssignableFrom(parameterTypes[0])
-					|| !MSPlayer.class.isAssignableFrom(parameterTypes[1]))
-				continue;
-			
-			methods.put((Class<? extends Event>) parameterTypes[0], method);
+			for(Method method : currentClass.getDeclaredMethods())
+			{
+				if(!method.isAnnotationPresent(EventHandler.class))
+					continue;
+
+				if(!method.isAccessible())
+					try
+					{
+						method.setAccessible(true);
+					}
+					catch(Exception e)
+					{
+						continue;
+					}
+
+				Class<?>[] parameterTypes = method.getParameterTypes();
+
+				if(parameterTypes.length != 2)
+					continue;
+
+				if(!Event.class.isAssignableFrom(parameterTypes[0]) || !MSPlayer.class.isAssignableFrom(parameterTypes[1]))
+					continue;
+
+				methods.put((Class<? extends Event>) parameterTypes[0], method);
+			}
+
+			currentClass = currentClass.getSuperclass();
 		}
 		
 		return this.eventMethods = methods;

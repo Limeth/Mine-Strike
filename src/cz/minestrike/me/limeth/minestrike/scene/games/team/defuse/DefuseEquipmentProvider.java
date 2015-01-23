@@ -87,7 +87,7 @@ public class DefuseEquipmentProvider implements EquipmentProvider
 		EquipmentSectionEntry[] gearCTNew = new EquipmentSectionEntry[]
 				{ EquipmentSectionEntry.valueOf(DefuseEquipmentProvider.DEFUSE_KIT_BOUGHT) };
 		EquipmentSectionEntry[] gearCT = ArrayUtils.addAll(gearCTNew, gearCTOriginal);
-		EquipmentSection gear = new EquipmentSection(EquipmentSection.GEAR.getId(), EquipmentSection.GEAR.getTranslation(), EquipmentSection.GEAR.getIcon(), gearTOriginal, gearCT);
+		EquipmentSection gear = new EquipmentSection(EquipmentSection.GEAR.getId(), EquipmentSection.GEAR.getTranslation(), gearTOriginal, gearCT);
 		
 		categories.add(gear);
 		categories.add(EquipmentSection.GRENADES);

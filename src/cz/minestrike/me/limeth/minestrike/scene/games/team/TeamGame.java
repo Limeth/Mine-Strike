@@ -1,11 +1,5 @@
 package cz.minestrike.me.limeth.minestrike.scene.games.team;
 
-import java.util.Collections;
-
-import org.bukkit.Location;
-import org.bukkit.entity.Player;
-import org.bukkit.event.Event;
-
 import cz.minestrike.me.limeth.minestrike.MSPlayer;
 import cz.minestrike.me.limeth.minestrike.areas.Structure;
 import cz.minestrike.me.limeth.minestrike.areas.schemes.GameMap;
@@ -15,6 +9,12 @@ import cz.minestrike.me.limeth.minestrike.scene.games.GameType;
 import cz.minestrike.me.limeth.minestrike.scene.games.Team;
 import cz.minestrike.me.limeth.minestrike.scene.games.VoiceSound;
 import cz.minestrike.me.limeth.minestrike.util.collections.FilledArrayList;
+import org.apache.commons.lang.Validate;
+import org.bukkit.Location;
+import org.bukkit.entity.Player;
+import org.bukkit.event.Event;
+
+import java.util.Collections;
 
 public abstract class TeamGame extends Game
 {
@@ -120,6 +120,13 @@ public abstract class TeamGame extends Game
 	public void setTeam(MSPlayer msPlayer, Team team)
 	{
 		msPlayer.setCustomData(CUSTOM_DATA_TEAM, team);
+	}
+
+	public boolean isDead(Team team)
+	{
+		Validate.notNull(team, "The team cannot be null!");
+
+		return getPlayingPlayers(p -> { return getTeam(p) == team && !isDead(p); }).size() <= 0;
 	}
 	
 	public void playRadioSound(MSPlayer msPlayer, VoiceSound sound)

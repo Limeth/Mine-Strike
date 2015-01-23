@@ -1,17 +1,18 @@
 package cz.minestrike.me.limeth.minestrike.scene.games;
 
+import cz.minestrike.me.limeth.minestrike.MSPlayer;
+import cz.minestrike.me.limeth.minestrike.Translation;
+import cz.minestrike.me.limeth.minestrike.equipment.Equipment;
+import cz.minestrike.me.limeth.minestrike.events.ArenaDeathEvent;
+import cz.minestrike.me.limeth.minestrike.listeners.msPlayer.MSSceneListener;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.event.entity.PlayerDeathEvent;
-
-import cz.minestrike.me.limeth.minestrike.MSPlayer;
-import cz.minestrike.me.limeth.minestrike.Translation;
-import cz.minestrike.me.limeth.minestrike.equipment.Equipment;
-import cz.minestrike.me.limeth.minestrike.listeners.msPlayer.MSSceneListener;
-import cz.minestrike.me.limeth.minestrike.scene.Scene;
+import org.bukkit.plugin.PluginManager;
 
 public class MSInteractionListener extends MSSceneListener<Game>
 {
@@ -23,16 +24,19 @@ public class MSInteractionListener extends MSSceneListener<Game>
 	@EventHandler
 	public void onPlayerDeath(PlayerDeathEvent event, MSPlayer msPlayer)
 	{
-		Scene scene = msPlayer.getScene();
+		Game game = getScene();
 		
-		if(!(scene instanceof Game))
-			throw new RuntimeException("The scene " + scene + " isn't an instance of game.");
-		
-		Game game = (Game) scene;
-		
-		if(!game.isPlayerPlaying().test(msPlayer))
+		if(!game.isPlayerPlaying().test(msPlayer) || game.isDead(msPlayer))
 			return;
-		
+
+		ArenaDeathEvent arenaEvent = new ArenaDeathEvent(game, msPlayer);
+		PluginManager pm = Bukkit.getPluginManager();
+
+		pm.callEvent(arenaEvent);
+
+		if(arenaEvent.isCancelled())
+			return;
+
 		MSPlayer msKiller = msPlayer.getLastDamageSource();
 		String message;
 		
@@ -40,18 +44,18 @@ public class MSInteractionListener extends MSSceneListener<Game>
 		{
 			msPlayer.removeReceivedDamage(msKiller);
 			
-			MSPlayer assister = msPlayer.getPlayerAssistedInKill();
+			MSPlayer assistant = msPlayer.getPlayerAssistedInKill();
 			Equipment weapon = msPlayer.getLastDamageWeapon();
 			
-			if(assister != null)
+			if(assistant != null)
 			{
 				if(weapon != null)
 				{
 					if(msKiller.equals(msPlayer))
-						message = Translation.GAME_DEATH_SUICIDE_ASSIST.getMessage(msPlayer.getNameTag(), weapon.getDisplayName(), assister.getNameTag());
+						message = Translation.GAME_DEATH_SUICIDE_ASSIST.getMessage(msPlayer.getNameTag(), weapon.getDisplayName(), assistant.getNameTag());
 					else
 					{
-						message = Translation.GAME_DEATH_WEAPONSOURCE_ASSIST.getMessage(msPlayer.getNameTag(), msKiller.getNameTag(), weapon.getDisplayName(), assister.getNameTag());
+						message = Translation.GAME_DEATH_WEAPONSOURCE_ASSIST.getMessage(msPlayer.getNameTag(), msKiller.getNameTag(), weapon.getDisplayName(), assistant.getNameTag());
 						
 						msKiller.addXP(game.getXPForKill(msPlayer, msKiller));
 						msKiller.addKills(1);
@@ -61,17 +65,17 @@ public class MSInteractionListener extends MSSceneListener<Game>
 				}
 				else
 				{
-					message = Translation.GAME_DEATH_SOURCE_ASSIST.getMessage(msPlayer.getNameTag(), msKiller.getNameTag(), assister.getNameTag());
+					message = Translation.GAME_DEATH_SOURCE_ASSIST.getMessage(msPlayer.getNameTag(), msKiller.getNameTag(), assistant.getNameTag());
 					
 					msKiller.addXP(game.getXPForKill(msPlayer, msKiller));
 					msKiller.addKills(1);
 				}
 				
-				double dmg = msPlayer.getReceivedDamage(assister);
+				double dmg = msPlayer.getReceivedDamage(assistant);
 				int xp = (int) Math.ceil((dmg * 5) - 25);
 				
-				assister.addXP(xp);
-				assister.addAssists(1);
+				assistant.addXP(xp);
+				assistant.addAssists(1);
 			}
 			else
 			{
@@ -103,9 +107,10 @@ public class MSInteractionListener extends MSSceneListener<Game>
 		}
 		else
 			message = Translation.GAME_DEATH_UNKNOWN.getMessage(msPlayer.getNameTag());
-		
+
 		msPlayer.addDeaths(1);
-		scene.broadcast(message);
+		game.setDead(msPlayer, true);
+		game.broadcast(message);
 	}
 	
 	@EventHandler

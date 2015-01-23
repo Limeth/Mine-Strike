@@ -56,7 +56,8 @@ import cz.minestrike.me.limeth.minestrike.util.collections.FilledArrayList;
 
 public abstract class Game extends Scene
 {
-	private static final String SOUND_JOIN = "projectsurvive:counterstrike.ui.valve_logo_music";
+	private static final String SOUND_JOIN = "projectsurvive:counterstrike.ui.valve_logo_music",
+								CUSTOM_DATA_DEAD = "MineStrike.game.dead";
 	@Expose private final GameType type;
 	@Expose private final String id;
 	@Expose private String name;
@@ -115,21 +116,35 @@ public abstract class Game extends Scene
 			firstStart();
 	}
 	
-	public void joinMenu(MSPlayer msPlayer)
+	public void joinMenu(MSPlayer msPlayer, boolean spawn)
 	{
 		msPlayer.setPlayerState(PlayerState.MENU_GAME);
 		msPlayer.setPlayerStructure(menuStructure);
-		msPlayer.spawn(true);
+
+		if(spawn)
+			msPlayer.spawn(true);
+	}
+
+	public void joinMenu(MSPlayer msPlayer)
+	{
+		joinMenu(msPlayer, true);
 	}
 	
-	public void joinLobby(MSPlayer msPlayer)
+	public void joinLobby(MSPlayer msPlayer, boolean spawn)
 	{
 		msPlayer.setPlayerState(PlayerState.LOBBY_GAME);
 		msPlayer.setPlayerStructure(lobbyStructure);
-		msPlayer.spawn(true);
+
+		if(spawn)
+			msPlayer.spawn(true);
+	}
+
+	public void joinLobby(MSPlayer msPlayer)
+	{
+		joinLobby(msPlayer, true);
 	}
 	
-	public boolean quitArena(MSPlayer msPlayer)
+	public boolean quitArena(MSPlayer msPlayer, boolean spawn)
 	{
 		ArenaQuitEvent event = new ArenaQuitEvent(this, msPlayer);
 		PluginManager pm = Bukkit.getPluginManager();
@@ -140,11 +155,16 @@ public abstract class Game extends Scene
 			return false;
 		
 		if(owner != null && owner.equals(msPlayer))
-			joinLobby(msPlayer);
+			joinLobby(msPlayer, spawn);
 		else
-			joinMenu(msPlayer);
+			joinMenu(msPlayer, spawn);
 		
 		return true;
+	}
+
+	public boolean quitArena(MSPlayer msPlayer)
+	{
+		return quitArena(msPlayer, true);
 	}
 	
 	@SuppressWarnings("deprecation")
@@ -191,6 +211,18 @@ public abstract class Game extends Scene
 	public Set<MSPlayer> getPlayingPlayers(Predicate<MSPlayer> predicate)
 	{
 		return getPlayers(p -> isPlayerPlaying().test(p) && predicate.test(p));
+	}
+
+	public boolean isDead(MSPlayer msPlayer)
+	{
+		Boolean dead = msPlayer.getCustomData(Boolean.class, CUSTOM_DATA_DEAD);
+
+		return dead != null ? dead : false;
+	}
+
+	public void setDead(MSPlayer msPlayer, boolean value)
+	{
+		msPlayer.setCustomData(CUSTOM_DATA_DEAD, value);
 	}
 	
 	@Override
@@ -423,6 +455,9 @@ public abstract class Game extends Scene
 		Bukkit.getPluginManager().callEvent(event);
 		
 		if(event.isCancelled())
+			return false;
+
+		if(!quitArena(msPlayer, false))
 			return false;
 		
 		players.remove(msPlayer);

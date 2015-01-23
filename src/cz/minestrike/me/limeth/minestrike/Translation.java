@@ -1,10 +1,10 @@
 package cz.minestrike.me.limeth.minestrike;
 
-import java.io.File;
-import java.io.IOException;
-
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.YamlConfiguration;
+
+import java.io.File;
+import java.io.IOException;
 
 public enum Translation
 {
@@ -79,171 +79,191 @@ public enum Translation
 	BUTTON_CASE_ERROR_KEYNOTFOUND("&cYou don't have a(n) {1}&f Case &lKey&c.", "&cNemáte žádny &f&lKlíč&f pro {1}&f Bednu&c."),
 	BUTTON_KEY_USE("&f&lUnlock a(n) {1}&f&l case.", "&f&lOtevřít {1}&f&l Bednu"),
 	BUTTON_KEY_ERROR_CASENOTFOUND("&cYou don't have a(n) {1}&f Case&c.", "&cNemáte žádnou {1}&f Bednu&c."),
-	
-	INVENTORY_TITLE("Inventory", "Inventár"),
-	INVENTORY_SELECTION_TITLE("Selection", "Vyber"),
-	CASE_TITLE("Case", "Bedna"),
-	
-	XP_GAIN("&aYou have gained &l{1}&a experience.", "&aZískal(a) jste &l{1}&a zkuseností."),
-	XP_LOSS("&cYou have lost &l{1}&c experience.", "&cZtratil(a) jste &l{1}&c zkuseností."),
-	XP_LEVEL_UPGRADE("&aYou now have the &r{1}&a rank!", "&aNyní máte &r{1}&a rank!"),
-	XP_LEVEL_DOWNGRADE("&cYou now have the &r{1}&c rank!", "&cNyní máte &r{1}&c rank!"),
-	
+	BUTTON_QUITGAME("&4Quit the game", "&4Opustit hru"),
+	BUTTON_TEAMCHANGE("&fChange team", "&fZmenit tym"),
+
+	INVENTORY_TITLE("Inventory","Inventár"),
+
+	INVENTORY_SELECTION_TITLE("Selection","Vyber"),
+
+	CASE_TITLE("Case","Bedna"),
+
+	XP_GAIN("&aYou have gained &l{1}&a experience.","&aZískal(a) jste &l{1}&a zkuseností."),
+
+	XP_LOSS("&cYou have lost &l{1}&c experience.","&cZtratil(a) jste &l{1}&c zkuseností."),
+
+	XP_LEVEL_UPGRADE("&aYou now have the &r{1}&a rank!","&aNyní máte &r{1}&a rank!"),
+
+	XP_LEVEL_DOWNGRADE("&cYou now have the &r{1}&c rank!","&cNyní máte &r{1}&c rank!"),
+
 	DISPLAY_RANK_TITLE("{1}  {2}"),
-	DISPLAY_RANK_SUBTITLE("&8[{1}&8]  &7{2} / {3} XP", "&8[{1}&8]  &7{2} / {3} ZK"),
-	DISPLAY_RANK_NOTYET_1("&7You don't have a rank yet.", "&7Zatím nemáte hodnost."),
-	DISPLAY_RANK_NOTYET_2("&fProgress:", "&fPrubeh:"),
-	DISPLAY_RANK_BOTTOM("&7{1} / {2} XP", "&7{1} / {2} ZK"),
-	
-	COMMAND_TOP_COOLDOWN("&cYou can use this command in {1} seconds again.", "&cTento príkaz muzete znovu pouzit za {1} sekund."),
-	COMMAND_TOP_INVALIDPAGE("&cInvalid page!", "&cNesprávná strana!"),
-	COMMAND_TOP_ENTRY("&8[&7{1}&8|&f{2}&8]&f {3}&7   {4} XP", "&8[&7{1}&8|&7{2}&8]&f {3}&7   {4} ZK"),
-	
+
+	DISPLAY_RANK_SUBTITLE("&8[{1}&8]  &7{2} / {3} XP","&8[{1}&8]  &7{2} / {3} ZK"),
+
+	DISPLAY_RANK_NOTYET_1("&7You don't have a rank yet.","&7Zatím nemáte hodnost."),
+
+	DISPLAY_RANK_NOTYET_2("&fProgress:","&fPrubeh:"),
+
+	DISPLAY_RANK_BOTTOM("&7{1} / {2} XP","&7{1} / {2} ZK"),
+
+	COMMAND_TOP_COOLDOWN("&cYou can use this command in {1} seconds again.","&cTento príkaz muzete znovu pouzit za {1} sekund."),
+
+	COMMAND_TOP_INVALIDPAGE("&cInvalid page!","&cNesprávná strana!"),
+
+	COMMAND_TOP_ENTRY("&8[&7{1}&8|&f{2}&8]&f {3}&7   {4} XP","&8[&7{1}&8|&7{2}&8]&f {3}&7   {4} ZK"),
+
 	TAB_HEADER("&8&l»&9&lMINE&f&l-&6&lSTRIKE&8&l«"),
-	TAB_LOBBY_FOOTER("&lWebsite not specified.", "&lWeb nebyl urcen."),
+
+	TAB_LOBBY_FOOTER("&lWebsite not specified.","&lWeb nebyl urcen."),
+
 	TAB_GAME_DEFUSE_FOOTER("&9{3} &8[ &9&l{1} &f: &6&l{2} &8] &6{4}"),
-	
-	ACTIONBAR_GAME_DEFUSE_BOMB_PLANTED_T("&4&lThe bomb has been planted, don't let them defuse it.", "&4&lBomba byla polozena, kryj ji."),
-	ACTIONBAR_GAME_DEFUSE_BOMB_PLANTED_CT("&4&lThe bomb has been planted, defuse it.", "&4&lBomba byla polozena, zneskodni ji."),
-	
+
+	ACTIONBAR_GAME_DEFUSE_BOMB_PLANTED_T("&4&lThe bomb has been planted, don't let them defuse it.","&4&lBomba byla polozena, kryj ji."),
+
+	ACTIONBAR_GAME_DEFUSE_BOMB_PLANTED_CT("&4&lThe bomb has been planted, defuse it.","&4&lBomba byla polozena, zneskodni ji."),
+
+	REWARD_GIVEN("&ePlayer &r{1}&e was awarded by a gift: &r{2}","&eHrác &r{1}&e byl za aktivitu odmenen dárkem: &r{2}"),
+
 	CLAN_CREATE_ERROR_LOWRANK("&cYour rank must be &6Gold I &cor higher to create a clan. Purchase &8[&bVIP&8] &cto create it now.",
-			"&cVase hodnost musí byt alespon &6Gold I&c. Kupte si &8[&bVIP&8] &cpro vytvorení klanu nyní."),
-	;
-	
+			                          "&cVase hodnost musí byt alespon &6Gold I&c. Kupte si &8[&bVIP&8] &cpro vytvorení klanu nyní."),;
+
 	public static final String ENGLISH_NAME = "en", CZECH_NAME = "cz", DEFAULT_LANGUAGE_NAME = ENGLISH_NAME;
 	private final String defaultEN;
 	private final String defaultCZ;
 	private String message;
-	
+
 	private Translation(String defaultEN, String defaultCZ)
 	{
 		this.defaultEN = defaultEN;
 		this.defaultCZ = defaultCZ;
 		setMessage(defaultEN);
 	}
-	
+
 	private Translation(String def)
 	{
 		this(def, def);
 	}
-	
+
 	public static void load()
 	{
 		try
 		{
 			refreshDefaultFiles();
 		}
-		catch(IOException e) { System.out.println(e); }
-		
+		catch(IOException e)
+		{
+			System.out.println(e);
+		}
+
 		File file = getFile(MSConfig.getLanguageName());
-		
+
 		if(!file.isFile())
 			return;
-		
+
 		YamlConfiguration yml = YamlConfiguration.loadConfiguration(file);
-		
+
 		for(Translation msg : values())
 		{
 			String yamlName = msg.yamlName();
-			
+
 			if(yml.contains(yamlName))
 			{
 				String value = yml.getString(yamlName);
-				
+
 				msg.setMessage(value);
 			}
 		}
 	}
-	
+
 	private static void refreshDefaultFiles() throws IOException
 	{
 		refreshEnglishFile();
 		refreshCzechFile();
 	}
-	
+
 	private static void refreshEnglishFile() throws IOException
 	{
 		File enFile = getFile(ENGLISH_NAME);
-		
+
 		if(!enFile.isFile())
 		{
 			if(enFile.exists())
 				enFile.delete();
-			
+
 			enFile.getParentFile().mkdirs();
 			enFile.createNewFile();
 		}
-		
+
 		YamlConfiguration yml = YamlConfiguration.loadConfiguration(enFile);
-		
+
 		for(Translation msg : values())
 		{
 			String yamlName = msg.yamlName();
-			
+
 			if(!yml.contains(yamlName))
 			{
 				String value = msg.defaultEN;
-				
+
 				yml.set(yamlName, value);
 			}
 		}
-		
+
 		yml.save(enFile);
 	}
-	
+
 	private static void refreshCzechFile() throws IOException
 	{
 		File czFile = getFile(CZECH_NAME);
-		
+
 		if(!czFile.isFile())
 		{
 			if(czFile.exists())
 				czFile.delete();
-			
+
 			czFile.getParentFile().mkdirs();
 			czFile.createNewFile();
 		}
-		
+
 		YamlConfiguration yml = YamlConfiguration.loadConfiguration(czFile);
-		
+
 		for(Translation msg : values())
 		{
 			String yamlName = msg.yamlName();
-			
+
 			if(!yml.contains(yamlName))
 			{
 				String value = msg.defaultCZ;
-				
+
 				yml.set(yamlName, value);
 			}
 		}
-		
+
 		yml.save(czFile);
 	}
-	
+
 	public static File getFile(String language)
 	{
 		return new File("plugins/MineStrike/lang_" + language + ".yml");
 	}
-	
+
 	public String yamlName()
 	{
 		return name().toLowerCase().replace('_', '.');
 	}
-	
+
 	public String getMessage(Object... args)
 	{
 		String result = message;
-		
+
 		for(int i = 0; i < args.length; i++)
 		{
 			String value = args[i].toString();
 			result = result.replaceAll("\\{" + (i + 1) + "\\}", value);
 		}
-		
+
 		return result;
 	}
-	
+
 	public String getMessage()
 	{
 		return message;
@@ -253,4 +273,4 @@ public enum Translation
 	{
 		this.message = ChatColor.translateAlternateColorCodes('&', message);
 	}
-}
+	}

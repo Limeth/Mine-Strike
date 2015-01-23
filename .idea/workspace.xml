@@ -8,24 +8,31 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8c5aa0ec-ae5e-4311-882f-bf2a5d8f137d" name="Default" comment="">
-      <change type="DELETED" beforePath="C:\Users\Limeth\git\mine-strike\bin\cz\minestrike\me\limeth\minestrike\equipment\EquipmentManager$EquipmentDeserializer.class" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bin/cz/minestrike/me/limeth/minestrike/equipment/cases/Case$1.class" afterPath="$PROJECT_DIR$/bin/cz/minestrike/me/limeth/minestrike/equipment/cases/Case$1.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bin/cz/minestrike/me/limeth/minestrike/equipment/cases/Case$2.class" afterPath="$PROJECT_DIR$/bin/cz/minestrike/me/limeth/minestrike/equipment/cases/Case$2.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bin/cz/minestrike/me/limeth/minestrike/equipment/cases/Case.class" afterPath="$PROJECT_DIR$/bin/cz/minestrike/me/limeth/minestrike/equipment/cases/Case.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bin/cz/minestrike/me/limeth/minestrike/equipment/cases/CaseContent.class" afterPath="$PROJECT_DIR$/bin/cz/minestrike/me/limeth/minestrike/equipment/cases/CaseContent.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bin/cz/minestrike/me/limeth/minestrike/equipment/EquipmentManager.class" afterPath="$PROJECT_DIR$/bin/cz/minestrike/me/limeth/minestrike/equipment/EquipmentManager.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bin/cz/minestrike/me/limeth/minestrike/scene/games/MapPoll$PollListener.class" afterPath="$PROJECT_DIR$/bin/cz/minestrike/me/limeth/minestrike/scene/games/MapPoll$PollListener.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bin/cz/minestrike/me/limeth/minestrike/scene/games/MapPoll.class" afterPath="$PROJECT_DIR$/bin/cz/minestrike/me/limeth/minestrike/scene/games/MapPoll.class" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/events/ArenaDeathEvent.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/scene/games/team/defuse/DefuseRewardListener.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/scene/games/MSRewardListener.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/scene/games/WeightedMSRewardListener.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bin/cz/minestrike/me/limeth/minestrike/equipment/cases/CaseContentRarity.class" afterPath="$PROJECT_DIR$/bin/cz/minestrike/me/limeth/minestrike/equipment/cases/CaseContentRarity.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bin/cz/minestrike/me/limeth/minestrike/equipment/cases/CaseKey$1.class" afterPath="$PROJECT_DIR$/bin/cz/minestrike/me/limeth/minestrike/equipment/cases/CaseKey$1.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bin/cz/minestrike/me/limeth/minestrike/equipment/cases/CaseKey.class" afterPath="$PROJECT_DIR$/bin/cz/minestrike/me/limeth/minestrike/equipment/cases/CaseKey.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bin/cz/minestrike/me/limeth/minestrike/equipment/cases/CaseOpening.class" afterPath="$PROJECT_DIR$/bin/cz/minestrike/me/limeth/minestrike/equipment/cases/CaseOpening.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bin/cz/minestrike/me/limeth/minestrike/equipment/EquipmentCustomization$EquipmentCustomizationBuilder.class" afterPath="$PROJECT_DIR$/bin/cz/minestrike/me/limeth/minestrike/equipment/EquipmentCustomization$EquipmentCustomizationBuilder.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bin/cz/minestrike/me/limeth/minestrike/equipment/EquipmentCustomization.class" afterPath="$PROJECT_DIR$/bin/cz/minestrike/me/limeth/minestrike/equipment/EquipmentCustomization.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/artifacts/MineStrike_jar/MineStrike.jar" afterPath="$PROJECT_DIR$/out/artifacts/MineStrike_jar/MineStrike.jar" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bin/cz/minestrike/me/limeth/minestrike/Rank.class" afterPath="$PROJECT_DIR$/bin/cz/minestrike/me/limeth/minestrike/Rank.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/equipment/cases/Case.java" afterPath="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/equipment/cases/Case.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/equipment/cases/CaseContent.java" afterPath="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/equipment/cases/CaseContent.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/equipment/cases/CaseContentRarity.java" afterPath="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/equipment/cases/CaseContentRarity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/equipment/cases/CaseOpening.java" afterPath="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/equipment/cases/CaseOpening.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/equipment/EquipmentCustomization.java" afterPath="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/equipment/EquipmentCustomization.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/equipment/EquipmentManager.java" afterPath="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/equipment/EquipmentManager.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bin/plugin.yml" afterPath="$PROJECT_DIR$/bin/plugin.yml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/plugin.yml" afterPath="$PROJECT_DIR$/src/plugin.yml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/equipment/cases/CaseKey.java" afterPath="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/equipment/cases/CaseKey.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/scene/games/team/defuse/DefuseEquipmentProvider.java" afterPath="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/scene/games/team/defuse/DefuseEquipmentProvider.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/scene/games/team/defuse/DefuseGame.java" afterPath="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/scene/games/team/defuse/DefuseGame.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/scene/games/team/defuse/DefuseGameListener.java" afterPath="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/scene/games/team/defuse/DefuseGameListener.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/equipment/EquipmentSection.java" afterPath="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/equipment/EquipmentSection.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/scene/games/Game.java" afterPath="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/scene/games/Game.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/dictionaries/Limeth.xml" afterPath="$PROJECT_DIR$/.idea/dictionaries/Limeth.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/MSConstant.java" afterPath="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/MSConstant.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/scene/games/MSInteractionListener.java" afterPath="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/scene/games/MSInteractionListener.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/listeners/msPlayer/MSListener.java" afterPath="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/listeners/msPlayer/MSListener.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/scene/games/team/defuse/Round.java" afterPath="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/scene/games/team/defuse/Round.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/scene/games/team/TeamGame.java" afterPath="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/scene/games/team/TeamGame.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/Translation.java" afterPath="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/Translation.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="mine-strike.iws" />
@@ -52,70 +59,28 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="Case.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/equipment/cases/Case.java">
+      <file leaf-file-name="MSSceneListener.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/listeners/msPlayer/MSSceneListener.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="103" max-vertical-offset="5321">
-              <caret line="25" column="0" selection-start-line="25" selection-start-column="0" selection-end-line="25" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="374">
+              <caret line="4" column="69" selection-start-line="4" selection-start-column="69" selection-end-line="4" selection-end-column="69" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="DefuseRewardListener.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/scene/games/team/defuse/DefuseRewardListener.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="782">
+              <caret line="27" column="0" selection-start-line="27" selection-start-column="0" selection-end-line="27" selection-end-column="0" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#3889#3890#0" expanded="true" />
-                <element signature="e#3912#3913#0" expanded="true" />
-                <element signature="e#3992#3993#0" expanded="true" />
-                <element signature="e#4026#4027#0" expanded="true" />
-                <element signature="e#4055#4056#0" expanded="true" />
-                <element signature="e#4073#4074#0" expanded="true" />
-                <element signature="e#5337#5338#0" expanded="true" />
-                <element signature="e#5394#5395#0" expanded="true" />
-                <element signature="e#5432#5433#0" expanded="true" />
-                <element signature="e#5462#5463#0" expanded="true" />
-                <element signature="e#5532#5533#0" expanded="true" />
-                <element signature="e#5561#5562#0" expanded="true" />
-                <element signature="e#5620#5621#0" expanded="true" />
-                <element signature="e#5662#5663#0" expanded="true" />
-                <element signature="e#5702#5703#0" expanded="true" />
-                <element signature="e#5720#5721#0" expanded="true" />
-                <element signature="e#5785#5786#0" expanded="true" />
-                <element signature="e#5832#5833#0" expanded="true" />
-                <element signature="e#5877#5878#0" expanded="true" />
-                <element signature="e#5895#5896#0" expanded="true" />
-                <element signature="e#5959#5960#0" expanded="true" />
-                <element signature="e#5982#5983#0" expanded="true" />
-                <element signature="e#6041#6042#0" expanded="true" />
-                <element signature="e#6083#6084#0" expanded="true" />
-                <element signature="e#6871#6872#0" expanded="true" />
-                <element signature="e#6890#6891#0" expanded="true" />
-                <element signature="e#6971#6972#0" expanded="true" />
-                <element signature="e#6990#6991#0" expanded="true" />
-                <element signature="e#8329#8330#0" expanded="true" />
-                <element signature="e#8348#8349#0" expanded="true" />
-                <element signature="e#8402#8403#0" expanded="true" />
-                <element signature="e#8421#8422#0" expanded="true" />
-                <element signature="e#8476#8477#0" expanded="true" />
-                <element signature="e#8513#8514#0" expanded="true" />
-                <element signature="e#8557#8558#0" expanded="true" />
-                <element signature="e#8575#8576#0" expanded="true" />
+                <element signature="e#674#675#0" expanded="true" />
+                <element signature="e#735#736#0" expanded="true" />
+                <element signature="e#998#999#0" expanded="true" />
+                <element signature="e#1048#1049#0" expanded="true" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="InventoryListener.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/listeners/InventoryListener.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="402" max-vertical-offset="1156">
-              <caret line="64" column="32" selection-start-line="64" selection-start-column="32" selection-end-line="64" selection-end-column="32" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="MSShoppingListener.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/scene/games/MSShoppingListener.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="1027" max-vertical-offset="1819">
-              <caret line="121" column="27" selection-start-line="121" selection-start-column="27" selection-end-line="121" selection-end-column="27" />
-              <folding />
             </state>
           </provider>
         </entry>
@@ -123,72 +88,149 @@
       <file leaf-file-name="EquipmentSection.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/equipment/EquipmentSection.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="1452" max-vertical-offset="3672">
-              <caret line="142" column="33" selection-start-line="142" selection-start-column="33" selection-end-line="142" selection-end-column="33" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="EquipmentCustomization.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/equipment/EquipmentCustomization.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2210">
-              <caret line="157" column="0" selection-start-line="157" selection-start-column="0" selection-end-line="157" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="3740">
+              <caret line="104" column="45" selection-start-line="104" selection-start-column="45" selection-end-line="104" selection-end-column="45" />
               <folding>
-                <element signature="e#1257#1258#0" expanded="true" />
-                <element signature="e#1293#1294#0" expanded="true" />
-                <element signature="class#EquipmentCustomizationBuilder#0;class#EquipmentCustomization#0" expanded="false" />
+                <element signature="e#5255#5256#0" expanded="true" />
+                <element signature="e#5281#5282#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="CaseContentRarity.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/equipment/cases/CaseContentRarity.java">
+      <file leaf-file-name="DefuseEquipmentProvider.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/scene/games/team/defuse/DefuseEquipmentProvider.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="725" max-vertical-offset="1581">
-              <caret line="103" column="37" selection-start-line="103" selection-start-column="37" selection-end-line="103" selection-end-column="37" />
-              <folding>
-                <element signature="e#2516#2517#0" expanded="true" />
-                <element signature="e#2555#2556#0" expanded="true" />
-                <element signature="e#2597#2598#0" expanded="true" />
-                <element signature="e#2633#2634#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="CaseOpening.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/equipment/cases/CaseOpening.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.4224138" vertical-offset="1602" max-vertical-offset="2720">
-              <caret line="116" column="5" selection-start-line="116" selection-start-column="5" selection-end-line="116" selection-end-column="5" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="556" max-vertical-offset="9792">
+              <caret line="89" column="124" selection-start-line="89" selection-start-column="124" selection-end-line="89" selection-end-column="124" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="CaseContent.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/equipment/cases/CaseContent.java">
+      <file leaf-file-name="DefuseGame.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/scene/games/team/defuse/DefuseGame.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="969">
-              <caret line="61" column="37" selection-start-line="61" selection-start-column="37" selection-end-line="61" selection-end-column="37" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="10366" max-vertical-offset="14773">
+              <caret line="677" column="17" selection-start-line="677" selection-start-column="17" selection-end-line="677" selection-end-column="17" />
+              <folding>
+                <element signature="e#3466#3467#0" expanded="true" />
+                <element signature="e#3505#3506#0" expanded="true" />
+                <element signature="e#8558#8559#0" expanded="true" />
+                <element signature="e#8611#8612#0" expanded="true" />
+                <element signature="e#12109#12110#0" expanded="true" />
+                <element signature="e#12134#12135#0" expanded="true" />
+                <element signature="e#15439#15440#0" expanded="true" />
+                <element signature="e#15471#15472#0" expanded="true" />
+                <element signature="e#18809#18810#0" expanded="true" />
+                <element signature="e#18858#18859#0" expanded="true" />
+                <element signature="e#19343#19344#0" expanded="true" />
+                <element signature="e#19373#19374#0" expanded="true" />
+                <element signature="e#19402#19403#0" expanded="true" />
+                <element signature="e#19422#19423#0" expanded="true" />
+                <element signature="e#19461#19462#0" expanded="true" />
+                <element signature="e#19488#19489#0" expanded="true" />
+                <element signature="e#19528#19529#0" expanded="true" />
+                <element signature="e#19559#19560#0" expanded="true" />
+                <element signature="e#19588#19589#0" expanded="true" />
+                <element signature="e#19609#19610#0" expanded="true" />
+                <element signature="e#19650#19651#0" expanded="true" />
+                <element signature="e#19679#19680#0" expanded="true" />
+                <element signature="e#19715#19716#0" expanded="true" />
+                <element signature="e#19746#19747#0" expanded="true" />
+                <element signature="e#19780#19781#0" expanded="true" />
+                <element signature="e#19803#19804#0" expanded="true" />
+                <element signature="e#19850#19851#0" expanded="true" />
+                <element signature="e#19883#19884#0" expanded="true" />
+                <element signature="e#19915#19916#0" expanded="true" />
+                <element signature="e#19938#19939#0" expanded="true" />
+                <element signature="e#19983#19984#0" expanded="true" />
+                <element signature="e#20016#20017#0" expanded="true" />
+                <element signature="e#20049#20050#0" expanded="true" />
+                <element signature="e#20073#20074#0" expanded="true" />
+                <element signature="e#20121#20122#0" expanded="true" />
+                <element signature="e#20156#20157#0" expanded="true" />
+                <element signature="e#20191#20192#0" expanded="true" />
+                <element signature="e#20214#20215#0" expanded="true" />
+                <element signature="e#20293#20294#0" expanded="true" />
+                <element signature="e#20314#20315#0" expanded="true" />
+                <element signature="e#21919#21920#0" expanded="true" />
+                <element signature="e#21945#21946#0" expanded="true" />
+                <element signature="e#21987#21988#0" expanded="true" />
+                <element signature="e#22010#22011#0" expanded="true" />
+                <element signature="e#22059#22060#0" expanded="true" />
+                <element signature="e#22083#22084#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Game.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/scene/games/Game.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="2444" max-vertical-offset="12240">
+              <caret line="185" column="59" selection-start-line="185" selection-start-column="59" selection-end-line="185" selection-end-column="59" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#1451#1452#0" expanded="true" />
-                <element signature="e#1510#1511#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="InventoryContainer.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/equipment/containers/InventoryContainer.java">
+      <file leaf-file-name="MSConstant.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/MSConstant.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="960" max-vertical-offset="6120">
-              <caret line="92" column="21" selection-start-line="92" selection-start-column="21" selection-end-line="92" selection-end-column="21" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="54" max-vertical-offset="1037">
+              <caret line="35" column="55" selection-start-line="35" selection-start-column="55" selection-end-line="35" selection-end-column="55" />
               <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Translation.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/Translation.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.30874008" vertical-offset="969" max-vertical-offset="4794">
+              <caret line="73" column="63" selection-start-line="73" selection-start-column="63" selection-end-line="73" selection-end-column="63" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="e#8330#8331#0" expanded="true" />
+                <element signature="e#8351#8352#0" expanded="true" />
+                <element signature="e#10044#10045#0" expanded="true" />
+                <element signature="e#10114#10115#0" expanded="true" />
+                <element signature="e#10144#10145#0" expanded="true" />
+                <element signature="e#10196#10197#0" expanded="true" />
+                <element signature="e#10471#10472#0" expanded="true" />
+                <element signature="e#10492#10493#0" expanded="true" />
+                <element signature="e#10536#10537#0" expanded="true" />
+                <element signature="e#10610#10611#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="MSListener.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/listeners/msPlayer/MSListener.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="740" max-vertical-offset="1666">
+              <caret line="86" column="0" selection-start-line="86" selection-start-column="0" selection-end-line="86" selection-end-column="0" />
+              <folding>
+                <element signature="e#2469#2470#0" expanded="true" />
+                <element signature="e#2495#2496#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ScalableContainer.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/equipment/containers/ScalableContainer.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1683">
+              <caret line="61" column="35" selection-start-line="61" selection-start-column="35" selection-end-line="61" selection-end-column="35" />
+              <folding>
+                <element signature="e#1298#1299#0" expanded="true" />
+                <element signature="e#1331#1332#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -209,14 +251,7 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/equipment/gson/CustomizedEquipmentAdapter.java" />
-        <option value="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/scene/games/Game.java" />
-        <option value="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/dbi/MSPlayerData.java" />
-        <option value="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/dbi/EquipmentMapper.java" />
-        <option value="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/dbi/InventoryContainerFactory.java" />
-        <option value="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/equipment/containers/ScalableContainer.java" />
         <option value="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/dbi/MSPlayerDataMapper.java" />
-        <option value="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/equipment/EquipmentSection.java" />
         <option value="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/equipment/EquipmentCategoryEntry.java" />
         <option value="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/equipment/EquipmentSectionEntry.java" />
         <option value="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/equipment/EquipmentCategory.java" />
@@ -226,9 +261,7 @@
         <option value="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/equipment/SimpleEquipment.java" />
         <option value="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/equipment/simple/KevlarAndHelmet.java" />
         <option value="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/equipment/simple/Knife.java" />
-        <option value="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/equipment/cases/CaseKey.java" />
         <option value="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/equipment/CustomizedEquipment.java" />
-        <option value="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/scene/games/team/defuse/DefuseEquipmentProvider.java" />
         <option value="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/equipment/simple/Helmet.java" />
         <option value="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/equipment/simple/Radar.java" />
         <option value="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/equipment/simple/Kevlar.java" />
@@ -241,7 +274,6 @@
         <option value="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/MineStrike.java" />
         <option value="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/listeners/ConnectionListener.java" />
         <option value="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/scene/lobby/Lobby.java" />
-        <option value="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/MSConstant.java" />
         <option value="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/scene/games/MapPoll.java" />
         <option value="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/Rank.java" />
         <option value="$PROJECT_DIR$/.gitignore" />
@@ -251,8 +283,25 @@
         <option value="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/equipment/cases/Case.java" />
         <option value="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/equipment/EquipmentCustomization.java" />
         <option value="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/equipment/cases/ResolvedCaseContent.java" />
-        <option value="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/equipment/cases/CaseContentRarity.java" />
         <option value="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/equipment/cases/CaseOpening.java" />
+        <option value="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/equipment/cases/CaseContentRarity.java" />
+        <option value="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/equipment/cases/CaseKey.java" />
+        <option value="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/scene/games/team/TeamGame.java" />
+        <option value="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/scene/games/team/defuse/DefuseGameListener.java" />
+        <option value="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/events/ArenaDeathEvent.java" />
+        <option value="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/scene/games/MSInteractionListener.java" />
+        <option value="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/scene/games/Game.java" />
+        <option value="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/events/MatchEndEvent.java" />
+        <option value="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/scene/games/WeightedMSRewardListener.java" />
+        <option value="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/scene/games/team/defuse/DefuseRewardListener.java" />
+        <option value="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/scene/games/team/defuse/DefuseGame.java" />
+        <option value="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/scene/games/team/defuse/Round.java" />
+        <option value="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/scene/games/MSRewardListener.java" />
+        <option value="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/listeners/msPlayer/MSListener.java" />
+        <option value="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/equipment/EquipmentSection.java" />
+        <option value="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/scene/games/team/defuse/DefuseEquipmentProvider.java" />
+        <option value="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/MSConstant.java" />
+        <option value="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/Translation.java" />
       </list>
     </option>
   </component>
@@ -260,7 +309,7 @@
     <detection-done>true</detection-done>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="width" value="1348" />
+    <option name="width" value="1751" />
     <option name="height" value="1040" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="false">
@@ -288,6 +337,7 @@
       <sortByType />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -404,6 +454,70 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+              <option name="myItemId" value="scene" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="games" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="team" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="mine-strike" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="mine-strike" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="minestrike" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="scene" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="games" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="team" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="defuse" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="mine-strike" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="mine-strike" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="minestrike" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
               <option name="myItemId" value="listeners" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
@@ -431,6 +545,28 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="msPlayer" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="mine-strike" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="mine-strike" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="minestrike" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="events" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -520,7 +656,6 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -557,6 +692,11 @@
       <path value="$USER_HOME$/workspace/PSMaps" />
       <path value="$USER_HOME$/workspace/RawChatManager" />
     </excluded-roots>
+  </component>
+  <component name="RecentsManager">
+    <key name="CreateClassDialog.RecentsKey">
+      <recent name="cz.minestrike.me.limeth.minestrike.scene.games" />
+    </key>
   </component>
   <component name="RunManager" selected="JAR Application.Server">
     <configuration default="true" type="Remote" factoryName="Remote">
@@ -855,7 +995,9 @@
       <workItem from="1421768064015" duration="546000" />
       <workItem from="1421777134456" duration="576000" />
       <workItem from="1421777803736" duration="1791000" />
-      <workItem from="1421946797718" duration="11009000" />
+      <workItem from="1421946797718" duration="11103000" />
+      <workItem from="1422027568882" duration="1702000" />
+      <workItem from="1422030470678" duration="13296000" />
     </task>
     <task id="LOCAL-00001" summary="Added the last ranks">
       <created>1421778113090</created>
@@ -869,11 +1011,17 @@
       <option name="project" value="LOCAL" />
       <updated>1421778376014</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Added case &quot;beta&quot;">
+      <created>1421960656420</created>
+      <option name="number" value="00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1421960656420</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="46637000" />
+    <option name="totallyTimeSpent" value="61729000" />
   </component>
   <component name="TodoView" selected-index="0">
     <todo-panel id="selected-file">
@@ -896,32 +1044,32 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="0" width="1348" height="1040" extended-state="0" />
-    <editor active="false" />
+    <frame x="0" y="0" width="1751" height="1040" extended-state="0" />
+    <editor active="true" />
     <layout>
-      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="14" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32967034" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.1529153" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="IDEtalk" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.1529153" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
+      <window_info id="IDEtalk" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32937366" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.7139714" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="CheckStyle" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.23291926" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="IDEtalk Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.6138614" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="CheckStyle" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
+      <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.17740981" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="IDEtalk Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
+      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -950,14 +1098,15 @@
     </option>
     <MESSAGE value="Added the last ranks" />
     <MESSAGE value="Added .gitignore" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added .gitignore" />
+    <MESSAGE value="Added case &quot;beta&quot;" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added case &quot;beta&quot;" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/equipment/cases/CaseKey.java</url>
-          <line>184</line>
+          <line>189</line>
           <properties />
         </line-breakpoint>
       </breakpoints>
@@ -970,132 +1119,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/equipment/EquipmentCategory.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="255">
-          <caret line="7" column="26" selection-start-line="7" selection-start-column="26" selection-end-line="7" selection-end-column="26" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/equipment/Equipment.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="145" max-vertical-offset="748">
-          <caret line="40" column="25" selection-start-line="40" selection-start-column="25" selection-end-line="40" selection-end-column="25" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/equipment/guns/GunType.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="5309" max-vertical-offset="6001">
-          <caret line="562" column="5" selection-start-line="562" selection-start-column="5" selection-end-line="562" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/equipment/grenades/GrenadeType.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="8828" max-vertical-offset="9503">
-          <caret line="653" column="20" selection-start-line="653" selection-start-column="20" selection-end-line="653" selection-end-column="20" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/equipment/SimpleEquipment.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="1291" max-vertical-offset="2159">
-          <caret line="167" column="24" selection-start-line="167" selection-start-column="24" selection-end-line="167" selection-end-column="24" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/equipment/simple/KevlarAndHelmet.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="268" max-vertical-offset="901">
-          <caret line="39" column="71" selection-start-line="39" selection-start-column="71" selection-end-line="39" selection-end-column="71" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/equipment/simple/Knife.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="332" max-vertical-offset="2363">
-          <caret line="57" column="60" selection-start-line="57" selection-start-column="60" selection-end-line="57" selection-end-column="60" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/scene/games/team/defuse/DefuseEquipmentProvider.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="642" max-vertical-offset="9792">
-          <caret line="75" column="87" selection-start-line="75" selection-start-column="87" selection-end-line="75" selection-end-column="87" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/equipment/simple/Helmet.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="26" max-vertical-offset="612">
-          <caret line="34" column="60" selection-start-line="34" selection-start-column="60" selection-end-line="34" selection-end-column="60" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/equipment/simple/Radar.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="234" max-vertical-offset="850">
-          <caret line="38" column="67" selection-start-line="38" selection-start-column="67" selection-end-line="38" selection-end-column="67" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/equipment/simple/Kevlar.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.7389079" vertical-offset="26" max-vertical-offset="612">
-          <caret line="34" column="60" selection-start-line="34" selection-start-column="60" selection-end-line="34" selection-end-column="60" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/dbi/BindEquipment.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="714">
-          <caret line="33" column="0" selection-start-line="33" selection-start-column="0" selection-end-line="33" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/equipment/CustomizedEquipment.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-1.3634813" vertical-offset="867" max-vertical-offset="3349">
-          <caret line="15" column="13" selection-start-line="15" selection-start-column="13" selection-end-line="15" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/dbi/EquipmentMapper.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="340">
-          <caret line="16" column="0" selection-start-line="16" selection-start-column="0" selection-end-line="16" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$USER_HOME$/Desktop/Coding/Java/Projects/Minecraft/Bukkit/1.8-based-1.7.10.jar!/org/bukkit/GameMode.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.119019836" vertical-offset="0" max-vertical-offset="857">
-          <caret line="10" column="12" selection-start-line="10" selection-start-column="12" selection-end-line="10" selection-end-column="12" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$USER_HOME$/Desktop/Coding/Java/Projects/Minecraft/Bukkit/1.8-based-1.7.10.jar!/net/minecraft/server/v1_7_R4/Entity.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.12085308" vertical-offset="0" max-vertical-offset="27693">
-          <caret line="83" column="22" selection-start-line="83" selection-start-column="22" selection-end-line="83" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$USER_HOME$/Desktop/Coding/Java/Projects/Minecraft/Bukkit/1.8-based-1.7.10.jar!/org/bukkit/craftbukkit/v1_7_R4/entity/CraftEntity.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.15758294" vertical-offset="3" max-vertical-offset="8772">
-          <caret line="173" column="47" selection-start-line="173" selection-start-column="47" selection-end-line="173" selection-end-column="47" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$USER_HOME$/Desktop/Coding/Java/Projects/Minecraft/Bukkit/1.8-based-1.7.10.jar!/org/bukkit/craftbukkit/v1_7_R4/entity/CraftLivingEntity.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.12085308" vertical-offset="0" max-vertical-offset="6120">
-          <caret line="68" column="47" selection-start-line="68" selection-start-column="47" selection-end-line="68" selection-end-column="47" />
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://$USER_HOME$/Desktop/Coding/Java/Projects/Minecraft/Bukkit/1.8-based-1.7.10.jar!/org/bukkit/craftbukkit/v1_7_R4/entity/CraftHumanEntity.class">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-4.08" vertical-offset="0" max-vertical-offset="4488">
@@ -1131,24 +1154,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/listeners/ConnectionListener.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.56792873" vertical-offset="0" max-vertical-offset="898">
-          <caret line="41" column="32" selection-start-line="41" selection-start-column="32" selection-end-line="41" selection-end-column="32" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/scene/lobby/Lobby.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.43207127" vertical-offset="1431" max-vertical-offset="2329">
           <caret line="137" column="5" selection-start-line="137" selection-start-column="5" selection-end-line="137" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/scene/games/team/defuse/DefuseGame.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.21714923" vertical-offset="4463" max-vertical-offset="13753">
-          <caret line="326" column="74" selection-start-line="326" selection-start-column="74" selection-end-line="326" selection-end-column="74" />
         </state>
       </provider>
     </entry>
@@ -1166,34 +1175,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/MSPlayer.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="10477" max-vertical-offset="19669">
-          <caret line="684" column="21" selection-start-line="684" selection-start-column="21" selection-end-line="684" selection-end-column="21" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/MSConstant.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.3276644" vertical-offset="0" max-vertical-offset="882">
-          <caret line="22" column="46" selection-start-line="22" selection-start-column="46" selection-end-line="22" selection-end-column="46" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/MineStrike.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="2353" max-vertical-offset="3349">
           <caret line="190" column="25" selection-start-line="190" selection-start-column="25" selection-end-line="190" selection-end-column="25" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/scene/games/Game.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.33900228" vertical-offset="3849" max-vertical-offset="10965">
-          <caret line="299" column="36" selection-start-line="299" selection-start-column="36" selection-end-line="299" selection-end-column="36" />
         </state>
       </provider>
     </entry>
@@ -1222,7 +1207,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.38548753" vertical-offset="612" max-vertical-offset="2652">
           <caret line="56" column="52" selection-start-line="56" selection-start-column="52" selection-end-line="56" selection-end-column="52" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1230,18 +1214,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-11.56" vertical-offset="102" max-vertical-offset="2550">
           <caret line="31" column="56" selection-start-line="31" selection-start-column="48" selection-end-line="31" selection-end-column="56" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/equipment/cases/CaseKey.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="4.0827465" vertical-offset="27" max-vertical-offset="2499">
-          <caret line="197" column="19" selection-start-line="197" selection-start-column="19" selection-end-line="197" selection-end-column="19" />
-          <folding>
-            <element signature="e#4086#4087#0" expanded="true" />
-            <element signature="e#4104#4105#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1249,7 +1221,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.029259896" vertical-offset="0" max-vertical-offset="581">
           <caret line="1" column="14" selection-start-line="1" selection-start-column="14" selection-end-line="1" selection-end-column="14" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1257,56 +1228,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="917" max-vertical-offset="2142">
           <caret line="139" column="34" selection-start-line="139" selection-start-column="34" selection-end-line="139" selection-end-column="34" />
-          <folding>
-            <element signature="e#4335#4336#0" expanded="true" />
-            <element signature="e#4400#4401#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/equipment/cases/Case.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="103" max-vertical-offset="5321">
-          <caret line="25" column="0" selection-start-line="25" selection-start-column="0" selection-end-line="25" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#3889#3890#0" expanded="true" />
-            <element signature="e#3912#3913#0" expanded="true" />
-            <element signature="e#3992#3993#0" expanded="true" />
-            <element signature="e#4026#4027#0" expanded="true" />
-            <element signature="e#4055#4056#0" expanded="true" />
-            <element signature="e#4073#4074#0" expanded="true" />
-            <element signature="e#5337#5338#0" expanded="true" />
-            <element signature="e#5394#5395#0" expanded="true" />
-            <element signature="e#5432#5433#0" expanded="true" />
-            <element signature="e#5462#5463#0" expanded="true" />
-            <element signature="e#5532#5533#0" expanded="true" />
-            <element signature="e#5561#5562#0" expanded="true" />
-            <element signature="e#5620#5621#0" expanded="true" />
-            <element signature="e#5662#5663#0" expanded="true" />
-            <element signature="e#5702#5703#0" expanded="true" />
-            <element signature="e#5720#5721#0" expanded="true" />
-            <element signature="e#5785#5786#0" expanded="true" />
-            <element signature="e#5832#5833#0" expanded="true" />
-            <element signature="e#5877#5878#0" expanded="true" />
-            <element signature="e#5895#5896#0" expanded="true" />
-            <element signature="e#5959#5960#0" expanded="true" />
-            <element signature="e#5982#5983#0" expanded="true" />
-            <element signature="e#6041#6042#0" expanded="true" />
-            <element signature="e#6083#6084#0" expanded="true" />
-            <element signature="e#6871#6872#0" expanded="true" />
-            <element signature="e#6890#6891#0" expanded="true" />
-            <element signature="e#6971#6972#0" expanded="true" />
-            <element signature="e#6990#6991#0" expanded="true" />
-            <element signature="e#8329#8330#0" expanded="true" />
-            <element signature="e#8348#8349#0" expanded="true" />
-            <element signature="e#8402#8403#0" expanded="true" />
-            <element signature="e#8421#8422#0" expanded="true" />
-            <element signature="e#8476#8477#0" expanded="true" />
-            <element signature="e#8513#8514#0" expanded="true" />
-            <element signature="e#8557#8558#0" expanded="true" />
-            <element signature="e#8575#8576#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1330,14 +1251,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="960" max-vertical-offset="6120">
           <caret line="92" column="21" selection-start-line="92" selection-start-column="21" selection-end-line="92" selection-end-column="21" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/equipment/EquipmentSection.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="1452" max-vertical-offset="3672">
-          <caret line="142" column="33" selection-start-line="142" selection-start-column="33" selection-end-line="142" selection-end-column="33" />
           <folding />
         </state>
       </provider>
@@ -1370,31 +1283,347 @@
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="969">
           <caret line="61" column="37" selection-start-line="61" selection-start-column="37" selection-end-line="61" selection-end-column="37" />
           <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#1451#1452#0" expanded="true" />
-            <element signature="e#1510#1511#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/equipment/cases/CaseContentRarity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="725" max-vertical-offset="1581">
-          <caret line="103" column="37" selection-start-line="103" selection-start-column="37" selection-end-line="103" selection-end-column="37" />
-          <folding>
-            <element signature="e#2516#2517#0" expanded="true" />
-            <element signature="e#2555#2556#0" expanded="true" />
-            <element signature="e#2597#2598#0" expanded="true" />
-            <element signature="e#2633#2634#0" expanded="true" />
+            <element signature="imports" expanded="false" />
+            <element signature="e#1451#1452#0" expanded="false" />
+            <element signature="e#1510#1511#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/equipment/cases/CaseOpening.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.4224138" vertical-offset="1602" max-vertical-offset="2720">
-          <caret line="116" column="5" selection-start-line="116" selection-start-column="5" selection-end-line="116" selection-end-column="5" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="1857" max-vertical-offset="2771">
+          <caret line="145" column="83" selection-start-line="145" selection-start-column="83" selection-end-line="145" selection-end-column="83" />
+          <folding>
+            <element signature="e#3512#3513#0" expanded="false" />
+            <element signature="e#3547#3548#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/equipment/cases/CaseContentRarity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="315" max-vertical-offset="1683">
+          <caret line="42" column="54" selection-start-line="42" selection-start-column="54" selection-end-line="42" selection-end-column="54" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/equipment/cases/Case.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="2143" max-vertical-offset="4403">
+          <caret line="24" column="24" selection-start-line="24" selection-start-column="24" selection-end-line="24" selection-end-column="24" />
+          <folding>
+            <element signature="imports" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/equipment/cases/CaseKey.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="435" max-vertical-offset="2567">
+          <caret line="64" column="5" selection-start-line="64" selection-start-column="5" selection-end-line="64" selection-end-column="5" />
+          <folding>
+            <element signature="e#4260#4261#0" expanded="true" />
+            <element signature="e#4278#4279#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/scene/games/team/TeamGameListener.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="297" max-vertical-offset="2159">
+          <caret line="35" column="46" selection-start-line="35" selection-start-column="46" selection-end-line="35" selection-end-column="46" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/events/MSPlayerEvent.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.23981191" vertical-offset="0" max-vertical-offset="638">
+          <caret line="12" column="11" selection-start-line="12" selection-start-column="11" selection-end-line="12" selection-end-column="11" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/scene/games/MSInteractionListener.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="42" max-vertical-offset="2108">
+          <caret line="37" column="19" selection-start-line="37" selection-start-column="19" selection-end-line="37" selection-end-column="19" />
+          <folding>
+            <element signature="e#820#821#0" expanded="true" />
+            <element signature="e#838#839#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/listeners/ConnectionListener.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.7601881" vertical-offset="25" max-vertical-offset="663">
+          <caret line="41" column="32" selection-start-line="41" selection-start-column="32" selection-end-line="41" selection-end-column="32" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/scene/Scene.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.39968652" vertical-offset="0" max-vertical-offset="638">
+          <caret line="23" column="28" selection-start-line="23" selection-start-column="28" selection-end-line="23" selection-end-column="28" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/MSPlayer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.4122257" vertical-offset="4055" max-vertical-offset="19669">
+          <caret line="263" column="43" selection-start-line="263" selection-start-column="43" selection-end-line="263" selection-end-column="43" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/scene/games/team/defuse/DefuseGameListener.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="465" max-vertical-offset="3111">
+          <caret line="71" column="27" selection-start-line="71" selection-start-column="25" selection-end-line="71" selection-end-column="27" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/scene/games/team/TeamGame.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="1485" max-vertical-offset="2788">
+          <caret line="101" column="25" selection-start-line="101" selection-start-column="25" selection-end-line="101" selection-end-column="25" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/events/ArenaJoinEvent.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="748">
+          <caret line="10" column="49" selection-start-line="10" selection-start-column="49" selection-end-line="10" selection-end-column="83" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/events/ArenaDeathEvent.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="93" max-vertical-offset="782">
+          <caret line="7" column="0" selection-start-line="7" selection-start-column="0" selection-end-line="7" selection-end-column="0" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/Desktop/Coding/Java/Projects/Minecraft/Bukkit/1.8-based-1.7.10.jar!/net/minecraft/server/v1_7_R4/PacketPlayOutOpenWindow.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="36.04" vertical-offset="1071" max-vertical-offset="1972">
+          <caret line="20" column="17" selection-start-line="20" selection-start-column="17" selection-end-line="20" selection-end-column="17" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/scene/games/team/defuse/Round.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="4403">
+          <caret line="24" column="129" selection-start-line="24" selection-start-column="129" selection-end-line="24" selection-end-column="129" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/scene/games/MSRewardListener.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="196" max-vertical-offset="2635">
+          <caret line="23" column="69" selection-start-line="23" selection-start-column="69" selection-end-line="23" selection-end-column="69" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#2802#2803#0" expanded="true" />
+            <element signature="e#2865#2866#0" expanded="true" />
+            <element signature="e#4015#4016#0" expanded="true" />
+            <element signature="e#4051#4052#0" expanded="true" />
+            <element signature="e#4217#4218#0" expanded="true" />
+            <element signature="e#4244#4245#0" expanded="true" />
+            <element signature="e#4297#4298#0" expanded="true" />
+            <element signature="e#4338#4339#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/listeners/msPlayer/MSSceneListener.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="374">
+          <caret line="4" column="69" selection-start-line="4" selection-start-column="69" selection-end-line="4" selection-end-column="69" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/listeners/msPlayer/MSListener.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="740" max-vertical-offset="1666">
+          <caret line="86" column="0" selection-start-line="86" selection-start-column="0" selection-end-line="86" selection-end-column="0" />
+          <folding>
+            <element signature="e#2469#2470#0" expanded="true" />
+            <element signature="e#2495#2496#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/equipment/containers/ScalableContainer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1683">
+          <caret line="61" column="35" selection-start-line="61" selection-start-column="35" selection-end-line="61" selection-end-column="35" />
+          <folding>
+            <element signature="e#1298#1299#0" expanded="true" />
+            <element signature="e#1331#1332#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/scene/games/WeightedMSRewardListener.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.015891032" vertical-offset="224" max-vertical-offset="1105">
+          <caret line="14" column="48" selection-start-line="14" selection-start-column="48" selection-end-line="14" selection-end-column="48" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/equipment/EquipmentCategory.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.09648127" vertical-offset="0" max-vertical-offset="881">
+          <caret line="5" column="12" selection-start-line="5" selection-start-column="12" selection-end-line="5" selection-end-column="12" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/scene/games/team/defuse/DefuseRewardListener.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="782">
+          <caret line="27" column="0" selection-start-line="27" selection-start-column="0" selection-end-line="27" selection-end-column="0" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#674#675#0" expanded="true" />
+            <element signature="e#735#736#0" expanded="true" />
+            <element signature="e#998#999#0" expanded="true" />
+            <element signature="e#1048#1049#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/equipment/EquipmentSection.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="3740">
+          <caret line="104" column="45" selection-start-line="104" selection-start-column="45" selection-end-line="104" selection-end-column="45" />
+          <folding>
+            <element signature="e#5255#5256#0" expanded="true" />
+            <element signature="e#5281#5282#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/scene/games/team/defuse/DefuseEquipmentProvider.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="556" max-vertical-offset="9792">
+          <caret line="89" column="124" selection-start-line="89" selection-start-column="124" selection-end-line="89" selection-end-column="124" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/scene/games/team/defuse/DefuseGame.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="10366" max-vertical-offset="14773">
+          <caret line="677" column="17" selection-start-line="677" selection-start-column="17" selection-end-line="677" selection-end-column="17" />
+          <folding>
+            <element signature="e#3466#3467#0" expanded="true" />
+            <element signature="e#3505#3506#0" expanded="true" />
+            <element signature="e#8558#8559#0" expanded="true" />
+            <element signature="e#8611#8612#0" expanded="true" />
+            <element signature="e#12109#12110#0" expanded="true" />
+            <element signature="e#12134#12135#0" expanded="true" />
+            <element signature="e#15439#15440#0" expanded="true" />
+            <element signature="e#15471#15472#0" expanded="true" />
+            <element signature="e#18809#18810#0" expanded="true" />
+            <element signature="e#18858#18859#0" expanded="true" />
+            <element signature="e#19343#19344#0" expanded="true" />
+            <element signature="e#19373#19374#0" expanded="true" />
+            <element signature="e#19402#19403#0" expanded="true" />
+            <element signature="e#19422#19423#0" expanded="true" />
+            <element signature="e#19461#19462#0" expanded="true" />
+            <element signature="e#19488#19489#0" expanded="true" />
+            <element signature="e#19528#19529#0" expanded="true" />
+            <element signature="e#19559#19560#0" expanded="true" />
+            <element signature="e#19588#19589#0" expanded="true" />
+            <element signature="e#19609#19610#0" expanded="true" />
+            <element signature="e#19650#19651#0" expanded="true" />
+            <element signature="e#19679#19680#0" expanded="true" />
+            <element signature="e#19715#19716#0" expanded="true" />
+            <element signature="e#19746#19747#0" expanded="true" />
+            <element signature="e#19780#19781#0" expanded="true" />
+            <element signature="e#19803#19804#0" expanded="true" />
+            <element signature="e#19850#19851#0" expanded="true" />
+            <element signature="e#19883#19884#0" expanded="true" />
+            <element signature="e#19915#19916#0" expanded="true" />
+            <element signature="e#19938#19939#0" expanded="true" />
+            <element signature="e#19983#19984#0" expanded="true" />
+            <element signature="e#20016#20017#0" expanded="true" />
+            <element signature="e#20049#20050#0" expanded="true" />
+            <element signature="e#20073#20074#0" expanded="true" />
+            <element signature="e#20121#20122#0" expanded="true" />
+            <element signature="e#20156#20157#0" expanded="true" />
+            <element signature="e#20191#20192#0" expanded="true" />
+            <element signature="e#20214#20215#0" expanded="true" />
+            <element signature="e#20293#20294#0" expanded="true" />
+            <element signature="e#20314#20315#0" expanded="true" />
+            <element signature="e#21919#21920#0" expanded="true" />
+            <element signature="e#21945#21946#0" expanded="true" />
+            <element signature="e#21987#21988#0" expanded="true" />
+            <element signature="e#22010#22011#0" expanded="true" />
+            <element signature="e#22059#22060#0" expanded="true" />
+            <element signature="e#22083#22084#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/scene/games/Game.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="2444" max-vertical-offset="12240">
+          <caret line="185" column="59" selection-start-line="185" selection-start-column="59" selection-end-line="185" selection-end-column="59" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/MSConstant.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="54" max-vertical-offset="1037">
+          <caret line="35" column="55" selection-start-line="35" selection-start-column="55" selection-end-line="35" selection-end-column="55" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/Translation.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.30874008" vertical-offset="969" max-vertical-offset="4794">
+          <caret line="73" column="63" selection-start-line="73" selection-start-column="63" selection-end-line="73" selection-end-column="63" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#8330#8331#0" expanded="true" />
+            <element signature="e#8351#8352#0" expanded="true" />
+            <element signature="e#10044#10045#0" expanded="true" />
+            <element signature="e#10114#10115#0" expanded="true" />
+            <element signature="e#10144#10145#0" expanded="true" />
+            <element signature="e#10196#10197#0" expanded="true" />
+            <element signature="e#10471#10472#0" expanded="true" />
+            <element signature="e#10492#10493#0" expanded="true" />
+            <element signature="e#10536#10537#0" expanded="true" />
+            <element signature="e#10610#10611#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

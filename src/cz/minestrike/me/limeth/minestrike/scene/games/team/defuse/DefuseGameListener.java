@@ -67,9 +67,7 @@ public class DefuseGameListener extends MSSceneListener<DefuseGame>
 		
 		Team team = game.getTeam(msPlayer);
 		HotbarContainer hotbarContainer = msPlayer.getHotbarContainer();
-		
-		game.setDead(msPlayer, true);
-		
+
 		for(Equipment equipment : hotbarContainer)
 			if(equipment.isDroppedOnDeath())
 				game.drop(equipment, msPlayer, false);

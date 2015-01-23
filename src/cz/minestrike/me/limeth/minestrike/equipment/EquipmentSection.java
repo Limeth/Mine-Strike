@@ -27,35 +27,30 @@ import java.util.HashSet;
 
 public class EquipmentSection
 {
-	public static final EquipmentSection PISTOLS  = new EquipmentSection("PISTOLS", Translation.EQUIPMENT_CATEGORY_PISTOLS, new ItemStack(Material.FIREWORK_CHARGE), new EquipmentSectionEntry[]{e(GunType.GLOCK), e(GunType.P250, GunType.CZ75), e(GunType.DEAGLE), e(GunType.ELITE), e(GunType.TEC9)}, new EquipmentSectionEntry[]{e(GunType.P2000, GunType.USP_S), e(GunType.P250, GunType.CZ75), e(GunType.DEAGLE), e(GunType.ELITE), e(GunType.FIVESEVEN)});
-	public static final EquipmentSection HEAVY    = new EquipmentSection("HEAVY", Translation.EQUIPMENT_CATEGORY_HEAVY, new ItemStack(Material.FIREWORK_CHARGE), new EquipmentSectionEntry[]{e(GunType.NOVA), e(GunType.XM1014), e(GunType.SAWEDOFF), e(GunType.M249), e(GunType.NEGEV)}, new EquipmentSectionEntry[]{e(GunType.NOVA), e(GunType.XM1014), e(GunType.MAG7), e(GunType.M249), e(GunType.NEGEV)});
-	public static final EquipmentSection SMGS     = new EquipmentSection("SMGS", Translation.EQUIPMENT_CATEGORY_SMGS, new ItemStack(Material.FIREWORK_CHARGE), new EquipmentSectionEntry[]{e(GunType.MAC10), e(GunType.MP7), e(GunType.UMP45), e(GunType.BIZON), e(GunType.P90)}, new EquipmentSectionEntry[]{e(GunType.MP9), e(GunType.MP7), e(GunType.UMP45), e(GunType.BIZON), e(GunType.P90)});
-	public static final EquipmentSection RIFLES   = new EquipmentSection("RIFLES", Translation.EQUIPMENT_CATEGORY_RIFLES, new ItemStack(Material.FIREWORK_CHARGE), new EquipmentSectionEntry[]{e(GunType.GALIL_AR), e(GunType.AK_47), e(GunType.SSG_08), e(GunType.SG_556), e(GunType.AWP), e(GunType.G3SG1)}, new EquipmentSectionEntry[]{e(GunType.FAMAS), e(GunType.M4A4, GunType.M4A1_S), e(GunType.SSG_08), e(GunType.AUG), e(GunType.AWP), e(GunType.SCAR_20)});
-	public static final EquipmentSection GEAR     = new EquipmentSection("GEAR", Translation.EQUIPMENT_CATEGORY_GEAR, new ItemStack(Material.LEATHER_CHESTPLATE), new EquipmentSectionEntry[]{e(Kevlar.KEVLAR), e(KevlarAndHelmet.KEVLAR_AND_HELMET)});
-	public static final EquipmentSection GRENADES = new EquipmentSection("GRENADES", Translation.EQUIPMENT_CATEGORY_GRENADES, new ItemStack(Material.POTION), new EquipmentSectionEntry[]{e(GrenadeType.INCENDIARY), e(GrenadeType.DECOY), e(GrenadeType.EXPLOSIVE), e(GrenadeType.FLASH), e(GrenadeType.SMOKE)});
+	public static final EquipmentSection PISTOLS  = new EquipmentSection("PISTOLS", Translation.EQUIPMENT_CATEGORY_PISTOLS, new EquipmentSectionEntry[]{e(GunType.GLOCK), e(GunType.P250, GunType.CZ75), e(GunType.DEAGLE), e(GunType.ELITE), e(GunType.TEC9)}, new EquipmentSectionEntry[]{e(GunType.P2000, GunType.USP_S), e(GunType.P250, GunType.CZ75), e(GunType.DEAGLE), e(GunType.ELITE), e(GunType.FIVESEVEN)});
+	public static final EquipmentSection HEAVY    = new EquipmentSection("HEAVY", Translation.EQUIPMENT_CATEGORY_HEAVY, new EquipmentSectionEntry[]{e(GunType.NOVA), e(GunType.XM1014), e(GunType.SAWEDOFF), e(GunType.M249), e(GunType.NEGEV)}, new EquipmentSectionEntry[]{e(GunType.NOVA), e(GunType.XM1014), e(GunType.MAG7), e(GunType.M249), e(GunType.NEGEV)});
+	public static final EquipmentSection SMGS     = new EquipmentSection("SMGS", Translation.EQUIPMENT_CATEGORY_SMGS, new EquipmentSectionEntry[]{e(GunType.MAC10), e(GunType.MP7), e(GunType.UMP45), e(GunType.BIZON), e(GunType.P90)}, new EquipmentSectionEntry[]{e(GunType.MP9), e(GunType.MP7), e(GunType.UMP45), e(GunType.BIZON), e(GunType.P90)});
+	public static final EquipmentSection RIFLES   = new EquipmentSection("RIFLES", Translation.EQUIPMENT_CATEGORY_RIFLES, new EquipmentSectionEntry[]{e(GunType.GALIL_AR), e(GunType.AK_47), e(GunType.SSG_08), e(GunType.SG_556), e(GunType.AWP), e(GunType.G3SG1)}, new EquipmentSectionEntry[]{e(GunType.FAMAS), e(GunType.M4A4, GunType.M4A1_S), e(GunType.SSG_08), e(GunType.AUG), e(GunType.AWP), e(GunType.SCAR_20)});
+	public static final EquipmentSection GEAR     = new EquipmentSection("GEAR", Translation.EQUIPMENT_CATEGORY_GEAR, new EquipmentSectionEntry[]{e(Kevlar.KEVLAR), e(KevlarAndHelmet.KEVLAR_AND_HELMET)});
+	public static final EquipmentSection GRENADES = new EquipmentSection("GRENADES", Translation.EQUIPMENT_CATEGORY_GRENADES, new EquipmentSectionEntry[]{e(GrenadeType.INCENDIARY), e(GrenadeType.DECOY), e(GrenadeType.EXPLOSIVE), e(GrenadeType.FLASH), e(GrenadeType.SMOKE)});
 
 	private final String                  id;
 	private final Translation             translation;
 	private final ItemStack               icon;
 	private final EquipmentSectionEntry[] tEquipment, ctEquipment;
 
-	public EquipmentSection(String id, Translation translation, ItemStack icon, EquipmentSectionEntry[] tEquipment, EquipmentSectionEntry[] ctEquipment)
+	public EquipmentSection(String id, Translation translation, EquipmentSectionEntry[] tEquipment, EquipmentSectionEntry[] ctEquipment)
 	{
 		this.id = id;
 		this.translation = translation;
-		this.icon = icon;
 		this.tEquipment = tEquipment;
 		this.ctEquipment = ctEquipment;
-
-		LoreAttributes.TEMP.clear();
-		LoreAttributes.extract(icon, LoreAttributes.TEMP);
-		LoreAttributes.TEMP.put("id", id);
-		LoreAttributes.TEMP.apply(icon);
+		this.icon = initIcon();
 	}
 
-	public EquipmentSection(String id, Translation translation, ItemStack icon, EquipmentSectionEntry... equipment)
+	public EquipmentSection(String id, Translation translation, EquipmentSectionEntry... equipment)
 	{
-		this(id, translation, icon, equipment, equipment);
+		this(id, translation, equipment, equipment);
 	}
 
 	public static EquipmentSection getById(Collection<EquipmentSection> categories, String id)
@@ -97,16 +92,25 @@ public class EquipmentSection
 		
 		return null;
 	}
-	
-	public ItemStack getIcon()
+
+	private ItemStack initIcon()
 	{
-		ItemStack icon = this.icon.clone();
+		ItemStack icon = new ItemStack(Material.FIREWORK_CHARGE);
 		ItemMeta im = icon.getItemMeta();
-		
+
 		im.setDisplayName(ChatColor.BOLD + getName());
 		icon.setItemMeta(im);
-		
+
+		LoreAttributes.TEMP.clear();
+		LoreAttributes.TEMP.put("Type", "SHOP_SECTION_" + id);
+		LoreAttributes.TEMP.apply(icon);
+
 		return icon;
+	}
+
+	public ItemStack getIcon()
+	{
+		return icon.clone();
 	}
 
 	public void openInventory(MSPlayer msPlayer)

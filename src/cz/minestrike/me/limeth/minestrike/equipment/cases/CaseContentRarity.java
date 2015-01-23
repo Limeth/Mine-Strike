@@ -1,9 +1,9 @@
 package cz.minestrike.me.limeth.minestrike.equipment.cases;
 
 import com.google.common.collect.Lists;
-import cz.minestrike.me.limeth.minestrike.MSConstant;
 import cz.minestrike.me.limeth.minestrike.Translation;
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -17,6 +17,18 @@ public enum CaseContentRarity
 	VALUABLE(ChatColor.YELLOW, Translation.EQUIPMENT_RARITY_VALUABLE, "2_uncommon"),
 	COMMON(ChatColor.GREEN, Translation.EQUIPMENT_RARITY_COMMON, "1_common");
 
+	static
+	{
+		ItemStack $displayModel = new ItemStack(Material.FLINT);
+		ItemMeta im = $displayModel.getItemMeta();
+
+		im.setDisplayName(ChatColor.RESET + "");
+		$displayModel.setItemMeta(im);
+
+		displayModel = $displayModel;
+	}
+
+	private static final ItemStack displayModel;
 	private static Integer     $rarities;
 	private final  ChatColor   color;
 	private final  Translation translation;
@@ -34,7 +46,7 @@ public enum CaseContentRarity
 
 	private ItemStack initDisplayItem(String position)
 	{
-		ItemStack itemStack = MSConstant.ITEM_BACKGROUND.clone();
+		ItemStack itemStack = displayModel.clone();
 		ItemMeta im = itemStack.getItemMeta();
 
 		im.setLore(Lists.newArrayList("CASE_DISPLAY_" + name() + "_" + position));

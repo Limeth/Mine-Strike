@@ -1,14 +1,5 @@
 package cz.minestrike.me.limeth.minestrike.scene.games.team.defuse;
 
-import java.util.HashMap;
-
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
-import org.bukkit.entity.Player;
-import org.bukkit.event.Event;
-import org.bukkit.event.EventHandler;
-import org.bukkit.scheduler.BukkitScheduler;
-
 import cz.minestrike.me.limeth.minestrike.MSPlayer;
 import cz.minestrike.me.limeth.minestrike.MineStrike;
 import cz.minestrike.me.limeth.minestrike.events.ArenaJoinEvent;
@@ -19,10 +10,19 @@ import cz.minestrike.me.limeth.minestrike.scene.games.Game;
 import cz.minestrike.me.limeth.minestrike.scene.games.GamePhase;
 import cz.minestrike.me.limeth.minestrike.scene.games.GamePhaseType;
 import cz.minestrike.me.limeth.minestrike.scene.games.team.defuse.DefuseGame.RoundEndReason;
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.entity.Player;
+import org.bukkit.event.Event;
+import org.bukkit.event.EventHandler;
+import org.bukkit.scheduler.BukkitScheduler;
+
+import java.util.HashMap;
 
 public class Round extends GamePhase<DefuseGame>
 {
-	public static final long BOMB_TIME = 60 * 20, SPAWN_TIME = 10 * 20, ROUND_TIME = 20 * 60 * 3, END_TIME = 5 * 20, VOTE_TIME = 10 * 20;
+	//TODO public static final long BOMB_TIME = 60 * 20, SPAWN_TIME = 10 * 20, ROUND_TIME = 20 * 60 * 3, END_TIME = 5 * 20, VOTE_TIME = 10 * 20;
+	public static final long BOMB_TIME = 60 * 20, SPAWN_TIME = 1 * 20, ROUND_TIME = 20 * 6 * 3, END_TIME = 5 * 20, VOTE_TIME = 10 * 20;
 
 	private final Runnable prepareRunnable = new Runnable() {
 		@Override

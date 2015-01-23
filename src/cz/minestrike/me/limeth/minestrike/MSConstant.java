@@ -1,5 +1,6 @@
 package cz.minestrike.me.limeth.minestrike;
 
+import cz.minestrike.me.limeth.minestrike.util.LoreAttributes;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
@@ -32,8 +33,8 @@ public class MSConstant
 			MOVEMENT_SPEED_DEFAULT = 250 * CS_UNITS_TO_METERS_PER_TICK_MODIFIER, BOMB_POWER = 100F;
 	public static final ItemStack
 			ITEM_BACKGROUND,
-			QUIT_SERVER_ITEM = new ItemStack(Material.IRON_DOOR),
-			QUIT_MENU_ITEM = new ItemStack(Material.WOOD_DOOR);
+			QUIT_SERVER_ITEM = customTextured(Translation.BUTTON_QUITGAME, "BUTTON_QUITGAME"),
+			QUIT_MENU_ITEM = customTextured(Translation.BUTTON_TEAMCHANGE, "BUTTON_TEAMCHANGE");
 	public static final Material
 			MATERIAL_ARROW_UP = Material.GOLD_RECORD,
 			MATERIAL_ARROW_DOWN = Material.GREEN_RECORD,
@@ -42,4 +43,19 @@ public class MSConstant
 			MATERIAL_CONFIRM = Material.RECORD_5,
 			MATERIAL_DENY = Material.RECORD_6,
 			MATERIAL_BACK = Material.RECORD_7;
+
+	private static ItemStack customTextured(Translation translation, String type)
+	{
+		ItemStack is = new ItemStack(Material.FIREWORK_CHARGE);
+		ItemMeta im = is.getItemMeta();
+
+		im.setDisplayName(translation.getMessage());
+		is.setItemMeta(im);
+
+		LoreAttributes.TEMP.clear();
+		LoreAttributes.TEMP.put("Type", type);
+		LoreAttributes.TEMP.apply(is);
+
+		return is;
+	}
 }

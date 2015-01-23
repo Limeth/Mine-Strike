@@ -1,19 +1,5 @@
 package cz.minestrike.me.limeth.minestrike.scene.games.team.defuse;
 
-import java.util.Set;
-import java.util.function.Predicate;
-
-import org.apache.commons.lang.Validate;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.World;
-import org.bukkit.block.Block;
-import org.bukkit.entity.Player;
-import org.bukkit.event.Event;
-import org.bukkit.plugin.PluginManager;
-
 import cz.minestrike.me.limeth.minestrike.MSConfig;
 import cz.minestrike.me.limeth.minestrike.MSConstant;
 import cz.minestrike.me.limeth.minestrike.MSPlayer;
@@ -29,14 +15,7 @@ import cz.minestrike.me.limeth.minestrike.events.ArenaJoinEvent;
 import cz.minestrike.me.limeth.minestrike.events.GameQuitEvent.SceneQuitReason;
 import cz.minestrike.me.limeth.minestrike.events.GameSpawnEvent;
 import cz.minestrike.me.limeth.minestrike.listeners.msPlayer.MSSceneListener;
-import cz.minestrike.me.limeth.minestrike.scene.games.Game;
-import cz.minestrike.me.limeth.minestrike.scene.games.GamePhase;
-import cz.minestrike.me.limeth.minestrike.scene.games.GamePhaseType;
-import cz.minestrike.me.limeth.minestrike.scene.games.GameType;
-import cz.minestrike.me.limeth.minestrike.scene.games.MoneyAward;
-import cz.minestrike.me.limeth.minestrike.scene.games.PlayerState;
-import cz.minestrike.me.limeth.minestrike.scene.games.Team;
-import cz.minestrike.me.limeth.minestrike.scene.games.VoiceSound;
+import cz.minestrike.me.limeth.minestrike.scene.games.*;
 import cz.minestrike.me.limeth.minestrike.scene.games.team.RadarView;
 import cz.minestrike.me.limeth.minestrike.scene.games.team.TeamGame;
 import cz.minestrike.me.limeth.minestrike.scene.games.team.defuse.Round.RoundPhase;
@@ -47,58 +26,69 @@ import cz.projectsurvive.limeth.dynamicdisplays.PlayerDisplay;
 import cz.projectsurvive.limeth.dynamicdisplays.TimedPlayerDisplay;
 import cz.projectsurvive.me.limeth.Title;
 import ftbastler.HeadsUpDisplay;
+import org.apache.commons.lang.Validate;
+import org.bukkit.*;
+import org.bukkit.block.Block;
+import org.bukkit.entity.Player;
+import org.bukkit.event.Event;
+import org.bukkit.plugin.PluginManager;
+
+import java.util.Set;
+import java.util.function.Predicate;
 
 public class DefuseGame extends TeamGame
 {
-	public static final String CUSTOM_DATA_DEAD = "MineStrike.game.dead", CUSTOM_DATA_BALANCE = "MineStrike.game.balance";
-	public static final int MONEY_CAP = 10000, REQUIRED_ROUNDS = 8,
+	public static final String CUSTOM_DATA_BALANCE = "MineStrike.game.balance";
+	public static final int MONEY_CAP = 10000, REQUIRED_ROUNDS = 1/*TODO 8*/,
 			XP_KILL = 100, XP_MATCH_WIN = 200, XP_MATCH_LOSE = 50;
 	private int tScore, ctScore;
-	private int winsInRow;
-	private Team lastWinner;
-	private Block bombBlock;
-	private boolean bombGiven;
+	private int                         winsInRow;
+	private Team                        lastWinner;
+	private Block                       bombBlock;
+	private boolean                     bombGiven;
 	private MSSceneListener<DefuseGame> defuseGameListener;
-	
+	private MSRewardListener<DefuseGame> defuseRewardListener;
+
 	public DefuseGame(String id, String name, MSPlayer owner, boolean open, String lobby, String menu, FilledArrayList<String> maps)
 	{
 		super(GameType.DEFUSE, id, name, owner, open, lobby, menu, maps);
 	}
-	
+
 	public DefuseGame(String id, String name)
 	{
 		this(id, name, null, true, "lobby_global_defuse", "menu_global_defuse", new FilledArrayList<String>());
 	}
-	
+
 	@Override
 	public DefuseGame setup()
 	{
 		super.setup();
 		defuseGameListener = new DefuseGameListener(this);
-		
+		defuseRewardListener = new DefuseRewardListener(this);
+
 		return this;
 	}
-	
+
 	@Override
 	public void start()
 	{
 		super.start();
-		
+
 		Round round = new Round(this);
 		winsInRow = 0;
 		lastWinner = null;
-		
+
 		for(MSPlayer player : getPlayingPlayers())
 		{
 			player.clearContainers();
 			setBalance(player, MoneyAward.START_CASUAL.getAmount());
 		}
-		
+
 		setBombBlock(null);
 		setScore(0, 0);
 		setPhase(round);
 	}
-	
+
 	@Override
 	public RadarView createRadarView()
 	{
@@ -110,33 +100,34 @@ public class DefuseGame extends TeamGame
 	{
 		super.redirect(event, msPlayer);
 		defuseGameListener.redirect(event, msPlayer);
-		
+		defuseRewardListener.redirect(event, msPlayer);
+
 		if(getPhaseType() == GamePhaseType.RUNNING)
 			getRound().redirect(event, msPlayer);
 	}
-	
+
 	public boolean roundPrepare()
 	{
 		clearBombsites();
 		clearDrops();
-		
+
 		for(MSPlayer msPlayer : getPlayingPlayers())
 		{
 			Player player = msPlayer.getPlayer();
-			
+
 			player.setWalkSpeed(0);
 			setDead(msPlayer, false);
 			spawnAndEquip(msPlayer, false);
 			showWitherBar(msPlayer);
 		}
-		
+
 		bombGiven = false;
 		giveBomb();
 		updateTabHeadersAndFooters();
-		
+
 		return true;
 	}
-	
+
 	public boolean roundStart()
 	{
 		for(MSPlayer msPlayer : getPlayingPlayers())
@@ -144,20 +135,22 @@ public class DefuseGame extends TeamGame
 			Player player = msPlayer.getPlayer();
 			Team team = getTeam(msPlayer);
 			String sound = VoiceSound.LOCK_AND_LOAD.getAbsoluteName(team);
-			
+
 			showWitherBar(msPlayer);
 			msPlayer.updateMovementSpeed();
 			SoundManager.play(sound, player);
 		}
-		
+
 		return true;
 	}
-	
+
 	public MSPlayer giveBomb()
 	{
-		Set<MSPlayer> terrorists = getPlayingPlayers(p -> { return getTeam(p) == Team.TERRORISTS; });
+		Set<MSPlayer> terrorists = getPlayingPlayers(p -> {
+			return getTeam(p) == Team.TERRORISTS;
+		});
 		int terroristsAmount = terrorists.size();
-		
+
 		if(terroristsAmount > 0)
 		{
 			int randomIndex = MSConstant.RANDOM.nextInt(terroristsAmount);
@@ -423,6 +416,8 @@ public class DefuseGame extends TeamGame
 			else if(team == loserTeam)
 				msPlayer.addXP(XP_MATCH_LOSE);
 		}
+
+		defuseRewardListener.rewardPlayers();
 		
 		for(MSPlayer msPlayer : getPlayingPlayers(p -> { return p.getPlayerState() == PlayerState.JOINED_GAME; }))
 		{
@@ -588,25 +583,6 @@ public class DefuseGame extends TeamGame
 	public boolean isSpectating(MSPlayer msPlayer)
 	{
 		return !hasTeam(msPlayer);
-	}
-	
-	public boolean isDead(Team team)
-	{
-		Validate.notNull(team, "The team cannot be null!");
-		
-		return getPlayingPlayers(p -> { return getTeam(p) == team && !isDead(p); }).size() <= 0;
-	}
-	
-	public boolean isDead(MSPlayer msPlayer)
-	{
-		Boolean dead = msPlayer.getCustomData(Boolean.class, CUSTOM_DATA_DEAD);
-		
-		return dead != null ? dead : false;
-	}
-	
-	public void setDead(MSPlayer msPlayer, boolean value)
-	{
-		msPlayer.setCustomData(CUSTOM_DATA_DEAD, value);
 	}
 	
 	public Location spawnAndEquip(MSPlayer msPlayer, boolean force)

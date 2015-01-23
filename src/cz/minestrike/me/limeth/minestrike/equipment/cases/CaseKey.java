@@ -1,6 +1,7 @@
 package cz.minestrike.me.limeth.minestrike.equipment.cases;
 
 import cz.minestrike.me.limeth.minestrike.equipment.*;
+import cz.minestrike.me.limeth.minestrike.util.LoreAttributes;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.inventory.Inventory;
@@ -71,6 +72,10 @@ public class CaseKey implements Equipment
 		
 		im.setDisplayName(getDisplayName());
 		item.setItemMeta(im);
+
+		LoreAttributes.TEMP.clear();
+		LoreAttributes.TEMP.put("Type", getId());
+		LoreAttributes.TEMP.apply(item);
 		
 		return item;
 	}
