@@ -22,23 +22,24 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="DynamicDisplays" />
     <orderEntry type="inheritedJdk" />
+    <orderEntry type="module" module-name="PSClans" />
+    <orderEntry type="module" module-name="PSMaps" />
+    <orderEntry type="module" module-name="OnePointEight" />
+    <orderEntry type="library" name="minecraft_server" level="project" />
+    <orderEntry type="library" name="HolographicDisplays" level="project" />
+    <orderEntry type="library" name="PermissionsEx" level="project" />
+    <orderEntry type="library" name="ProtocolLib-Spigot-3.6.0-SNAPSHOT" level="project" />
+    <orderEntry type="library" name="worldedit-6.0.0-SNAPSHOT" level="project" />
+    <orderEntry type="library" exported="" name="antlr:stringtemplate:3.0" level="project" />
+    <orderEntry type="library" exported="" name="org.jdbi:jdbi:2.55" level="project" />
     <orderEntry type="module-library">
-      <library name="NametagEdit.jar">
+      <library>
         <CLASSES>
-          <root url="jar://$USER_HOME$/Desktop/Coding/Java/Projects/Minecraft/Libraries/NametagEdit.jar!/" />
+          <root url="jar://$USER_HOME$/Dokumenty/Programování/Knihovny/minestrike/NametagEdit.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
       </library>
     </orderEntry>
-    <orderEntry type="module" module-name="PSClans" />
-    <orderEntry type="module" module-name="PSMaps" />
-    <orderEntry type="module" module-name="OnePointEight" />
-    <orderEntry type="module" module-name="fanciful" exported="" />
-    <orderEntry type="library" name="1.8-based-1.7.10" level="project" />
-    <orderEntry type="library" name="ProtocolLib-Spigot-3.6.0-SNAPSHOT" level="project" />
-    <orderEntry type="library" name="worldedit-6.0.0-SNAPSHOT" level="project" />
-    <orderEntry type="library" name="org.jdbi:jdbi:2.55" level="application" />
-    <orderEntry type="library" name="antlr:stringtemplate:3.0" level="application" />
   </component>
 </module>

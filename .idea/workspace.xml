@@ -8,37 +8,174 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8c5aa0ec-ae5e-4311-882f-bf2a5d8f137d" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/events/ArenaDeathEvent.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/scene/games/team/defuse/DefuseRewardListener.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/scene/games/MSRewardListener.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/scene/games/WeightedMSRewardListener.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bin/cz/minestrike/me/limeth/minestrike/equipment/cases/CaseContentRarity.class" afterPath="$PROJECT_DIR$/bin/cz/minestrike/me/limeth/minestrike/equipment/cases/CaseContentRarity.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bin/cz/minestrike/me/limeth/minestrike/equipment/cases/CaseKey$1.class" afterPath="$PROJECT_DIR$/bin/cz/minestrike/me/limeth/minestrike/equipment/cases/CaseKey$1.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bin/cz/minestrike/me/limeth/minestrike/equipment/cases/CaseKey.class" afterPath="$PROJECT_DIR$/bin/cz/minestrike/me/limeth/minestrike/equipment/cases/CaseKey.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bin/cz/minestrike/me/limeth/minestrike/equipment/cases/CaseOpening.class" afterPath="$PROJECT_DIR$/bin/cz/minestrike/me/limeth/minestrike/equipment/cases/CaseOpening.class" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../dynamicdisplays/DynamicDisplays.iml" />
+      <change type="NEW" beforePath="" afterPath="$USER_HOME$/workspace/OnePointEight/OnePointEight.iml" />
+      <change type="NEW" beforePath="" afterPath="$USER_HOME$/workspace/PSClans/PSClans.iml" />
+      <change type="NEW" beforePath="" afterPath="$USER_HOME$/workspace/PSMaps/PSMaps.iml" />
+      <change type="NEW" beforePath="" afterPath="$USER_HOME$/workspace/RawChatManager/RawChatManager.iml" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/fanciful.iml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/fanciful/fanciful.iml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/fanciful/mkremins/fanciful/Example.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/fanciful/mkremins/fanciful/FancyMessage.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/fanciful/mkremins/fanciful/JsonRepresentedObject.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/fanciful/mkremins/fanciful/JsonString.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/fanciful/mkremins/fanciful/MessagePart$1.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/fanciful/mkremins/fanciful/MessagePart.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/fanciful/mkremins/fanciful/TextualComponent$ArbitraryTextTypeComponent$1.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/fanciful/mkremins/fanciful/TextualComponent$ArbitraryTextTypeComponent.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/fanciful/mkremins/fanciful/TextualComponent$ComplexTextTypeComponent$1.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/fanciful/mkremins/fanciful/TextualComponent$ComplexTextTypeComponent.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/fanciful/mkremins/fanciful/TextualComponent.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/fanciful/net/amoebaman/util/ArrayWrapper.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/fanciful/net/amoebaman/util/Reflection.class" afterPath="" />
+      <change type="DELETED" beforePath="$USER_HOME$/workspace/OnePointEight/bin/mkremins/fanciful/FancyMessage.class" afterPath="" />
+      <change type="DELETED" beforePath="$USER_HOME$/workspace/OnePointEight/bin/mkremins/fanciful/JsonRepresentedObject.class" afterPath="" />
+      <change type="DELETED" beforePath="$USER_HOME$/workspace/OnePointEight/bin/mkremins/fanciful/JsonString.class" afterPath="" />
+      <change type="DELETED" beforePath="$USER_HOME$/workspace/OnePointEight/bin/mkremins/fanciful/MessagePart.class" afterPath="" />
+      <change type="DELETED" beforePath="$USER_HOME$/workspace/OnePointEight/bin/mkremins/fanciful/TextualComponent$ArbitraryTextTypeComponent$1.class" afterPath="" />
+      <change type="DELETED" beforePath="$USER_HOME$/workspace/OnePointEight/bin/mkremins/fanciful/TextualComponent$ArbitraryTextTypeComponent.class" afterPath="" />
+      <change type="DELETED" beforePath="$USER_HOME$/workspace/OnePointEight/bin/mkremins/fanciful/TextualComponent$ComplexTextTypeComponent$1.class" afterPath="" />
+      <change type="DELETED" beforePath="$USER_HOME$/workspace/OnePointEight/bin/mkremins/fanciful/TextualComponent$ComplexTextTypeComponent.class" afterPath="" />
+      <change type="DELETED" beforePath="$USER_HOME$/workspace/OnePointEight/bin/mkremins/fanciful/TextualComponent.class" afterPath="" />
+      <change type="DELETED" beforePath="$USER_HOME$/workspace/OnePointEight/bin/net/amoebaman/util/ArrayWrapper.class" afterPath="" />
+      <change type="DELETED" beforePath="$USER_HOME$/workspace/OnePointEight/bin/net/amoebaman/util/Reflection.class" afterPath="" />
+      <change type="DELETED" beforePath="$USER_HOME$/workspace/RawChatManager/bin/.gitignore" afterPath="" />
+      <change type="DELETED" beforePath="$USER_HOME$/workspace/RawChatManager/bin/mkremins/fanciful/FancyMessage.class" afterPath="" />
+      <change type="DELETED" beforePath="$USER_HOME$/workspace/RawChatManager/bin/mkremins/fanciful/JsonRepresentedObject.class" afterPath="" />
+      <change type="DELETED" beforePath="$USER_HOME$/workspace/RawChatManager/bin/mkremins/fanciful/JsonString.class" afterPath="" />
+      <change type="DELETED" beforePath="$USER_HOME$/workspace/RawChatManager/bin/mkremins/fanciful/MessagePart.class" afterPath="" />
+      <change type="DELETED" beforePath="$USER_HOME$/workspace/RawChatManager/bin/mkremins/fanciful/TextualComponent$ArbitraryTextTypeComponent$1.class" afterPath="" />
+      <change type="DELETED" beforePath="$USER_HOME$/workspace/RawChatManager/bin/mkremins/fanciful/TextualComponent$ArbitraryTextTypeComponent.class" afterPath="" />
+      <change type="DELETED" beforePath="$USER_HOME$/workspace/RawChatManager/bin/mkremins/fanciful/TextualComponent$ComplexTextTypeComponent$1.class" afterPath="" />
+      <change type="DELETED" beforePath="$USER_HOME$/workspace/RawChatManager/bin/mkremins/fanciful/TextualComponent$ComplexTextTypeComponent.class" afterPath="" />
+      <change type="DELETED" beforePath="$USER_HOME$/workspace/RawChatManager/bin/mkremins/fanciful/TextualComponent.class" afterPath="" />
+      <change type="DELETED" beforePath="$USER_HOME$/workspace/RawChatManager/bin/net/amoebaman/util/ArrayWrapper.class" afterPath="" />
+      <change type="DELETED" beforePath="$USER_HOME$/workspace/RawChatManager/bin/net/amoebaman/util/Reflection.class" afterPath="" />
+      <change type="MODIFICATION" beforePath="$USER_HOME$/workspace/OnePointEight/bin/net/darkseraphim/actionbar/ActionBarAPI.class" afterPath="$USER_HOME$/workspace/OnePointEight/bin/net/darkseraphim/actionbar/ActionBarAPI.class" />
+      <change type="MODIFICATION" beforePath="$USER_HOME$/workspace/PSMaps/bin/cz/projectsurvive/me/limeth/psmaps/filters/AdditiveNoiseFilter.class" afterPath="$USER_HOME$/workspace/PSMaps/bin/cz/projectsurvive/me/limeth/psmaps/filters/AdditiveNoiseFilter.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bin/cz/minestrike/me/limeth/minestrike/equipment/containers/ArmorContainer$2.class" afterPath="$PROJECT_DIR$/bin/cz/minestrike/me/limeth/minestrike/equipment/containers/ArmorContainer$2.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bin/cz/minestrike/me/limeth/minestrike/equipment/containers/ArmorContainer.class" afterPath="$PROJECT_DIR$/bin/cz/minestrike/me/limeth/minestrike/equipment/containers/ArmorContainer.class" />
+      <change type="MODIFICATION" beforePath="$USER_HOME$/workspace/PSMaps/bin/cz/projectsurvive/me/limeth/psmaps/filters/BlockColorFilter.class" afterPath="$USER_HOME$/workspace/PSMaps/bin/cz/projectsurvive/me/limeth/psmaps/filters/BlockColorFilter.class" />
+      <change type="MODIFICATION" beforePath="$USER_HOME$/workspace/PSMaps/bin/cz/projectsurvive/me/limeth/psmaps/BlockData.class" afterPath="$USER_HOME$/workspace/PSMaps/bin/cz/projectsurvive/me/limeth/psmaps/BlockData.class" />
+      <change type="MODIFICATION" beforePath="$USER_HOME$/workspace/PSClans/bin/cz/projectsurvive/me/limeth/psclans/CaseInsensitiveSet.class" afterPath="$USER_HOME$/workspace/PSClans/bin/cz/projectsurvive/me/limeth/psclans/CaseInsensitiveSet.class" />
+      <change type="MODIFICATION" beforePath="$USER_HOME$/workspace/RawChatManager/bin/cz/projectsurvive/me/limeth/rawchatmanager/ChatArgumentHandler.class" afterPath="$USER_HOME$/workspace/RawChatManager/bin/cz/projectsurvive/me/limeth/rawchatmanager/ChatArgumentHandler.class" />
+      <change type="MODIFICATION" beforePath="$USER_HOME$/workspace/RawChatManager/bin/cz/projectsurvive/me/limeth/rawchatmanager/ChatArgumentManager.class" afterPath="$USER_HOME$/workspace/RawChatManager/bin/cz/projectsurvive/me/limeth/rawchatmanager/ChatArgumentManager.class" />
+      <change type="MODIFICATION" beforePath="$USER_HOME$/workspace/PSClans/bin/cz/projectsurvive/me/limeth/psclans/ChatClanHandler.class" afterPath="$USER_HOME$/workspace/PSClans/bin/cz/projectsurvive/me/limeth/psclans/ChatClanHandler.class" />
+      <change type="MODIFICATION" beforePath="$USER_HOME$/workspace/RawChatManager/bin/cz/projectsurvive/me/limeth/rawchatmanager/ChatFormat.class" afterPath="$USER_HOME$/workspace/RawChatManager/bin/cz/projectsurvive/me/limeth/rawchatmanager/ChatFormat.class" />
+      <change type="MODIFICATION" beforePath="$USER_HOME$/workspace/RawChatManager/bin/cz/projectsurvive/me/limeth/rawchatmanager/ChatListener.class" afterPath="$USER_HOME$/workspace/RawChatManager/bin/cz/projectsurvive/me/limeth/rawchatmanager/ChatListener.class" />
+      <change type="MODIFICATION" beforePath="$USER_HOME$/workspace/RawChatManager/bin/cz/projectsurvive/me/limeth/rawchatmanager/handlers/ChatMessageHandler.class" afterPath="$USER_HOME$/workspace/RawChatManager/bin/cz/projectsurvive/me/limeth/rawchatmanager/handlers/ChatMessageHandler.class" />
+      <change type="MODIFICATION" beforePath="$USER_HOME$/workspace/RawChatManager/bin/cz/projectsurvive/me/limeth/rawchatmanager/handlers/ChatPEXPrefixHandler.class" afterPath="$USER_HOME$/workspace/RawChatManager/bin/cz/projectsurvive/me/limeth/rawchatmanager/handlers/ChatPEXPrefixHandler.class" />
+      <change type="MODIFICATION" beforePath="$USER_HOME$/workspace/RawChatManager/bin/cz/projectsurvive/me/limeth/rawchatmanager/handlers/ChatPEXSuffixHandler.class" afterPath="$USER_HOME$/workspace/RawChatManager/bin/cz/projectsurvive/me/limeth/rawchatmanager/handlers/ChatPEXSuffixHandler.class" />
+      <change type="MODIFICATION" beforePath="$USER_HOME$/workspace/RawChatManager/bin/cz/projectsurvive/me/limeth/rawchatmanager/handlers/ChatPlayerHandler.class" afterPath="$USER_HOME$/workspace/RawChatManager/bin/cz/projectsurvive/me/limeth/rawchatmanager/handlers/ChatPlayerHandler.class" />
+      <change type="MODIFICATION" beforePath="$USER_HOME$/workspace/RawChatManager/bin/cz/projectsurvive/me/limeth/rawchatmanager/ChatTile.class" afterPath="$USER_HOME$/workspace/RawChatManager/bin/cz/projectsurvive/me/limeth/rawchatmanager/ChatTile.class" />
+      <change type="MODIFICATION" beforePath="$USER_HOME$/workspace/RawChatManager/bin/cz/projectsurvive/me/limeth/rawchatmanager/handlers/ChatTimeHandler.class" afterPath="$USER_HOME$/workspace/RawChatManager/bin/cz/projectsurvive/me/limeth/rawchatmanager/handlers/ChatTimeHandler.class" />
+      <change type="MODIFICATION" beforePath="$USER_HOME$/workspace/PSClans/bin/cz/projectsurvive/me/limeth/psclans/Clan.class" afterPath="$USER_HOME$/workspace/PSClans/bin/cz/projectsurvive/me/limeth/psclans/Clan.class" />
+      <change type="MODIFICATION" beforePath="$USER_HOME$/workspace/PSClans/bin/cz/projectsurvive/me/limeth/psclans/events/ClanCreateEvent.class" afterPath="$USER_HOME$/workspace/PSClans/bin/cz/projectsurvive/me/limeth/psclans/events/ClanCreateEvent.class" />
+      <change type="MODIFICATION" beforePath="$USER_HOME$/workspace/PSClans/bin/cz/projectsurvive/me/limeth/psclans/events/ClanInteractionEvent.class" afterPath="$USER_HOME$/workspace/PSClans/bin/cz/projectsurvive/me/limeth/psclans/events/ClanInteractionEvent.class" />
+      <change type="MODIFICATION" beforePath="$USER_HOME$/workspace/PSClans/bin/cz/projectsurvive/me/limeth/psclans/ClanInvitation.class" afterPath="$USER_HOME$/workspace/PSClans/bin/cz/projectsurvive/me/limeth/psclans/ClanInvitation.class" />
+      <change type="MODIFICATION" beforePath="$USER_HOME$/workspace/PSClans/bin/cz/projectsurvive/me/limeth/psclans/events/ClanInviteEvent.class" afterPath="$USER_HOME$/workspace/PSClans/bin/cz/projectsurvive/me/limeth/psclans/events/ClanInviteEvent.class" />
+      <change type="MODIFICATION" beforePath="$USER_HOME$/workspace/PSClans/bin/cz/projectsurvive/me/limeth/psclans/events/ClanJoinEvent.class" afterPath="$USER_HOME$/workspace/PSClans/bin/cz/projectsurvive/me/limeth/psclans/events/ClanJoinEvent.class" />
+      <change type="MODIFICATION" beforePath="$USER_HOME$/workspace/PSClans/bin/cz/projectsurvive/me/limeth/psclans/events/ClanKickEvent.class" afterPath="$USER_HOME$/workspace/PSClans/bin/cz/projectsurvive/me/limeth/psclans/events/ClanKickEvent.class" />
+      <change type="MODIFICATION" beforePath="$USER_HOME$/workspace/PSClans/bin/cz/projectsurvive/me/limeth/psclans/events/ClanLeaveEvent.class" afterPath="$USER_HOME$/workspace/PSClans/bin/cz/projectsurvive/me/limeth/psclans/events/ClanLeaveEvent.class" />
+      <change type="MODIFICATION" beforePath="$USER_HOME$/workspace/PSClans/bin/cz/projectsurvive/me/limeth/psclans/ClanMember.class" afterPath="$USER_HOME$/workspace/PSClans/bin/cz/projectsurvive/me/limeth/psclans/ClanMember.class" />
+      <change type="MODIFICATION" beforePath="$USER_HOME$/workspace/PSClans/bin/cz/projectsurvive/me/limeth/psclans/events/ClanRenameEvent.class" afterPath="$USER_HOME$/workspace/PSClans/bin/cz/projectsurvive/me/limeth/psclans/events/ClanRenameEvent.class" />
+      <change type="MODIFICATION" beforePath="$USER_HOME$/workspace/PSClans/bin/cz/projectsurvive/me/limeth/psclans/CommandExecutorClan.class" afterPath="$USER_HOME$/workspace/PSClans/bin/cz/projectsurvive/me/limeth/psclans/CommandExecutorClan.class" />
+      <change type="MODIFICATION" beforePath="$USER_HOME$/workspace/PSClans/bin/cz/projectsurvive/me/limeth/psclans/Config.class" afterPath="$USER_HOME$/workspace/PSClans/bin/cz/projectsurvive/me/limeth/psclans/Config.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../dynamicdisplays/bin/cz/projectsurvive/limeth/dynamicdisplays/listeners/ConnectionListener.class" afterPath="$PROJECT_DIR$/../dynamicdisplays/bin/cz/projectsurvive/limeth/dynamicdisplays/listeners/ConnectionListener.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../dynamicdisplays/bin/cz/projectsurvive/limeth/dynamicdisplays/commands/DDExecutor.class" afterPath="$PROJECT_DIR$/../dynamicdisplays/bin/cz/projectsurvive/limeth/dynamicdisplays/commands/DDExecutor.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bin/cz/minestrike/me/limeth/minestrike/scene/games/team/defuse/DefuseEquipmentProvider.class" afterPath="$PROJECT_DIR$/bin/cz/minestrike/me/limeth/minestrike/scene/games/team/defuse/DefuseEquipmentProvider.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bin/cz/minestrike/me/limeth/minestrike/scene/games/team/defuse/DefuseGame$RoundEndReason.class" afterPath="$PROJECT_DIR$/bin/cz/minestrike/me/limeth/minestrike/scene/games/team/defuse/DefuseGame$RoundEndReason.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bin/cz/minestrike/me/limeth/minestrike/scene/games/team/defuse/DefuseGame.class" afterPath="$PROJECT_DIR$/bin/cz/minestrike/me/limeth/minestrike/scene/games/team/defuse/DefuseGame.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bin/cz/minestrike/me/limeth/minestrike/scene/games/team/defuse/DefuseGameListener.class" afterPath="$PROJECT_DIR$/bin/cz/minestrike/me/limeth/minestrike/scene/games/team/defuse/DefuseGameListener.class" />
+      <change type="MODIFICATION" beforePath="$USER_HOME$/workspace/PSMaps/bin/cz/projectsurvive/me/limeth/psmaps/filters/DepthFilter.class" afterPath="$USER_HOME$/workspace/PSMaps/bin/cz/projectsurvive/me/limeth/psmaps/filters/DepthFilter.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../dynamicdisplays/bin/cz/projectsurvive/limeth/dynamicdisplays/DynamicDisplays.class" afterPath="$PROJECT_DIR$/../dynamicdisplays/bin/cz/projectsurvive/limeth/dynamicdisplays/DynamicDisplays.class" />
+      <change type="MODIFICATION" beforePath="$USER_HOME$/workspace/PSMaps/bin/cz/projectsurvive/me/limeth/psmaps/surfaces/EditableMapSurface.class" afterPath="$USER_HOME$/workspace/PSMaps/bin/cz/projectsurvive/me/limeth/psmaps/surfaces/EditableMapSurface.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../dynamicdisplays/bin/cz/projectsurvive/limeth/dynamicdisplays/listeners/EntityListener.class" afterPath="$PROJECT_DIR$/../dynamicdisplays/bin/cz/projectsurvive/limeth/dynamicdisplays/listeners/EntityListener.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bin/cz/minestrike/me/limeth/minestrike/equipment/EquipmentCustomization$1.class" afterPath="$PROJECT_DIR$/bin/cz/minestrike/me/limeth/minestrike/equipment/EquipmentCustomization$1.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bin/cz/minestrike/me/limeth/minestrike/equipment/EquipmentCustomization$EquipmentCustomizationBuilder.class" afterPath="$PROJECT_DIR$/bin/cz/minestrike/me/limeth/minestrike/equipment/EquipmentCustomization$EquipmentCustomizationBuilder.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bin/cz/minestrike/me/limeth/minestrike/equipment/EquipmentCustomization.class" afterPath="$PROJECT_DIR$/bin/cz/minestrike/me/limeth/minestrike/equipment/EquipmentCustomization.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bin/cz/minestrike/me/limeth/minestrike/equipment/EquipmentSection.class" afterPath="$PROJECT_DIR$/bin/cz/minestrike/me/limeth/minestrike/equipment/EquipmentSection.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bin/cz/minestrike/me/limeth/minestrike/scene/games/Game.class" afterPath="$PROJECT_DIR$/bin/cz/minestrike/me/limeth/minestrike/scene/games/Game.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bin/cz/minestrike/me/limeth/minestrike/areas/schemes/GameMap$2.class" afterPath="$PROJECT_DIR$/bin/cz/minestrike/me/limeth/minestrike/areas/schemes/GameMap$2.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bin/cz/minestrike/me/limeth/minestrike/areas/schemes/GameMap.class" afterPath="$PROJECT_DIR$/bin/cz/minestrike/me/limeth/minestrike/areas/schemes/GameMap.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bin/cz/minestrike/me/limeth/minestrike/equipment/guns/GunManager$1.class" afterPath="$PROJECT_DIR$/bin/cz/minestrike/me/limeth/minestrike/equipment/guns/GunManager$1.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bin/cz/minestrike/me/limeth/minestrike/equipment/guns/GunManager.class" afterPath="$PROJECT_DIR$/bin/cz/minestrike/me/limeth/minestrike/equipment/guns/GunManager.class" />
+      <change type="MODIFICATION" beforePath="$USER_HOME$/workspace/PSMaps/bin/cz/projectsurvive/me/limeth/psmaps/surfaces/ImageMapSurface$ScaleMethod$1.class" afterPath="$USER_HOME$/workspace/PSMaps/bin/cz/projectsurvive/me/limeth/psmaps/surfaces/ImageMapSurface$ScaleMethod$1.class" />
+      <change type="MODIFICATION" beforePath="$USER_HOME$/workspace/PSMaps/bin/cz/projectsurvive/me/limeth/psmaps/surfaces/ImageMapSurface$ScaleMethod$2.class" afterPath="$USER_HOME$/workspace/PSMaps/bin/cz/projectsurvive/me/limeth/psmaps/surfaces/ImageMapSurface$ScaleMethod$2.class" />
+      <change type="MODIFICATION" beforePath="$USER_HOME$/workspace/PSMaps/bin/cz/projectsurvive/me/limeth/psmaps/surfaces/ImageMapSurface$ScaleMethod$3.class" afterPath="$USER_HOME$/workspace/PSMaps/bin/cz/projectsurvive/me/limeth/psmaps/surfaces/ImageMapSurface$ScaleMethod$3.class" />
+      <change type="MODIFICATION" beforePath="$USER_HOME$/workspace/PSMaps/bin/cz/projectsurvive/me/limeth/psmaps/surfaces/ImageMapSurface$ScaleMethod.class" afterPath="$USER_HOME$/workspace/PSMaps/bin/cz/projectsurvive/me/limeth/psmaps/surfaces/ImageMapSurface$ScaleMethod.class" />
+      <change type="MODIFICATION" beforePath="$USER_HOME$/workspace/PSMaps/bin/cz/projectsurvive/me/limeth/psmaps/surfaces/ImageMapSurface.class" afterPath="$USER_HOME$/workspace/PSMaps/bin/cz/projectsurvive/me/limeth/psmaps/surfaces/ImageMapSurface.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bin/cz/minestrike/me/limeth/minestrike/scene/lobby/Lobby.class" afterPath="$PROJECT_DIR$/bin/cz/minestrike/me/limeth/minestrike/scene/lobby/Lobby.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bin/cz/minestrike/me/limeth/minestrike/MSConstant.class" afterPath="$PROJECT_DIR$/bin/cz/minestrike/me/limeth/minestrike/MSConstant.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bin/cz/minestrike/me/limeth/minestrike/scene/games/MSInteractionListener.class" afterPath="$PROJECT_DIR$/bin/cz/minestrike/me/limeth/minestrike/scene/games/MSInteractionListener.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bin/cz/minestrike/me/limeth/minestrike/listeners/msPlayer/MSListener.class" afterPath="$PROJECT_DIR$/bin/cz/minestrike/me/limeth/minestrike/listeners/msPlayer/MSListener.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bin/cz/minestrike/me/limeth/minestrike/scene/lobby/MSLobbyInventoryListener$1.class" afterPath="$PROJECT_DIR$/bin/cz/minestrike/me/limeth/minestrike/scene/lobby/MSLobbyInventoryListener$1.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bin/cz/minestrike/me/limeth/minestrike/scene/lobby/MSLobbyInventoryListener$LobbyButton$1.class" afterPath="$PROJECT_DIR$/bin/cz/minestrike/me/limeth/minestrike/scene/lobby/MSLobbyInventoryListener$LobbyButton$1.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bin/cz/minestrike/me/limeth/minestrike/scene/lobby/MSLobbyInventoryListener$LobbyButton.class" afterPath="$PROJECT_DIR$/bin/cz/minestrike/me/limeth/minestrike/scene/lobby/MSLobbyInventoryListener$LobbyButton.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bin/cz/minestrike/me/limeth/minestrike/scene/lobby/MSLobbyInventoryListener.class" afterPath="$PROJECT_DIR$/bin/cz/minestrike/me/limeth/minestrike/scene/lobby/MSLobbyInventoryListener.class" />
+      <change type="MODIFICATION" beforePath="$USER_HOME$/workspace/PSMaps/bin/cz/projectsurvive/me/limeth/psmaps/MapAllocator.class" afterPath="$USER_HOME$/workspace/PSMaps/bin/cz/projectsurvive/me/limeth/psmaps/MapAllocator.class" />
+      <change type="MODIFICATION" beforePath="$USER_HOME$/workspace/PSMaps/bin/cz/projectsurvive/me/limeth/psmaps/MapIcon.class" afterPath="$USER_HOME$/workspace/PSMaps/bin/cz/projectsurvive/me/limeth/psmaps/MapIcon.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bin/cz/minestrike/me/limeth/minestrike/scene/games/MapPoll.class" afterPath="$PROJECT_DIR$/bin/cz/minestrike/me/limeth/minestrike/scene/games/MapPoll.class" />
+      <change type="MODIFICATION" beforePath="$USER_HOME$/workspace/PSMaps/bin/cz/projectsurvive/me/limeth/psmaps/MapSender$1.class" afterPath="$USER_HOME$/workspace/PSMaps/bin/cz/projectsurvive/me/limeth/psmaps/MapSender$1.class" />
+      <change type="MODIFICATION" beforePath="$USER_HOME$/workspace/PSMaps/bin/cz/projectsurvive/me/limeth/psmaps/MapSender.class" afterPath="$USER_HOME$/workspace/PSMaps/bin/cz/projectsurvive/me/limeth/psmaps/MapSender.class" />
+      <change type="MODIFICATION" beforePath="$USER_HOME$/workspace/PSMaps/bin/cz/projectsurvive/me/limeth/psmaps/surfaces/MapSurface.class" afterPath="$USER_HOME$/workspace/PSMaps/bin/cz/projectsurvive/me/limeth/psmaps/surfaces/MapSurface.class" />
+      <change type="MODIFICATION" beforePath="$USER_HOME$/workspace/PSMaps/bin/cz/projectsurvive/me/limeth/psmaps/MapTextureColors.class" afterPath="$USER_HOME$/workspace/PSMaps/bin/cz/projectsurvive/me/limeth/psmaps/MapTextureColors.class" />
+      <change type="MODIFICATION" beforePath="$USER_HOME$/workspace/PSMaps/bin/cz/projectsurvive/me/limeth/psmaps/views/MapView.class" afterPath="$USER_HOME$/workspace/PSMaps/bin/cz/projectsurvive/me/limeth/psmaps/views/MapView.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/artifacts/MineStrike_jar/MineStrike.jar" afterPath="$PROJECT_DIR$/out/artifacts/MineStrike_jar/MineStrike.jar" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/equipment/cases/CaseContentRarity.java" afterPath="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/equipment/cases/CaseContentRarity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/equipment/cases/CaseKey.java" afterPath="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/equipment/cases/CaseKey.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/scene/games/team/defuse/DefuseEquipmentProvider.java" afterPath="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/scene/games/team/defuse/DefuseEquipmentProvider.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/scene/games/team/defuse/DefuseGame.java" afterPath="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/scene/games/team/defuse/DefuseGame.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/scene/games/team/defuse/DefuseGameListener.java" afterPath="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/scene/games/team/defuse/DefuseGameListener.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/equipment/EquipmentSection.java" afterPath="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/equipment/EquipmentSection.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/scene/games/Game.java" afterPath="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/scene/games/Game.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/dictionaries/Limeth.xml" afterPath="$PROJECT_DIR$/.idea/dictionaries/Limeth.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/MSConstant.java" afterPath="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/MSConstant.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/scene/games/MSInteractionListener.java" afterPath="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/scene/games/MSInteractionListener.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/listeners/msPlayer/MSListener.java" afterPath="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/listeners/msPlayer/MSListener.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/scene/games/team/defuse/Round.java" afterPath="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/scene/games/team/defuse/Round.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/scene/games/team/TeamGame.java" afterPath="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/scene/games/team/TeamGame.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/Translation.java" afterPath="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/Translation.java" />
+      <change type="MODIFICATION" beforePath="$USER_HOME$/workspace/PSMaps/bin/cz/projectsurvive/me/limeth/psmaps/views/MultiMapView$1.class" afterPath="$USER_HOME$/workspace/PSMaps/bin/cz/projectsurvive/me/limeth/psmaps/views/MultiMapView$1.class" />
+      <change type="MODIFICATION" beforePath="$USER_HOME$/workspace/PSMaps/bin/cz/projectsurvive/me/limeth/psmaps/views/MultiMapView.class" afterPath="$USER_HOME$/workspace/PSMaps/bin/cz/projectsurvive/me/limeth/psmaps/views/MultiMapView.class" />
+      <change type="MODIFICATION" beforePath="$USER_HOME$/workspace/PSMaps/bin/cz/projectsurvive/me/limeth/psmaps/filters/MultiplicativeNoiseFilter.class" afterPath="$USER_HOME$/workspace/PSMaps/bin/cz/projectsurvive/me/limeth/psmaps/filters/MultiplicativeNoiseFilter.class" />
+      <change type="MODIFICATION" beforePath="$USER_HOME$/workspace/PSClans/bin/cz/projectsurvive/me/limeth/psclans/MySQLConnection.class" afterPath="$USER_HOME$/workspace/PSClans/bin/cz/projectsurvive/me/limeth/psclans/MySQLConnection.class" />
+      <change type="MODIFICATION" beforePath="$USER_HOME$/workspace/OnePointEight/bin/cz/projectsurvive/me/limeth/OnePointEight.class" afterPath="$USER_HOME$/workspace/OnePointEight/bin/cz/projectsurvive/me/limeth/OnePointEight.class" />
+      <change type="MODIFICATION" beforePath="$USER_HOME$/workspace/PSMaps/bin/cz/projectsurvive/me/limeth/psmaps/surfaces/OverlayMapSurface.class" afterPath="$USER_HOME$/workspace/PSMaps/bin/cz/projectsurvive/me/limeth/psmaps/surfaces/OverlayMapSurface.class" />
+      <change type="MODIFICATION" beforePath="$USER_HOME$/workspace/PSClans/bin/cz/projectsurvive/me/limeth/psclans/PSClans.class" afterPath="$USER_HOME$/workspace/PSClans/bin/cz/projectsurvive/me/limeth/psclans/PSClans.class" />
+      <change type="MODIFICATION" beforePath="$USER_HOME$/workspace/PSMaps/bin/cz/projectsurvive/me/limeth/psmaps/PSMaps$1.class" afterPath="$USER_HOME$/workspace/PSMaps/bin/cz/projectsurvive/me/limeth/psmaps/PSMaps$1.class" />
+      <change type="MODIFICATION" beforePath="$USER_HOME$/workspace/PSMaps/bin/cz/projectsurvive/me/limeth/psmaps/PSMaps.class" afterPath="$USER_HOME$/workspace/PSMaps/bin/cz/projectsurvive/me/limeth/psmaps/PSMaps.class" />
+      <change type="MODIFICATION" beforePath="$USER_HOME$/workspace/OnePointEight/bin/net/darkseraphim/actionbar/PacketPlayOutActionBar.class" afterPath="$USER_HOME$/workspace/OnePointEight/bin/net/darkseraphim/actionbar/PacketPlayOutActionBar.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../dynamicdisplays/bin/cz/projectsurvive/limeth/dynamicdisplays/PlayerDisplay.class" afterPath="$PROJECT_DIR$/../dynamicdisplays/bin/cz/projectsurvive/limeth/dynamicdisplays/PlayerDisplay.class" />
+      <change type="MODIFICATION" beforePath="$USER_HOME$/workspace/OnePointEight/bin/net/darkseraphim/actionbar/ProxyHashBiMap$Inverse.class" afterPath="$USER_HOME$/workspace/OnePointEight/bin/net/darkseraphim/actionbar/ProxyHashBiMap$Inverse.class" />
+      <change type="MODIFICATION" beforePath="$USER_HOME$/workspace/OnePointEight/bin/net/darkseraphim/actionbar/ProxyHashBiMap.class" afterPath="$USER_HOME$/workspace/OnePointEight/bin/net/darkseraphim/actionbar/ProxyHashBiMap.class" />
+      <change type="MODIFICATION" beforePath="$USER_HOME$/workspace/RawChatManager/bin/cz/projectsurvive/me/limeth/rawchatmanager/RCMExecutor.class" afterPath="$USER_HOME$/workspace/RawChatManager/bin/cz/projectsurvive/me/limeth/rawchatmanager/RCMExecutor.class" />
+      <change type="MODIFICATION" beforePath="$USER_HOME$/workspace/RawChatManager/bin/cz/projectsurvive/me/limeth/rawchatmanager/RawChatManager.class" afterPath="$USER_HOME$/workspace/RawChatManager/bin/cz/projectsurvive/me/limeth/rawchatmanager/RawChatManager.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bin/darkBlade12/ReflectionUtil$1.class" afterPath="$PROJECT_DIR$/bin/darkBlade12/ReflectionUtil$1.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bin/darkBlade12/ReflectionUtil$DynamicPackage$1.class" afterPath="$PROJECT_DIR$/bin/darkBlade12/ReflectionUtil$DynamicPackage$1.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bin/darkBlade12/ReflectionUtil$DynamicPackage$2.class" afterPath="$PROJECT_DIR$/bin/darkBlade12/ReflectionUtil$DynamicPackage$2.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bin/darkBlade12/ReflectionUtil$DynamicPackage.class" afterPath="$PROJECT_DIR$/bin/darkBlade12/ReflectionUtil$DynamicPackage.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bin/darkBlade12/ReflectionUtil.class" afterPath="$PROJECT_DIR$/bin/darkBlade12/ReflectionUtil.class" />
+      <change type="MODIFICATION" beforePath="$USER_HOME$/workspace/PSMaps/bin/cz/projectsurvive/me/limeth/psmaps/surfaces/RegionMapSurface.class" afterPath="$USER_HOME$/workspace/PSMaps/bin/cz/projectsurvive/me/limeth/psmaps/surfaces/RegionMapSurface.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bin/cz/minestrike/me/limeth/minestrike/scene/games/team/defuse/Round$1.class" afterPath="$PROJECT_DIR$/bin/cz/minestrike/me/limeth/minestrike/scene/games/team/defuse/Round$1.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bin/cz/minestrike/me/limeth/minestrike/scene/games/team/defuse/Round$2.class" afterPath="$PROJECT_DIR$/bin/cz/minestrike/me/limeth/minestrike/scene/games/team/defuse/Round$2.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bin/cz/minestrike/me/limeth/minestrike/scene/games/team/defuse/Round.class" afterPath="$PROJECT_DIR$/bin/cz/minestrike/me/limeth/minestrike/scene/games/team/defuse/Round.class" />
+      <change type="MODIFICATION" beforePath="$USER_HOME$/workspace/PSMaps/bin/cz/projectsurvive/me/limeth/psmaps/views/SingleMapView.class" afterPath="$USER_HOME$/workspace/PSMaps/bin/cz/projectsurvive/me/limeth/psmaps/views/SingleMapView.class" />
+      <change type="MODIFICATION" beforePath="$USER_HOME$/workspace/OnePointEight/bin/cz/projectsurvive/me/limeth/TabHeader.class" afterPath="$USER_HOME$/workspace/OnePointEight/bin/cz/projectsurvive/me/limeth/TabHeader.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bin/cz/minestrike/me/limeth/minestrike/scene/games/team/TeamGame.class" afterPath="$PROJECT_DIR$/bin/cz/minestrike/me/limeth/minestrike/scene/games/team/TeamGame.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bin/cz/minestrike/me/limeth/minestrike/scene/games/team/TeamGameListener.class" afterPath="$PROJECT_DIR$/bin/cz/minestrike/me/limeth/minestrike/scene/games/team/TeamGameListener.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bin/cz/minestrike/me/limeth/minestrike/scene/games/TeamValue$1.class" afterPath="$PROJECT_DIR$/bin/cz/minestrike/me/limeth/minestrike/scene/games/TeamValue$1.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bin/cz/minestrike/me/limeth/minestrike/scene/games/TeamValue.class" afterPath="$PROJECT_DIR$/bin/cz/minestrike/me/limeth/minestrike/scene/games/TeamValue.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../dynamicdisplays/bin/cz/projectsurvive/limeth/dynamicdisplays/TimedPlayerDisplay$Executor.class" afterPath="$PROJECT_DIR$/../dynamicdisplays/bin/cz/projectsurvive/limeth/dynamicdisplays/TimedPlayerDisplay$Executor.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../dynamicdisplays/bin/cz/projectsurvive/limeth/dynamicdisplays/TimedPlayerDisplay.class" afterPath="$PROJECT_DIR$/../dynamicdisplays/bin/cz/projectsurvive/limeth/dynamicdisplays/TimedPlayerDisplay.class" />
+      <change type="MODIFICATION" beforePath="$USER_HOME$/workspace/OnePointEight/bin/cz/projectsurvive/me/limeth/Title.class" afterPath="$USER_HOME$/workspace/OnePointEight/bin/cz/projectsurvive/me/limeth/Title.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bin/cz/minestrike/me/limeth/minestrike/Translation.class" afterPath="$PROJECT_DIR$/bin/cz/minestrike/me/limeth/minestrike/Translation.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bin/cz/minestrike/me/limeth/minestrike/equipment/guns/extensions/ZoomExtension$1.class" afterPath="$PROJECT_DIR$/bin/cz/minestrike/me/limeth/minestrike/equipment/guns/extensions/ZoomExtension$1.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bin/cz/minestrike/me/limeth/minestrike/equipment/guns/extensions/ZoomExtension.class" afterPath="$PROJECT_DIR$/bin/cz/minestrike/me/limeth/minestrike/equipment/guns/extensions/ZoomExtension.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/HolographicDisplays.xml" afterPath="$PROJECT_DIR$/.idea/libraries/HolographicDisplays.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/MineStrike.iml" afterPath="$PROJECT_DIR$/MineStrike.iml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/PermissionsEx.xml" afterPath="$PROJECT_DIR$/.idea/libraries/PermissionsEx.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/ProtocolLib_Spigot_3_6_0_SNAPSHOT.xml" afterPath="$PROJECT_DIR$/.idea/libraries/ProtocolLib_Spigot_3_6_0_SNAPSHOT.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/artifacts/Server_MineStrike_jar.xml" afterPath="$PROJECT_DIR$/.idea/artifacts/Server_MineStrike_jar.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/compiler.xml" afterPath="$PROJECT_DIR$/.idea/compiler.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/encodings.xml" afterPath="$PROJECT_DIR$/.idea/encodings.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/modules.xml" afterPath="$PROJECT_DIR$/.idea/modules.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/vcs.xml" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/worldedit_6_0_0_SNAPSHOT.xml" afterPath="$PROJECT_DIR$/.idea/libraries/worldedit_6_0_0_SNAPSHOT.xml" />
     </list>
     <ignored path="mine-strike.iws" />
     <ignored path=".idea/workspace.xml" />
     <ignored path="$PROJECT_DIR$/bin/" />
     <ignored path=".idea/dataSources.local.xml" />
+    <ignored path="$PROJECT_DIR$/../fanciful/target/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -58,184 +195,7 @@
     <favorites_list name="mine-strike" />
   </component>
   <component name="FileEditorManager">
-    <leaf>
-      <file leaf-file-name="MSSceneListener.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/listeners/msPlayer/MSSceneListener.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="374">
-              <caret line="4" column="69" selection-start-line="4" selection-start-column="69" selection-end-line="4" selection-end-column="69" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="DefuseRewardListener.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/scene/games/team/defuse/DefuseRewardListener.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="782">
-              <caret line="27" column="0" selection-start-line="27" selection-start-column="0" selection-end-line="27" selection-end-column="0" />
-              <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="e#674#675#0" expanded="true" />
-                <element signature="e#735#736#0" expanded="true" />
-                <element signature="e#998#999#0" expanded="true" />
-                <element signature="e#1048#1049#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="EquipmentSection.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/equipment/EquipmentSection.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="3740">
-              <caret line="104" column="45" selection-start-line="104" selection-start-column="45" selection-end-line="104" selection-end-column="45" />
-              <folding>
-                <element signature="e#5255#5256#0" expanded="true" />
-                <element signature="e#5281#5282#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="DefuseEquipmentProvider.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/scene/games/team/defuse/DefuseEquipmentProvider.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="556" max-vertical-offset="9792">
-              <caret line="89" column="124" selection-start-line="89" selection-start-column="124" selection-end-line="89" selection-end-column="124" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="DefuseGame.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/scene/games/team/defuse/DefuseGame.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="10366" max-vertical-offset="14773">
-              <caret line="677" column="17" selection-start-line="677" selection-start-column="17" selection-end-line="677" selection-end-column="17" />
-              <folding>
-                <element signature="e#3466#3467#0" expanded="true" />
-                <element signature="e#3505#3506#0" expanded="true" />
-                <element signature="e#8558#8559#0" expanded="true" />
-                <element signature="e#8611#8612#0" expanded="true" />
-                <element signature="e#12109#12110#0" expanded="true" />
-                <element signature="e#12134#12135#0" expanded="true" />
-                <element signature="e#15439#15440#0" expanded="true" />
-                <element signature="e#15471#15472#0" expanded="true" />
-                <element signature="e#18809#18810#0" expanded="true" />
-                <element signature="e#18858#18859#0" expanded="true" />
-                <element signature="e#19343#19344#0" expanded="true" />
-                <element signature="e#19373#19374#0" expanded="true" />
-                <element signature="e#19402#19403#0" expanded="true" />
-                <element signature="e#19422#19423#0" expanded="true" />
-                <element signature="e#19461#19462#0" expanded="true" />
-                <element signature="e#19488#19489#0" expanded="true" />
-                <element signature="e#19528#19529#0" expanded="true" />
-                <element signature="e#19559#19560#0" expanded="true" />
-                <element signature="e#19588#19589#0" expanded="true" />
-                <element signature="e#19609#19610#0" expanded="true" />
-                <element signature="e#19650#19651#0" expanded="true" />
-                <element signature="e#19679#19680#0" expanded="true" />
-                <element signature="e#19715#19716#0" expanded="true" />
-                <element signature="e#19746#19747#0" expanded="true" />
-                <element signature="e#19780#19781#0" expanded="true" />
-                <element signature="e#19803#19804#0" expanded="true" />
-                <element signature="e#19850#19851#0" expanded="true" />
-                <element signature="e#19883#19884#0" expanded="true" />
-                <element signature="e#19915#19916#0" expanded="true" />
-                <element signature="e#19938#19939#0" expanded="true" />
-                <element signature="e#19983#19984#0" expanded="true" />
-                <element signature="e#20016#20017#0" expanded="true" />
-                <element signature="e#20049#20050#0" expanded="true" />
-                <element signature="e#20073#20074#0" expanded="true" />
-                <element signature="e#20121#20122#0" expanded="true" />
-                <element signature="e#20156#20157#0" expanded="true" />
-                <element signature="e#20191#20192#0" expanded="true" />
-                <element signature="e#20214#20215#0" expanded="true" />
-                <element signature="e#20293#20294#0" expanded="true" />
-                <element signature="e#20314#20315#0" expanded="true" />
-                <element signature="e#21919#21920#0" expanded="true" />
-                <element signature="e#21945#21946#0" expanded="true" />
-                <element signature="e#21987#21988#0" expanded="true" />
-                <element signature="e#22010#22011#0" expanded="true" />
-                <element signature="e#22059#22060#0" expanded="true" />
-                <element signature="e#22083#22084#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Game.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/scene/games/Game.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="2444" max-vertical-offset="12240">
-              <caret line="185" column="59" selection-start-line="185" selection-start-column="59" selection-end-line="185" selection-end-column="59" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="MSConstant.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/MSConstant.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="54" max-vertical-offset="1037">
-              <caret line="35" column="55" selection-start-line="35" selection-start-column="55" selection-end-line="35" selection-end-column="55" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Translation.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/Translation.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.30874008" vertical-offset="969" max-vertical-offset="4794">
-              <caret line="73" column="63" selection-start-line="73" selection-start-column="63" selection-end-line="73" selection-end-column="63" />
-              <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="e#8330#8331#0" expanded="true" />
-                <element signature="e#8351#8352#0" expanded="true" />
-                <element signature="e#10044#10045#0" expanded="true" />
-                <element signature="e#10114#10115#0" expanded="true" />
-                <element signature="e#10144#10145#0" expanded="true" />
-                <element signature="e#10196#10197#0" expanded="true" />
-                <element signature="e#10471#10472#0" expanded="true" />
-                <element signature="e#10492#10493#0" expanded="true" />
-                <element signature="e#10536#10537#0" expanded="true" />
-                <element signature="e#10610#10611#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="MSListener.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/listeners/msPlayer/MSListener.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="740" max-vertical-offset="1666">
-              <caret line="86" column="0" selection-start-line="86" selection-start-column="0" selection-end-line="86" selection-end-column="0" />
-              <folding>
-                <element signature="e#2469#2470#0" expanded="true" />
-                <element signature="e#2495#2496#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ScalableContainer.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/equipment/containers/ScalableContainer.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1683">
-              <caret line="61" column="35" selection-start-line="61" selection-start-column="35" selection-end-line="61" selection-end-column="35" />
-              <folding>
-                <element signature="e#1298#1299#0" expanded="true" />
-                <element signature="e#1331#1332#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-    </leaf>
+    <leaf />
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -251,8 +211,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/dbi/MSPlayerDataMapper.java" />
-        <option value="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/equipment/EquipmentCategoryEntry.java" />
         <option value="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/equipment/EquipmentSectionEntry.java" />
         <option value="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/equipment/EquipmentCategory.java" />
         <option value="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/equipment/Equipment.java" />
@@ -302,6 +260,8 @@
         <option value="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/scene/games/team/defuse/DefuseEquipmentProvider.java" />
         <option value="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/MSConstant.java" />
         <option value="$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/Translation.java" />
+        <option value="$PROJECT_DIR$/../fanciful/pom.xml" />
+        <option value="$PROJECT_DIR$/../fanciful/src/main/java/mkremins/fanciful/JsonRepresentedObject.java" />
       </list>
     </option>
   </component>
@@ -309,8 +269,9 @@
     <detection-done>true</detection-done>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="width" value="1751" />
-    <option name="height" value="1040" />
+    <option name="x" value="-1" />
+    <option name="width" value="1442" />
+    <option name="height" value="874" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="false">
     <OptionsSetting value="true" id="Add" />
@@ -337,7 +298,16 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="Scope" />
+      <pane id="PackagesPane">
+        <subPane>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="mine-strike" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
+            </PATH_ELEMENT>
+          </PATH>
+        </subPane>
+      </pane>
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -644,18 +614,85 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
-        </subPane>
-      </pane>
-      <pane id="PackagesPane">
-        <subPane>
           <PATH>
             <PATH_ELEMENT>
               <option name="myItemId" value="mine-strike" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="fanciful" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="mine-strike" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="fanciful" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="util" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="mine-strike" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="fanciful" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="fanciful" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="mine-strike" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="fanciful" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -671,11 +708,11 @@
     <property name="Downloaded.Files.Path.Enabled" value="true" />
     <property name="Repository.Attach.JavaDocs" value="true" />
     <property name="Repository.Attach.Sources" value="true" />
-    <property name="project.structure.last.edited" value="Artifacts" />
+    <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
-    <property name="last_opened_file_path" value="$USER_HOME$/Desktop/Coding/Java/Projects/Minecraft/Server/plugins" />
-    <property name="options.lastSelected" value="org.infernus.idea.checkstyle.CheckStyleConfigurable" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../fanciful" />
+    <property name="options.lastSelected" value="reference.settings.project.maven.repository.indices" />
     <property name="options.splitter.main.proportions" value="0.3" />
     <property name="options.splitter.details.proportions" value="0.2" />
     <property name="recentsLimit" value="5" />
@@ -762,6 +799,38 @@
       <setting name="passParentEnv" value="true" />
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
       <setting name="launchBrowser" value="false" />
+      <method />
+    </configuration>
+    <configuration default="true" type="uTestRunConfiguration" factoryName="utest">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <extension name="scalaCoverage" />
+      <module name="" />
+      <setting name="path" value="" />
+      <setting name="package" value="" />
+      <setting name="vmparams" value="" />
+      <setting name="params" value="" />
+      <setting name="workingDirectory" value="$PROJECT_DIR$" />
+      <setting name="searchForTest" value="Across module dependencies" />
+      <setting name="testName" value="" />
+      <setting name="testKind" value="Class" />
+      <setting name="showProgressMessages" value="true" />
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="true" type="ScalaTestRunConfiguration" factoryName="ScalaTest">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <extension name="scalaCoverage" />
+      <module name="" />
+      <setting name="path" value="" />
+      <setting name="package" value="" />
+      <setting name="vmparams" value="" />
+      <setting name="params" value="" />
+      <setting name="workingDirectory" value="$PROJECT_DIR$" />
+      <setting name="searchForTest" value="Across module dependencies" />
+      <setting name="testName" value="" />
+      <setting name="testKind" value="Class" />
+      <setting name="showProgressMessages" value="true" />
+      <envs />
       <method />
     </configuration>
     <configuration default="true" type="JarApplication" factoryName="JAR Application">
@@ -911,6 +980,9 @@
     <configuration default="true" type="JavascriptDebugType" factoryName="JavaScript Debug">
       <method />
     </configuration>
+    <configuration default="true" type="NodeJSConfigurationType" factoryName="Node.js" working-dir="">
+      <method />
+    </configuration>
     <configuration default="true" type="Applet" factoryName="Applet">
       <module name="" />
       <option name="MAIN_CLASS_NAME" />
@@ -922,6 +994,22 @@
       <option name="VM_PARAMETERS" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
       <option name="ALTERNATIVE_JRE_PATH" />
+      <method />
+    </configuration>
+    <configuration default="true" type="Specs2RunConfiguration" factoryName="Specs2">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <extension name="scalaCoverage" />
+      <module name="" />
+      <setting name="path" value="" />
+      <setting name="package" value="" />
+      <setting name="vmparams" value="" />
+      <setting name="params" value="" />
+      <setting name="workingDirectory" value="$PROJECT_DIR$" />
+      <setting name="searchForTest" value="Across module dependencies" />
+      <setting name="testName" value="" />
+      <setting name="testKind" value="Class" />
+      <setting name="showProgressMessages" value="true" />
+      <envs />
       <method />
     </configuration>
     <configuration default="true" type="CucumberJavaRunConfigurationType" factoryName="Cucumber java">
@@ -998,6 +1086,10 @@
       <workItem from="1421946797718" duration="11103000" />
       <workItem from="1422027568882" duration="1702000" />
       <workItem from="1422030470678" duration="13296000" />
+      <workItem from="1422052565866" duration="1652000" />
+      <workItem from="1422092895670" duration="2290000" />
+      <workItem from="1422095494274" duration="205000" />
+      <workItem from="1422197558811" duration="743000" />
     </task>
     <task id="LOCAL-00001" summary="Added the last ranks">
       <created>1421778113090</created>
@@ -1021,7 +1113,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="61729000" />
+    <option name="totallyTimeSpent" value="66619000" />
   </component>
   <component name="TodoView" selected-index="0">
     <todo-panel id="selected-file">
@@ -1044,13 +1136,12 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="0" width="1751" height="1040" extended-state="0" />
-    <editor active="true" />
+    <frame x="-1" y="0" width="1442" height="874" extended-state="7" />
+    <editor active="false" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="14" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32967034" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.1529153" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32849604" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="IDEtalk" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -1058,23 +1149,24 @@
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.6138614" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="CheckStyle" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.17740981" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.17668097" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="IDEtalk Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.52506596" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.6138614" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="CheckStyle" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
   <component name="UnknownFeatures">
@@ -1119,34 +1211,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="jar://$USER_HOME$/Desktop/Coding/Java/Projects/Minecraft/Bukkit/1.8-based-1.7.10.jar!/org/bukkit/craftbukkit/v1_7_R4/entity/CraftHumanEntity.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-4.08" vertical-offset="0" max-vertical-offset="4488">
-          <caret line="45" column="46" selection-start-line="45" selection-start-column="46" selection-end-line="45" selection-end-column="46" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$USER_HOME$/Desktop/Coding/Java/Projects/Minecraft/Bukkit/1.8-based-1.7.10.jar!/org/bukkit/craftbukkit/v1_7_R4/entity/CraftPlayer.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-15.36" vertical-offset="2183" max-vertical-offset="18394">
-          <caret line="264" column="36" selection-start-line="264" selection-start-column="17" selection-end-line="264" selection-end-column="36" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$USER_HOME$/Desktop/Coding/Java/Projects/Minecraft/Bukkit/1.8-based-1.7.10.jar!/org/bukkit/craftbukkit/v1_7_R4/conversations/ConversationTracker.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-9.08" vertical-offset="470" max-vertical-offset="1326">
-          <caret line="50" column="0" selection-start-line="50" selection-start-column="0" selection-end-line="50" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/util/InjectedConversationTracker.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.32628062" vertical-offset="1271" max-vertical-offset="2312">
-          <caret line="92" column="27" selection-start-line="92" selection-start-column="27" selection-end-line="92" selection-end-column="27" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/dbi/MSPlayerDataMapper.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.075723834" vertical-offset="0" max-vertical-offset="898">
@@ -1210,13 +1274,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="jar://$USER_HOME$/Desktop/Coding/Java/Projects/Minecraft/Bukkit/1.8-based-1.7.10.jar!/org/bukkit/Color.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-11.56" vertical-offset="102" max-vertical-offset="2550">
-          <caret line="31" column="56" selection-start-line="31" selection-start-column="48" selection-end-line="31" selection-end-column="56" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/plugin.yml">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.029259896" vertical-offset="0" max-vertical-offset="581">
@@ -1235,7 +1292,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="402" max-vertical-offset="1156">
           <caret line="64" column="32" selection-start-line="64" selection-start-column="32" selection-end-line="64" selection-end-column="32" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1243,7 +1299,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="1027" max-vertical-offset="1819">
           <caret line="121" column="27" selection-start-line="121" selection-start-column="27" selection-end-line="121" selection-end-column="27" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1251,7 +1306,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="960" max-vertical-offset="6120">
           <caret line="92" column="21" selection-start-line="92" selection-start-column="21" selection-end-line="92" selection-end-column="21" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1259,10 +1313,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.43589744" vertical-offset="0" max-vertical-offset="6290">
           <caret line="41" column="70" selection-start-line="41" selection-start-column="70" selection-end-line="41" selection-end-column="70" />
-          <folding>
-            <element signature="e#11903#11904#0" expanded="true" />
-            <element signature="e#11943#11944#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1270,11 +1320,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2210">
           <caret line="157" column="0" selection-start-line="157" selection-start-column="0" selection-end-line="157" selection-end-column="0" />
-          <folding>
-            <element signature="e#1257#1258#0" expanded="true" />
-            <element signature="e#1293#1294#0" expanded="true" />
-            <element signature="class#EquipmentCustomizationBuilder#0;class#EquipmentCustomization#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1282,11 +1327,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="969">
           <caret line="61" column="37" selection-start-line="61" selection-start-column="37" selection-end-line="61" selection-end-column="37" />
-          <folding>
-            <element signature="imports" expanded="false" />
-            <element signature="e#1451#1452#0" expanded="false" />
-            <element signature="e#1510#1511#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1294,10 +1334,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="1857" max-vertical-offset="2771">
           <caret line="145" column="83" selection-start-line="145" selection-start-column="83" selection-end-line="145" selection-end-column="83" />
-          <folding>
-            <element signature="e#3512#3513#0" expanded="false" />
-            <element signature="e#3547#3548#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1305,7 +1341,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="315" max-vertical-offset="1683">
           <caret line="42" column="54" selection-start-line="42" selection-start-column="54" selection-end-line="42" selection-end-column="54" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1313,9 +1348,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="2143" max-vertical-offset="4403">
           <caret line="24" column="24" selection-start-line="24" selection-start-column="24" selection-end-line="24" selection-end-column="24" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1324,8 +1356,8 @@
         <state vertical-scroll-proportion="0.0" vertical-offset="435" max-vertical-offset="2567">
           <caret line="64" column="5" selection-start-line="64" selection-start-column="5" selection-end-line="64" selection-end-column="5" />
           <folding>
-            <element signature="e#4260#4261#0" expanded="true" />
-            <element signature="e#4278#4279#0" expanded="true" />
+            <element signature="e#4260#4261#0" expanded="false" />
+            <element signature="e#4278#4279#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1334,7 +1366,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="297" max-vertical-offset="2159">
           <caret line="35" column="46" selection-start-line="35" selection-start-column="46" selection-end-line="35" selection-end-column="46" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1342,7 +1373,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.23981191" vertical-offset="0" max-vertical-offset="638">
           <caret line="12" column="11" selection-start-line="12" selection-start-column="11" selection-end-line="12" selection-end-column="11" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1350,10 +1380,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="42" max-vertical-offset="2108">
           <caret line="37" column="19" selection-start-line="37" selection-start-column="19" selection-end-line="37" selection-end-column="19" />
-          <folding>
-            <element signature="e#820#821#0" expanded="true" />
-            <element signature="e#838#839#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1361,7 +1387,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.7601881" vertical-offset="25" max-vertical-offset="663">
           <caret line="41" column="32" selection-start-line="41" selection-start-column="32" selection-end-line="41" selection-end-column="32" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1369,7 +1394,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.39968652" vertical-offset="0" max-vertical-offset="638">
           <caret line="23" column="28" selection-start-line="23" selection-start-column="28" selection-end-line="23" selection-end-column="28" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1378,7 +1402,7 @@
         <state vertical-scroll-proportion="0.4122257" vertical-offset="4055" max-vertical-offset="19669">
           <caret line="263" column="43" selection-start-line="263" selection-start-column="43" selection-end-line="263" selection-end-column="43" />
           <folding>
-            <element signature="imports" expanded="true" />
+            <element signature="imports" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1387,7 +1411,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="465" max-vertical-offset="3111">
           <caret line="71" column="27" selection-start-line="71" selection-start-column="25" selection-end-line="71" selection-end-column="27" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1395,9 +1418,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="1485" max-vertical-offset="2788">
           <caret line="101" column="25" selection-start-line="101" selection-start-column="25" selection-end-line="101" selection-end-column="25" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1405,7 +1425,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="748">
           <caret line="10" column="49" selection-start-line="10" selection-start-column="49" selection-end-line="10" selection-end-column="83" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1413,17 +1432,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="93" max-vertical-offset="782">
           <caret line="7" column="0" selection-start-line="7" selection-start-column="0" selection-end-line="7" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$USER_HOME$/Desktop/Coding/Java/Projects/Minecraft/Bukkit/1.8-based-1.7.10.jar!/net/minecraft/server/v1_7_R4/PacketPlayOutOpenWindow.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="36.04" vertical-offset="1071" max-vertical-offset="1972">
-          <caret line="20" column="17" selection-start-line="20" selection-start-column="17" selection-end-line="20" selection-end-column="17" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1431,7 +1439,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="4403">
           <caret line="24" column="129" selection-start-line="24" selection-start-column="129" selection-end-line="24" selection-end-column="129" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1439,17 +1446,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="196" max-vertical-offset="2635">
           <caret line="23" column="69" selection-start-line="23" selection-start-column="69" selection-end-line="23" selection-end-column="69" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#2802#2803#0" expanded="true" />
-            <element signature="e#2865#2866#0" expanded="true" />
-            <element signature="e#4015#4016#0" expanded="true" />
-            <element signature="e#4051#4052#0" expanded="true" />
-            <element signature="e#4217#4218#0" expanded="true" />
-            <element signature="e#4244#4245#0" expanded="true" />
-            <element signature="e#4297#4298#0" expanded="true" />
-            <element signature="e#4338#4339#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1457,7 +1453,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="374">
           <caret line="4" column="69" selection-start-line="4" selection-start-column="69" selection-end-line="4" selection-end-column="69" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1465,10 +1460,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="740" max-vertical-offset="1666">
           <caret line="86" column="0" selection-start-line="86" selection-start-column="0" selection-end-line="86" selection-end-column="0" />
-          <folding>
-            <element signature="e#2469#2470#0" expanded="true" />
-            <element signature="e#2495#2496#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1476,10 +1467,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1683">
           <caret line="61" column="35" selection-start-line="61" selection-start-column="35" selection-end-line="61" selection-end-column="35" />
-          <folding>
-            <element signature="e#1298#1299#0" expanded="true" />
-            <element signature="e#1331#1332#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1487,9 +1474,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.015891032" vertical-offset="224" max-vertical-offset="1105">
           <caret line="14" column="48" selection-start-line="14" selection-start-column="48" selection-end-line="14" selection-end-column="48" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1497,21 +1481,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.09648127" vertical-offset="0" max-vertical-offset="881">
           <caret line="5" column="12" selection-start-line="5" selection-start-column="12" selection-end-line="5" selection-end-column="12" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/scene/games/team/defuse/DefuseRewardListener.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="782">
-          <caret line="27" column="0" selection-start-line="27" selection-start-column="0" selection-end-line="27" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#674#675#0" expanded="true" />
-            <element signature="e#735#736#0" expanded="true" />
-            <element signature="e#998#999#0" expanded="true" />
-            <element signature="e#1048#1049#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1519,10 +1488,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="3740">
           <caret line="104" column="45" selection-start-line="104" selection-start-column="45" selection-end-line="104" selection-end-column="45" />
-          <folding>
-            <element signature="e#5255#5256#0" expanded="true" />
-            <element signature="e#5281#5282#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1530,7 +1495,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="556" max-vertical-offset="9792">
           <caret line="89" column="124" selection-start-line="89" selection-start-column="124" selection-end-line="89" selection-end-column="124" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1538,54 +1502,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="10366" max-vertical-offset="14773">
           <caret line="677" column="17" selection-start-line="677" selection-start-column="17" selection-end-line="677" selection-end-column="17" />
-          <folding>
-            <element signature="e#3466#3467#0" expanded="true" />
-            <element signature="e#3505#3506#0" expanded="true" />
-            <element signature="e#8558#8559#0" expanded="true" />
-            <element signature="e#8611#8612#0" expanded="true" />
-            <element signature="e#12109#12110#0" expanded="true" />
-            <element signature="e#12134#12135#0" expanded="true" />
-            <element signature="e#15439#15440#0" expanded="true" />
-            <element signature="e#15471#15472#0" expanded="true" />
-            <element signature="e#18809#18810#0" expanded="true" />
-            <element signature="e#18858#18859#0" expanded="true" />
-            <element signature="e#19343#19344#0" expanded="true" />
-            <element signature="e#19373#19374#0" expanded="true" />
-            <element signature="e#19402#19403#0" expanded="true" />
-            <element signature="e#19422#19423#0" expanded="true" />
-            <element signature="e#19461#19462#0" expanded="true" />
-            <element signature="e#19488#19489#0" expanded="true" />
-            <element signature="e#19528#19529#0" expanded="true" />
-            <element signature="e#19559#19560#0" expanded="true" />
-            <element signature="e#19588#19589#0" expanded="true" />
-            <element signature="e#19609#19610#0" expanded="true" />
-            <element signature="e#19650#19651#0" expanded="true" />
-            <element signature="e#19679#19680#0" expanded="true" />
-            <element signature="e#19715#19716#0" expanded="true" />
-            <element signature="e#19746#19747#0" expanded="true" />
-            <element signature="e#19780#19781#0" expanded="true" />
-            <element signature="e#19803#19804#0" expanded="true" />
-            <element signature="e#19850#19851#0" expanded="true" />
-            <element signature="e#19883#19884#0" expanded="true" />
-            <element signature="e#19915#19916#0" expanded="true" />
-            <element signature="e#19938#19939#0" expanded="true" />
-            <element signature="e#19983#19984#0" expanded="true" />
-            <element signature="e#20016#20017#0" expanded="true" />
-            <element signature="e#20049#20050#0" expanded="true" />
-            <element signature="e#20073#20074#0" expanded="true" />
-            <element signature="e#20121#20122#0" expanded="true" />
-            <element signature="e#20156#20157#0" expanded="true" />
-            <element signature="e#20191#20192#0" expanded="true" />
-            <element signature="e#20214#20215#0" expanded="true" />
-            <element signature="e#20293#20294#0" expanded="true" />
-            <element signature="e#20314#20315#0" expanded="true" />
-            <element signature="e#21919#21920#0" expanded="true" />
-            <element signature="e#21945#21946#0" expanded="true" />
-            <element signature="e#21987#21988#0" expanded="true" />
-            <element signature="e#22010#22011#0" expanded="true" />
-            <element signature="e#22059#22060#0" expanded="true" />
-            <element signature="e#22083#22084#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1594,7 +1510,85 @@
         <state vertical-scroll-proportion="0.0" vertical-offset="2444" max-vertical-offset="12240">
           <caret line="185" column="59" selection-start-line="185" selection-start-column="59" selection-end-line="185" selection-end-column="59" />
           <folding>
-            <element signature="imports" expanded="true" />
+            <element signature="imports" expanded="false" />
+            <element signature="e#4900#4901#0" expanded="false" />
+            <element signature="e#4931#4932#0" expanded="false" />
+            <element signature="e#5178#5179#0" expanded="false" />
+            <element signature="e#5210#5211#0" expanded="false" />
+            <element signature="e#5643#5644#0" expanded="false" />
+            <element signature="e#5682#5683#0" expanded="false" />
+            <element signature="e#6825#6826#0" expanded="false" />
+            <element signature="e#6868#6869#0" expanded="false" />
+            <element signature="e#7242#7243#0" expanded="false" />
+            <element signature="e#7296#7297#0" expanded="false" />
+            <element signature="e#10079#10080#0" expanded="false" />
+            <element signature="e#10132#10133#0" expanded="false" />
+            <element signature="e#11412#11413#0" expanded="false" />
+            <element signature="e#11462#11463#0" expanded="false" />
+            <element signature="e#11941#11942#0" expanded="false" />
+            <element signature="e#11983#11984#0" expanded="false" />
+            <element signature="e#13516#13517#0" expanded="false" />
+            <element signature="e#13592#13593#0" expanded="false" />
+            <element signature="e#14385#14386#0" expanded="false" />
+            <element signature="e#14406#14407#0" expanded="false" />
+            <element signature="e#15685#15686#0" expanded="false" />
+            <element signature="e#15729#15730#0" expanded="false" />
+            <element signature="e#15914#15915#0" expanded="false" />
+            <element signature="e#15953#15954#0" expanded="false" />
+            <element signature="e#16144#16145#0" expanded="false" />
+            <element signature="e#16189#16190#0" expanded="false" />
+            <element signature="e#16261#16262#0" expanded="false" />
+            <element signature="e#16306#16307#0" expanded="false" />
+            <element signature="e#16347#16348#0" expanded="false" />
+            <element signature="e#16387#16388#0" expanded="false" />
+            <element signature="e#16714#16715#0" expanded="false" />
+            <element signature="e#16730#16731#0" expanded="false" />
+            <element signature="e#16759#16760#0" expanded="false" />
+            <element signature="e#16777#16778#0" expanded="false" />
+            <element signature="e#16817#16818#0" expanded="false" />
+            <element signature="e#16840#16841#0" expanded="false" />
+            <element signature="e#16881#16882#0" expanded="false" />
+            <element signature="e#16902#16903#0" expanded="false" />
+            <element signature="e#16934#16935#0" expanded="false" />
+            <element signature="e#16961#16962#0" expanded="false" />
+            <element signature="e#16993#16994#0" expanded="false" />
+            <element signature="e#17012#17013#0" expanded="false" />
+            <element signature="e#17060#17061#0" expanded="false" />
+            <element signature="e#17078#17079#0" expanded="false" />
+            <element signature="e#17491#17492#0" expanded="false" />
+            <element signature="e#17518#17519#0" expanded="false" />
+            <element signature="e#17567#17568#0" expanded="false" />
+            <element signature="e#17586#17587#0" expanded="false" />
+            <element signature="e#17753#17754#0" expanded="false" />
+            <element signature="e#17805#17806#0" expanded="false" />
+            <element signature="e#17837#17838#0" expanded="false" />
+            <element signature="e#17858#17859#0" expanded="false" />
+            <element signature="e#18032#18033#0" expanded="false" />
+            <element signature="e#18050#18051#0" expanded="false" />
+            <element signature="e#18080#18081#0" expanded="false" />
+            <element signature="e#18098#18099#0" expanded="false" />
+            <element signature="e#18341#18342#0" expanded="false" />
+            <element signature="e#18369#18370#0" expanded="false" />
+            <element signature="e#18451#18452#0" expanded="false" />
+            <element signature="e#18494#18495#0" expanded="false" />
+            <element signature="e#18555#18556#0" expanded="false" />
+            <element signature="e#18582#18583#0" expanded="false" />
+            <element signature="e#18661#18662#0" expanded="false" />
+            <element signature="e#18702#18703#0" expanded="false" />
+            <element signature="e#18761#18762#0" expanded="false" />
+            <element signature="e#18787#18788#0" expanded="false" />
+            <element signature="e#18853#18854#0" expanded="false" />
+            <element signature="e#18892#18893#0" expanded="false" />
+            <element signature="e#18923#18924#0" expanded="false" />
+            <element signature="e#18943#18944#0" expanded="false" />
+            <element signature="e#19128#19129#0" expanded="false" />
+            <element signature="e#19159#19160#0" expanded="false" />
+            <element signature="e#19199#19200#0" expanded="false" />
+            <element signature="e#19223#19224#0" expanded="false" />
+            <element signature="e#20419#20420#0" expanded="false" />
+            <element signature="e#20448#20449#0" expanded="false" />
+            <element signature="e#20693#20694#0" expanded="false" />
+            <element signature="e#20767#20768#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1603,27 +1597,78 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="54" max-vertical-offset="1037">
           <caret line="35" column="55" selection-start-line="35" selection-start-column="55" selection-end-line="35" selection-end-column="55" />
-          <folding />
+          <folding>
+            <element signature="imports" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../fanciful/src/example/java/mkremins/fanciful/Example.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.04178273" vertical-offset="0" max-vertical-offset="1140">
+          <caret line="2" column="24" selection-start-line="2" selection-start-column="24" selection-end-line="2" selection-end-column="24" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/Translation.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.30874008" vertical-offset="969" max-vertical-offset="4794">
-          <caret line="73" column="63" selection-start-line="73" selection-start-column="63" selection-end-line="73" selection-end-column="63" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="1860" max-vertical-offset="4005">
+          <caret line="158" column="0" selection-start-line="158" selection-start-column="0" selection-end-line="158" selection-end-column="0" />
           <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#8330#8331#0" expanded="true" />
-            <element signature="e#8351#8352#0" expanded="true" />
-            <element signature="e#10044#10045#0" expanded="true" />
-            <element signature="e#10114#10115#0" expanded="true" />
-            <element signature="e#10144#10145#0" expanded="true" />
-            <element signature="e#10196#10197#0" expanded="true" />
-            <element signature="e#10471#10472#0" expanded="true" />
-            <element signature="e#10492#10493#0" expanded="true" />
-            <element signature="e#10536#10537#0" expanded="true" />
-            <element signature="e#10610#10611#0" expanded="true" />
+            <element signature="e#8330#8331#0" expanded="false" />
+            <element signature="e#8351#8352#0" expanded="false" />
+            <element signature="e#10044#10045#0" expanded="false" />
+            <element signature="e#10114#10115#0" expanded="false" />
+            <element signature="e#10144#10145#0" expanded="false" />
+            <element signature="e#10196#10197#0" expanded="false" />
+            <element signature="e#10471#10472#0" expanded="false" />
+            <element signature="e#10492#10493#0" expanded="false" />
+            <element signature="e#10536#10537#0" expanded="false" />
+            <element signature="e#10610#10611#0" expanded="false" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../fanciful/src/main/java/mkremins/fanciful/FancyMessage.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="10635">
+          <caret line="49" column="13" selection-start-line="49" selection-start-column="13" selection-end-line="49" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../fanciful/pom.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.20042644" vertical-offset="716" max-vertical-offset="1185">
+          <caret line="54" column="46" selection-start-line="54" selection-start-column="46" selection-end-line="54" selection-end-column="46" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../fanciful/src/main/java/mkremins/fanciful/JsonRepresentedObject.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="375">
+          <caret line="4" column="57" selection-start-line="4" selection-start-column="57" selection-end-line="4" selection-end-column="57" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/workspace/RawChatManager/src/cz/projectsurvive/me/limeth/rawchatmanager/ChatArgumentManager.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2340">
+          <caret line="7" column="29" selection-start-line="7" selection-start-column="29" selection-end-line="7" selection-end-column="29" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/workspace/OnePointEight/src/net/darkseraphim/actionbar/ActionBarAPI.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="3189" max-vertical-offset="3930">
+          <caret line="241" column="54" selection-start-line="241" selection-start-column="54" selection-end-line="241" selection-end-column="54" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/cz/minestrike/me/limeth/minestrike/scene/games/team/defuse/DefuseRewardListener.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.74413645" vertical-offset="86" max-vertical-offset="570">
+          <caret line="37" column="20" selection-start-line="37" selection-start-column="20" selection-end-line="37" selection-end-column="20" />
         </state>
       </provider>
     </entry>
@@ -1633,7 +1678,7 @@
       <state key="ArtifactsStructureConfigurable.UI">
         <settings>
           <artifact-editor />
-          <last-edited>Server/MineStrike:jar</last-edited>
+          <last-edited>MineStrike:jar</last-edited>
           <splitter-proportions>
             <option name="proportions">
               <list>
@@ -1658,7 +1703,6 @@
       </state>
       <state key="GlobalLibrariesConfigurable.UI">
         <settings>
-          <last-edited>antlr:stringtemplate:3.0</last-edited>
           <splitter-proportions>
             <option name="proportions">
               <list>
@@ -1682,7 +1726,7 @@
       </state>
       <state key="ModuleStructureConfigurable.UI">
         <settings>
-          <last-edited>DynamicDisplays</last-edited>
+          <last-edited>OnePointEight</last-edited>
           <splitter-proportions>
             <option name="proportions">
               <list>
@@ -1706,7 +1750,7 @@
       </state>
       <state key="ProjectLibrariesConfigurable.UI">
         <settings>
-          <last-edited>1.8-based-1.7.10</last-edited>
+          <last-edited>minecraft_server</last-edited>
           <splitter-proportions>
             <option name="proportions">
               <list>

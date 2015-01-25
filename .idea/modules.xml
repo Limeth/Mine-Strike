@@ -8,7 +8,7 @@
       <module fileurl="file://$USER_HOME$/workspace/PSClans/PSClans.iml" filepath="$USER_HOME$/workspace/PSClans/PSClans.iml" />
       <module fileurl="file://$USER_HOME$/workspace/PSMaps/PSMaps.iml" filepath="$USER_HOME$/workspace/PSMaps/PSMaps.iml" />
       <module fileurl="file://$USER_HOME$/workspace/RawChatManager/RawChatManager.iml" filepath="$USER_HOME$/workspace/RawChatManager/RawChatManager.iml" />
-      <module fileurl="file://$USER_HOME$/Desktop/Coding/Java/Projects/Minecraft/Libraries/fanciful-master/src/main/java/fanciful.iml" filepath="$USER_HOME$/Desktop/Coding/Java/Projects/Minecraft/Libraries/fanciful-master/src/main/java/fanciful.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../fanciful/fanciful.iml" filepath="$PROJECT_DIR$/../fanciful/fanciful.iml" />
     </modules>
   </component>
 </project>

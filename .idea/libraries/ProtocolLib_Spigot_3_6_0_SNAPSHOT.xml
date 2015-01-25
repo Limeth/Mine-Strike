@@ -1,7 +1,8 @@
 <component name="libraryTable">
   <library name="ProtocolLib-Spigot-3.6.0-SNAPSHOT">
     <CLASSES>
-      <root url="jar://$USER_HOME$/Desktop/Coding/Java/Projects/Minecraft/Libraries/ProtocolLib-Spigot-3.6.0-SNAPSHOT.jar!/" />
+      <root url="jar://$USER_HOME$/Dokumenty/Programování/Knihovny/minestrike/ProtocolLib-Spigot-3.6.0-SNAPSHOT.jar!/" />
+      <root url="jar://$USER_HOME$/Dokumenty/Programování/Knihovny/minestrike/worldedit-6.0.0-SNAPSHOT.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />
