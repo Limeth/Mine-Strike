@@ -10,6 +10,7 @@ import org.skife.jdbi.v2.sqlobject.*;
 import org.skife.jdbi.v2.sqlobject.customizers.Define;
 import org.skife.jdbi.v2.sqlobject.customizers.RegisterMapper;
 import org.skife.jdbi.v2.sqlobject.stringtemplate.UseStringTemplate3StatementLocator;
+import static cz.minestrike.me.limeth.minestrike.dbi.SQLHelper.*;
 
 import java.util.Collection;
 
@@ -33,70 +34,30 @@ public interface MSPlayerDAO
 
 	static void prepareTableData()
 	{
-		DBI dbi = MineStrike.getDBI();
-		Handle handle = dbi.open();
-		Batch batch = handle.createBatch();
-		String table = MSConfig.getMySQLTablePlayers();
-
-		batch.add("CREATE TABLE IF NOT EXISTS " + table + " (" +
-		          "`" + FIELD_DATA_USERNAME + "` varchar(16) COLLATE utf8_czech_ci NOT NULL," +
-		          "`" + FIELD_DATA_XP + "` int(11) NOT NULL," +
-		          "`" + FIELD_DATA_KILLS + "` int(11) NOT NULL," +
-		          "`" + FIELD_DATA_ASSISTS + "` int(11) NOT NULL," +
-		          "`" + FIELD_DATA_DEATHS + "` int(11) NOT NULL," +
-		          "`" + FIELD_DATA_PLAYTIME + "` bigint(20) NOT NULL," +
-		          "PRIMARY KEY (`" + FIELD_DATA_USERNAME + "`)" +
-		          ") ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_czech_ci");
-		prepareColumn(batch, table, FIELD_DATA_USERNAME, "varchar(16) COLLATE utf8_czech_ci NOT NULL");
-		prepareColumn(batch, table, FIELD_DATA_XP, "int(11) NOT NULL");
-		prepareColumn(batch, table, FIELD_DATA_KILLS, "int(11) NOT NULL");
-		prepareColumn(batch, table, FIELD_DATA_ASSISTS, "int(11) NOT NULL");
-		prepareColumn(batch, table, FIELD_DATA_DEATHS, "int(11) NOT NULL");
-		prepareColumn(batch, table, FIELD_DATA_PLAYTIME, "bigint(20) NOT NULL");
-		batch.execute();
-		handle.close();
+		prepareTable(
+				MSConfig.getMySQLTablePlayers(),
+				FIELD_DATA_USERNAME,
+				column(FIELD_DATA_USERNAME, "varchar(16) COLLATE utf8_czech_ci NOT NULL"),
+				column(FIELD_DATA_XP, "int(11) NOT NULL"),
+				column(FIELD_DATA_KILLS, "int(11) NOT NULL"),
+				column(FIELD_DATA_ASSISTS, "int(11) NOT NULL"),
+				column(FIELD_DATA_DEATHS, "int(11) NOT NULL"),
+				column(FIELD_DATA_PLAYTIME, "bigint(20) NOT NULL")
+		);
 	}
 	
 	static void prepareTableEquipment()
 	{
-		DBI dbi = MineStrike.getDBI();
-		Handle handle = dbi.open();
-		Batch batch = handle.createBatch();
-		String table = MSConfig.getMySQLTableEquipment();
-
-		batch.add("CREATE TABLE IF NOT EXISTS `" + table + "` (" +
-		          "`" + FIELD_EQUIPMENT_USERNAME + "` varchar(16) COLLATE utf8_czech_ci NOT NULL," +
-		          "`" + FIELD_EQUIPMENT_SERVER + "` varchar(16) NOT NULL," +
-		          "`" + FIELD_EQUIPMENT_CATEGORY + "` varchar(32) NOT NULL," +
-		          "`" + FIELD_EQUIPMENT_TRADABLE + "` BOOLEAN NOT NULL," +
-		          "`" + FIELD_EQUIPMENT_TYPE + "` varchar(64) NOT NULL," +
-		          "`" + FIELD_EQUIPMENT_DATA + "` varchar(256) NOT NULL" +
-		          ") ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_czech_ci");
-		prepareColumn(batch, table, FIELD_EQUIPMENT_USERNAME, "varchar(16) COLLATE utf8_czech_ci NOT NULL");
-		prepareColumn(batch, table, FIELD_EQUIPMENT_SERVER, "varchar(16) NOT NULL");
-		prepareColumn(batch, table, FIELD_EQUIPMENT_CATEGORY, "varchar(32) NOT NULL");
-		prepareColumn(batch, table, FIELD_EQUIPMENT_TRADABLE, "BOOLEAN NOT NULL");
-		prepareColumn(batch, table, FIELD_EQUIPMENT_TYPE, "varchar(64) NOT NULL");
-		prepareColumn(batch, table, FIELD_EQUIPMENT_DATA, "varchar(256) NOT NULL");
-		batch.execute();
-		handle.close();
-	}
-
-	static void prepareColumn(Batch batch, String tableName, String columnName, String type)
-	{
-		batch.add("SET @s = (SELECT IF(\n" +
-		          "    (SELECT COUNT(*)\n" +
-		          "        FROM INFORMATION_SCHEMA.COLUMNS\n" +
-		          "        WHERE table_name = '" + tableName + "'\n" +
-		          "        AND table_schema = DATABASE()\n" +
-		          "        AND column_name = '" + columnName + "'\n" +
-		          "    ) > 0,\n" +
-		          "    \"SELECT 1\",\n" +
-		          "    \"ALTER TABLE `" + tableName + "` ADD `" + columnName + "` " + type + "\"\n" +
-		          "))");
-		batch.add("PREPARE stmt FROM @s");
-		batch.add("EXECUTE stmt");
-        batch.add("DEALLOCATE PREPARE stmt");
+		prepareTable(
+				MSConfig.getMySQLTableEquipment(),
+				null,
+		        column(FIELD_EQUIPMENT_USERNAME, "varchar(16) COLLATE utf8_czech_ci NOT NULL"),
+		        column(FIELD_EQUIPMENT_SERVER, "varchar(16) NOT NULL"),
+		        column(FIELD_EQUIPMENT_CATEGORY, "varchar(32) NOT NULL"),
+		        column(FIELD_EQUIPMENT_TRADABLE, "BOOLEAN NOT NULL"),
+		        column(FIELD_EQUIPMENT_TYPE, "varchar(64) NOT NULL"),
+		        column(FIELD_EQUIPMENT_DATA, "varchar(256) NOT NULL")
+		);
 	}
 	
 	static void prepareTables()
