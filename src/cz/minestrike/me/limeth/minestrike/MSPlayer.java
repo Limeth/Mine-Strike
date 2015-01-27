@@ -1,10 +1,12 @@
 package cz.minestrike.me.limeth.minestrike;
 
 import ca.wacos.nametagedit.NametagAPI;
+import com.google.common.collect.Maps;
 import cz.minestrike.me.limeth.minestrike.areas.Structure;
 import cz.minestrike.me.limeth.minestrike.areas.schemes.Scheme;
 import cz.minestrike.me.limeth.minestrike.dbi.MSPlayerDAO;
 import cz.minestrike.me.limeth.minestrike.dbi.MSPlayerData;
+import cz.minestrike.me.limeth.minestrike.dbi.RewardRecordDAO;
 import cz.minestrike.me.limeth.minestrike.equipment.Equipment;
 import cz.minestrike.me.limeth.minestrike.equipment.containers.ArmorContainer;
 import cz.minestrike.me.limeth.minestrike.equipment.containers.HotbarContainer;
@@ -53,6 +55,7 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+@SuppressWarnings("unused")
 public class MSPlayer
 {
 	private static final float
@@ -139,8 +142,7 @@ public class MSPlayer
 	{
 		msPlayer.setJoinedAt(System.currentTimeMillis());
 
-		CraftPlayer player = (CraftPlayer) msPlayer.getPlayer();
-		ConversationTracker conversationTracker;
+		Player player = msPlayer.getPlayer();
 
 		if(!InjectedConversationTracker.isInjected(player))
 		{
@@ -165,38 +167,33 @@ public class MSPlayer
 
 	public static int startMovementLoop()
 	{
-		return MOVEMENT_LOOP_ID = Bukkit.getScheduler().scheduleSyncRepeatingTask(MineStrike.getInstance(), new Runnable()
-		{
-			@Override
-			public void run()
-			{
-				for(MSPlayer msPlayer : getOnlinePlayers())
-				{
-					Player player = msPlayer.getPlayer();
-					Location loc = player.getLocation();
-					Location lastLoc = msPlayer.lastLocation;
-					msPlayer.lastLocation = loc;
-					
-					if(lastLoc == null)
-						continue;
-					
-					msPlayer.setSpeed(lastLoc.distance(loc));
-					
-					boolean onGround = ((CraftPlayer) player).isOnGround();
-					
-					if(onGround && msPlayer.inAir)
-					{
-						msPlayer.landTime = System.currentTimeMillis();
-						msPlayer.inAir = false;
-					}
-					else if(!onGround && !msPlayer.inAir)
-					{
-						msPlayer.jumpTime = System.currentTimeMillis();
-						msPlayer.inAir = true;
-					}
-				}
-			}
-		}, 1L, 0L);
+		return MOVEMENT_LOOP_ID = Bukkit.getScheduler().scheduleSyncRepeatingTask(MineStrike.getInstance(), () -> {
+            for(MSPlayer msPlayer : getOnlinePlayers())
+            {
+                Player player1 = msPlayer.getPlayer();
+                Location loc = player1.getLocation();
+                Location lastLoc = msPlayer.lastLocation;
+                msPlayer.lastLocation = loc;
+
+                if(lastLoc == null)
+                    continue;
+
+                msPlayer.setSpeed(lastLoc.distance(loc));
+
+                boolean onGround = ((CraftPlayer) player1).isOnGround();
+
+                if(onGround && msPlayer.inAir)
+                {
+                    msPlayer.landTime = System.currentTimeMillis();
+                    msPlayer.inAir = false;
+                }
+                else if(!onGround && !msPlayer.inAir)
+                {
+                    msPlayer.jumpTime = System.currentTimeMillis();
+                    msPlayer.inAir = true;
+                }
+            }
+        }, 1L, 0L);
 	}
 	
 	public static void stopMovementLoop()
@@ -204,7 +201,7 @@ public class MSPlayer
 		Bukkit.getScheduler().cancelTask(MOVEMENT_LOOP_ID);
 	}
 	
-	private final HashMap<String, Object> customData = new HashMap<String, Object>();
+	private final HashMap<String, Object> customData = Maps.newHashMap();
 	private final MSPlayerData data;
 	private Player player;
 	private InventoryContainer inventoryContainer;
@@ -215,10 +212,10 @@ public class MSPlayer
 	private GunTask gunTask;
 	private PlayerState playerState;
 	private Structure<? extends Scheme> playerStructure;
-	private HashMap<MSPlayer, Double> receivedDamage = new HashMap<MSPlayer, Double>();
+	private HashMap<MSPlayer, Double> receivedDamage = Maps.newHashMap();
 	private MSPlayer lastDamageSource;
 	private Equipment lastDamageWeapon;
-	private HashMap<Object, Long> cooldowns = new HashMap<Object, Long>();
+	private HashMap<Object, Long> cooldowns = Maps.newHashMap();
 	private float recoil;
 	private long recoilSetTime, jumpTime, landTime;
 	private double speed;
@@ -482,7 +479,7 @@ public class MSPlayer
 		if(nextRank == null)
 			return null;
 		
-		long lastRequiredXP = rank != null ? rank.getRequiredXP() : 0;
+		long lastRequiredXP = rank.getRequiredXP();
 		long requiredXP = nextRank.getRequiredXP();
 		long xp = getXP();
 		long relativeXP = xp - lastRequiredXP;
@@ -531,9 +528,7 @@ public class MSPlayer
 			
 			if(equipment != null)
 			{
-				float speed = equipment.getMovementSpeed(this);
-				
-				return speed;
+				return equipment.getMovementSpeed(this);
 			}
 		}
 		
@@ -573,16 +568,7 @@ public class MSPlayer
 	
 	public void respawnDelayed()
 	{
-		final MSPlayer that = this;
-		
-		Bukkit.getScheduler().scheduleSyncDelayedTask(MineStrike.getInstance(), new Runnable()
-		{
-			@Override
-			public void run()
-			{
-				that.respawn();
-			}
-		});
+		Bukkit.getScheduler().scheduleSyncDelayedTask(MineStrike.getInstance(), MSPlayer.this::respawn);
 	}
 	
 	public void sendMessage(String string)
@@ -687,20 +673,15 @@ public class MSPlayer
 		customData.put(key, value);
 	}
 	
-	public Object getCustomData(String key)
-	{
-		return customData.get(key);
-	}
-	
 	@SuppressWarnings("unchecked")
-	public <T> T getCustomData(Class<T> clazz, String key)
+	public <T> T getCustomData(String key)
 	{
-		return (T) getCustomData(key);
+		return (T) customData.get(key);
 	}
 	
-	public <T> T getCustomData(Class<T> clazz, String key, T ifNull)
+	public <T> T getCustomData(String key, T ifNull)
 	{
-		T customData = getCustomData(clazz, key);
+		T customData = getCustomData(key);
 		
 		return customData != null ? customData : ifNull;
 	}

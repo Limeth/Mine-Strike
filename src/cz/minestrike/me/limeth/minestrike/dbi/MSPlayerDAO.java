@@ -66,7 +66,7 @@ public interface MSPlayerDAO
 		prepareTableEquipment();
 	}
 	
-	@SqlQuery("SELECT * FROM <table> WHERE `" + FIELD_DATA_USERNAME + "` = :" + FIELD_DATA_USERNAME + "")
+	@SqlQuery("SELECT * FROM <table> WHERE `" + FIELD_DATA_USERNAME + "` = :" + FIELD_DATA_USERNAME)
 	MSPlayerData selectData(@Define("table") String tableName, @Bind("username") String playerName);
 	
 	@SqlUpdate("REPLACE INTO <table> (`" + FIELD_DATA_USERNAME + "`, `" + FIELD_DATA_XP + "`, `" + FIELD_DATA_KILLS + "`, `" + FIELD_DATA_ASSISTS + "`, `" + FIELD_DATA_DEATHS + "`, `" + FIELD_DATA_PLAYTIME + "`) VALUES"
