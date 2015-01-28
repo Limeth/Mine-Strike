@@ -48,14 +48,10 @@ public class Firing extends GunTask
 		remainder += cycleTime - rounded;
 		final Firing firing = this;
 		
-		loopId = Bukkit.getScheduler().scheduleSyncDelayedTask(MineStrike.getInstance(), new Runnable() {
-			@Override
-			public void run()
-			{
-				if(firing.getLoopId() != null)
-					firing.nextLoop();
-			}
-		}, rounded);
+		loopId = Bukkit.getScheduler().scheduleSyncDelayedTask(MineStrike.getInstance(), () -> {
+            if(firing.getLoopId() != null)
+                firing.nextLoop();
+        }, rounded);
 
 		run();
 		

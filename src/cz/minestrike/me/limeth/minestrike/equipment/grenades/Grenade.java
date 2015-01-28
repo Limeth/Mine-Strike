@@ -67,15 +67,8 @@ public class Grenade
 	
 	public int startCountdown(long ticks)
 	{
-		final Grenade that = this;
 		
-		return taskId = Bukkit.getScheduler().scheduleSyncDelayedTask(MineStrike.getInstance(), new Runnable() {
-			@Override
-			public void run()
-			{
-				that.explode();
-			}
-		}, ticks);
+		return taskId = Bukkit.getScheduler().scheduleSyncDelayedTask(MineStrike.getInstance(), this::explode, ticks);
 	}
 	
 	public boolean explode()

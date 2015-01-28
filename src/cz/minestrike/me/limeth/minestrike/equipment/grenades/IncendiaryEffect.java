@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Map.Entry;
 import java.util.Random;
 
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import net.minecraft.server.v1_7_R4.AxisAlignedBB;
 import net.minecraft.server.v1_7_R4.Entity;
 import net.minecraft.server.v1_7_R4.EnumMovingObjectType;
@@ -42,7 +44,7 @@ public class IncendiaryEffect
 	
 	public IncendiaryEffect(MSPlayer shooter, double damageModifier)
 	{
-		flames = new LinkedList<IncendiaryFlame>();
+		flames = Lists.newLinkedList();
 		random = new Random();
 		this.damageModifier = damageModifier;
 		this.setShooter(shooter);
@@ -63,19 +65,12 @@ public class IncendiaryEffect
 		step = 0;
 		final IncendiaryEffect that = this;
 		
-		taskId = Bukkit.getScheduler().scheduleSyncRepeatingTask(MineStrike.getInstance(), new Runnable() {
-			@Override
-			public void run()
-			{
-				that.task();
-				
-				if(that.incrementStep() * period > maxDuration)
-				{
-					that.cancelTask();
-					return;
-				}
-			}
-		}, 0L, period);
+		taskId = Bukkit.getScheduler().scheduleSyncRepeatingTask(MineStrike.getInstance(), () -> {
+            that.task();
+
+            if(that.incrementStep() * period > maxDuration)
+                that.cancelTask();
+        }, 0L, period);
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -86,7 +81,7 @@ public class IncendiaryEffect
 		playSound();
 		
 		Iterator<IncendiaryFlame> iterator = flames.iterator();
-		HashMap<HumanEntity, Double> damages = new HashMap<HumanEntity, Double>();
+		HashMap<HumanEntity, Double> damages = Maps.newHashMap();
 		
 		while(iterator.hasNext())
 		{
@@ -220,7 +215,7 @@ public class IncendiaryEffect
 		
 		public void move()
 		{
-			MovingObjectPosition result = null;
+			MovingObjectPosition result;
 			World world = loc.getWorld();
 			WorldServer nmsWorld = ((CraftWorld) world).getHandle();
 			double locX = loc.getX();

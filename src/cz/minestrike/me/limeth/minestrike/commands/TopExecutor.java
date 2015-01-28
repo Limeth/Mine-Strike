@@ -28,7 +28,7 @@ public class TopExecutor implements CommandExecutor
 		{
 			Player player = (Player) sender;
 			MSPlayer msPlayer = MSPlayer.get(player);
-			long lastUse = msPlayer.getCustomData(Long.class, DATA_LAST_USE, 0L);
+			long lastUse = msPlayer.getCustomData(DATA_LAST_USE, 0L);
 			long now = System.currentTimeMillis();
 			
 			if(lastUse + DELAY > now)

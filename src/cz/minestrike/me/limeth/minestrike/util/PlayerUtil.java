@@ -61,13 +61,6 @@ public class PlayerUtil
 	
 	public static void delayedInventoryUpdate(final Player player, Plugin plugin)
 	{
-		Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
-			@SuppressWarnings("deprecation")
-			@Override
-			public void run()
-			{
-				player.updateInventory();
-			}
-		});
+		Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, player::updateInventory);
 	}
 }

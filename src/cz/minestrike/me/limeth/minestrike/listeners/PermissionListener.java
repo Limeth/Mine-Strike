@@ -39,15 +39,7 @@ public class PermissionListener implements Listener
 	{
 		final Player player = event.getPlayer();
 		BukkitScheduler scheduler = Bukkit.getScheduler();
-		Runnable runnable = new Runnable() {
-
-			@Override
-			public void run()
-			{
-				player.setFoodLevel(5);
-			}
-			
-		};
+		Runnable runnable = () -> player.setFoodLevel(5);
 		
 		scheduler.scheduleSyncDelayedTask(MineStrike.getInstance(), runnable);
 	}

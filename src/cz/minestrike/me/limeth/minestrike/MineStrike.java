@@ -46,7 +46,7 @@ public class MineStrike extends JavaPlugin
 
 		for(Rank rank : Rank.values())
 			System.out.println(rank + " " + rank.getRequiredXP());
-		
+
 		if(true)
 			return;
 		
@@ -97,7 +97,7 @@ public class MineStrike extends JavaPlugin
 		Bukkit.broadcastMessage(Translation.DISABLING.getMessage());
 		
 		@SuppressWarnings("unchecked")
-		Set<MSPlayer> playerSet = (Set<MSPlayer>) MSPlayer.getOnlinePlayers();
+		Set<MSPlayer> playerSet = MSPlayer.getOnlinePlayers();
 		MSPlayer[] players = playerSet.toArray(new MSPlayer[playerSet.size()]);
 		
 		for(MSPlayer msPlayer : players)

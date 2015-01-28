@@ -152,7 +152,7 @@ public enum Translation
 		}
 		catch(IOException e)
 		{
-			System.out.println(e);
+			e.printStackTrace();
 		}
 
 		File file = getFile(MSConfig.getLanguageName());
@@ -188,10 +188,14 @@ public enum Translation
 		if(!enFile.isFile())
 		{
 			if(enFile.exists())
-				enFile.delete();
+				if(!enFile.delete())
+					throw new IOException("Could not delete a directory blocking the english language file path.");
 
-			enFile.getParentFile().mkdirs();
-			enFile.createNewFile();
+			if(!enFile.getParentFile().mkdirs())
+				throw new IOException("Could not create a directory for the english language file.");
+
+			if(!enFile.createNewFile())
+				throw new IOException("Could not create the english language file.");
 		}
 
 		YamlConfiguration yml = YamlConfiguration.loadConfiguration(enFile);
@@ -218,10 +222,14 @@ public enum Translation
 		if(!czFile.isFile())
 		{
 			if(czFile.exists())
-				czFile.delete();
+				if(!czFile.delete())
+					throw new IOException("Could not delete a directory blocking the czech language file path.");
 
-			czFile.getParentFile().mkdirs();
-			czFile.createNewFile();
+			if(!czFile.getParentFile().mkdirs())
+				throw new IOException("Could not create a directory for the czech language file.");
+
+			if(!czFile.createNewFile())
+				throw new IOException("Could not create the czech language file.");
 		}
 
 		YamlConfiguration yml = YamlConfiguration.loadConfiguration(czFile);

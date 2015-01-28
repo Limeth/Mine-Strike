@@ -5,6 +5,7 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.Random;
 
+import com.google.common.collect.Sets;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -117,7 +118,7 @@ public class Region implements Iterable<Point>
 	@SuppressWarnings("deprecation")
 	public void highlight(Point base, final Player player, MaterialData materialData, long duration)
 	{
-		final HashSet<Location> changedLocations = new HashSet<Location>();
+		final HashSet<Location> changedLocations = Sets.newHashSet();
 		World world = MSConfig.getWorld();
 		Material type = materialData.getItemType();
 		byte data = materialData.getData();
@@ -160,23 +161,19 @@ public class Region implements Iterable<Point>
 					changedLocations.add(loc);
 				}
 		
-		Bukkit.getScheduler().scheduleSyncDelayedTask(MineStrike.getInstance(), new Runnable() {
-			@Override
-			public void run()
-			{
-				if(!player.isValid())
-					return;
-				
-				for(Location loc : changedLocations)
-				{
-					Block block = loc.getBlock();
-					Material type = block.getType();
-					byte data = block.getData();
-					
-					player.sendBlockChange(loc, type, data);
-				}
-			}
-		}, duration);
+		Bukkit.getScheduler().scheduleSyncDelayedTask(MineStrike.getInstance(), () -> {
+            if(!player.isValid())
+                return;
+
+            for(Location loc : changedLocations)
+            {
+                Block block = loc.getBlock();
+                Material type1 = block.getType();
+                byte data1 = block.getData();
+
+                player.sendBlockChange(loc, type1, data1);
+            }
+        }, duration);
 	}
 	
 	@SuppressWarnings("deprecation")
@@ -322,8 +319,7 @@ public class Region implements Iterable<Point>
 	}
 	
 	@Override
-	public Region clone()
-	{
+	public Region clone() throws CloneNotSupportedException {
 		return new Region(lower, higher); 
 	}
 }

@@ -50,11 +50,11 @@ import darkBlade12.ParticleEffect;
 
 public enum GrenadeType implements Equipment, DamageSource
 {
-	EXPLOSIVE(ChatColor.RED + "HE Grenade", 1, VoiceSound.GRENADE, new TeamValue<Integer>(300), 240F, 16460, 40, "hegrenade", "he_draw")
+	EXPLOSIVE(ChatColor.RED + "HE Grenade", 1, VoiceSound.GRENADE, new TeamValue<>(300), 240F, 16460, 40, "hegrenade", "he_draw")
 	{
 		public static final double RANGE = 6;
 		public static final float DAMAGE = 96 * 20 / MSConstant.CS_MAX_HEALTH,
-				ARMOR_DAMAGE_RATIO = 57F / (float) DAMAGE;
+				ARMOR_DAMAGE_RATIO = 57F / DAMAGE;
 		
 		@Override
 		public boolean onExplosion(Grenade grenade)
@@ -98,7 +98,7 @@ public enum GrenadeType implements Equipment, DamageSource
 			return ARMOR_DAMAGE_RATIO;
 		}
 	},
-	INCENDIARY(ChatColor.GOLD + "Incendiary Grenade", 1, VoiceSound.MOLOTOV, new TeamValue<Integer>(400, 600, 500), 250F, 16453, GrenadeExplosionTrigger.LANDING, "incgrenade", "inc_grenade_draw")
+	INCENDIARY(ChatColor.GOLD + "Incendiary Grenade", 1, VoiceSound.MOLOTOV, new TeamValue<>(400, 600, 500), 250F, 16453, GrenadeExplosionTrigger.LANDING, "incgrenade", "inc_grenade_draw")
 	{
 		private static final int yawSteps = 10, pitchSteps = 10, duration = 20 * 8;
 		
@@ -134,7 +134,7 @@ public enum GrenadeType implements Equipment, DamageSource
 			return false;
 		}
 	},
-	DECOY(ChatColor.GRAY + "Decoy Grenade", 1, VoiceSound.DECOY, new TeamValue<Integer>(50), 250F, 16450, GrenadeExplosionTrigger.STABILIZATION, "decoy", "decoy_draw")
+	DECOY(ChatColor.GRAY + "Decoy Grenade", 1, VoiceSound.DECOY, new TeamValue<>(50), 250F, 16450, GrenadeExplosionTrigger.STABILIZATION, "decoy", "decoy_draw")
 	{
 		@Override
 		public boolean onExplosion(Grenade grenade)
@@ -185,14 +185,10 @@ public enum GrenadeType implements Equipment, DamageSource
 			public EffectHandler start()
 			{
 				soundLoopId = Bukkit.getScheduler().scheduleSyncRepeatingTask(MineStrike.getInstance(), this, 0, 4);
-				limitLoopId = Bukkit.getScheduler().scheduleSyncDelayedTask(MineStrike.getInstance(), new Runnable()
-				{
-					public void run()
-					{
-						limitLoopId = null;
-						explode();
-					}
-				}, 20L * 60);
+				limitLoopId = Bukkit.getScheduler().scheduleSyncDelayedTask(MineStrike.getInstance(), () -> {
+                    limitLoopId = null;
+                    explode();
+                }, 20L * 60);
 				
 				return this;
 			}
@@ -237,7 +233,7 @@ public enum GrenadeType implements Equipment, DamageSource
 			}
 		}
 	},
-	SMOKE(ChatColor.GREEN + "Smoke Grenade", 1, VoiceSound.SMOKE, new TeamValue<Integer>(300), 245F, 16452, GrenadeExplosionTrigger.STABILIZATION, "smokegrenade", "smokegrenade_draw")
+	SMOKE(ChatColor.GREEN + "Smoke Grenade", 1, VoiceSound.SMOKE, new TeamValue<>(300), 245F, 16452, GrenadeExplosionTrigger.STABILIZATION, "smokegrenade", "smokegrenade_draw")
 	{
 		@Override
 		public boolean onExplosion(final Grenade grenade)
@@ -253,45 +249,37 @@ public enum GrenadeType implements Equipment, DamageSource
 			{
 				final double smokeDistance = i < 40 ? i / 40.0 : 1;
 				
-				scheduler.scheduleSyncDelayedTask(mineStrike, new Runnable() {
-					@Override
-					public void run()
-					{
-						EntityGrenade entityGrenade = grenade.getNMSEntity();
-						
-						if(!entityGrenade.isAlive())
-							return;
-						
-						ThrownPotion entity = grenade.getEntity();
-						Location loc = entity.getLocation();
-						World world = loc.getWorld();
-						Location effectLoc = loc.clone().add(0, 1.5 * smokeDistance, 0);
-						float spread = (float) (2F * smokeDistance);
-						int particles = smokeDistance <= 0 ? 1 : (int) Math.ceil(100.0 * smokeDistance);
-						
-						ParticleEffect.CLOUD.display(effectLoc, spread, spread, spread, 0.2F, particles);
-						world.playSound(loc, Sound.DIG_SAND, 0.5F, 1.5F);
-					}
-				}, i * 2);
+				scheduler.scheduleSyncDelayedTask(mineStrike, () -> {
+                    EntityGrenade entityGrenade = grenade.getNMSEntity();
+
+                    if(!entityGrenade.isAlive())
+                        return;
+
+                    ThrownPotion entity1 = grenade.getEntity();
+                    Location loc1 = entity1.getLocation();
+                    World world = loc1.getWorld();
+                    Location effectLoc = loc1.clone().add(0, 1.5 * smokeDistance, 0);
+                    float spread = (float) (2F * smokeDistance);
+                    int particles = smokeDistance <= 0 ? 1 : (int) Math.ceil(100.0 * smokeDistance);
+
+                    ParticleEffect.CLOUD.display(effectLoc, spread, spread, spread, 0.2F, particles);
+                    world.playSound(loc1, Sound.DIG_SAND, 0.5F, 1.5F);
+                }, i * 2);
 			}
 			
-			scheduler.scheduleSyncDelayedTask(mineStrike, new Runnable() {
-				@Override
-				public void run()
-				{
-					EntityGrenade entityGrenade = grenade.getNMSEntity();
-					
-					if(!entityGrenade.isAlive())
-						return;
-					
-					entityGrenade.die();
-				}
-			}, 20 * 8 * 2L);
+			scheduler.scheduleSyncDelayedTask(mineStrike, () -> {
+                EntityGrenade entityGrenade = grenade.getNMSEntity();
+
+                if(!entityGrenade.isAlive())
+                    return;
+
+                entityGrenade.die();
+            }, 20 * 8 * 2L);
 			
 			return true;
 		}
 	},
-	FLASH(ChatColor.AQUA + "Flashbang", 2, VoiceSound.FLASHBANG, new TeamValue<Integer>(200), 240, 16419, 40, "flashbang", "flashbang_draw")
+	FLASH(ChatColor.AQUA + "Flashbang", 2, VoiceSound.FLASHBANG, new TeamValue<>(200), 240, 16419, 40, "flashbang", "flashbang_draw")
 	{
 		private static final double maxDistance = 32;
 		private static final double maxDuration = 6; //seconds
@@ -639,7 +627,7 @@ public enum GrenadeType implements Equipment, DamageSource
 	@Override
 	public FilledArrayList<ItemButton> getSelectionButtons(MSPlayer msPlayer)
 	{
-		return new FilledArrayList<ItemButton>();
+		return new FilledArrayList<>();
 	}
 
 	@Override

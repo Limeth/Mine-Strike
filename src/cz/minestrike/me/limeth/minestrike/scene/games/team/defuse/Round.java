@@ -1,5 +1,6 @@
 package cz.minestrike.me.limeth.minestrike.scene.games.team.defuse;
 
+import com.google.common.collect.Maps;
 import cz.minestrike.me.limeth.minestrike.MSPlayer;
 import cz.minestrike.me.limeth.minestrike.MineStrike;
 import cz.minestrike.me.limeth.minestrike.events.ArenaJoinEvent;
@@ -24,68 +25,56 @@ public class Round extends GamePhase<DefuseGame>
 	//TODO public static final long BOMB_TIME = 60 * 20, SPAWN_TIME = 10 * 20, ROUND_TIME = 20 * 60 * 3, END_TIME = 5 * 20, VOTE_TIME = 10 * 20;
 	public static final long BOMB_TIME = 60 * 20, SPAWN_TIME = 1 * 20, ROUND_TIME = 20 * 6 * 3, END_TIME = 5 * 20, VOTE_TIME = 10 * 20;
 
-	private final Runnable prepareRunnable = new Runnable() {
-		@Override
-		public void run()
-		{
-			setRanAt(System.currentTimeMillis());
-			setPhase(RoundPhase.PREPARING);
-			boolean cont = getGame().roundPrepare();
+	private void onPrepare()
+	{
+		setRanAt(System.currentTimeMillis());
+		setPhase(RoundPhase.PREPARING);
+		boolean cont = getGame().roundPrepare();
 
-			if(cont)
-			{
-				taskId = Bukkit.getScheduler().scheduleSyncDelayedTask(MineStrike.getInstance(), startRunnable, SPAWN_TIME);
-				new PreparationCheckRunnable().start(5L);
-			}
-		}
-	};
-	private final Runnable startRunnable = new Runnable() {
-		@Override
-		public void run()
+		if(cont)
 		{
-			setRanAt(System.currentTimeMillis());
-			setPhase(RoundPhase.STARTED);
-			boolean cont = getGame().roundStart();
+			taskId = Bukkit.getScheduler().scheduleSyncDelayedTask(MineStrike.getInstance(), this::onStart, SPAWN_TIME);
+			new PreparationCheckRunnable().start(5L);
+		}
+	}
 
-			if(cont)
-				taskId = Bukkit.getScheduler().scheduleSyncDelayedTask(MineStrike.getInstance(), endRunnable, ROUND_TIME);
-		}
-	};
-	private final Runnable endRunnable = new Runnable() {
-		@Override
-		public void run()
-		{
-			setRanAt(System.currentTimeMillis());
-			
-			if(!hasEnded())
-				getGame().roundEnd(RoundEndReason.TIME_OUT);
-		}
-	};
-	private final Runnable explodeRunnable = new Runnable() {
-		@Override
-		public void run()
-		{
-			setRanAt(System.currentTimeMillis());
-			
-			if(!hasEnded())
-				getGame().roundEnd(RoundEndReason.EXPLODED);
-		}
-	};
-	private final Runnable voteRunnable = new Runnable() {
-		public void run()
-		{
-			setRanAt(System.currentTimeMillis());
-			getGame().startMapPoll();
-		}
-	};
-	private final Runnable nextRunnable = new Runnable() {
-		@Override
-		public void run()
-		{
-			setRanAt(System.currentTimeMillis());
-			getGame().roundNext();
-		}
-	};
+	private void onStart()
+	{
+		setRanAt(System.currentTimeMillis());
+		setPhase(RoundPhase.STARTED);
+		boolean cont = getGame().roundStart();
+
+		if (cont)
+			taskId = Bukkit.getScheduler().scheduleSyncDelayedTask(MineStrike.getInstance(), this::onEnd, ROUND_TIME);
+	}
+
+	private void onEnd()
+	{
+        setRanAt(System.currentTimeMillis());
+
+        if(!hasEnded())
+            getGame().roundEnd(RoundEndReason.TIME_OUT);
+    }
+
+	private void onExplode()
+	{
+        setRanAt(System.currentTimeMillis());
+
+        if(!hasEnded())
+            getGame().roundEnd(RoundEndReason.EXPLODED);
+    }
+
+	private void onVote()
+	{
+        setRanAt(System.currentTimeMillis());
+        getGame().startMapPoll();
+    }
+
+	private void onNext()
+	{
+        setRanAt(System.currentTimeMillis());
+        getGame().roundNext();
+    }
 	
 	private final MSSceneListener<DefuseGame> listener;
 	private PreparationCheckRunnable checker;
@@ -102,7 +91,7 @@ public class Round extends GamePhase<DefuseGame>
 	
 	public Round start()
 	{
-		prepareRunnable.run();
+		onPrepare();
 		return this;
 	}
 	
@@ -111,7 +100,7 @@ public class Round extends GamePhase<DefuseGame>
 		if(hasTask())
 			cancelTask();
 		
-		taskId = Bukkit.getScheduler().scheduleSyncDelayedTask(MineStrike.getInstance(), nextRunnable, END_TIME);
+		taskId = Bukkit.getScheduler().scheduleSyncDelayedTask(MineStrike.getInstance(), this::onNext, END_TIME);
 	}
 	
 	public void startVoteRunnable()
@@ -119,7 +108,7 @@ public class Round extends GamePhase<DefuseGame>
 		if(hasTask())
 			cancelTask();
 		
-		taskId = Bukkit.getScheduler().scheduleSyncDelayedTask(MineStrike.getInstance(), voteRunnable, VOTE_TIME);
+		taskId = Bukkit.getScheduler().scheduleSyncDelayedTask(MineStrike.getInstance(), this::onVote, VOTE_TIME);
 	}
 	
 	public void startExplodeRunnable()
@@ -127,7 +116,7 @@ public class Round extends GamePhase<DefuseGame>
 		if(hasTask())
 			cancelTask();
 		
-		taskId = Bukkit.getScheduler().scheduleSyncDelayedTask(MineStrike.getInstance(), explodeRunnable, BOMB_TIME);
+		taskId = Bukkit.getScheduler().scheduleSyncDelayedTask(MineStrike.getInstance(), this::onExplode, BOMB_TIME);
 	}
 	
 	private void cancelTask()
@@ -170,12 +159,6 @@ public class Round extends GamePhase<DefuseGame>
 	public void cancel()
 	{
 		cancelTask();
-	}
-	
-	@Override
-	public DefuseGame getGame()
-	{
-		return (DefuseGame) super.getGame();
 	}
 
 	@Override
@@ -232,7 +215,8 @@ public class Round extends GamePhase<DefuseGame>
 	
 	private class PreparationCheckRunnable extends MSListener implements Runnable
 	{
-		private final HashMap<MSPlayer, Location> ORIGIN = new HashMap<MSPlayer, Location>();
+		private static final double MAX_DISTANCE = 0.25;
+		private final HashMap<MSPlayer, Location> ORIGIN = Maps.newHashMap();
 		public Integer preparationCheckTaskId;
 		
 		public int start(long frequency)
@@ -254,7 +238,7 @@ public class Round extends GamePhase<DefuseGame>
 				
 				if(origin == null)
 					ORIGIN.put(msPlayer, loc);
-				else if(origin.distanceSquared(loc) > 0)
+				else if(origin.distanceSquared(loc) > MAX_DISTANCE * MAX_DISTANCE)
 				{
 					origin.setYaw(loc.getYaw());
 					origin.setPitch(loc.getPitch());
@@ -277,18 +261,12 @@ public class Round extends GamePhase<DefuseGame>
 		@EventHandler
 		public void onArenaJoin(ArenaJoinEvent event, final MSPlayer msPlayer)
 		{
-			Bukkit.getScheduler().scheduleSyncDelayedTask(MineStrike.getInstance(), new Runnable() {
+			Bukkit.getScheduler().scheduleSyncDelayedTask(MineStrike.getInstance(), () -> {
+                Player player = msPlayer.getPlayer();
+                Location loc = player.getLocation();
 
-				@Override
-				public void run()
-				{
-					Player player = msPlayer.getPlayer();
-					Location loc = player.getLocation();
-					
-					ORIGIN.put(msPlayer, loc);
-				}
-				
-			});
+                ORIGIN.put(msPlayer, loc);
+            });
 		}
 		
 		@EventHandler
