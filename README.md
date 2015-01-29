@@ -1,9 +1,7 @@
-*** Required dependencies:
+# Required dependencies:
 
-** JDK 1.8
-
-** Libraries:
-
+## Libraries:
+* JDK 1.8
 * Spigot (https://hub.spigotmc.org/)
 * org.jdbi:jdbi:2.55 (maven)
 * antlr:stringtemplate:3.0 (maven)
@@ -13,7 +11,7 @@
 * WorldEdit (http://dev.bukkit.org/bukkit-plugins/worldedit/)
 * NametagEdit (http://dev.bukkit.org/bukkit-plugins/nametagedit/)
 
-** Modules:
+## Modules:
 
 * fanciful (Spigot)
 * OnePointEight (Spigot, fanciful)
