@@ -1,0 +1,12 @@
+<component name="ArtifactManager">
+  <artifact type="jar" build-on-make="true" name="Plugins/MineStrike.jar">
+    <output-path>$USER_HOME$/Desktop/Coding/Java/Projects/Minecraft/Plugins</output-path>
+    <root id="archive" name="MineStrike.jar">
+      <element id="module-output" name="mine-strike" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/jdbi-2.55.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/annotations-2.0.3.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/stringtemplate-3.0.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/antlr-2.7.7.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>
