@@ -12,7 +12,6 @@
 * NametagEdit (http://dev.bukkit.org/bukkit-plugins/nametagedit/)
 
 ## Modules:
-
 * fanciful (Spigot)
 * OnePointEight (Spigot, fanciful)
 * RawChatManager (Spigot, fanciful, PermissionsEx)
