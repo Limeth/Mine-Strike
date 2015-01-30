@@ -17,9 +17,10 @@ import java.util.Random;
 
 public class CaseOpening implements Runnable
 {
-	private static final int VIEW_WIDTH = 7, INITIAL_SPEED = 50, MAX_DELAY = 30, POWER = 5,
-			SHOWN_EQUIPMENT_AMOUNT = VIEW_WIDTH - 1 + INITIAL_SPEED,
+	private static final int VIEW_WIDTH = 7, INITIAL_SPEED = 100, MAX_DELAY = 30,
+			SHOWN_EQUIPMENT_AMOUNT = VIEW_WIDTH - 1 + INITIAL_SPEED, RESULT_DELAY = 20,
 			INVENTORY_HEIGHT = 5;
+	private static final double BASE = 2, POWER = 30;
 	private static final String SOUND_OPEN = "projectsurvive:counterstrike.ui.csgo_ui_crate_open";
 	private static final String SOUND_SCROLL = "projectsurvive:counterstrike.ui.csgo_ui_crate_item_scroll";
 	private final MSPlayer msPlayer;
@@ -51,14 +52,20 @@ public class CaseOpening implements Runnable
 	
 	private int nextTask()
 	{
-		double percentage = 1 - speed / (double) INITIAL_SPEED;
-		percentage = Math.pow(percentage, POWER);
+		/*double percentage = 1 - speed / (double) INITIAL_SPEED;
+		percentage = Math.pow(Math.exp(percentage - 1), POWER);
 		double preciseDelay = (int) (percentage * (double) MAX_DELAY);
-		int delay = (int) Math.round(preciseDelay);
-		
+		int delay = (int) Math.floor(preciseDelay) + (Math.random() < (preciseDelay - Math.floor(preciseDelay)) ? 1 : 0);*/
+
+		double preciseDelay = MAX_DELAY / Math.pow(BASE, POWER * (speed - 1) / INITIAL_SPEED);
+		int delay = (int) Math.floor(preciseDelay) + (Math.random() < (preciseDelay - Math.floor(preciseDelay)) ? 1 : 0);
+
 		if(delay < 1)
 			delay = 1;
-		
+
+		if(speed - 1 <= 0)
+			delay += RESULT_DELAY;
+
 		SoundManager.play(SOUND_SCROLL, msPlayer.getPlayer());
 		
 		return taskId = Bukkit.getScheduler().scheduleSyncDelayedTask(MineStrike.getInstance(), this, delay);
@@ -142,10 +149,11 @@ public class CaseOpening implements Runnable
 			Equipment equipment = content.getEquipment();
 			int index = MSConstant.INVENTORY_WIDTH * 3 + 1 + i;
 			ItemStack item = equipment.newItemStack(msPlayer);
+			boolean selected = i == (shownContent.size() / 2);
 
-			inventory.setItem(index - MSConstant.INVENTORY_WIDTH, rarity.getItemDisplayTop());
+			inventory.setItem(index - MSConstant.INVENTORY_WIDTH, rarity.getItemDisplayTop(selected));
 			inventory.setItem(index, item);
-			inventory.setItem(index + MSConstant.INVENTORY_WIDTH, rarity.getItemDisplayBottom());
+			inventory.setItem(index + MSConstant.INVENTORY_WIDTH, rarity.getItemDisplayBottom(selected));
 		}
 	}
 	

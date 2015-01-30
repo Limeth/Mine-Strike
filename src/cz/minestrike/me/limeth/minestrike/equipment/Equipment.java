@@ -8,35 +8,35 @@ import cz.minestrike.me.limeth.minestrike.util.collections.FilledArrayList;
 
 public interface Equipment
 {
-	public String getId();
-	public Class<? extends Equipment> getEquipmentClass();
-	public Equipment getSource();
+	String getId();
+	Class<? extends Equipment> getEquipmentClass();
+	Equipment getSource();
 	
 	/**
 	 * @return setCancelled
 	 */
-	public boolean rightClick(MSPlayer msPlayer, Block clickedBlock);
+	boolean rightClick(MSPlayer msPlayer, Block clickedBlock);
 	
 	/**
 	 * @return setCancelled
 	 */
-	public boolean leftClick(MSPlayer msPlayer, Block clickedBlock);
-	public ItemStack newItemStack(MSPlayer msPlayer);
-	public String getDisplayName();
-	public String getSoundDraw();
-	public Integer getPrice(MSPlayer msPlayer);
-	public float getMovementSpeed(MSPlayer msPlayer);
-	public FilledArrayList<ItemButton> getSelectionButtons(MSPlayer msPlayer);
+	boolean leftClick(MSPlayer msPlayer, Block clickedBlock);
+	ItemStack newItemStack(MSPlayer msPlayer);
+	String getDisplayName();
+	String getSoundDraw();
+	Integer getPrice(MSPlayer msPlayer);
+	float getMovementSpeed(MSPlayer msPlayer);
+	FilledArrayList<ItemButton> getSelectionButtons(MSPlayer msPlayer);
 	
 	/**
 	 * @return Whether it should add the item to the player's inventory
 	 */
-	public boolean purchase(MSPlayer msPlayer) throws EquipmentPurchaseException;
-	public boolean isDroppedOnDeath();
-	public boolean isDroppableManually();
-	public String getDefaultSkin(MSPlayer msPlayer);
-	public void onSelect(MSPlayer msPlayer);
-	public void onDeselect(MSPlayer msPlayer);
-	public EquipmentCategory getCategory();
-	public boolean isTradable();
+	boolean purchase(MSPlayer msPlayer) throws EquipmentPurchaseException;
+	boolean isDroppedOnDeath();
+	boolean isDroppableManually();
+	String getDefaultSkin(MSPlayer msPlayer);
+	void onSelect(MSPlayer msPlayer);
+	void onDeselect(MSPlayer msPlayer);
+	EquipmentCategory getCategory();
+	boolean isTradable();
 }

@@ -1,5 +1,7 @@
 package cz.minestrike.me.limeth.minestrike.scene.games;
 
+import cz.minestrike.me.limeth.minestrike.MSConstant;
+import cz.minestrike.me.limeth.minestrike.events.GameEquipEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.craftbukkit.v1_7_R4.inventory.CraftInventoryPlayer;
 import org.bukkit.entity.Player;
@@ -8,6 +10,7 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryView;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.plugin.PluginManager;
 
 import cz.minestrike.me.limeth.minestrike.MSPlayer;
@@ -29,7 +32,41 @@ public class MSShoppingListener extends MSSceneListener<Game>
 	{
 		super(game);
 	}
-	
+
+	@EventHandler
+	public void onGameEquip(GameEquipEvent event, MSPlayer msPlayer)
+	{
+		Game game = getScene();
+
+		if(!game.isWeaponEquippable(msPlayer))
+			return;
+
+		Player player = msPlayer.getPlayer();
+		EquipmentProvider equipmentProvider = game.getEquipmentProvider();
+		PlayerInventory inv = player.getInventory();
+		FilledArrayList<EquipmentSection> categories = equipmentProvider.getEquipmentCategories();
+
+		for(int rel = 0; rel < PlayerUtil.INVENTORY_WIDTH * 3; rel++)
+		{
+			int abs = rel + PlayerUtil.INVENTORY_WIDTH;
+
+			inv.setItem(abs, MSConstant.ITEM_BACKGROUND);
+		}
+
+		PlayerUtil.setItem(inv, 1, 1, MSConstant.QUIT_SERVER_ITEM);
+		PlayerUtil.setItem(inv, 2, 1, MSConstant.QUIT_MENU_ITEM);
+
+		for(int i = 0; i < categories.size(); i++)
+		{
+			EquipmentSection category = categories.get(i);
+			ItemStack icon = category.getIcon();
+			int x = 6 + i % 2;
+			int y = i / 2;
+
+			PlayerUtil.setItem(inv, x, y, icon);
+		}
+	}
+
 	@EventHandler
 	public void onInventoryClick(InventoryClickEvent event, MSPlayer msPlayer)
 	{

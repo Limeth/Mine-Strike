@@ -12,8 +12,8 @@ import java.util.Map;
  */
 public class DefuseRewardListener extends WeightedMSRewardListener<DefuseGame>
 {
-	public static final long REQUIRED_PLAYTIME_MILLIS = (int) (Round.ROUND_TIME * 3D / 4D);
-	public static final int REQUIRED_KILLS = 3;
+	public static final long REQUIRED_PLAYTIME_MILLIS = (int) (Round.ROUND_TIME * 3D / 4D) * 1000 / 20;
+	public static final int REQUIRED_KILLS = 0;//3;
 	public static final double WEIGHT_CASE = 1;
 
 	public DefuseRewardListener(DefuseGame scene)

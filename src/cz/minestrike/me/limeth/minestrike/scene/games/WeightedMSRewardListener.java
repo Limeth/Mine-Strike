@@ -1,5 +1,6 @@
 package cz.minestrike.me.limeth.minestrike.scene.games;
 
+import com.google.common.base.Optional;
 import cz.minestrike.me.limeth.minestrike.MSPlayer;
 import cz.minestrike.me.limeth.minestrike.equipment.Equipment;
 
@@ -27,10 +28,10 @@ public abstract class WeightedMSRewardListener<T extends Game> extends MSRewardL
 	public abstract double initGlobalChance();
 
 	@Override
-	public Equipment getReward(MSPlayer msPlayer)
+	public Optional<Equipment> getReward(MSPlayer msPlayer)
 	{
 		if(RANDOM.nextDouble() > globalChance)
-			return null;
+			return Optional.absent();
 
 		double range = getWeightRange();
 		double weightedIndex = RANDOM.nextDouble() * range;
@@ -40,8 +41,8 @@ public abstract class WeightedMSRewardListener<T extends Game> extends MSRewardL
 		{
 			countedWeight += entry.getValue();
 
-			if(countedWeight <= weightedIndex)
-				return entry.getKey();
+			if(countedWeight > weightedIndex)
+				return Optional.of(entry.getKey());
 		}
 
 		throw new RuntimeException("This shouldn't have happened.");
