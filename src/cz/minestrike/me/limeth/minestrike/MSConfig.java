@@ -1,24 +1,19 @@
 package cz.minestrike.me.limeth.minestrike;
 
+import cz.minestrike.me.limeth.minestrike.areas.DirectedPoint;
+import cz.minestrike.me.limeth.minestrike.areas.Point;
+import cz.minestrike.me.limeth.minestrike.equipment.rewards.RewardManager;
+import cz.minestrike.me.limeth.minestrike.renderers.MapPollRenderer;
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.World;
+import org.bukkit.craftbukkit.libs.com.google.gson.*;
+
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Properties;
-
-import cz.minestrike.me.limeth.minestrike.dbi.RewardRecordDAO;
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
-import org.bukkit.World;
-import org.bukkit.craftbukkit.libs.com.google.gson.Gson;
-import org.bukkit.craftbukkit.libs.com.google.gson.GsonBuilder;
-import org.bukkit.craftbukkit.libs.com.google.gson.JsonElement;
-import org.bukkit.craftbukkit.libs.com.google.gson.JsonObject;
-import org.bukkit.craftbukkit.libs.com.google.gson.JsonParser;
-
-import cz.minestrike.me.limeth.minestrike.areas.DirectedPoint;
-import cz.minestrike.me.limeth.minestrike.areas.Point;
-import cz.minestrike.me.limeth.minestrike.renderers.MapPollRenderer;
 
 public class MSConfig
 {
@@ -37,6 +32,7 @@ public class MSConfig
 	private static String mysqlTableRewardRecords;
 	private static long rewardPeriod;
 	private static int rewardAmount;
+	private static int maxRewardGenerosity;
 
 	public static void load() throws Exception
 	{
@@ -47,6 +43,7 @@ public class MSConfig
 		spawn = GSON.fromJson(root.get("spawn"), DirectedPoint.class);
 		rewardPeriod = root.get("rewardPeriod").getAsLong();
 		rewardAmount = root.get("rewardAmount").getAsInt();
+		maxRewardGenerosity = root.get("maxRewardGenerosity").getAsInt();
 		
 		JsonObject mysql = root.get("mysql").getAsJsonObject();
 		mysqlIP = mysql.get("ip").getAsString();
@@ -97,10 +94,13 @@ public class MSConfig
 			root.add("spawn", GSON.toJsonTree(new DirectedPoint(-1024, 96, -1024, 0f, 0f)));
 
 		if(!root.has("rewardPeriod"))
-			root.addProperty("rewardPeriod", RewardRecordDAO.REWARD_PERIOD_DEFAULT);
+			root.addProperty("rewardPeriod", RewardManager.REWARD_PERIOD_DEFAULT);
 
 		if(!root.has("rewardAmount"))
-			root.addProperty("rewardAmount", RewardRecordDAO.REWARD_AMOUNT_DEFAULT);
+			root.addProperty("rewardAmount", RewardManager.REWARD_AMOUNT_DEFAULT);
+
+		if(!root.has("maxRewardGenerosity"))
+			root.addProperty("maxRewardGenerosity", RewardManager.REWARD_GENEROSITY_MAX_DEFAULT);
 		
 		JsonObject mysql = root.has("mysql") ? root.get("mysql").getAsJsonObject() : new JsonObject();
 
@@ -243,5 +243,10 @@ public class MSConfig
 
 	public static int getRewardAmount() {
 		return rewardAmount;
+	}
+
+	public static int getMaxRewardGenerosity()
+	{
+		return maxRewardGenerosity;
 	}
 }

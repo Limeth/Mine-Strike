@@ -1,6 +1,6 @@
-package cz.minestrike.me.limeth.minestrike.dbi;
+package cz.minestrike.me.limeth.minestrike.dbi.binding;
 
-import org.skife.jdbi.v2.BeanMapper;
+import cz.minestrike.me.limeth.minestrike.dbi.MSPlayerDAO;
 import org.skife.jdbi.v2.StatementContext;
 import org.skife.jdbi.v2.tweak.ResultSetMapper;
 

@@ -1,11 +1,13 @@
 package cz.minestrike.me.limeth.minestrike.scene.games;
 
 import com.google.common.base.Optional;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import cz.minestrike.me.limeth.minestrike.MSPlayer;
 import cz.minestrike.me.limeth.minestrike.Translation;
 import cz.minestrike.me.limeth.minestrike.equipment.Equipment;
 import cz.minestrike.me.limeth.minestrike.equipment.containers.InventoryContainer;
+import cz.minestrike.me.limeth.minestrike.equipment.rewards.RewardManager;
 import cz.minestrike.me.limeth.minestrike.events.ArenaDeathEvent;
 import cz.minestrike.me.limeth.minestrike.events.ArenaJoinEvent;
 import cz.minestrike.me.limeth.minestrike.events.ArenaQuitEvent;
@@ -21,46 +23,62 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * @author Limeth
  */
 public abstract class MSRewardListener<T extends Game> extends MSSceneListener<T>
 {
-	private HashMap<String, Long> joinedAt = Maps.newHashMap();
-	private HashMap<String, Integer> kills = Maps.newHashMap();
-	private long                     requiredPlaytimeMillis;
-	private int                      requiredKills;
+	private HashMap<String, Long>    joinedAt = Maps.newHashMap();
+	private HashMap<String, Integer> kills    = Maps.newHashMap();
+	private long requiredPlaytimeMillis;
+	private int  requiredKills;
+	private int  maxRewardGenerosity;
 
-	public MSRewardListener(T scene, long requiredPlaytimeMillis, int requiredKills)
+	public MSRewardListener(T scene, long requiredPlaytimeMillis, int requiredKills, int maxRewardGenerosity)
 	{
 		super(scene);
 
 		this.requiredPlaytimeMillis = requiredPlaytimeMillis;
 		this.requiredKills = requiredKills;
+		this.maxRewardGenerosity = maxRewardGenerosity;
 	}
 
 	public abstract Optional<Equipment> getReward(MSPlayer msPlayer);
 
 	public void rewardPlayers()
 	{
-		Game game = getScene();
+		if(maxRewardGenerosity <= 0)
+			return;
 
-		game.getPlayingPlayers(this::meetsRequirements).forEach(this::rewardPlayer);
+		Game game = getScene();
+		List<MSPlayer> players = Lists.newArrayList(game.getPlayingPlayers(this::meetsRequirements));
+		int gifted = 0;
+
+		Collections.shuffle(players);
+
+		for(MSPlayer player : players)
+			if(rewardPlayer(player))
+				if(++gifted >= maxRewardGenerosity)
+					break;
+
 		joinedAt.clear();
 		kills.clear();
 	}
 
-	private void rewardPlayer(MSPlayer msPlayer)
+	private boolean rewardPlayer(MSPlayer msPlayer)
 	{
 		Optional<Equipment> reward = getReward(msPlayer);
 
 		if(!reward.isPresent())
-			return;
+			return false;
 
 		Game game = getScene();
 		Player player = msPlayer.getPlayer();
+		String playerName = player.getName();
 		String nameTag = msPlayer.getNameTag();
 		PlayerInventory playerInventory = player.getInventory();
 		ItemStack rewardItemStack = reward.get().newItemStack(msPlayer);
@@ -68,12 +86,16 @@ public abstract class MSRewardListener<T extends Game> extends MSSceneListener<T
 		InventoryContainer inventoryContainer = msPlayer.getInventoryContainer();
 
 		inventoryContainer.addItem(reward.get());
+		RewardManager.getInstance().addRecord(playerName);
+		msPlayer.save();
 		msPlayer.clearInventory();
 		playerInventory.setItem(9 + 4, rewardItemStack);
 		msPlayer.updateInventory();
 		openHopperInventory(player);
 		SoundManager.play("projectsurvive:counterstrike.ui.item_drop_personal", player);
 		game.broadcast(Translation.REWARD_GIVEN.getMessage(nameTag, rewardName));
+
+		return true;
 	}
 
 	private static void openHopperInventory(Player player)
@@ -100,7 +122,10 @@ public abstract class MSRewardListener<T extends Game> extends MSSceneListener<T
 		if(playerKills == null)
 			playerKills = 0;
 
-		return playerKills >= requiredKills;
+		if(playerKills < requiredKills)
+			return false;
+
+		return RewardManager.getInstance().isRewardable(playerName);
 	}
 
 	@EventHandler
@@ -184,5 +209,15 @@ public abstract class MSRewardListener<T extends Game> extends MSSceneListener<T
 	public void setRequiredKills(int requiredKills)
 	{
 		this.requiredKills = requiredKills;
+	}
+
+	public int getMaxRewardGenerosity()
+	{
+		return maxRewardGenerosity;
+	}
+
+	public void setMaxRewardGenerosity(int maxRewardGenerosity)
+	{
+		this.maxRewardGenerosity = maxRewardGenerosity;
 	}
 }

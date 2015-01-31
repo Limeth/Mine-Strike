@@ -16,9 +16,9 @@ public abstract class WeightedMSRewardListener<T extends Game> extends MSRewardL
 	private double                 globalChance;
 	private Map<Equipment, Double> equipmentWeights;
 
-	public WeightedMSRewardListener(T scene, long requiredPlaytimeMillis, int requiredKills)
+	public WeightedMSRewardListener(T scene, long requiredPlaytimeMillis, int requiredKills, int maxRewardGenerosity)
 	{
-		super(scene, requiredPlaytimeMillis, requiredKills);
+		super(scene, requiredPlaytimeMillis, requiredKills, maxRewardGenerosity);
 
 		this.equipmentWeights = initEquipmentWeights();
 		this.globalChance = initGlobalChance();

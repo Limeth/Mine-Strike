@@ -1,7 +1,18 @@
 package cz.minestrike.me.limeth.minestrike.scene.games;
 
-import cz.minestrike.me.limeth.minestrike.MSConstant;
+import cz.minestrike.me.limeth.minestrike.MSPlayer;
+import cz.minestrike.me.limeth.minestrike.MineStrike;
+import cz.minestrike.me.limeth.minestrike.Translation;
+import cz.minestrike.me.limeth.minestrike.equipment.Equipment;
+import cz.minestrike.me.limeth.minestrike.equipment.EquipmentPurchaseException;
+import cz.minestrike.me.limeth.minestrike.equipment.EquipmentSection;
+import cz.minestrike.me.limeth.minestrike.equipment.EquipmentSectionEntry;
+import cz.minestrike.me.limeth.minestrike.equipment.containers.InventoryContainer;
 import cz.minestrike.me.limeth.minestrike.events.GameEquipEvent;
+import cz.minestrike.me.limeth.minestrike.events.ShopOpenEvent;
+import cz.minestrike.me.limeth.minestrike.listeners.msPlayer.MSSceneListener;
+import cz.minestrike.me.limeth.minestrike.util.PlayerUtil;
+import cz.minestrike.me.limeth.minestrike.util.collections.FilledArrayList;
 import org.bukkit.Bukkit;
 import org.bukkit.craftbukkit.v1_7_R4.inventory.CraftInventoryPlayer;
 import org.bukkit.entity.Player;
@@ -12,19 +23,6 @@ import org.bukkit.inventory.InventoryView;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.plugin.PluginManager;
-
-import cz.minestrike.me.limeth.minestrike.MSPlayer;
-import cz.minestrike.me.limeth.minestrike.MineStrike;
-import cz.minestrike.me.limeth.minestrike.Translation;
-import cz.minestrike.me.limeth.minestrike.equipment.Equipment;
-import cz.minestrike.me.limeth.minestrike.equipment.EquipmentSection;
-import cz.minestrike.me.limeth.minestrike.equipment.EquipmentSectionEntry;
-import cz.minestrike.me.limeth.minestrike.equipment.EquipmentPurchaseException;
-import cz.minestrike.me.limeth.minestrike.equipment.containers.InventoryContainer;
-import cz.minestrike.me.limeth.minestrike.events.ShopOpenEvent;
-import cz.minestrike.me.limeth.minestrike.listeners.msPlayer.MSSceneListener;
-import cz.minestrike.me.limeth.minestrike.util.PlayerUtil;
-import cz.minestrike.me.limeth.minestrike.util.collections.FilledArrayList;
 
 public class MSShoppingListener extends MSSceneListener<Game>
 {
@@ -45,9 +43,6 @@ public class MSShoppingListener extends MSSceneListener<Game>
 		EquipmentProvider equipmentProvider = game.getEquipmentProvider();
 		PlayerInventory inv = player.getInventory();
 		FilledArrayList<EquipmentSection> categories = equipmentProvider.getEquipmentCategories();
-
-		PlayerUtil.setItem(inv, 1, 1, MSConstant.QUIT_SERVER_ITEM);
-		PlayerUtil.setItem(inv, 2, 1, MSConstant.QUIT_MENU_ITEM);
 
 		for(int i = 0; i < categories.size(); i++)
 		{

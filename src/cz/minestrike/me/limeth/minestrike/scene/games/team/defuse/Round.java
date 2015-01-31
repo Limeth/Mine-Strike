@@ -22,8 +22,7 @@ import java.util.HashMap;
 
 public class Round extends GamePhase<DefuseGame>
 {
-	//TODO public static final long BOMB_TIME = 60 * 20, SPAWN_TIME = 10 * 20, ROUND_TIME = 20 * 60 * 3, END_TIME = 5 * 20, VOTE_TIME = 10 * 20;
-	public static final long BOMB_TIME = 60 * 20, SPAWN_TIME = 1 * 20, ROUND_TIME = 20 * 6 * 3, END_TIME = 5 * 20, VOTE_TIME = 10 * 20;
+	public static final long BOMB_TIME = 60 * 20, SPAWN_TIME = 10 * 20, ROUND_TIME = 20 * 60 * 3, END_TIME = 5 * 20, VOTE_TIME = 10 * 20;
 
 	private void onPrepare()
 	{

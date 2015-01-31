@@ -26,6 +26,8 @@ import java.util.Random;
 
 public enum Case implements Equipment
 {
+	//TODO Load from a config file
+
 	ALPHA(ChatColor.GOLD + "Alpha")
 			{
 				@Override

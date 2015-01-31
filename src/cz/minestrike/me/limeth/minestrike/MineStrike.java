@@ -9,7 +9,8 @@ import cz.minestrike.me.limeth.minestrike.commands.MSExecutor;
 import cz.minestrike.me.limeth.minestrike.commands.QuitExecutor;
 import cz.minestrike.me.limeth.minestrike.commands.TopExecutor;
 import cz.minestrike.me.limeth.minestrike.dbi.MSPlayerDAO;
-import cz.minestrike.me.limeth.minestrike.dbi.MSPlayerData;
+import cz.minestrike.me.limeth.minestrike.dbi.RewardRecordDAO;
+import cz.minestrike.me.limeth.minestrike.dbi.binding.MSPlayerData;
 import cz.minestrike.me.limeth.minestrike.listeners.*;
 import cz.minestrike.me.limeth.minestrike.listeners.clan.ClanListener;
 import cz.minestrike.me.limeth.minestrike.listeners.msPlayer.MSListenerManager;
@@ -134,6 +135,7 @@ public class MineStrike extends JavaPlugin
 		dbi = new DBI(MSConfig.getMySQLURL(), MSConfig.getMySQLUsername(), MSConfig.getMySQLPassword());
 		
 		MSPlayerDAO.prepareTables();
+		RewardRecordDAO.prepareTable();
 	}
 	
 	private void loadData() throws Exception

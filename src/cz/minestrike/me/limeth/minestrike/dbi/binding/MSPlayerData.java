@@ -1,4 +1,4 @@
-package cz.minestrike.me.limeth.minestrike.dbi;
+package cz.minestrike.me.limeth.minestrike.dbi.binding;
 
 import net.minecraft.util.com.google.common.base.Preconditions;
 

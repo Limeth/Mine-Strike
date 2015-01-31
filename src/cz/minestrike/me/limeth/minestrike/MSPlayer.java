@@ -5,8 +5,7 @@ import com.google.common.collect.Maps;
 import cz.minestrike.me.limeth.minestrike.areas.Structure;
 import cz.minestrike.me.limeth.minestrike.areas.schemes.Scheme;
 import cz.minestrike.me.limeth.minestrike.dbi.MSPlayerDAO;
-import cz.minestrike.me.limeth.minestrike.dbi.MSPlayerData;
-import cz.minestrike.me.limeth.minestrike.dbi.RewardRecordDAO;
+import cz.minestrike.me.limeth.minestrike.dbi.binding.MSPlayerData;
 import cz.minestrike.me.limeth.minestrike.equipment.Equipment;
 import cz.minestrike.me.limeth.minestrike.equipment.containers.ArmorContainer;
 import cz.minestrike.me.limeth.minestrike.equipment.containers.HotbarContainer;
@@ -34,7 +33,6 @@ import net.minecraft.server.v1_7_R4.PacketPlayInClientCommand;
 import org.apache.commons.lang.Validate;
 import org.bukkit.*;
 import org.bukkit.block.Block;
-import org.bukkit.craftbukkit.v1_7_R4.conversations.ConversationTracker;
 import org.bukkit.craftbukkit.v1_7_R4.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
@@ -45,7 +43,6 @@ import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.util.Vector;
 import org.skife.jdbi.v2.DBI;
-import org.skife.jdbi.v2.Handle;
 
 import java.sql.SQLException;
 import java.util.Arrays;
@@ -714,9 +711,9 @@ public class MSPlayer
 	public void save()
 	{
 		DBI dbi = MineStrike.getDBI();
-		Handle handle = dbi.open();
-		MSPlayerDAO dao = handle.attach(MSPlayerDAO.class);
+		MSPlayerDAO dao = dbi.open(MSPlayerDAO.class);
 		String playerName = getName();
+		data.setPlaytime(data.getPlaytime() + pullCurrentPlaytime());
 
 		dao.clearEquipment(MSConfig.getMySQLTableEquipment(), playerName);
 		dao.insertData(MSConfig.getMySQLTablePlayers(), data);
@@ -724,12 +721,10 @@ public class MSPlayer
 		dao.close();
 	}
 	
-	public void clearContainers()
+	public void clearTemporaryContainers()
 	{
-		hotbarContainer.clear();
-		hotbarContainer.apply(this);
-		armorContainer.clear();
-		armorContainer.apply(this);
+		clearHotbar();
+		clearArmor();
 	}
 	
 	public void clearInventory()
@@ -739,6 +734,15 @@ public class MSPlayer
 		
 		inv.clear();
 		inv.setArmorContents(new ItemStack[4]);
+	}
+
+	public void clearArmor()
+	{
+		Player player = getPlayer();
+		PlayerInventory inv = player.getInventory();
+
+		inv.setArmorContents(new ItemStack[4]);
+		armorContainer.clear();
 	}
 	
 	public void clearHotbar()
@@ -988,10 +992,10 @@ var rotateX3D = function(theta) {
 		this.lazyScene = scene;
 	}
 	
-	private Long pullCurrentPlaytime()
+	private long pullCurrentPlaytime()
 	{
 		if(joinedAt == null)
-			return null;
+			throw new IllegalStateException("The player has not joined!");
 		
 		long now = System.currentTimeMillis();
 		Long playtime = now - joinedAt;

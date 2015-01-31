@@ -1,5 +1,6 @@
-package cz.minestrike.me.limeth.minestrike.dbi;
+package cz.minestrike.me.limeth.minestrike.dbi.binding;
 
+import cz.minestrike.me.limeth.minestrike.dbi.MSPlayerDAO;
 import cz.minestrike.me.limeth.minestrike.equipment.Equipment;
 import cz.minestrike.me.limeth.minestrike.equipment.EquipmentManager;
 import org.skife.jdbi.v2.SQLStatement;

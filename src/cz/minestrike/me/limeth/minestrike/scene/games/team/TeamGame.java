@@ -114,7 +114,7 @@ public abstract class TeamGame extends Game
 	
 	public Team getTeam(MSPlayer msPlayer)
 	{
-		return msPlayer.getCustomData(Team.class, CUSTOM_DATA_TEAM);
+		return msPlayer.getCustomData(CUSTOM_DATA_TEAM);
 	}
 	
 	public void setTeam(MSPlayer msPlayer, Team team)

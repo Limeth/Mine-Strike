@@ -1,18 +1,20 @@
 package cz.minestrike.me.limeth.minestrike.dbi;
 
 import cz.minestrike.me.limeth.minestrike.MSConfig;
-import cz.minestrike.me.limeth.minestrike.MineStrike;
+import cz.minestrike.me.limeth.minestrike.dbi.binding.BindEquipment;
+import cz.minestrike.me.limeth.minestrike.dbi.binding.EquipmentMapper;
+import cz.minestrike.me.limeth.minestrike.dbi.binding.MSPlayerData;
+import cz.minestrike.me.limeth.minestrike.dbi.binding.MSPlayerDataMapper;
 import cz.minestrike.me.limeth.minestrike.equipment.Equipment;
-import org.skife.jdbi.v2.Batch;
-import org.skife.jdbi.v2.DBI;
-import org.skife.jdbi.v2.Handle;
 import org.skife.jdbi.v2.sqlobject.*;
 import org.skife.jdbi.v2.sqlobject.customizers.Define;
 import org.skife.jdbi.v2.sqlobject.customizers.RegisterMapper;
 import org.skife.jdbi.v2.sqlobject.stringtemplate.UseStringTemplate3StatementLocator;
-import static cz.minestrike.me.limeth.minestrike.dbi.SQLHelper.*;
 
 import java.util.Collection;
+
+import static cz.minestrike.me.limeth.minestrike.dbi.SQLHelper.column;
+import static cz.minestrike.me.limeth.minestrike.dbi.SQLHelper.prepareTable;
 
 @RegisterMapper({MSPlayerDataMapper.class, EquipmentMapper.class})
 @UseStringTemplate3StatementLocator

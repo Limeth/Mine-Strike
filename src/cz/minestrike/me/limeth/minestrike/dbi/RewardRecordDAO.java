@@ -1,23 +1,30 @@
 package cz.minestrike.me.limeth.minestrike.dbi;
+
 import cz.minestrike.me.limeth.minestrike.MSConfig;
 import cz.minestrike.me.limeth.minestrike.MineStrike;
+import cz.minestrike.me.limeth.minestrike.dbi.binding.RewardRecordMapper;
+import cz.minestrike.me.limeth.minestrike.equipment.rewards.PartialRewardRecord;
+import cz.minestrike.me.limeth.minestrike.equipment.rewards.RewardRecord;
 import org.skife.jdbi.v2.DBI;
-import org.skife.jdbi.v2.Handle;
 import org.skife.jdbi.v2.sqlobject.Bind;
+import org.skife.jdbi.v2.sqlobject.BindBean;
 import org.skife.jdbi.v2.sqlobject.SqlQuery;
+import org.skife.jdbi.v2.sqlobject.SqlUpdate;
 import org.skife.jdbi.v2.sqlobject.customizers.Define;
+import org.skife.jdbi.v2.sqlobject.customizers.RegisterMapper;
+import org.skife.jdbi.v2.sqlobject.stringtemplate.UseStringTemplate3StatementLocator;
 
-import static cz.minestrike.me.limeth.minestrike.dbi.SQLHelper.*;
+import java.util.List;
 
+import static cz.minestrike.me.limeth.minestrike.dbi.SQLHelper.column;
+
+@RegisterMapper(RewardRecordMapper.class)
+@UseStringTemplate3StatementLocator
 public interface RewardRecordDAO
 {
     String FIELD_ID = "id", PROPERTIES_ID = "int(11) NOT NULL AUTO_INCREMENT";
     String FIELD_USERNAME = "username", PROPERTIES_USERNAME = "varchar(16) COLLATE utf8_czech_ci NOT NULL";
-    String FIELD_TIMESTAMP = "timestamp", PROPERTIES_TIMESTAMP = "long NOT NULL";
-    String FIELD_RESULT = "result";
-    long REWARD_CHECK_PERIOD = 1000 * 60 * 60;
-    long REWARD_PERIOD_DEFAULT = 1000 * 60 * 60 * 24 * 2; //2 days
-    int REWARD_AMOUNT_DEFAULT = 1;
+    String FIELD_TIMESTAMP = "timestamp", PROPERTIES_TIMESTAMP = "bigint(20) NOT NULL";
 
     public static void prepareTable()
     {
@@ -30,26 +37,62 @@ public interface RewardRecordDAO
         );
     }
 
-    public static boolean canBeRewarded(String username)
+    public static List<RewardRecord> selectRewardRecords(String username, Long minTimestamp)
+    {
+        if(minTimestamp == null)
+            return selectRewardRecords(username);
+
+        DBI dbi = MineStrike.getDBI();
+        RewardRecordDAO dao = dbi.open(RewardRecordDAO.class);
+
+        List<RewardRecord> result = dao.selectRewardRecords(MSConfig.getMySQLTableRewardRecords(), username, minTimestamp);
+        dao.close();
+
+        return result;
+    }
+
+    public static List<RewardRecord> selectRewardRecords(String username)
     {
         DBI dbi = MineStrike.getDBI();
         RewardRecordDAO dao = dbi.open(RewardRecordDAO.class);
 
-        return dao.canBeRewarded(
-                MSConfig.getMySQLTableRewardRecords(),
-                username,
-                System.currentTimeMillis(),
-                MSConfig.getRewardPeriod(),
-                MSConfig.getRewardAmount()
-        );
+        List<RewardRecord> result = dao.selectRewardRecords(MSConfig.getMySQLTableRewardRecords(), username);
+        dao.close();
+
+        return result;
+    }
+
+    public static int insertRewardRecord(PartialRewardRecord record)
+    {
+        DBI dbi = MineStrike.getDBI();
+        RewardRecordDAO dao = dbi.open(RewardRecordDAO.class);
+
+        int result = dao.insertRewardRecord(MSConfig.getMySQLTableRewardRecords(), record);
+        dao.close();
+
+        return result;
     }
 
     /**
-     * Use {@link RewardRecordDAO#canBeRewarded(String)} instead.
+     * Use {@link cz.minestrike.me.limeth.minestrike.dbi.RewardRecordDAO#selectRewardRecords(String, Long)} instead.
      */
     @Deprecated
-    @SqlQuery("SELECT IF(COUNT(*) < :amount) AS `" + FIELD_RESULT + "` WHERE `" + FIELD_USERNAME +
-            "` = :username AND `" + FIELD_TIMESTAMP + "` > :timestamp - :period")
-    boolean canBeRewarded(@Define("table") String table, @Bind("username") String username,
-                          @Bind("timestamp") long timestamp, @Bind("period") long period, @Bind("amount") int amount);
+    @SqlQuery("SELECT * FROM <table> WHERE `" + FIELD_USERNAME + "` = :username AND `" + FIELD_TIMESTAMP + "` > :minTimestamp ORDER BY `" + FIELD_TIMESTAMP + "`")
+    List<RewardRecord> selectRewardRecords(@Define("table") String tableName, @Bind("username") String username, @Bind("minTimestamp") long minTimestamp);
+
+    /**
+     * Use {@link cz.minestrike.me.limeth.minestrike.dbi.RewardRecordDAO#selectRewardRecords(String)} instead.
+     */
+    @Deprecated
+    @SqlQuery("SELECT * FROM <table> WHERE `" + FIELD_USERNAME + "` = :username ORDER BY `" + FIELD_TIMESTAMP + "`")
+    List<RewardRecord> selectRewardRecords(@Define("table") String tableName, @Bind("username") String username);
+
+    /**
+     * Use {@link cz.minestrike.me.limeth.minestrike.dbi.RewardRecordDAO#insertRewardRecord(PartialRewardRecord)} instead.
+     */
+    @Deprecated
+    @SqlUpdate("INSERT INTO <table> (`" + FIELD_USERNAME + "`, `" + FIELD_TIMESTAMP + "`) VALUES(:record." + FIELD_USERNAME + ", :record." + FIELD_TIMESTAMP + ")")
+    int insertRewardRecord(@Define("table") String tableName, @BindBean("record") PartialRewardRecord record);
+
+    void close();
 }

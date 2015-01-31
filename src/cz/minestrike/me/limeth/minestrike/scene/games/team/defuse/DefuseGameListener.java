@@ -40,21 +40,21 @@ public class DefuseGameListener extends MSSceneListener<DefuseGame>
 	public void onArenaQuit(ArenaQuitEvent event, MSPlayer msPlayer)
 	{
 		checkLoss(msPlayer);
-		msPlayer.clearContainers();
+		msPlayer.clearTemporaryContainers();
 	}
 	
 	@EventHandler
 	public void onGameQuit(GameQuitEvent event, MSPlayer msPlayer)
 	{
 		checkLoss(msPlayer);
-		msPlayer.clearContainers();
+		msPlayer.clearTemporaryContainers();
 	}
 	
 	@EventHandler
 	public void onPlayerDeath(PlayerDeathEvent event, MSPlayer msPlayer)
 	{
 		checkLoss(msPlayer);
-		msPlayer.clearContainers();
+		msPlayer.clearTemporaryContainers();
 	}
 	
 	public void checkLoss(MSPlayer msPlayer)

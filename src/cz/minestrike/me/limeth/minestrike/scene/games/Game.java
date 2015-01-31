@@ -174,8 +174,11 @@ public abstract class Game extends Scene
 		GameEquipEvent event = new GameEquipEvent(this, msPlayer, force);
 		PluginManager pm = Bukkit.getPluginManager();
 		Player player = msPlayer.getPlayer();
-		
+		PlayerInventory inv = player.getInventory();
+
 		pm.callEvent(event);
+		PlayerUtil.setItem(inv, 1, 1, MSConstant.QUIT_SERVER_ITEM);
+		PlayerUtil.setItem(inv, 2, 1, MSConstant.QUIT_MENU_ITEM);
 
 		if(isWeaponEquippable(msPlayer))
 			equipmentProvider.equip(msPlayer);
@@ -202,7 +205,7 @@ public abstract class Game extends Scene
 
 	public boolean isDead(MSPlayer msPlayer)
 	{
-		Boolean dead = msPlayer.getCustomData(Boolean.class, CUSTOM_DATA_DEAD);
+		Boolean dead = msPlayer.getCustomData(CUSTOM_DATA_DEAD);
 
 		return dead != null ? dead : false;
 	}

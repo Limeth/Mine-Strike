@@ -39,7 +39,7 @@ import java.util.function.Predicate;
 public class DefuseGame extends TeamGame
 {
 	public static final String CUSTOM_DATA_BALANCE = "MineStrike.game.balance";
-	public static final int MONEY_CAP = 10000, REQUIRED_ROUNDS = 1/*TODO 8*/,
+	public static final int MONEY_CAP = 10000, REQUIRED_ROUNDS = 8,
 			XP_KILL = 100, XP_MATCH_WIN = 200, XP_MATCH_LOSE = 50;
 	private int tScore, ctScore;
 	private int                         winsInRow;
@@ -80,7 +80,7 @@ public class DefuseGame extends TeamGame
 
 		for(MSPlayer player : getPlayingPlayers())
 		{
-			player.clearContainers();
+			player.clearTemporaryContainers();
 			setBalance(player, MoneyAward.START_CASUAL.getAmount());
 		}
 
@@ -556,7 +556,7 @@ public class DefuseGame extends TeamGame
 	
 	public int getBalance(MSPlayer msPlayer)
 	{
-		Integer balance = msPlayer.getCustomData(Integer.class, CUSTOM_DATA_BALANCE);
+		Integer balance = msPlayer.getCustomData(CUSTOM_DATA_BALANCE);
 		
 		return balance != null ? balance : 0;
 	}

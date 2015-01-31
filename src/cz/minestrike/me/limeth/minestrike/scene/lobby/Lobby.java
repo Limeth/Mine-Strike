@@ -71,8 +71,7 @@ public class Lobby extends Scene
 	public void equip(MSPlayer msPlayer, boolean force)
 	{
 		super.equip(msPlayer, force);
-		msPlayer.clearContainers();
-		msPlayer.clearInventory();
+		msPlayer.clearTemporaryContainers();
 		
 		Player player = msPlayer.getPlayer();
 		PlayerInventory inv = player.getInventory();

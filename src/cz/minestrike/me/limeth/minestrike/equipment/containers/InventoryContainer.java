@@ -219,7 +219,7 @@ public class InventoryContainer extends ScalableContainer
 	{
 		InventoryContainer container = msPlayer.getInventoryContainer();
 		Equipment[] contents = container.getContents();
-		int scroll = msPlayer.getCustomData(Integer.class, SCROLL_DATA, 0) * inventoryWidth;
+		int scroll = msPlayer.getCustomData(SCROLL_DATA, 0) * inventoryWidth;
 		int index = 0;
 		
 		inv.clear();
@@ -262,7 +262,7 @@ public class InventoryContainer extends ScalableContainer
 	public static void equipSelection(Inventory inv, MSPlayer msPlayer)
 	{
 		InventoryContainer invContainer = msPlayer.getInventoryContainer();
-		int selectionIndex = msPlayer.getCustomData(Integer.class, SELECTION_INDEX_DATA);
+		int selectionIndex = msPlayer.getCustomData(SELECTION_INDEX_DATA);
 		Equipment selectedEquipment = invContainer.getItem(selectionIndex);
 		FilledArrayList<ItemButton> selectionButtons = selectedEquipment.getSelectionButtons(msPlayer);
 		
@@ -311,7 +311,7 @@ public class InventoryContainer extends ScalableContainer
 		if(x < inventoryWidth)
 		{
 			int y = PlayerUtil.getInventoryY(slot);
-			int scroll = msPlayer.getCustomData(Integer.class, SCROLL_DATA, 0);
+			int scroll = msPlayer.getCustomData(SCROLL_DATA, 0);
 			int equipmentIndex = x + (y + scroll) * inventoryWidth;
 			InventoryContainer invContainer = msPlayer.getInventoryContainer();
 			
@@ -328,7 +328,7 @@ public class InventoryContainer extends ScalableContainer
 		else
 			if(slot == inventoryWidth)
 			{
-				int scroll = msPlayer.getCustomData(Integer.class, SCROLL_DATA, 0);
+				int scroll = msPlayer.getCustomData(SCROLL_DATA, 0);
 				
 				if(scroll <= 0)
 					return;
@@ -338,7 +338,7 @@ public class InventoryContainer extends ScalableContainer
 			}
 			else if(slot == (inventoryHeight - 1) * MSConstant.INVENTORY_WIDTH + inventoryWidth)
 			{
-				int scroll = msPlayer.getCustomData(Integer.class, SCROLL_DATA, 0);
+				int scroll = msPlayer.getCustomData(SCROLL_DATA, 0);
 				InventoryContainer invContainer = msPlayer.getInventoryContainer();
 				int rows = (int) Math.ceil((double) invContainer.getSize() / (double) inventoryHeight);
 				
@@ -357,7 +357,7 @@ public class InventoryContainer extends ScalableContainer
 	public void onClickSelection(Inventory inv, int slot, MSPlayer msPlayer)
 	{
 		InventoryContainer invContainer = msPlayer.getInventoryContainer();
-		int selectionIndex = msPlayer.getCustomData(Integer.class, SELECTION_INDEX_DATA);
+		int selectionIndex = msPlayer.getCustomData(SELECTION_INDEX_DATA);
 		Equipment selectedEquipment = invContainer.getItem(selectionIndex);
 		FilledArrayList<ItemButton> selectionButtons = selectedEquipment.getSelectionButtons(msPlayer);
 		
