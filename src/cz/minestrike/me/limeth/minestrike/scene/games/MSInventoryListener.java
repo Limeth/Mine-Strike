@@ -45,7 +45,7 @@ public class MSInventoryListener extends MSSceneListener<Game>
 		event.setCancelled(true);
 		PlayerUtil.delayedInventoryUpdate(player, MineStrike.getInstance());
 		
-		if(game.isPlayerPlaying().test(msPlayer))
+		if(game.isPlayerPlaying(msPlayer))
 		{
 			SlotType slotType = event.getSlotType();
 			

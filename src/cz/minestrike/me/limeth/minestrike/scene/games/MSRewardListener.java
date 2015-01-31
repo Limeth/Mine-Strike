@@ -8,7 +8,7 @@ import cz.minestrike.me.limeth.minestrike.Translation;
 import cz.minestrike.me.limeth.minestrike.equipment.Equipment;
 import cz.minestrike.me.limeth.minestrike.equipment.containers.InventoryContainer;
 import cz.minestrike.me.limeth.minestrike.equipment.rewards.RewardManager;
-import cz.minestrike.me.limeth.minestrike.events.ArenaDeathEvent;
+import cz.minestrike.me.limeth.minestrike.events.ArenaPreDeathEvent;
 import cz.minestrike.me.limeth.minestrike.events.ArenaJoinEvent;
 import cz.minestrike.me.limeth.minestrike.events.ArenaQuitEvent;
 import cz.minestrike.me.limeth.minestrike.events.GameStartEvent;
@@ -129,7 +129,7 @@ public abstract class MSRewardListener<T extends Game> extends MSSceneListener<T
 	}
 
 	@EventHandler
-	public void onArenaDeath(ArenaDeathEvent event, MSPlayer msPlayer)
+	public void onArenaDeath(ArenaPreDeathEvent event, MSPlayer msPlayer)
 	{
 		MSPlayer damageSource = msPlayer.getLastDamageSource();
 		Equipment damageSourceWeapon = msPlayer.getLastDamageWeapon();

@@ -342,7 +342,7 @@ public class MapPoll extends GamePhase<Game> implements Runnable
 		{
 			Game game = getScene();
 			
-			if(isVoteable() && game.isPlayerPlaying().test(msPlayer))
+			if(isVoteable() && game.isPlayerPlaying(msPlayer))
 				equipPlayer(msPlayer, false);
 		}
 		
@@ -351,7 +351,7 @@ public class MapPoll extends GamePhase<Game> implements Runnable
 		{
 			Game game = getScene();
 			
-			if(game.isPlayerPlaying().test(msPlayer))
+			if(game.isPlayerPlaying(msPlayer))
 				event.setCancelled(true);
 		}
 		

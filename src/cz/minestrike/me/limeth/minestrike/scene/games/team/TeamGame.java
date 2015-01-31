@@ -99,7 +99,7 @@ public abstract class TeamGame extends Game
 	@Override
 	public String getPrefix(MSPlayer msPlayer)
 	{
-		if(!isPlayerPlaying().test(msPlayer))
+		if(!isPlayerPlaying(msPlayer))
 			return null;
 		
 		Team team = getTeam(msPlayer);

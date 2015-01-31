@@ -1,5 +1,22 @@
 package cz.minestrike.me.limeth.minestrike.scene.games.team.defuse;
 
+import cz.minestrike.me.limeth.minestrike.MSPlayer;
+import cz.minestrike.me.limeth.minestrike.Translation;
+import cz.minestrike.me.limeth.minestrike.areas.RegionList;
+import cz.minestrike.me.limeth.minestrike.areas.Structure;
+import cz.minestrike.me.limeth.minestrike.areas.schemes.GameMap;
+import cz.minestrike.me.limeth.minestrike.areas.schemes.Scheme;
+import cz.minestrike.me.limeth.minestrike.equipment.Equipment;
+import cz.minestrike.me.limeth.minestrike.equipment.containers.HotbarContainer;
+import cz.minestrike.me.limeth.minestrike.events.ArenaPostDeathEvent;
+import cz.minestrike.me.limeth.minestrike.events.ArenaQuitEvent;
+import cz.minestrike.me.limeth.minestrike.events.GameQuitEvent;
+import cz.minestrike.me.limeth.minestrike.events.ShopOpenEvent;
+import cz.minestrike.me.limeth.minestrike.listeners.msPlayer.MSSceneListener;
+import cz.minestrike.me.limeth.minestrike.scene.games.PlayerState;
+import cz.minestrike.me.limeth.minestrike.scene.games.Team;
+import cz.minestrike.me.limeth.minestrike.scene.games.team.defuse.DefuseGame.RoundEndReason;
+import cz.minestrike.me.limeth.minestrike.scene.games.team.defuse.Round.RoundPhase;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -9,25 +26,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.inventory.ItemStack;
-
-import cz.minestrike.me.limeth.minestrike.MSPlayer;
-import cz.minestrike.me.limeth.minestrike.Translation;
-import cz.minestrike.me.limeth.minestrike.areas.RegionList;
-import cz.minestrike.me.limeth.minestrike.areas.Structure;
-import cz.minestrike.me.limeth.minestrike.areas.schemes.GameMap;
-import cz.minestrike.me.limeth.minestrike.areas.schemes.Scheme;
-import cz.minestrike.me.limeth.minestrike.equipment.Equipment;
-import cz.minestrike.me.limeth.minestrike.equipment.containers.HotbarContainer;
-import cz.minestrike.me.limeth.minestrike.events.ArenaQuitEvent;
-import cz.minestrike.me.limeth.minestrike.events.GameQuitEvent;
-import cz.minestrike.me.limeth.minestrike.events.ShopOpenEvent;
-import cz.minestrike.me.limeth.minestrike.listeners.msPlayer.MSSceneListener;
-import cz.minestrike.me.limeth.minestrike.scene.games.PlayerState;
-import cz.minestrike.me.limeth.minestrike.scene.games.Team;
-import cz.minestrike.me.limeth.minestrike.scene.games.team.defuse.DefuseGame.RoundEndReason;
-import cz.minestrike.me.limeth.minestrike.scene.games.team.defuse.Round.RoundPhase;
 
 public class DefuseGameListener extends MSSceneListener<DefuseGame>
 {
@@ -51,7 +50,7 @@ public class DefuseGameListener extends MSSceneListener<DefuseGame>
 	}
 	
 	@EventHandler
-	public void onPlayerDeath(PlayerDeathEvent event, MSPlayer msPlayer)
+	public void onArenaPostDeath(ArenaPostDeathEvent event, MSPlayer msPlayer)
 	{
 		checkLoss(msPlayer);
 		msPlayer.clearTemporaryContainers();
@@ -62,7 +61,7 @@ public class DefuseGameListener extends MSSceneListener<DefuseGame>
 		DefuseGame game = getScene();
 		PlayerState state = msPlayer.getPlayerState();
 		
-		if(state != PlayerState.JOINED_GAME || !game.hasTeam(msPlayer) || game.isDead(msPlayer) || !(game.getPhase() instanceof Round))
+		if(state != PlayerState.JOINED_GAME || !game.hasTeam(msPlayer) || !(game.getPhase() instanceof Round))
 			return;
 		
 		Team team = game.getTeam(msPlayer);

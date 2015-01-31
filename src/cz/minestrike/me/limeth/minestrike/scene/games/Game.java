@@ -97,7 +97,7 @@ public abstract class Game extends Scene
 		Collections.shuffle(this.maps);
 	}
 	
-	public abstract Predicate<MSPlayer> isPlayerPlaying();
+	public abstract boolean isPlayerPlaying(MSPlayer msPlayer);
 	public abstract int getXPForKill(MSPlayer msVictim, MSPlayer msKiller);
 	
 	public void firstStart()
@@ -190,17 +190,17 @@ public abstract class Game extends Scene
 
 	public boolean isWeaponEquippable(MSPlayer msPlayer)
 	{
-		return isPlayerPlaying().test(msPlayer) && !isDead(msPlayer) && getPhaseType() != GamePhaseType.FINISHED && getPhaseType() != GamePhaseType.LOBBY;
+		return isPlayerPlaying(msPlayer) && !isDead(msPlayer) && getPhaseType() != GamePhaseType.FINISHED && getPhaseType() != GamePhaseType.LOBBY;
 	}
 	
 	public Set<MSPlayer> getPlayingPlayers()
 	{
-		return getPlayers(isPlayerPlaying());
+		return getPlayers(this::isPlayerPlaying);
 	}
 	
 	public Set<MSPlayer> getPlayingPlayers(Predicate<MSPlayer> predicate)
 	{
-		return getPlayers(p -> isPlayerPlaying().test(p) && predicate.test(p));
+		return getPlayers(p -> isPlayerPlaying(p) && predicate.test(p));
 	}
 
 	public boolean isDead(MSPlayer msPlayer)

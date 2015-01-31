@@ -504,9 +504,9 @@ public class DefuseGame extends TeamGame
 	}
 	
 	@Override
-	public final Predicate<MSPlayer> isPlayerPlaying()
+	public final boolean isPlayerPlaying(MSPlayer p)
 	{
-		return (MSPlayer p) -> p.getPlayerState() == PlayerState.JOINED_GAME && getTeam(p) != null;
+		return p.getPlayerState() == PlayerState.JOINED_GAME && getTeam(p) != null;
 	}
 	
 	public Round getRound()

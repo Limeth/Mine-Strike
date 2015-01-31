@@ -1,17 +1,5 @@
 package cz.minestrike.me.limeth.minestrike.scene.games.team;
 
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.Set;
-
-import org.bukkit.Location;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.event.player.AsyncPlayerChatEvent;
-import org.bukkit.event.player.PlayerRespawnEvent;
-
 import cz.minestrike.me.limeth.minestrike.MSPlayer;
 import cz.minestrike.me.limeth.minestrike.events.GameSpawnEvent;
 import cz.minestrike.me.limeth.minestrike.events.SneakPacketEvent;
@@ -20,6 +8,17 @@ import cz.minestrike.me.limeth.minestrike.scene.games.PlayerState;
 import cz.minestrike.me.limeth.minestrike.scene.games.Team;
 import cz.minestrike.me.limeth.minestrike.scene.games.VoiceSound;
 import cz.minestrike.me.limeth.minestrike.util.SoundManager;
+import org.bukkit.Location;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.player.AsyncPlayerChatEvent;
+import org.bukkit.event.player.PlayerRespawnEvent;
+
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.Set;
 
 public class TeamGameListener extends MSSceneListener<TeamGame>
 {
@@ -109,7 +108,7 @@ public class TeamGameListener extends MSSceneListener<TeamGame>
 	{
 		TeamGame game = getScene();
 		
-		if(!game.isPlayerPlaying().test(msPlayer))
+		if(!game.isPlayerPlaying(msPlayer))
 			return;
 		
 		Player player = msPlayer.getPlayer();
@@ -123,12 +122,12 @@ public class TeamGameListener extends MSSceneListener<TeamGame>
 	{
 		TeamGame game = getScene();
 		
-		if(!game.isPlayerPlaying().test(msViewer))
+		if(!game.isPlayerPlaying(msViewer))
 			return;
 		
 		MSPlayer msSneaking = event.getSneakingPlayer();
 		
-		if(!game.isPlayerPlaying().test(msSneaking))
+		if(!game.isPlayerPlaying(msSneaking))
 			return;
 		
 		Team viewerTeam = game.getTeam(msViewer);

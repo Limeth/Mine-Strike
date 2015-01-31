@@ -9,13 +9,13 @@ import org.bukkit.event.HandlerList;
 /**
  * @author Limeth
  */
-public class ArenaDeathEvent extends MSPlayerEvent implements Cancellable, GameEvent
+public class ArenaPreDeathEvent extends MSPlayerEvent implements Cancellable, GameEvent
 {
 	private static final HandlerList handlers = new HandlerList();
 	private Game    game;
 	private boolean cancelled;
 
-	public ArenaDeathEvent(Game game, MSPlayer msPlayer)
+	public ArenaPreDeathEvent(Game game, MSPlayer msPlayer)
 	{
 		super(msPlayer);
 

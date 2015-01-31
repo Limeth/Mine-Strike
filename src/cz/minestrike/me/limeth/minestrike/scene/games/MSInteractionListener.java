@@ -3,7 +3,8 @@ package cz.minestrike.me.limeth.minestrike.scene.games;
 import cz.minestrike.me.limeth.minestrike.MSPlayer;
 import cz.minestrike.me.limeth.minestrike.Translation;
 import cz.minestrike.me.limeth.minestrike.equipment.Equipment;
-import cz.minestrike.me.limeth.minestrike.events.ArenaDeathEvent;
+import cz.minestrike.me.limeth.minestrike.events.ArenaPostDeathEvent;
+import cz.minestrike.me.limeth.minestrike.events.ArenaPreDeathEvent;
 import cz.minestrike.me.limeth.minestrike.listeners.msPlayer.MSSceneListener;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Entity;
@@ -20,21 +21,21 @@ public class MSInteractionListener extends MSSceneListener<Game>
 	{
 		super(game);
 	}
-	
+
 	@EventHandler
 	public void onPlayerDeath(PlayerDeathEvent event, MSPlayer msPlayer)
 	{
 		Game game = getScene();
 		
-		if(!game.isPlayerPlaying().test(msPlayer) || game.isDead(msPlayer))
+		if(!game.isPlayerPlaying(msPlayer) || game.isDead(msPlayer))
 			return;
 
-		ArenaDeathEvent arenaEvent = new ArenaDeathEvent(game, msPlayer);
+		ArenaPreDeathEvent arenaPreEvent = new ArenaPreDeathEvent(game, msPlayer);
 		PluginManager pm = Bukkit.getPluginManager();
 
-		pm.callEvent(arenaEvent);
+		pm.callEvent(arenaPreEvent);
 
-		if(arenaEvent.isCancelled())
+		if(arenaPreEvent.isCancelled())
 			return;
 
 		MSPlayer msKiller = msPlayer.getLastDamageSource();
@@ -108,9 +109,12 @@ public class MSInteractionListener extends MSSceneListener<Game>
 		else
 			message = Translation.GAME_DEATH_UNKNOWN.getMessage(msPlayer.getNameTag());
 
+		ArenaPostDeathEvent arenaPostEvent = new ArenaPostDeathEvent(game, msPlayer);
+
 		msPlayer.addDeaths(1);
 		game.setDead(msPlayer, true);
 		game.broadcast(message);
+		pm.callEvent(arenaPostEvent);
 	}
 	
 	@EventHandler

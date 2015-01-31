@@ -124,7 +124,7 @@ public class Knife extends SimpleEquipment
 	
 	private boolean hasCooldown(MSPlayer msPlayer, long now)
 	{
-		long blockedUntil = msPlayer.getCustomData(Long.class, DATA_BLOCKED_UNTIL, 0L);
+		long blockedUntil = msPlayer.getCustomData(DATA_BLOCKED_UNTIL, 0L);
 		
 		return now < blockedUntil;
 	}
