@@ -169,6 +169,8 @@ public abstract class Game extends Scene
 	@SuppressWarnings("deprecation")
 	public void equip(MSPlayer msPlayer, boolean force)
 	{
+		super.equip(msPlayer, force);
+
 		GameEquipEvent event = new GameEquipEvent(this, msPlayer, force);
 		PluginManager pm = Bukkit.getPluginManager();
 		Player player = msPlayer.getPlayer();

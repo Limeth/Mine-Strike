@@ -440,9 +440,9 @@ public class DefuseGame extends TeamGame
 	public boolean isDeadAfterJoin(MSPlayer msPlayer, Team team)
 	{
 		GamePhase<? extends Game> gamePhase = getPhase();
-		
+
 		if(!(gamePhase instanceof Round))
-			return false;
+			return true;
 		
 		Round round = (Round) gamePhase;
 		RoundPhase roundPhase = round.getPhase();

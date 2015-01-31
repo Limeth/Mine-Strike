@@ -46,13 +46,6 @@ public class MSShoppingListener extends MSSceneListener<Game>
 		PlayerInventory inv = player.getInventory();
 		FilledArrayList<EquipmentSection> categories = equipmentProvider.getEquipmentCategories();
 
-		for(int rel = 0; rel < PlayerUtil.INVENTORY_WIDTH * 3; rel++)
-		{
-			int abs = rel + PlayerUtil.INVENTORY_WIDTH;
-
-			inv.setItem(abs, MSConstant.ITEM_BACKGROUND);
-		}
-
 		PlayerUtil.setItem(inv, 1, 1, MSConstant.QUIT_SERVER_ITEM);
 		PlayerUtil.setItem(inv, 2, 1, MSConstant.QUIT_MENU_ITEM);
 

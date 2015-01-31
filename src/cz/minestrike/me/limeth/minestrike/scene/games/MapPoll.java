@@ -273,10 +273,14 @@ public class MapPoll extends GamePhase<Game> implements Runnable
 		PlayerInventory inv = player.getInventory();
 		int i = 0;
 
-		player.closeInventory();
+		msPlayer.clearHotbar();
+		msPlayer.getHotbarContainer().clear();
 
 		if(equipScene)
+		{
+			player.closeInventory();
 			getGame().equip(msPlayer, false);
+		}
 
 		for(Entry<Short, GameMap> entry : selectedMaps.entrySet())
 		{

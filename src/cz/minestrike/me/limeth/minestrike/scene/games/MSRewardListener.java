@@ -11,6 +11,7 @@ import cz.minestrike.me.limeth.minestrike.events.ArenaJoinEvent;
 import cz.minestrike.me.limeth.minestrike.events.ArenaQuitEvent;
 import cz.minestrike.me.limeth.minestrike.events.GameStartEvent;
 import cz.minestrike.me.limeth.minestrike.listeners.msPlayer.MSSceneListener;
+import cz.minestrike.me.limeth.minestrike.util.SoundManager;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -71,6 +72,7 @@ public abstract class MSRewardListener<T extends Game> extends MSSceneListener<T
 		playerInventory.setItem(9 + 4, rewardItemStack);
 		msPlayer.updateInventory();
 		openHopperInventory(player);
+		SoundManager.play("projectsurvive:counterstrike.ui.item_drop_personal", player);
 		game.broadcast(Translation.REWARD_GIVEN.getMessage(nameTag, rewardName));
 	}
 
