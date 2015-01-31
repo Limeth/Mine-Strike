@@ -61,7 +61,7 @@ public class MapPoll extends GamePhase<Game> implements Runnable
 		selectMaps();
 		setRenderers();
 		initObjective();
-		equipPlayers();
+		equipPlayers(true);
 		startCountdown();
 		return this;
 	}
@@ -92,7 +92,7 @@ public class MapPoll extends GamePhase<Game> implements Runnable
 		game.broadcast(Translation.GAME_POLL_CHANGING.getMessage(votedMapName));
 		
 		for(MSPlayer msPlayer : game.getPlayers())
-			msPlayer.clearHotbar();
+			game.equip(msPlayer, false);
 	}
 	
 	public void end()
@@ -259,22 +259,29 @@ public class MapPoll extends GamePhase<Game> implements Runnable
 		}
 	}
 	
-	private void equipPlayers()
+	private void equipPlayers(boolean equipScene)
 	{
 		Game game = getGame();
 		
 		for(MSPlayer msPlayer : game.getPlayingPlayers())
-			equipPlayer(msPlayer);
+			equipPlayer(msPlayer, equipScene);
 	}
 	
-	private void equipPlayer(MSPlayer msPlayer)
+	private void equipPlayer(MSPlayer msPlayer, boolean equipScene)
 	{
 		Player player = msPlayer.getPlayer();
 		PlayerInventory inv = player.getInventory();
 		int i = 0;
-		
+
 		msPlayer.clearHotbar();
-		
+		msPlayer.getHotbarContainer().clear();
+
+		if(equipScene)
+		{
+			player.closeInventory();
+			getGame().equip(msPlayer, false);
+		}
+
 		for(Entry<Short, GameMap> entry : selectedMaps.entrySet())
 		{
 			short mapId = entry.getKey();
@@ -287,6 +294,9 @@ public class MapPoll extends GamePhase<Game> implements Runnable
 			is.setItemMeta(im);
 			inv.setItem(i++, is);
 		}
+
+		if(equipScene)
+			msPlayer.updateInventory();
 	}
 	
 	private static String getPollEntry(GameMap map)
@@ -312,7 +322,7 @@ public class MapPoll extends GamePhase<Game> implements Runnable
 
 	public boolean isVoteable()
 	{
-		return votedMap == null;
+		return votedMap == null && secondsLeft > 0;
 	}
 	
 	public GameMap getVotedMap()
@@ -332,8 +342,8 @@ public class MapPoll extends GamePhase<Game> implements Runnable
 		{
 			Game game = getScene();
 			
-			if(game.isPlayerPlaying().test(msPlayer))
-				equipPlayer(msPlayer);
+			if(isVoteable() && game.isPlayerPlaying().test(msPlayer))
+				equipPlayer(msPlayer, false);
 		}
 		
 		@EventHandler

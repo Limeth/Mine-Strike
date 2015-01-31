@@ -17,23 +17,12 @@ public enum CaseContentRarity
 	VALUABLE(ChatColor.YELLOW, Translation.EQUIPMENT_RARITY_VALUABLE, "2_uncommon"),
 	COMMON(ChatColor.GREEN, Translation.EQUIPMENT_RARITY_COMMON, "1_common");
 
-	static
-	{
-		ItemStack $displayModel = new ItemStack(Material.FLINT);
-		ItemMeta im = $displayModel.getItemMeta();
-
-		im.setDisplayName(ChatColor.RESET + "");
-		$displayModel.setItemMeta(im);
-
-		displayModel = $displayModel;
-	}
-
-	private static final ItemStack displayModel;
 	private static Integer     $rarities;
 	private final  ChatColor   color;
 	private final  Translation translation;
 	private final  String      soundName;
 	private final  ItemStack   itemDisplayBottom, itemDisplayTop;
+	private final  ItemStack   itemDisplayBottomSelected, itemDisplayTopSelected;
 
 	private CaseContentRarity(ChatColor color, Translation translation, String soundName)
 	{
@@ -42,13 +31,16 @@ public enum CaseContentRarity
 		this.soundName = "projectsurvive:counterstrike.ui.item_drop" + soundName;
 		itemDisplayBottom = initDisplayItem("BOTTOM");
 		itemDisplayTop = initDisplayItem("TOP");
+		itemDisplayBottomSelected = initDisplayItem("BOTTOM_SELECTED");
+		itemDisplayTopSelected = initDisplayItem("TOP_SELECTED");
 	}
 
 	private ItemStack initDisplayItem(String position)
 	{
-		ItemStack itemStack = displayModel.clone();
+		ItemStack itemStack = new ItemStack(Material.FLINT);
 		ItemMeta im = itemStack.getItemMeta();
 
+		im.setDisplayName(ChatColor.RESET + "");
 		im.setLore(Lists.newArrayList("CASE_DISPLAY_" + name() + "_" + position));
 		itemStack.setItemMeta(im);
 
@@ -106,13 +98,13 @@ public enum CaseContentRarity
 		return $rarities;
 	}
 
-	public ItemStack getItemDisplayBottom()
+	public ItemStack getItemDisplayBottom(boolean selected)
 	{
-		return itemDisplayBottom.clone();
+		return (selected ? itemDisplayBottomSelected : itemDisplayBottom).clone();
 	}
 
-	public ItemStack getItemDisplayTop()
+	public ItemStack getItemDisplayTop(boolean selected)
 	{
-		return itemDisplayTop.clone();
+		return (selected ? itemDisplayTopSelected : itemDisplayTop).clone();
 	}
 }

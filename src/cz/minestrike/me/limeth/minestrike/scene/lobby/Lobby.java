@@ -1,7 +1,6 @@
 package cz.minestrike.me.limeth.minestrike.scene.lobby;
 
 import cz.minestrike.me.limeth.minestrike.MSConfig;
-import cz.minestrike.me.limeth.minestrike.MSConstant;
 import cz.minestrike.me.limeth.minestrike.MSPlayer;
 import cz.minestrike.me.limeth.minestrike.Translation;
 import cz.minestrike.me.limeth.minestrike.events.GameQuitEvent.SceneQuitReason;
@@ -71,19 +70,12 @@ public class Lobby extends Scene
 	@Override
 	public void equip(MSPlayer msPlayer, boolean force)
 	{
+		super.equip(msPlayer, force);
 		msPlayer.clearContainers();
 		msPlayer.clearInventory();
 		
 		Player player = msPlayer.getPlayer();
 		PlayerInventory inv = player.getInventory();
-		
-		for(int rel = 0; rel < PlayerUtil.INVENTORY_WIDTH * 3; rel++)
-		{
-			int abs = rel + PlayerUtil.INVENTORY_WIDTH;
-			
-			inv.setItem(abs, MSConstant.ITEM_BACKGROUND);
-		}
-		
 		LobbyButton[] buttons = LobbyButton.values();
 		
 		for(int i = 0; i < buttons.length; i++)

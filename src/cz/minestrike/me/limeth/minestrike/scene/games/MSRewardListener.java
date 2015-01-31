@@ -1,5 +1,6 @@
 package cz.minestrike.me.limeth.minestrike.scene.games;
 
+import com.google.common.base.Optional;
 import com.google.common.collect.Maps;
 import cz.minestrike.me.limeth.minestrike.MSPlayer;
 import cz.minestrike.me.limeth.minestrike.Translation;
@@ -8,11 +9,15 @@ import cz.minestrike.me.limeth.minestrike.equipment.containers.InventoryContaine
 import cz.minestrike.me.limeth.minestrike.events.ArenaDeathEvent;
 import cz.minestrike.me.limeth.minestrike.events.ArenaJoinEvent;
 import cz.minestrike.me.limeth.minestrike.events.ArenaQuitEvent;
+import cz.minestrike.me.limeth.minestrike.events.GameStartEvent;
 import cz.minestrike.me.limeth.minestrike.listeners.msPlayer.MSSceneListener;
-import net.minecraft.server.v1_7_R4.PacketPlayOutOpenWindow;
-import org.bukkit.craftbukkit.v1_7_R4.entity.CraftPlayer;
+import cz.minestrike.me.limeth.minestrike.util.SoundManager;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.inventory.InventoryCloseEvent;
+import org.bukkit.event.inventory.InventoryType;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 
@@ -36,7 +41,7 @@ public abstract class MSRewardListener<T extends Game> extends MSSceneListener<T
 		this.requiredKills = requiredKills;
 	}
 
-	public abstract Equipment getReward(MSPlayer msPlayer);
+	public abstract Optional<Equipment> getReward(MSPlayer msPlayer);
 
 	public void rewardPlayers()
 	{
@@ -49,34 +54,33 @@ public abstract class MSRewardListener<T extends Game> extends MSSceneListener<T
 
 	private void rewardPlayer(MSPlayer msPlayer)
 	{
-		Equipment reward = getReward(msPlayer);
+		Optional<Equipment> reward = getReward(msPlayer);
 
-		if(reward == null)
+		if(!reward.isPresent())
 			return;
 
 		Game game = getScene();
 		Player player = msPlayer.getPlayer();
 		String nameTag = msPlayer.getNameTag();
 		PlayerInventory playerInventory = player.getInventory();
-		ItemStack rewardItemStack = reward.newItemStack(msPlayer);
-		String rewardName = reward.getDisplayName();
+		ItemStack rewardItemStack = reward.get().newItemStack(msPlayer);
+		String rewardName = reward.get().getDisplayName();
 		InventoryContainer inventoryContainer = msPlayer.getInventoryContainer();
 
-		inventoryContainer.addItem(reward);
+		inventoryContainer.addItem(reward.get());
 		msPlayer.clearInventory();
-		playerInventory.setItem(9 * 3, rewardItemStack);
+		playerInventory.setItem(9 + 4, rewardItemStack);
+		msPlayer.updateInventory();
 		openHopperInventory(player);
-		game.equip(msPlayer, false);
+		SoundManager.play("projectsurvive:counterstrike.ui.item_drop_personal", player);
 		game.broadcast(Translation.REWARD_GIVEN.getMessage(nameTag, rewardName));
 	}
 
 	private static void openHopperInventory(Player player)
 	{
-		int inventoryId = 0;
-		int inventoryType = 9;
-		PacketPlayOutOpenWindow packet = new PacketPlayOutOpenWindow(inventoryId, inventoryType, "Mine-Strike reward", 0, true);
+		Inventory inventory = Bukkit.createInventory(player, InventoryType.HOPPER);
 
-		((CraftPlayer) player).getHandle().playerConnection.sendPacket(packet);
+		player.openInventory(inventory);
 	}
 
 	public boolean meetsRequirements(MSPlayer msPlayer)
@@ -93,18 +97,27 @@ public abstract class MSRewardListener<T extends Game> extends MSSceneListener<T
 
 		Integer playerKills = kills.get(playerName);
 
-		return playerKills != null && playerKills >= requiredKills;
+		if(playerKills == null)
+			playerKills = 0;
+
+		return playerKills >= requiredKills;
 	}
 
 	@EventHandler
 	public void onArenaDeath(ArenaDeathEvent event, MSPlayer msPlayer)
 	{
-		Player player = msPlayer.getPlayer();
-		String playerName = player.getName();
-		Integer foundKills = kills.get(playerName);
+		MSPlayer damageSource = msPlayer.getLastDamageSource();
+		Equipment damageSourceWeapon = msPlayer.getLastDamageWeapon();
+
+		if(damageSource == null || damageSourceWeapon == null)
+			return;
+
+		Player damageSourcePlayer = damageSource.getPlayer();
+		String damageSourcePlayerName = damageSourcePlayer.getName();
+		Integer foundKills = kills.get(damageSourcePlayerName);
 		int newKills = foundKills != null ? foundKills + 1 : 1;
 
-		kills.put(playerName, newKills);
+		kills.put(damageSourcePlayerName, newKills);
 	}
 
 	@EventHandler
@@ -118,13 +131,39 @@ public abstract class MSRewardListener<T extends Game> extends MSSceneListener<T
 	}
 
 	@EventHandler
+	public void onInventoryClose(InventoryCloseEvent event, MSPlayer msPlayer)
+	{
+		Inventory inventory = event.getInventory();
+		InventoryType inventoryType = inventory.getType();
+
+		if(inventoryType == InventoryType.HOPPER)
+			getScene().equip(msPlayer, false);
+	}
+
+	@EventHandler
 	public void onArenaQuit(ArenaQuitEvent event, MSPlayer msPlayer)
 	{
-		Player player = msPlayer.getPlayer();
-		String playerName = player.getName();
+		resetPlayerStats(msPlayer);
+	}
 
+	@EventHandler
+	public void onArenaQuit(GameStartEvent event)
+	{
+		if(event.getGame() != getScene())
+			return;
+
+		getScene().getPlayers().forEach(this::resetPlayerStats);
+	}
+
+	public void resetPlayerStats(String playerName)
+	{
 		joinedAt.remove(playerName);
 		kills.remove(playerName);
+	}
+
+	public void resetPlayerStats(MSPlayer msPlayer)
+	{
+		resetPlayerStats(msPlayer.getPlayer().getName());
 	}
 
 	public long getRequiredPlaytimeMillis()

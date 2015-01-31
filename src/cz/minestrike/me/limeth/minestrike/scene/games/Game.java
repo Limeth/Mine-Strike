@@ -7,6 +7,7 @@ import java.util.Set;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
+import cz.minestrike.me.limeth.minestrike.events.*;
 import net.minecraft.server.v1_7_R4.EntityItem;
 import net.minecraft.server.v1_7_R4.PacketPlayOutNamedSoundEffect;
 import net.minecraft.server.v1_7_R4.WorldServer;
@@ -44,10 +45,6 @@ import cz.minestrike.me.limeth.minestrike.areas.schemes.SchemeManager;
 import cz.minestrike.me.limeth.minestrike.equipment.Equipment;
 import cz.minestrike.me.limeth.minestrike.equipment.EquipmentSection;
 import cz.minestrike.me.limeth.minestrike.equipment.EquipmentManagerInitializationException;
-import cz.minestrike.me.limeth.minestrike.events.ArenaQuitEvent;
-import cz.minestrike.me.limeth.minestrike.events.GameEquipEvent;
-import cz.minestrike.me.limeth.minestrike.events.GameJoinEvent;
-import cz.minestrike.me.limeth.minestrike.events.GameQuitEvent;
 import cz.minestrike.me.limeth.minestrike.events.GameQuitEvent.SceneQuitReason;
 import cz.minestrike.me.limeth.minestrike.scene.Scene;
 import cz.minestrike.me.limeth.minestrike.util.PlayerUtil;
@@ -114,6 +111,8 @@ public abstract class Game extends Scene
 	{
 		if(open && mapStructure == null)
 			firstStart();
+
+		Bukkit.getPluginManager().callEvent(new GameStartEvent(this));
 	}
 	
 	public void joinMenu(MSPlayer msPlayer, boolean spawn)
@@ -170,37 +169,25 @@ public abstract class Game extends Scene
 	@SuppressWarnings("deprecation")
 	public void equip(MSPlayer msPlayer, boolean force)
 	{
+		super.equip(msPlayer, force);
+
 		GameEquipEvent event = new GameEquipEvent(this, msPlayer, force);
 		PluginManager pm = Bukkit.getPluginManager();
 		Player player = msPlayer.getPlayer();
-		PlayerInventory inv = player.getInventory();
-		FilledArrayList<EquipmentSection> categories = equipmentProvider.getEquipmentCategories();
-		
-		for(int rel = 0; rel < PlayerUtil.INVENTORY_WIDTH * 3; rel++)
-		{
-			int abs = rel + PlayerUtil.INVENTORY_WIDTH;
-			
-			inv.setItem(abs, MSConstant.ITEM_BACKGROUND);
-		}
-		
-		PlayerUtil.setItem(inv, 1, 1, MSConstant.QUIT_SERVER_ITEM);
-		PlayerUtil.setItem(inv, 2, 1, MSConstant.QUIT_MENU_ITEM);
-		
-		for(int i = 0; i < categories.size(); i++)
-		{
-			EquipmentSection category = categories.get(i);
-			ItemStack icon = category.getIcon();
-			int x = 6 + i % 2;
-			int y = i / 2;
-			
-			PlayerUtil.setItem(inv, x, y, icon);
-		}
 		
 		pm.callEvent(event);
-		equipmentProvider.equip(msPlayer);
+
+		if(isWeaponEquippable(msPlayer))
+			equipmentProvider.equip(msPlayer);
+
 		player.setFireTicks(0);
 		player.setHealth(((Damageable) player).getMaxHealth());
 		player.updateInventory();
+	}
+
+	public boolean isWeaponEquippable(MSPlayer msPlayer)
+	{
+		return isPlayerPlaying().test(msPlayer) && !isDead(msPlayer) && getPhaseType() != GamePhaseType.FINISHED && getPhaseType() != GamePhaseType.LOBBY;
 	}
 	
 	public Set<MSPlayer> getPlayingPlayers()
@@ -674,10 +661,10 @@ public abstract class Game extends Scene
 
 	public void setPhase(GamePhase<? extends Game> phase)
 	{
+		this.phase = phase;
+
 		if(phase != null)
 			phase.start();
-		
-		this.phase = phase;
 	}
 	
 	public GamePhaseType getPhaseType()

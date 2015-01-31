@@ -1,5 +1,6 @@
 package cz.minestrike.me.limeth.minestrike.equipment;
 
+import com.google.common.collect.Sets;
 import cz.minestrike.me.limeth.minestrike.MSConstant;
 import cz.minestrike.me.limeth.minestrike.MSPlayer;
 import cz.minestrike.me.limeth.minestrike.Translation;
@@ -23,6 +24,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
 
 public class EquipmentSection
@@ -31,8 +33,8 @@ public class EquipmentSection
 	public static final EquipmentSection HEAVY    = new EquipmentSection("HEAVY", Translation.EQUIPMENT_CATEGORY_HEAVY, new EquipmentSectionEntry[]{e(GunType.NOVA), e(GunType.XM1014), e(GunType.SAWEDOFF), e(GunType.M249), e(GunType.NEGEV)}, new EquipmentSectionEntry[]{e(GunType.NOVA), e(GunType.XM1014), e(GunType.MAG7), e(GunType.M249), e(GunType.NEGEV)});
 	public static final EquipmentSection SMGS     = new EquipmentSection("SMGS", Translation.EQUIPMENT_CATEGORY_SMGS, new EquipmentSectionEntry[]{e(GunType.MAC10), e(GunType.MP7), e(GunType.UMP45), e(GunType.BIZON), e(GunType.P90)}, new EquipmentSectionEntry[]{e(GunType.MP9), e(GunType.MP7), e(GunType.UMP45), e(GunType.BIZON), e(GunType.P90)});
 	public static final EquipmentSection RIFLES   = new EquipmentSection("RIFLES", Translation.EQUIPMENT_CATEGORY_RIFLES, new EquipmentSectionEntry[]{e(GunType.GALIL_AR), e(GunType.AK_47), e(GunType.SSG_08), e(GunType.SG_556), e(GunType.AWP), e(GunType.G3SG1)}, new EquipmentSectionEntry[]{e(GunType.FAMAS), e(GunType.M4A4, GunType.M4A1_S), e(GunType.SSG_08), e(GunType.AUG), e(GunType.AWP), e(GunType.SCAR_20)});
-	public static final EquipmentSection GEAR     = new EquipmentSection("GEAR", Translation.EQUIPMENT_CATEGORY_GEAR, new EquipmentSectionEntry[]{e(Kevlar.KEVLAR), e(KevlarAndHelmet.KEVLAR_AND_HELMET)});
-	public static final EquipmentSection GRENADES = new EquipmentSection("GRENADES", Translation.EQUIPMENT_CATEGORY_GRENADES, new EquipmentSectionEntry[]{e(GrenadeType.INCENDIARY), e(GrenadeType.DECOY), e(GrenadeType.EXPLOSIVE), e(GrenadeType.FLASH), e(GrenadeType.SMOKE)});
+	public static final EquipmentSection GEAR     = new EquipmentSection("GEAR", Translation.EQUIPMENT_CATEGORY_GEAR, e(Kevlar.KEVLAR), e(KevlarAndHelmet.KEVLAR_AND_HELMET));
+	public static final EquipmentSection GRENADES = new EquipmentSection("GRENADES", Translation.EQUIPMENT_CATEGORY_GRENADES, e(GrenadeType.INCENDIARY), e(GrenadeType.DECOY), e(GrenadeType.EXPLOSIVE), e(GrenadeType.FLASH), e(GrenadeType.SMOKE));
 
 	private final String                  id;
 	private final Translation             translation;
@@ -78,12 +80,12 @@ public class EquipmentSection
 
 		if(title.length() <= prefixLength)
 			return null;
-		
+
 		String name = title.substring(prefixLength);
-		
+
 		return getByName(categories, name);
 	}
-	
+
 	public static EquipmentSection getByIcon(Collection<EquipmentSection> categories, ItemStack icon)
 	{
 		for(EquipmentSection cat : categories)
@@ -212,13 +214,10 @@ public class EquipmentSection
 	
 	public EquipmentSectionEntry[] getEntries()
 	{
-		HashSet<EquipmentSectionEntry> set = new HashSet<EquipmentSectionEntry>();
-		
-		for(EquipmentSectionEntry e : tEquipment)
-			set.add(e);
-		
-		for(EquipmentSectionEntry e : ctEquipment)
-			set.add(e);
+		HashSet<EquipmentSectionEntry> set = Sets.newHashSet();
+
+		Collections.addAll(set, tEquipment);
+		Collections.addAll(set, ctEquipment);
 		
 		return set.toArray(new EquipmentSectionEntry[set.size()]);
 	}

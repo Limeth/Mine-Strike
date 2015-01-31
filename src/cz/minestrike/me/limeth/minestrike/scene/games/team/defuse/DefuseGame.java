@@ -56,7 +56,7 @@ public class DefuseGame extends TeamGame
 
 	public DefuseGame(String id, String name)
 	{
-		this(id, name, null, true, "lobby_global_defuse", "menu_global_defuse", new FilledArrayList<String>());
+		this(id, name, null, true, "lobby_global_defuse", "menu_global_defuse", new FilledArrayList<>());
 	}
 
 	@Override
@@ -146,9 +146,7 @@ public class DefuseGame extends TeamGame
 
 	public MSPlayer giveBomb()
 	{
-		Set<MSPlayer> terrorists = getPlayingPlayers(p -> {
-			return getTeam(p) == Team.TERRORISTS;
-		});
+		Set<MSPlayer> terrorists = getPlayingPlayers(p -> getTeam(p) == Team.TERRORISTS);
 		int terroristsAmount = terrorists.size();
 
 		if(terroristsAmount > 0)
@@ -194,10 +192,7 @@ public class DefuseGame extends TeamGame
 		round.setRanAt(System.currentTimeMillis());
 		round.setPhase(RoundPhase.PLANTED);
 		round.startExplodeRunnable();
-		
-		for(MSPlayer msPlayer : getPlayingPlayers())
-			showWitherBar(msPlayer);
-		
+		getPlayingPlayers().forEach(this::showWitherBar);
 		playSound("projectsurvive:counterstrike.radio.bombpl");
 		
 		for(MSPlayer msPlayer : getPlayingPlayers())
@@ -296,9 +291,7 @@ public class DefuseGame extends TeamGame
 				long differenceMillis = nowMillis - ranAtMillis;
 				double difference = differenceMillis * 20D / 1000D;
 				
-				HeadsUpDisplay.displayLoadingBar(getWitherTitle(), player, difference, time, false, () -> {
-					HeadsUpDisplay.displayTextBar(getWitherTitle(), player);
-				});
+				HeadsUpDisplay.displayLoadingBar(getWitherTitle(), player, difference, time, false, () -> HeadsUpDisplay.displayTextBar(getWitherTitle(), player));
 				
 				return;
 			}
@@ -330,7 +323,7 @@ public class DefuseGame extends TeamGame
 		{
 			addBalance(Team.COUNTER_TERRORISTS, reason.getCounterTerroristsReward());
 			
-			for(MSPlayer msPlayer : getPlayingPlayers(p -> { return getTeam(p) == Team.TERRORISTS && isDead(p); }))
+			for(MSPlayer msPlayer : getPlayingPlayers(p -> getTeam(p) == Team.TERRORISTS && isDead(p)))
 				addBalance(msPlayer, reason.getTerroristsReward());
 		}
 		else
@@ -386,7 +379,7 @@ public class DefuseGame extends TeamGame
 			matchEnd(victorTeam);
 		else
 		{
-			for(MSPlayer msPlayer : getPlayingPlayers(p -> { return p.getPlayerState() == PlayerState.JOINED_GAME; }))
+			for(MSPlayer msPlayer : getPlayingPlayers(p -> p.getPlayerState() == PlayerState.JOINED_GAME))
 			{
 				Player player = msPlayer.getPlayer();
 				String endMessage = Translation.GAME_ROUND_END.getMessage(victorTeam.getColoredName());
@@ -419,7 +412,7 @@ public class DefuseGame extends TeamGame
 
 		defuseRewardListener.rewardPlayers();
 		
-		for(MSPlayer msPlayer : getPlayingPlayers(p -> { return p.getPlayerState() == PlayerState.JOINED_GAME; }))
+		for(MSPlayer msPlayer : getPlayingPlayers(p -> p.getPlayerState() == PlayerState.JOINED_GAME))
 		{
 			Player player = msPlayer.getPlayer();
 			String[] endMessages = {
@@ -447,9 +440,9 @@ public class DefuseGame extends TeamGame
 	public boolean isDeadAfterJoin(MSPlayer msPlayer, Team team)
 	{
 		GamePhase<? extends Game> gamePhase = getPhase();
-		
+
 		if(!(gamePhase instanceof Round))
-			return false;
+			return true;
 		
 		Round round = (Round) gamePhase;
 		RoundPhase roundPhase = round.getPhase();
@@ -513,7 +506,7 @@ public class DefuseGame extends TeamGame
 	@Override
 	public final Predicate<MSPlayer> isPlayerPlaying()
 	{
-		return (MSPlayer p) -> { return p.getPlayerState() == PlayerState.JOINED_GAME && getTeam(p) != null; };
+		return (MSPlayer p) -> p.getPlayerState() == PlayerState.JOINED_GAME && getTeam(p) != null;
 	}
 	
 	public Round getRound()
@@ -530,7 +523,7 @@ public class DefuseGame extends TeamGame
 	{
 		Validate.notNull(team, "The team cannot be null!");
 		
-		for(MSPlayer msPlayer : getPlayingPlayers(p -> { return getTeam(p) == team; }))
+		for(MSPlayer msPlayer : getPlayingPlayers(p -> getTeam(p) == team))
 			addBalance(msPlayer, difference);
 	}
 	
