@@ -45,7 +45,7 @@ public enum Case implements Equipment
 							.rare(new Gun(GunType.P2000, ChatColor.DARK_RED + "Dragon", "DRAGON", Color.RED))
 
 							.valuable(new Gun(GunType.GLOCK, ChatColor.GRAY + "Strike" + ChatColor.BLUE + "back", "STRIKEBACK", Color.BLUE))
-							.valuable(new Gun(GunType.DEAGLE, ChatColor.DARK_GRAY + "Dark Steel", "DARK_STEEL", Color.BLACK)).valuable(new Gun(GunType.MP7, "Skulls", "SKULLS", Color.WHITE))
+							.valuable(new Gun(GunType.DEAGLE, ChatColor.DARK_GRAY + "Dark Steel", "DARK_STEEL", Color.BLACK))
 
 							.common(new Gun(GunType.AWP, ChatColor.DARK_GREEN + "Punch", "PUNCH", Color.GREEN))
 							.common(new Gun(GunType.MP9, ChatColor.GREEN + "Acid", "ACID", Color.LIME))

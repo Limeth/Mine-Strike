@@ -37,6 +37,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -234,7 +235,7 @@ public class MSExecutor implements CommandExecutor
 					cases += caze.getId() + ", ";
 				
 				sender.sendMessage(ChatColor.RED + cases);
-				sender.sendMessage("/ms case [Case ID] [Rarity] [Index] (Player)");
+				sender.sendMessage("/ms case [Case ID] [Rarity] [Index] (Player) (Drop)");
 				return true;
 			}
 			
@@ -300,6 +301,7 @@ public class MSExecutor implements CommandExecutor
 			CaseContent selectedContent = selectedContents.get(index);
 			Equipment equipment = selectedContent.getEquipment();
 			Player target;
+			boolean drop = false;
 			
 			if(args.length >= 5)
 			{
@@ -310,6 +312,9 @@ public class MSExecutor implements CommandExecutor
 					sender.sendMessage(ChatColor.RED + "Target " + args[4] + " not found!");
 					return true;
 				}
+
+				if(args.length >= 6)
+					drop = Boolean.parseBoolean(args[5]);
 			}
 			else if(sender instanceof Player)
 				target = (Player) sender;
@@ -320,10 +325,23 @@ public class MSExecutor implements CommandExecutor
 			}
 			
 			MSPlayer msTarget = MSPlayer.get(target);
-			InventoryContainer container = msTarget.getInventoryContainer();
-			
-			container.addItem(equipment);
-			sender.sendMessage(ChatColor.GREEN + "Equipment " + equipment.getDisplayName() + ChatColor.GREEN + " added to " + target.getName() + "'s inventory.");
+
+			if(drop)
+			{
+				Location eyeLoc = target.getEyeLocation();
+				World world = eyeLoc.getWorld();
+				ItemStack itemStack = equipment.newItemStack(msTarget);
+
+				world.dropItemNaturally(eyeLoc, itemStack);
+				sender.sendMessage(ChatColor.GREEN + "Equipment " + equipment.getDisplayName() + ChatColor.GREEN + " dropped near player " + target.getName() + ".");
+			}
+			else
+			{
+				InventoryContainer container = msTarget.getInventoryContainer();
+
+				container.addItem(equipment);
+				sender.sendMessage(ChatColor.GREEN + "Equipment " + equipment.getDisplayName() + ChatColor.GREEN + " added to " + target.getName() + "'s inventory.");
+			}
 		}
 		else if(args[0].equalsIgnoreCase("xp"))
 		{
