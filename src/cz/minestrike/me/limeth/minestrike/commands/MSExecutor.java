@@ -59,8 +59,9 @@ public class MSExecutor implements CommandExecutor
 		if(args.length <= 0)
 		{
 			sender.sendMessage("/ms give [Equipment ID] (Player)");
-			sender.sendMessage("/ms case [Case ID] [Rarity] [Index] (Player)");
+			sender.sendMessage("/ms case [Case ID] [Rarity] [Index] (Player) (Drop)");
 			sender.sendMessage("/ms xp [set|add] [Amount] (Player)");
+			sender.sendMessage("/ms data [save|load|reload] [Player]");
 			sender.sendMessage("/ms packet ...");
 			sender.sendMessage("/ms scheme ...");
 			sender.sendMessage("/ms game ...");
@@ -401,6 +402,51 @@ public class MSExecutor implements CommandExecutor
 				sender.sendMessage(ChatColor.RED + "Invalid argument - set/add");
 			}
 		}
+		else if(args[0].equalsIgnoreCase("data"))
+		{
+			if(args.length <= 2)
+			{
+				sender.sendMessage("/ms data [save|load|reload] [Player]");
+				return true;
+			}
+
+			Player target = Bukkit.getPlayerExact(args[2]);
+
+			if(target == null)
+			{
+				sender.sendMessage(ChatColor.RED + "Player not online.");
+				return true;
+			}
+
+			MSPlayer msTarget = MSPlayer.get(target);
+
+			if(msTarget == null)
+			{
+				sender.sendMessage(ChatColor.RED + "Player not loaded.");
+				return true;
+			}
+
+			if(args[1].equalsIgnoreCase("save"))
+			{
+				msTarget.save();
+				sender.sendMessage("Data of player " + target.getName() + " saved.");
+			}
+			else if(args[1].equalsIgnoreCase("load"))
+			{
+				msTarget.load();
+				sender.sendMessage("Data of player " + target.getName() + " loaded.");
+			}
+			else if(args[1].equalsIgnoreCase("reload"))
+			{
+				msTarget.reload();
+				sender.sendMessage("Data of player " + target.getName() + " reloaded.");
+			}
+			else
+			{
+				sender.sendMessage("/ms data [save|load|reload] [Player]");
+				return true;
+			}
+		}
 		else if(args[0].equalsIgnoreCase("give"))
 		{
 			if(args.length <= 1)
@@ -408,13 +454,13 @@ public class MSExecutor implements CommandExecutor
 				sender.sendMessage("/ms give [Equipment ID] (Player)");
 				return true;
 			}
-			
+
 			Player player;
-			
+
 			if(args.length >= 3)
 			{
 				player = Bukkit.getPlayer(args[2]);
-				
+
 				if(player == null)
 				{
 					sender.sendMessage(ChatColor.RED + "Player '" + args[2] + "' not found!");
@@ -428,21 +474,20 @@ public class MSExecutor implements CommandExecutor
 			}
 			else
 				player = (Player) sender;
-			
+
 			Equipment equipment = EquipmentManager.getEquipment(args[1]);
-			
+
 			if(equipment == null)
 			{
 				sender.sendMessage(ChatColor.RED + "Unknown equipment of id '" + args[1] + "'!");
 				return true;
 			}
-			
+
 			MSPlayer msPlayer = MSPlayer.get(player);
 			InventoryContainer container = msPlayer.getInventoryContainer();
-			
+
 			container.addItem(equipment);
-			sender.sendMessage(ChatColor.GREEN + "Equipment '" + equipment.getDisplayName() + ChatColor.GREEN
-					+ "' added to " + player.getName() + "'s inventory.");
+			sender.sendMessage(ChatColor.GREEN + "Equipment '" + equipment.getDisplayName() + ChatColor.GREEN + "' added to " + player.getName() + "'s inventory.");
 		}
 		else if(args[0].equalsIgnoreCase("game"))
 		{
@@ -458,10 +503,10 @@ public class MSExecutor implements CommandExecutor
 			else if(args[1].equalsIgnoreCase("list"))
 			{
 				String games = "";
-				
+
 				for(Game game : GameManager.GAMES)
 					games += (game.isReadyForSetup() ? ChatColor.GREEN : ChatColor.RED) + game.getName() + " (" + game.getId() + ")" + ChatColor.RESET + ", ";
-				
+
 				sender.sendMessage(games);
 			}
 			else if(args[1].equalsIgnoreCase("tp") && args.length > 2)
@@ -471,23 +516,23 @@ public class MSExecutor implements CommandExecutor
 					sender.sendMessage("Players only.");
 					return true;
 				}
-				
+
 				Player player = (Player) sender;
 				String id = args[2];
 				Game game = GameManager.getGame(id);
-				
+
 				if(game == null)
 				{
 					player.sendMessage(ChatColor.RED + "Game id '" + id + "' not found.");
 					return true;
 				}
-				
+
 				Structure<? extends GameMap> map = game.getMapStructure();
 				Plot<? extends GameMap> plot = map.getPlot();
 				Location loc = plot.getLocation();
 				World world = loc.getWorld();
 				int y = world.getHighestBlockYAt(loc) + 1;
-				
+
 				loc.setY(y);
 				player.teleport(loc);
 				player.sendMessage(ChatColor.GREEN + "Teleported to game id '" + id + "'.");
@@ -500,12 +545,12 @@ public class MSExecutor implements CommandExecutor
 					GameType type = GameType.valueOf(rawType);
 					String id = args[3];
 					String name = args[4];
-					
+
 					for(int i = 5; i < args.length; i++)
 						name += " " + args[i];
-					
+
 					Game game = type.construct(id, name);
-					
+
 					game.register();
 					sender.sendMessage(ChatColor.GREEN + "Game " + ChatColor.YELLOW + name + ChatColor.GREEN + " (id '" + id + "') successfully added.");
 				}
@@ -519,13 +564,13 @@ public class MSExecutor implements CommandExecutor
 			{
 				String id = args[2];
 				Game game = GameManager.getGame(id);
-				
+
 				if(game == null)
 				{
 					sender.sendMessage(ChatColor.RED + "Game id '" + id + "' not found.");
 					return true;
 				}
-				
+
 				try
 				{
 					game.setup();
@@ -541,7 +586,7 @@ public class MSExecutor implements CommandExecutor
 			{
 				String id = args[2];
 				boolean success = GameManager.unregister(id);
-				
+
 				if(success)
 					sender.sendMessage(ChatColor.GREEN + "Game id '" + id + "' unregistered.");
 				else
@@ -551,13 +596,13 @@ public class MSExecutor implements CommandExecutor
 			{
 				String id = args[2];
 				Game game = GameManager.getGame(id);
-				
+
 				if(game == null)
 				{
 					sender.sendMessage(ChatColor.RED + "Game id '" + id + "' not found.");
 					return true;
 				}
-				
+
 				if(args.length > 3)
 					game.handleCommand(sender, args[3], Arrays.copyOfRange(args, 4, args.length));
 				else
@@ -577,40 +622,41 @@ public class MSExecutor implements CommandExecutor
 			else if(args[1].equalsIgnoreCase("list"))
 			{
 				String schemes = "";
-				
+
 				for(Scheme scheme : SchemeManager.SCHEMES)
 					schemes += (scheme.isSetUp() ? ChatColor.GREEN : ChatColor.RED) + scheme.getId() + ChatColor.RESET + ", ";
-				
+
 				sender.sendMessage(schemes);
 			}
 			else if(args[1].equalsIgnoreCase("tp") && args.length > 2)
 			{
 				if(!(sender instanceof Player))
 					return true;
-				
+
 				String id = args[2];
 				Scheme scheme = SchemeManager.getScheme(id);
-				
+
 				if(scheme == null)
 				{
 					sender.sendMessage(ChatColor.RED + "Scheme '" + id + "' not found.");
 					return true;
 				}
-				
+
 				Point midpoint = scheme.getRegion().getMidpoint();
 				World world = MSConfig.getWorld();
 				Block block = midpoint.getBlock(world);
-				
+
 				try
 				{
 					while(block.getType() != Material.AIR)
 						block = block.getRelative(BlockFace.UP);
 				}
-				catch(Exception e) { /* REACHED THE TOP OF THE WORLD */ }
-				
+				catch(Exception e)
+				{ /* REACHED THE TOP OF THE WORLD */ }
+
 				Location loc = block.getLocation();
 				Player player = (Player) sender;
-				
+
 				player.teleport(loc);
 				player.sendMessage(ChatColor.GREEN + "Teleported to scheme '" + id + "'.");
 			}
@@ -618,10 +664,10 @@ public class MSExecutor implements CommandExecutor
 			{
 				if(!(sender instanceof Player))
 					return true;
-				
+
 				String rawType = args[2];
 				SchemeType type;
-				
+
 				try
 				{
 					type = SchemeType.valueOf(rawType.toUpperCase());
@@ -629,24 +675,24 @@ public class MSExecutor implements CommandExecutor
 				catch(Exception e)
 				{
 					String types = "";
-					
+
 					for(SchemeType curType : SchemeType.values())
 						types += curType + ", ";
-					
+
 					sender.sendMessage(ChatColor.RED + "SchemeType '" + rawType + "' not found. Those are the available types:");
 					sender.sendMessage(types);
 					return true;
 				}
-				
+
 				String id = args[3];
 				Scheme scheme = SchemeManager.getScheme(id);
-				
+
 				if(scheme != null)
 				{
 					sender.sendMessage(ChatColor.RED + "Scheme '" + id + "' already exists.");
 					return true;
 				}
-				
+
 				Player player = (Player) sender;
 				String playerName = player.getName();
 				WorldEdit worldEdit = WorldEdit.getInstance();
@@ -655,7 +701,7 @@ public class MSExecutor implements CommandExecutor
 				com.sk89q.worldedit.world.World weWorld = weSession.getSelectionWorld();
 				RegionSelector selector = weSession.getRegionSelector(weWorld);
 				com.sk89q.worldedit.regions.Region weRegion;
-				
+
 				try
 				{
 					weRegion = selector.getRegion();
@@ -665,9 +711,9 @@ public class MSExecutor implements CommandExecutor
 					player.sendMessage(ChatColor.RED + "Incomplete WorldEdit region!");
 					return true;
 				}
-				
+
 				Region region = Region.valueOf(weRegion);
-				
+
 				if(region.getWidth() > Plot.PLOT_SIZE)
 				{
 					player.sendMessage("Region is too long [x]! (" + region.getWidth() + "; max " + Plot.PLOT_SIZE + ")");
@@ -678,7 +724,7 @@ public class MSExecutor implements CommandExecutor
 					player.sendMessage("Region is too deep [z]! (" + region.getDepth() + "; max " + Plot.PLOT_SIZE + ")");
 					return true;
 				}
-				
+
 				try
 				{
 					scheme = type.newInstance(id, region);
@@ -689,7 +735,7 @@ public class MSExecutor implements CommandExecutor
 					e.printStackTrace();
 					return true;
 				}
-				
+
 				SchemeManager.SCHEMES.add(scheme);
 				sender.sendMessage(ChatColor.GREEN + "Scheme '" + id + "' successfully added.");
 			}
@@ -697,13 +743,13 @@ public class MSExecutor implements CommandExecutor
 			{
 				String id = args[2];
 				Scheme scheme = SchemeManager.getScheme(id);
-				
+
 				if(scheme == null)
 				{
 					sender.sendMessage(ChatColor.RED + "Scheme '" + id + "' not found.");
 					return true;
 				}
-				
+
 				SchemeManager.SCHEMES.remove(scheme);
 				sender.sendMessage(ChatColor.GREEN + "Scheme '" + id + "' removed.");
 			}
@@ -711,28 +757,28 @@ public class MSExecutor implements CommandExecutor
 			{
 				String id = args[2];
 				Scheme scheme = SchemeManager.getScheme(id);
-				
+
 				if(scheme == null)
 				{
 					sender.sendMessage(ChatColor.RED + "Scheme '" + id + "' not found.");
 					return true;
 				}
-				
+
 				if(args.length < 4)
 				{
 					ArrayList<SchemeCommandHandler> handlers = scheme.getCommandHandlers();
 					String[] output = new String[handlers.size()];
 					int i = 0;
-					
+
 					for(SchemeCommandHandler handler : handlers)
 						output[i++] = handler.getDisplay();
-					
+
 					sender.sendMessage(output);
 				}
 				else
 				{
 					SchemeCommandHandler handler = scheme.getCommandHandler(args[3]);
-					
+
 					if(handler == null)
 						sender.sendMessage(ChatColor.RED + "Unknown scheme edit subcommand.");
 					else

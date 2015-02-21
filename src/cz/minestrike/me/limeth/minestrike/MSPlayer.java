@@ -1,11 +1,13 @@
 package cz.minestrike.me.limeth.minestrike;
 
 import ca.wacos.nametagedit.NametagAPI;
+import com.google.common.base.Preconditions;
 import com.google.common.collect.Maps;
 import cz.minestrike.me.limeth.minestrike.areas.Structure;
 import cz.minestrike.me.limeth.minestrike.areas.schemes.Scheme;
 import cz.minestrike.me.limeth.minestrike.dbi.MSPlayerDAO;
 import cz.minestrike.me.limeth.minestrike.dbi.binding.MSPlayerData;
+import cz.minestrike.me.limeth.minestrike.dbi.binding.MSPlayerDataContainer;
 import cz.minestrike.me.limeth.minestrike.equipment.Equipment;
 import cz.minestrike.me.limeth.minestrike.equipment.containers.ArmorContainer;
 import cz.minestrike.me.limeth.minestrike.equipment.containers.HotbarContainer;
@@ -121,18 +123,12 @@ public class MSPlayer
 
 	public static MSPlayer load(String playerName) throws SQLException
 	{
-		MSPlayerDAO dao = MineStrike.getDBI().open(MSPlayerDAO.class);
-		MSPlayerData data = dao.selectData(MSConfig.getMySQLTablePlayers(), playerName);
+		MSPlayerDataContainer dataContainer = MSPlayerDAO.loadDataContainer(playerName);
 
-		if(data == null)
+		if(dataContainer == null)
 			return new MSPlayer(playerName);
 
-		Collection<Equipment> equipment = dao.selectEquipment(MSConfig.getMySQLTableEquipment(), playerName);
-		InventoryContainer container = new InventoryContainer(equipment);
-
-		dao.close();
-
-		return new MSPlayer(data, container);
+		return new MSPlayer(dataContainer);
 	}
 
 	public static boolean register(MSPlayer msPlayer)
@@ -199,9 +195,10 @@ public class MSPlayer
 	}
 	
 	private final HashMap<String, Object> customData = Maps.newHashMap();
-	private final MSPlayerData data;
 	private Player player;
-	private InventoryContainer inventoryContainer;
+	private MSPlayerDataContainer dataContainer;
+//	private final MSPlayerData data;
+//	private InventoryContainer inventoryContainer;
 	private HotbarContainer hotbarContainer;
 	private ArmorContainer armorContainer;
 	private Long joinedAt;
@@ -221,10 +218,12 @@ public class MSPlayer
 	private Integer $rankXP;
 	private Rank $rank;
 	
-	public MSPlayer(MSPlayerData data, InventoryContainer inventoryContainer)
+	public MSPlayer(MSPlayerDataContainer dataContainer)
 	{
-		this.data = data;
-		this.inventoryContainer = inventoryContainer.addDefaults();
+		Preconditions.checkNotNull(dataContainer);
+		dataContainer.getInventory().addDefaults();
+
+		this.dataContainer = dataContainer;
 		this.playerState = PlayerState.LOBBY_SERVER;
 		this.hotbarContainer = new HotbarContainer();
 		this.armorContainer = new ArmorContainer();
@@ -232,7 +231,7 @@ public class MSPlayer
 	
 	public MSPlayer(String playerName)
 	{
-		this(new MSPlayerData(playerName), new InventoryContainer().addDefaults());
+		this(new MSPlayerDataContainer(new MSPlayerData(playerName), new InventoryContainer().addDefaults()));
 	}
 
 	public MSPlayer(Player player)
@@ -611,7 +610,7 @@ public class MSPlayer
 		}
 	}
 	
-	public void reload(Gun gun)
+	public void reloadGun(Gun gun)
 	{
 		Player player = getPlayer();
 		PlayerInventory inv = player.getInventory();
@@ -705,20 +704,27 @@ public class MSPlayer
 	
 	public String getName()
 	{
-		return data.getUsername();
+		return dataContainer.getData().getUsername();
+	}
+
+	public void load()
+	{
+		String playerName = getName();
+		dataContainer = MSPlayerDAO.loadDataContainer(playerName);
 	}
 	
 	public void save()
 	{
-		DBI dbi = MineStrike.getDBI();
-		MSPlayerDAO dao = dbi.open(MSPlayerDAO.class);
-		String playerName = getName();
-		data.setPlaytime(data.getPlaytime() + pullCurrentPlaytime());
+		MSPlayerData data = dataContainer.getData();
 
-		dao.clearEquipment(MSConfig.getMySQLTableEquipment(), playerName);
-		dao.insertData(MSConfig.getMySQLTablePlayers(), data);
-		dao.insertEquipment(MSConfig.getMySQLTableEquipment(), playerName, getInventoryContainer());
-		dao.close();
+		data.setPlaytime(data.getPlaytime() + pullCurrentPlaytime());
+		MSPlayerDAO.saveDataContainer(dataContainer);
+	}
+
+	public void reload()
+	{
+		save();
+		load();
 	}
 	
 	public void clearTemporaryContainers()
@@ -1006,7 +1012,7 @@ var rotateX3D = function(theta) {
 	
 	public void setXP(int xp, boolean updateNametag)
 	{
-		data.setXp(xp < 0 ? 0 : xp);
+		dataContainer.getData().setXp(xp < 0 ? 0 : xp);
 		
 		if(updateNametag)
 			updateNameTag();
@@ -1019,7 +1025,7 @@ var rotateX3D = function(theta) {
 	
 	public int getXP()
 	{
-		return data.getXp();
+		return dataContainer.getData().getXp();
 	}
 	
 	public Rank getRank()
@@ -1084,12 +1090,12 @@ var rotateX3D = function(theta) {
 	
 	public int getKills()
 	{
-		return data.getKills();
+		return dataContainer.getData().getKills();
 	}
 	
 	public void setKills(int kills)
 	{
-		data.setKills(kills);
+		dataContainer.getData().setKills(kills);
 	}
 	
 	public int addKills(int amount)
@@ -1103,12 +1109,12 @@ var rotateX3D = function(theta) {
 	
 	public int getAssists()
 	{
-		return data.getAssists();
+		return dataContainer.getData().getAssists();
 	}
 	
 	public void setAssists(int assists)
 	{
-		data.setAssists(assists);
+		dataContainer.getData().setAssists(assists);
 	}
 	
 	public int addAssists(int amount)
@@ -1122,12 +1128,12 @@ var rotateX3D = function(theta) {
 	
 	public int getDeaths()
 	{
-		return data.getDeaths();
+		return dataContainer.getData().getDeaths();
 	}
 	
 	public void setDeaths(int deaths)
 	{
-		data.setDeaths(deaths);
+		dataContainer.getData().setDeaths(deaths);
 	}
 	
 	public int addDeaths(int amount)
@@ -1173,7 +1179,7 @@ var rotateX3D = function(theta) {
 	
 	public InventoryContainer getInventoryContainer()
 	{
-		return inventoryContainer;
+		return dataContainer.getInventory();
 	}
 
 	public HotbarContainer getHotbarContainer()
@@ -1288,11 +1294,11 @@ var rotateX3D = function(theta) {
 	
 	public long getPlaytime()
 	{
-		return data.getPlaytime();
+		return dataContainer.getData().getPlaytime();
 	}
 	
 	public void setPlaytime(long playtime)
 	{
-		data.setPlaytime(playtime);
+		dataContainer.getData().setPlaytime(playtime);
 	}
 }

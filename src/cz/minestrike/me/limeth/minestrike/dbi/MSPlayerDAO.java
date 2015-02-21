@@ -1,11 +1,12 @@
 package cz.minestrike.me.limeth.minestrike.dbi;
 
+import com.google.common.base.Preconditions;
 import cz.minestrike.me.limeth.minestrike.MSConfig;
-import cz.minestrike.me.limeth.minestrike.dbi.binding.BindEquipment;
-import cz.minestrike.me.limeth.minestrike.dbi.binding.EquipmentMapper;
-import cz.minestrike.me.limeth.minestrike.dbi.binding.MSPlayerData;
-import cz.minestrike.me.limeth.minestrike.dbi.binding.MSPlayerDataMapper;
+import cz.minestrike.me.limeth.minestrike.MineStrike;
+import cz.minestrike.me.limeth.minestrike.dbi.binding.*;
 import cz.minestrike.me.limeth.minestrike.equipment.Equipment;
+import cz.minestrike.me.limeth.minestrike.equipment.containers.InventoryContainer;
+import org.skife.jdbi.v2.DBI;
 import org.skife.jdbi.v2.sqlobject.*;
 import org.skife.jdbi.v2.sqlobject.customizers.Define;
 import org.skife.jdbi.v2.sqlobject.customizers.RegisterMapper;
@@ -66,6 +67,37 @@ public interface MSPlayerDAO
 	{
 		prepareTableData();
 		prepareTableEquipment();
+	}
+
+	static MSPlayerDataContainer loadDataContainer(String playerName)
+	{
+		Preconditions.checkNotNull(playerName);
+
+		MSPlayerDAO dao = MineStrike.getDBI().open(MSPlayerDAO.class);
+		MSPlayerData data = dao.selectData(MSConfig.getMySQLTablePlayers(), playerName);
+
+		if(data == null)
+			return null;
+
+		Collection<Equipment> equipment = dao.selectEquipment(MSConfig.getMySQLTableEquipment(), playerName);
+		InventoryContainer container = new InventoryContainer(equipment);
+
+		dao.close();
+
+		return new MSPlayerDataContainer(data, container);
+	}
+
+	static void saveDataContainer(MSPlayerDataContainer dataContainer)
+	{
+		DBI dbi = MineStrike.getDBI();
+		MSPlayerDAO dao = dbi.open(MSPlayerDAO.class);
+		String playerName = dataContainer.getData().getUsername();
+		dataContainer.getData().setPlaytime(dataContainer.getData().getPlaytime());
+
+		dao.clearEquipment(MSConfig.getMySQLTableEquipment(), playerName);
+		dao.insertData(MSConfig.getMySQLTablePlayers(), dataContainer.getData());
+		dao.insertEquipment(MSConfig.getMySQLTableEquipment(), playerName, dataContainer.getInventory());
+		dao.close();
 	}
 	
 	@SqlQuery("SELECT * FROM <table> WHERE `" + FIELD_DATA_USERNAME + "` = :" + FIELD_DATA_USERNAME)

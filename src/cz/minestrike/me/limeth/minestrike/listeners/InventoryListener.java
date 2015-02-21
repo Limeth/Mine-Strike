@@ -43,7 +43,7 @@ public class InventoryListener implements Listener
 		Gun gun = (Gun) equipment;
 		
 		if(gun != null && gun.canBeReloaded())
-			msPlayer.reload(gun);
+			msPlayer.reloadGun(gun);
 	}
 	
 	@EventHandler

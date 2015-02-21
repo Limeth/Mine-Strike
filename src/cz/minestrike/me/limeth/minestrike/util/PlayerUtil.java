@@ -24,7 +24,7 @@ public class PlayerUtil
 		
 		return rawSlot;
 	}
-	
+
 	public static int getInventoryX(int index)
 	{
 		return index % INVENTORY_WIDTH;
