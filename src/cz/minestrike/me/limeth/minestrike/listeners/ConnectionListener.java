@@ -38,7 +38,7 @@ public class ConnectionListener implements Listener
 		MSPlayer msPlayer = MSPlayer.get(player);
 		
 		msPlayer.quitScene(SceneQuitReason.LOG_OUT, false, false);
-		msPlayer.save();
+		msPlayer.save(false);
 		MSPlayer.remove(player);
 	}
 }

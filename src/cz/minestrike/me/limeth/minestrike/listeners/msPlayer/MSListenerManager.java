@@ -1,11 +1,8 @@
 package cz.minestrike.me.limeth.minestrike.listeners.msPlayer;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map.Entry;
-
+import cz.minestrike.me.limeth.minestrike.MSPlayer;
+import cz.minestrike.me.limeth.minestrike.MineStrike;
+import cz.minestrike.me.limeth.minestrike.util.collections.FilledHashMap;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.HumanEntity;
@@ -21,9 +18,12 @@ import org.bukkit.inventory.InventoryView;
 import org.bukkit.plugin.EventExecutor;
 import org.bukkit.plugin.PluginManager;
 
-import cz.minestrike.me.limeth.minestrike.MSPlayer;
-import cz.minestrike.me.limeth.minestrike.MineStrike;
-import cz.minestrike.me.limeth.minestrike.util.collections.FilledHashMap;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map.Entry;
 
 public class MSListenerManager implements Listener
 {
@@ -31,10 +31,10 @@ public class MSListenerManager implements Listener
 	
 	public void registerListeners(MSListener listener)
 	{
-		FilledHashMap<Class<? extends Event>, Method> eventMethods = listener.getEventMethods();
+		FilledHashMap<Class<? extends Event>, List<Method>> eventMethods = listener.getEventMethods();
 		PluginManager pm = Bukkit.getPluginManager();
 		
-		for(Entry<Class<? extends Event>, Method> entry : eventMethods.entrySet())
+		for(Entry<Class<? extends Event>, List<Method>> entry : eventMethods.entrySet())
 		{
 			Class<? extends Event> eventClass = entry.getKey();
 			EventExecutor executor = getEventExecutor(eventClass);

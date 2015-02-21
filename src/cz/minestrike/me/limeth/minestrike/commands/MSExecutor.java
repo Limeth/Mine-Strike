@@ -61,7 +61,7 @@ public class MSExecutor implements CommandExecutor
 			sender.sendMessage("/ms give [Equipment ID] (Player)");
 			sender.sendMessage("/ms case [Case ID] [Rarity] [Index] (Player) (Drop)");
 			sender.sendMessage("/ms xp [set|add] [Amount] (Player)");
-			sender.sendMessage("/ms data [save|load|reload] [Player]");
+			sender.sendMessage("/ms data [save|load|reload] (Player) (Comparison TRUE|false)");
 			sender.sendMessage("/ms packet ...");
 			sender.sendMessage("/ms scheme ...");
 			sender.sendMessage("/ms game ...");
@@ -404,36 +404,63 @@ public class MSExecutor implements CommandExecutor
 		}
 		else if(args[0].equalsIgnoreCase("data"))
 		{
-			if(args.length <= 2)
+			if(args.length <= 1)
 			{
-				sender.sendMessage("/ms data [save|load|reload] [Player]");
+				sender.sendMessage("/ms data [save|load|reload] (Player) (Comparison TRUE|false)");
 				return true;
 			}
 
-			Player target = Bukkit.getPlayerExact(args[2]);
+			Player target;
+			MSPlayer msTarget;
 
-			if(target == null)
+			if(args.length >= 3)
 			{
-				sender.sendMessage(ChatColor.RED + "Player not online.");
+				target = Bukkit.getPlayerExact(args[2]);
+
+				if(target == null || (msTarget = MSPlayer.get(target)) == null)
+				{
+					sender.sendMessage(ChatColor.RED + "Player " + args[2] + " not found.");
+					return true;
+				}
+			}
+			else if(sender instanceof Player)
+			{
+				target = (Player) sender;
+				msTarget = MSPlayer.get(target);
+
+				if(msTarget == null)
+				{
+					sender.sendMessage(ChatColor.RED + "Player " + args[2] + " not loaded.");
+					return true;
+				}
+			}
+			else
+			{
+				sender.sendMessage(ChatColor.RED + "Specify a player, please.");
 				return true;
 			}
 
-			MSPlayer msTarget = MSPlayer.get(target);
+			boolean comparison = true;
 
-			if(msTarget == null)
-			{
-				sender.sendMessage(ChatColor.RED + "Player not loaded.");
-				return true;
-			}
+			if(args.length >= 4)
+				try
+				{
+					comparison = Boolean.parseBoolean(args[3]);
+				}
+				catch(Exception e)
+				{
+					sender.sendMessage(ChatColor.RED + "Invalid boolean value " + args[3]);
+					return true;
+				}
 
 			if(args[1].equalsIgnoreCase("save"))
 			{
-				msTarget.save();
+				msTarget.save(comparison);
 				sender.sendMessage("Data of player " + target.getName() + " saved.");
 			}
 			else if(args[1].equalsIgnoreCase("load"))
 			{
-				msTarget.load();
+				msTarget.load(comparison);
 				sender.sendMessage("Data of player " + target.getName() + " loaded.");
 			}
 			else if(args[1].equalsIgnoreCase("reload"))
@@ -443,7 +470,7 @@ public class MSExecutor implements CommandExecutor
 			}
 			else
 			{
-				sender.sendMessage("/ms data [save|load|reload] [Player]");
+				sender.sendMessage("/ms data [save|load|reload] (Player) (Comparison TRUE|false)");
 				return true;
 			}
 		}

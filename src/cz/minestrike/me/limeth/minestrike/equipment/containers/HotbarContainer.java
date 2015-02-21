@@ -1,17 +1,17 @@
 package cz.minestrike.me.limeth.minestrike.equipment.containers;
 
-import java.util.Iterator;
-import java.util.NoSuchElementException;
-
+import cz.minestrike.me.limeth.minestrike.MSConstant;
+import cz.minestrike.me.limeth.minestrike.MSPlayer;
+import cz.minestrike.me.limeth.minestrike.equipment.Equipment;
 import org.apache.commons.lang.Validate;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 
-import cz.minestrike.me.limeth.minestrike.MSConstant;
-import cz.minestrike.me.limeth.minestrike.MSPlayer;
-import cz.minestrike.me.limeth.minestrike.equipment.Equipment;
+import java.util.Iterator;
+import java.util.List;
+import java.util.NoSuchElementException;
 
 public class HotbarContainer implements Container
 {
@@ -147,5 +147,11 @@ public class HotbarContainer implements Container
 				contents[index] = null;
 			}
 		};
+	}
+
+	@Override
+	public List<String> generateComparison(Container other)
+	{
+		return Container.generateComparsion(this, other);
 	}
 }

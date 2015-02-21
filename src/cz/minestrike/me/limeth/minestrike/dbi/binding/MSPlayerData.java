@@ -1,10 +1,14 @@
 package cz.minestrike.me.limeth.minestrike.dbi.binding;
 
+import com.google.common.collect.Lists;
 import net.minecraft.util.com.google.common.base.Preconditions;
+import org.bukkit.ChatColor;
 
 import java.io.Serializable;
+import java.lang.reflect.Field;
+import java.util.List;
 
-public final class MSPlayerData implements Serializable
+public final class MSPlayerData implements Serializable, ComparisonGenerating<MSPlayerData>
 {
 	private static final long serialVersionUID = -1098907718410140897L;
 	
@@ -105,5 +109,55 @@ public final class MSPlayerData implements Serializable
 		Preconditions.checkArgument(playtime >= 0);
 		
 		this.playtime = playtime;
+	}
+
+	/*
+	* 	private String username;
+	private int xp;
+	private int kills;
+	private int assists;
+	private int deaths;
+	private long playtime;
+	* */
+
+	@Override
+	public List<String> generateComparison(MSPlayerData other)
+	{
+		List<String> result = Lists.newArrayList();
+
+		if(!username.equals(other.username))
+			result.add("Username: " + other.username + " > " + username);
+
+		generateNumberComparison(result, "xp", "XP", this, other);
+		generateNumberComparison(result, "kills", "kills", this, other);
+		generateNumberComparison(result, "assists", "assists", this, other);
+		generateNumberComparison(result, "deaths", "deaths", this, other);
+		generateNumberComparison(result, "playtime", "playtime millis", this, other);
+
+		return result;
+	}
+
+	private static void generateNumberComparison(List<String> result, String fieldName, String unit, MSPlayerData thiz, MSPlayerData that)
+	{
+		try
+		{
+			Field field = MSPlayerData.class.getDeclaredField(fieldName);
+			Number valueThis = (Number) field.get(thiz);
+			Number valueThat = (Number) field.get(that);
+			long delta = valueThis.longValue() - valueThat.longValue();
+
+			if(delta == 0)
+				return;
+
+			String prefix = delta < 0 ? ChatColor.RED + ChatColor.BOLD.toString() + delta
+			                          : ChatColor.GREEN + ChatColor.BOLD.toString() + "+" + delta;
+
+			result.add(prefix + " " + unit);
+		}
+		catch(NoSuchFieldException | IllegalAccessException e)
+		{
+			throw new RuntimeException(e);
+		}
+
 	}
 }

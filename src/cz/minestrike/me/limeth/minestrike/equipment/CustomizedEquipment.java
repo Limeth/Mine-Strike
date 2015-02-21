@@ -1,17 +1,17 @@
 package cz.minestrike.me.limeth.minestrike.equipment;
 
-import org.apache.commons.lang.Validate;
-import org.bukkit.block.Block;
-import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
-
 import cz.minestrike.me.limeth.minestrike.MSConstant;
 import cz.minestrike.me.limeth.minestrike.MSPlayer;
 import cz.minestrike.me.limeth.minestrike.Translation;
 import cz.minestrike.me.limeth.minestrike.equipment.containers.InventoryContainer;
 import cz.minestrike.me.limeth.minestrike.util.SoundManager;
 import cz.minestrike.me.limeth.minestrike.util.collections.FilledArrayList;
+import org.apache.commons.lang.Validate;
+import org.bukkit.ChatColor;
+import org.bukkit.block.Block;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
 public class CustomizedEquipment<T extends Equipment> implements Equipment
 {
@@ -99,7 +99,12 @@ public class CustomizedEquipment<T extends Equipment> implements Equipment
 	@Override
 	public String getDisplayName()
 	{
-		return equipment.getDisplayName();
+		EquipmentCustomization customization = getCustomization();
+		String customName = customization != null ? customization.getName() : null;
+		String displayName = equipment.getDisplayName();
+
+		return ChatColor.RESET + (customName == null ? displayName
+		                                             : Translation.EQUIPMENT_CUSTOMIZATION_NAME.getMessage(displayName, customName));
 	}
 
 	@Override
@@ -258,5 +263,28 @@ public class CustomizedEquipment<T extends Equipment> implements Equipment
 	public boolean isTradable()
 	{
 		return true;
+	}
+
+	@Override
+	public boolean equals(Object o)
+	{
+		if(this == o)
+			return true;
+		if(o == null || getClass() != o.getClass())
+			return false;
+
+		CustomizedEquipment that = (CustomizedEquipment) o;
+
+		return equipped == that.equipped && !(customization != null ? !customization.equals(that.customization) : that.customization != null) && equipment.equals(that.equipment);
+
+	}
+
+	@Override
+	public int hashCode()
+	{
+		int result = equipment.hashCode();
+		result = 31 * result + (customization != null ? customization.hashCode() : 0);
+		result = 31 * result + (equipped ? 1 : 0);
+		return result;
 	}
 }

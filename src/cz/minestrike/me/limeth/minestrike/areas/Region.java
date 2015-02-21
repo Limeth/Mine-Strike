@@ -319,7 +319,7 @@ public class Region implements Iterable<Point>
 	}
 	
 	@Override
-	public Region clone() throws CloneNotSupportedException {
+	public Region clone() {
 		return new Region(lower, higher); 
 	}
 }

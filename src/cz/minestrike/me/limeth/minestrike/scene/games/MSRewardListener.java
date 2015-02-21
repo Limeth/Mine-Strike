@@ -87,7 +87,7 @@ public abstract class MSRewardListener<T extends Game> extends MSSceneListener<T
 
 		inventoryContainer.addItem(reward.get());
 		RewardManager.getInstance().addRecord(playerName);
-		msPlayer.save();
+		msPlayer.save(false);
 		msPlayer.clearInventory();
 		playerInventory.setItem(9 + 4, rewardItemStack);
 		msPlayer.updateInventory();

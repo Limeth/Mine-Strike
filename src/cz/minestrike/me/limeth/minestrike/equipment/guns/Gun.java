@@ -208,10 +208,8 @@ public class Gun extends CustomizedEquipment<GunType>
 	
 	public String buildDisplayName(boolean showBulletAmount)
 	{
-		EquipmentCustomization customization = getCustomization();
-		String customName = customization != null ? customization.getName() : null;
 		GunType type = getEquipment();
-		String result = ChatColor.RESET + (customName == null ? type.getName() : customName + ChatColor.GRAY + " (" + type.getName() + ChatColor.GRAY + ")");
+		String result = super.getDisplayName();
 		
 		if(kills != null)
 			result += ChatColor.GOLD + " ×" + ChatColor.RESET + kills;
@@ -350,7 +348,52 @@ public class Gun extends CustomizedEquipment<GunType>
 	{
 		return "Gun [gunType=" + getSource() + ", shooterName=" + ownerName + ", kills=" + kills + ", loadedBullets=" + loadedBullets + ", unusedBullets=" + unusedBullets + ", reloading=" + reloading + ", customization=" + getCustomization() + "]";
 	}
-	
+
+	@Override
+	public boolean equals(Object o)
+	{
+		if(this == o)
+			return true;
+		if(o == null || getClass() != o.getClass())
+			return false;
+
+		Gun gun = (Gun) o;
+
+		if(getEquipment() != gun.getEquipment())
+			return false;
+		if(loadedBullets != gun.loadedBullets)
+			return false;
+		if(reloading != gun.reloading)
+			return false;
+		if(secondaryState != gun.secondaryState)
+			return false;
+		if(unusedBullets != gun.unusedBullets)
+			return false;
+		if(kills != null ? !kills.equals(gun.kills) : gun.kills != null)
+			return false;
+		if(lastBulletShotAt != null ? !lastBulletShotAt.equals(gun.lastBulletShotAt) : gun.lastBulletShotAt != null)
+			return false;
+		if(ownerName != null ? !ownerName.equals(gun.ownerName) : gun.ownerName != null)
+			return false;
+
+		return true;
+	}
+
+	@Override
+	public int hashCode()
+	{
+		int result = ownerName != null ? ownerName.hashCode() : 0;
+		result = 31 * result + getClass().hashCode();
+		result = 31 * result + getEquipment().hashCode();
+		result = 31 * result + (kills != null ? kills.hashCode() : 0);
+		result = 31 * result + (lastBulletShotAt != null ? lastBulletShotAt.hashCode() : 0);
+		result = 31 * result + loadedBullets;
+		result = 31 * result + unusedBullets;
+		result = 31 * result + (reloading ? 1 : 0);
+		result = 31 * result + (secondaryState ? 1 : 0);
+		return result;
+	}
+
 	public boolean isShotDelaySatisfied()
 	{
 		if(lastBulletShotAt == null)

@@ -1,6 +1,7 @@
 package cz.minestrike.me.limeth.minestrike.equipment.containers;
 
 import java.util.Iterator;
+import java.util.List;
 import java.util.NoSuchElementException;
 
 import org.apache.commons.lang.Validate;
@@ -325,5 +326,11 @@ public class ArmorContainer implements Container
 					setHelmet(null);
 			}
 		};
+	}
+
+	@Override
+	public List<String> generateComparison(Container other)
+	{
+		return Container.generateComparsion(this, other);
 	}
 }

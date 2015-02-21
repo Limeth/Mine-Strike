@@ -2,6 +2,7 @@ package cz.minestrike.me.limeth.minestrike.equipment;
 
 import com.google.common.collect.ImmutableList;
 import cz.minestrike.me.limeth.minestrike.MSPlayer;
+import cz.minestrike.me.limeth.minestrike.Translation;
 import cz.minestrike.me.limeth.minestrike.util.LoreAttributes;
 import org.bukkit.Color;
 import org.bukkit.FireworkEffect;
@@ -111,9 +112,9 @@ public class EquipmentCustomization
 		
 		if(name != null)
 		{
-			String currentName = im.hasDisplayName() ? im.getDisplayName() : "";
-			String newName = name.replaceAll("%NAME%", currentName);
-			
+			String displayName = equipment.getDisplayName();
+			String newName = Translation.EQUIPMENT_CUSTOMIZATION_NAME.getMessage(displayName, name);
+
 			im.setDisplayName(newName);
 		}
 		
@@ -205,5 +206,43 @@ public class EquipmentCustomization
 	public String toString()
 	{
 		return "EquipmentCustomization [name=" + name + ", skin=" + skin + ", color=" + color + ", preLore=" + preLore + ", postLore=" + postLore + "]";
+	}
+
+	@Override
+	public boolean equals(Object o)
+	{
+		if(this == o)
+			return true;
+		if(o == null || getClass() != o.getClass())
+			return false;
+
+		EquipmentCustomization that = (EquipmentCustomization) o;
+
+		if(changeSkin != that.changeSkin)
+			return false;
+		if(color != null ? !color.equals(that.color) : that.color != null)
+			return false;
+		if(name != null ? !name.equals(that.name) : that.name != null)
+			return false;
+		if(!postLore.equals(that.postLore))
+			return false;
+		if(!preLore.equals(that.preLore))
+			return false;
+		if(skin != null ? !skin.equals(that.skin) : that.skin != null)
+			return false;
+
+		return true;
+	}
+
+	@Override
+	public int hashCode()
+	{
+		int result = name != null ? name.hashCode() : 0;
+		result = 31 * result + (skin != null ? skin.hashCode() : 0);
+		result = 31 * result + (changeSkin ? 1 : 0);
+		result = 31 * result + (color != null ? color.hashCode() : 0);
+		result = 31 * result + preLore.hashCode();
+		result = 31 * result + postLore.hashCode();
+		return result;
 	}
 }

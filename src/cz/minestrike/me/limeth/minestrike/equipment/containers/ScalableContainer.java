@@ -10,6 +10,7 @@ import org.bukkit.inventory.ItemStack;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.List;
 
 public class ScalableContainer implements Container
 {
@@ -128,5 +129,11 @@ public class ScalableContainer implements Container
 	public void clear()
 	{
 		contents.clear();
+	}
+
+	@Override
+	public List<String> generateComparison(Container other)
+	{
+		return Container.generateComparsion(this, other);
 	}
 }

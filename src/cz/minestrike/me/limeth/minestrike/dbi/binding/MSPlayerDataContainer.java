@@ -1,12 +1,15 @@
 package cz.minestrike.me.limeth.minestrike.dbi.binding;
 
 import com.google.common.base.Preconditions;
+import com.google.common.collect.Lists;
 import cz.minestrike.me.limeth.minestrike.equipment.containers.InventoryContainer;
+
+import java.util.List;
 
 /**
  * @author Limeth
  */
-public class MSPlayerDataContainer
+public class MSPlayerDataContainer implements ComparisonGenerating<MSPlayerDataContainer>
 {
 	private MSPlayerData data;
 	private InventoryContainer inventory;
@@ -42,5 +45,15 @@ public class MSPlayerDataContainer
 		Preconditions.checkNotNull(inventory);
 
 		this.inventory = inventory;
+	}
+
+	public List<String> generateComparison(MSPlayerDataContainer other)
+	{
+		List<String> list = Lists.newArrayList();
+
+		list.addAll(data.generateComparison(other.data));
+		list.addAll(inventory.generateComparison(other.inventory));
+
+		return list;
 	}
 }

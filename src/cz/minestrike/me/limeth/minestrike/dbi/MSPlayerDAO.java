@@ -51,16 +51,7 @@ public interface MSPlayerDAO
 	
 	static void prepareTableEquipment()
 	{
-		prepareTable(
-				MSConfig.getMySQLTableEquipment(),
-				null,
-		        column(FIELD_EQUIPMENT_USERNAME, "varchar(16) COLLATE utf8_czech_ci NOT NULL"),
-		        column(FIELD_EQUIPMENT_SERVER, "varchar(16) NOT NULL"),
-		        column(FIELD_EQUIPMENT_CATEGORY, "varchar(32) NOT NULL"),
-		        column(FIELD_EQUIPMENT_TRADABLE, "BOOLEAN NOT NULL"),
-		        column(FIELD_EQUIPMENT_TYPE, "varchar(64) NOT NULL"),
-		        column(FIELD_EQUIPMENT_DATA, "varchar(256) NOT NULL")
-		);
+		prepareTable(MSConfig.getMySQLTableEquipment(), null, column(FIELD_EQUIPMENT_USERNAME, "varchar(16) COLLATE utf8_czech_ci NOT NULL"), column(FIELD_EQUIPMENT_SERVER, "varchar(16) NOT NULL"), column(FIELD_EQUIPMENT_CATEGORY, "varchar(32) NOT NULL"), column(FIELD_EQUIPMENT_TRADABLE, "BOOLEAN NOT NULL"), column(FIELD_EQUIPMENT_TYPE, "varchar(64) NOT NULL"), column(FIELD_EQUIPMENT_DATA, "varchar(256) NOT NULL"));
 	}
 	
 	static void prepareTables()
@@ -69,11 +60,11 @@ public interface MSPlayerDAO
 		prepareTableEquipment();
 	}
 
-	static MSPlayerDataContainer loadDataContainer(String playerName)
+	static MSPlayerDataContainer loadDataContainer(String playerName, MSPlayerDAO dao)
 	{
 		Preconditions.checkNotNull(playerName);
+		Preconditions.checkNotNull(dao);
 
-		MSPlayerDAO dao = MineStrike.getDBI().open(MSPlayerDAO.class);
 		MSPlayerData data = dao.selectData(MSConfig.getMySQLTablePlayers(), playerName);
 
 		if(data == null)
@@ -82,22 +73,49 @@ public interface MSPlayerDAO
 		Collection<Equipment> equipment = dao.selectEquipment(MSConfig.getMySQLTableEquipment(), playerName);
 		InventoryContainer container = new InventoryContainer(equipment);
 
-		dao.close();
-
 		return new MSPlayerDataContainer(data, container);
 	}
 
-	static void saveDataContainer(MSPlayerDataContainer dataContainer)
+	static MSPlayerDataContainer loadDataContainer(String playerName)
+	{
+		MSPlayerDAO dao = MineStrike.getDBI().open(MSPlayerDAO.class);
+		MSPlayerDataContainer dataContainer = loadDataContainer(playerName, dao);
+
+		dao.close();
+
+		return dataContainer;
+	}
+
+	static void saveDataContainer(MSPlayerDataContainer dataContainer, MSPlayerDAO dao)
 	{
 		DBI dbi = MineStrike.getDBI();
-		MSPlayerDAO dao = dbi.open(MSPlayerDAO.class);
 		String playerName = dataContainer.getData().getUsername();
 		dataContainer.getData().setPlaytime(dataContainer.getData().getPlaytime());
 
 		dao.clearEquipment(MSConfig.getMySQLTableEquipment(), playerName);
 		dao.insertData(MSConfig.getMySQLTablePlayers(), dataContainer.getData());
 		dao.insertEquipment(MSConfig.getMySQLTableEquipment(), playerName, dataContainer.getInventory());
+	}
+
+	static void saveDataContainer(MSPlayerDataContainer dataContainer)
+	{
+		MSPlayerDAO dao = MineStrike.getDBI().open(MSPlayerDAO.class);
+
+		saveDataContainer(dataContainer, dao);
 		dao.close();
+	}
+
+	static MSPlayerDataContainer reloadDataContainer(MSPlayerDataContainer dataContainer)
+	{
+		MSPlayerDAO dao = MineStrike.getDBI().open(MSPlayerDAO.class);
+
+		saveDataContainer(dataContainer, dao);
+
+		MSPlayerDataContainer newDataContainer = loadDataContainer(dataContainer.getData().getUsername(), dao);
+
+		dao.close();
+
+		return newDataContainer;
 	}
 	
 	@SqlQuery("SELECT * FROM <table> WHERE `" + FIELD_DATA_USERNAME + "` = :" + FIELD_DATA_USERNAME)

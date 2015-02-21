@@ -44,12 +44,11 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.util.Vector;
-import org.skife.jdbi.v2.DBI;
 
 import java.sql.SQLException;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map.Entry;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -197,6 +196,7 @@ public class MSPlayer
 	private final HashMap<String, Object> customData = Maps.newHashMap();
 	private Player player;
 	private MSPlayerDataContainer dataContainer;
+	private MSPlayerDataContainer previousDataContainer;
 //	private final MSPlayerData data;
 //	private InventoryContainer inventoryContainer;
 	private HotbarContainer hotbarContainer;
@@ -707,24 +707,55 @@ public class MSPlayer
 		return dataContainer.getData().getUsername();
 	}
 
-	public void load()
+	public void load(boolean compare)
 	{
 		String playerName = getName();
+
+		if(compare && previousDataContainer == null)
+			previousDataContainer = dataContainer;
+
 		dataContainer = MSPlayerDAO.loadDataContainer(playerName);
+
+		if(compare)
+		{
+			Player player = getPlayer();
+			List<String> comparison = dataContainer.generateComparison(previousDataContainer);
+			previousDataContainer = null;
+
+			if(comparison != null && comparison.size() > 0)
+			{
+				StringBuilder changes = new StringBuilder();
+				boolean first = true;
+
+				for(String string : comparison)
+				{
+					if(first)
+						first = false;
+					else
+						changes.append('\n');
+
+					changes.append(string);
+				}
+
+				player.sendMessage(Translation.DATA_COMPARISON.getMessage(changes.toString()));
+			}
+		}
 	}
 	
-	public void save()
+	public void save(boolean compare)
 	{
 		MSPlayerData data = dataContainer.getData();
 
 		data.setPlaytime(data.getPlaytime() + pullCurrentPlaytime());
 		MSPlayerDAO.saveDataContainer(dataContainer);
+
+		if(compare)
+			previousDataContainer = dataContainer;
 	}
 
 	public void reload()
 	{
-		save();
-		load();
+		MSPlayerDAO.reloadDataContainer(dataContainer);
 	}
 	
 	public void clearTemporaryContainers()
