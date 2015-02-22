@@ -144,7 +144,7 @@ public class EquipmentSection
 			if(price != null)
 			{
 				EquipmentCustomization customization = EquipmentCustomization.builder()
-						.name(Translation.GAME_SHOP_ICONPRICE.getMessage(price)).build();
+						.name(Translation.GAME_SHOP_ICONPRICE.getMessage("{1}", price)).build();
 				
 				customization.apply(equipment, item, msPlayer);
 			}

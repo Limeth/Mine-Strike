@@ -7,7 +7,6 @@ import cz.minestrike.me.limeth.minestrike.equipment.containers.InventoryContaine
 import cz.minestrike.me.limeth.minestrike.util.SoundManager;
 import cz.minestrike.me.limeth.minestrike.util.collections.FilledArrayList;
 import org.apache.commons.lang.Validate;
-import org.bukkit.ChatColor;
 import org.bukkit.block.Block;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -103,8 +102,10 @@ public class CustomizedEquipment<T extends Equipment> implements Equipment
 		String customName = customization != null ? customization.getName() : null;
 		String displayName = equipment.getDisplayName();
 
-		return ChatColor.RESET + (customName == null ? displayName
-		                                             : Translation.EQUIPMENT_CUSTOMIZATION_NAME.getMessage(displayName, customName));
+		if(customName == null)
+			return displayName;
+
+		return Translation.replaceArguments(customName, displayName);
 	}
 
 	@Override

@@ -1,5 +1,6 @@
 package cz.minestrike.me.limeth.minestrike.scene.games.team.defuse;
 
+import com.google.common.collect.Lists;
 import cz.minestrike.me.limeth.minestrike.MSConstant;
 import cz.minestrike.me.limeth.minestrike.MSPlayer;
 import cz.minestrike.me.limeth.minestrike.Translation;
@@ -75,7 +76,7 @@ public class DefuseEquipmentProvider implements EquipmentProvider
 		
 		BOMB = new SimpleEquipment("BOMB", bomb, EquipmentCategory.MISCELLANEOUS, false, 0, MSConstant.MOVEMENT_SPEED_DEFAULT, "projectsurvive:counterstrike.weapons.c4.c4_draw", true, true);
 		
-		FilledArrayList<EquipmentSection> categories = new FilledArrayList<EquipmentSection>();
+		FilledArrayList<EquipmentSection> categories = new FilledArrayList<>();
 		
 		categories.add(EquipmentSection.PISTOLS);
 		categories.add(EquipmentSection.HEAVY);
@@ -283,23 +284,6 @@ public class DefuseEquipmentProvider implements EquipmentProvider
 		inv.setItem(slot, null);
 	}
 
-	public boolean canHoldMoreGrenades(MSPlayer msPlayer)
-	{
-		return getGrenadeAmount(msPlayer) < GRENADE_AMOUNT;
-	}
-
-	public int getGrenadeAmount(MSPlayer msPlayer)
-	{
-		ArrayList<GrenadeType> grenades = getGrenades(msPlayer);
-		int amount = 0;
-
-		for(int i = 0; i < grenades.size(); i++)
-			if(grenades.get(i) != null)
-				amount++;
-
-		return amount;
-	}
-
 	@Override
 	public boolean addGrenade(MSPlayer msPlayer, GrenadeType type)
 	{
@@ -346,17 +330,15 @@ public class DefuseEquipmentProvider implements EquipmentProvider
 		ArrayList<GrenadeType> grenades = getGrenades(msPlayer);
 		boolean full = true;
 		int typeAmount = 0;
-		
-		for(int i = 0; i < grenades.size(); i++)
+
+		for(GrenadeType curType : grenades)
 		{
-			GrenadeType curType = grenades.get(i);
-			
 			if(curType == null)
 			{
 				full = false;
 				continue;
 			}
-			
+
 			if(type == curType)
 				typeAmount++;
 		}
@@ -370,7 +352,7 @@ public class DefuseEquipmentProvider implements EquipmentProvider
 	@Override
 	public ArrayList<GrenadeType> getGrenades(MSPlayer msPlayer)
 	{
-		ArrayList<GrenadeType> grenades = new ArrayList<GrenadeType>();
+		ArrayList<GrenadeType> grenades = Lists.newArrayList();
 		Container gameContainer = msPlayer.getHotbarContainer();
 		
 		for(int i = 0; i < GRENADE_AMOUNT; i++)
@@ -483,8 +465,10 @@ public class DefuseEquipmentProvider implements EquipmentProvider
 
 	public void purchase(MSPlayer msPlayer, Equipment equipment) throws EquipmentPurchaseException
 	{
-		if(!canBeAdded(msPlayer, equipment, true))
-			return;
+		String additionError = getAdditionError(msPlayer, equipment, true);
+
+		if(additionError != null)
+			throw new EquipmentPurchaseException(equipment, additionError);
 		
 		int price = equipment.getPrice(msPlayer);
 		DefuseGame game = getGame();
@@ -500,41 +484,51 @@ public class DefuseEquipmentProvider implements EquipmentProvider
 		
 		game.addBalance(msPlayer, -price);
 	}
-	
-	public boolean canBeAdded(MSPlayer msPlayer, Equipment equipment, boolean purchase)
+
+	public String getAdditionError(MSPlayer msPlayer, Equipment equipment, boolean purchase)
 	{
 		Equipment sourceEquipment = equipment.getSource();
 		Team team = game.getTeam(msPlayer);
-		
+
 		if(sourceEquipment instanceof GrenadeType)
 			try
 			{
 				checkGrenadeAddition(msPlayer, (GrenadeType) equipment);
-				return true;
 			}
 			catch(Exception e)
 			{
-				return false;
+				return e.getLocalizedMessage();
 			}
 		else if(sourceEquipment instanceof GunType)
 		{
 			GunType gunType = (GunType) sourceEquipment;
 			boolean primary = gunType.isPrimary();
-			
-			return getGun(msPlayer, primary) == null || purchase;
+
+			if(!purchase && getGun(msPlayer, primary) != null)
+				return Translation.GAME_SHOP_ERROR_SLOTTAKEN.getMessage();
 		}
-		else if(sourceEquipment instanceof Kevlar)
-			return getKevlarDurability(msPlayer) < 1;
-		else if(sourceEquipment instanceof Helmet)
-			return !hasHelmet(msPlayer);
-		else if(sourceEquipment instanceof KevlarAndHelmet)
-			return getKevlarDurability(msPlayer) < 1 || !hasHelmet(msPlayer);
+		else if(sourceEquipment instanceof Kevlar && getKevlarDurability(msPlayer) >= 1)
+			return Translation.GAME_SHOP_ERROR_KEVLARNEW.getMessage();
+		else if(sourceEquipment instanceof Helmet && hasHelmet(msPlayer))
+			return Translation.GAME_SHOP_ERROR_HELMETPRESENT.getMessage();
+		else if(sourceEquipment instanceof KevlarAndHelmet && getKevlarDurability(msPlayer) >= 1 && hasHelmet(msPlayer))
+			return Translation.GAME_SHOP_ERROR_SETPRESENT.getMessage();
 		else if(sourceEquipment.equals(DEFUSE_KIT_BOUGHT))
-			return team == Team.COUNTER_TERRORISTS && !hasBoughtDefuseKit(msPlayer);
+		{
+			if(team != Team.COUNTER_TERRORISTS)
+				return Translation.GAME_SHOP_ERROR_DEFUSEKITTEAM.getMessage();
+			else if(hasBoughtDefuseKit(msPlayer))
+				return Translation.GAME_SHOP_ERROR_DEFUSEKITPRESENT.getMessage();
+		}
 		else if(sourceEquipment.equals(BOMB))
-			return team == Team.TERRORISTS && !hasBomb(msPlayer);
-		
-		return false;
+		{
+			if(team != Team.TERRORISTS)
+				return Translation.GAME_SHOP_ERROR_BOMBTEAM.getMessage();
+			else if(hasBomb(msPlayer))
+				return Translation.GAME_SHOP_ERROR_BOMBPRESENT.getMessage();
+		}
+
+		return null;
 	}
 	
 	/**
@@ -583,7 +577,7 @@ public class DefuseEquipmentProvider implements EquipmentProvider
 	@Override
 	public boolean pickup(MSPlayer msPlayer, Equipment equipment)
 	{
-		if(canBeAdded(msPlayer, equipment, false))
+		if(getAdditionError(msPlayer, equipment, false) == null)
 		{
 			add(msPlayer, equipment);
 			return true;

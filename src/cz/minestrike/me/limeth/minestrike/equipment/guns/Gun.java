@@ -1,20 +1,5 @@
 package cz.minestrike.me.limeth.minestrike.equipment.guns;
 
-import net.minecraft.server.v1_7_R4.EnumMovingObjectType;
-import net.minecraft.server.v1_7_R4.MovingObjectPosition;
-
-import org.apache.commons.lang.Validate;
-import org.bukkit.ChatColor;
-import org.bukkit.Color;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.World;
-import org.bukkit.block.Block;
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.FireworkEffectMeta;
-import org.bukkit.util.Vector;
-
 import cz.minestrike.me.limeth.minestrike.MSPlayer;
 import cz.minestrike.me.limeth.minestrike.Translation;
 import cz.minestrike.me.limeth.minestrike.equipment.CustomizedEquipment;
@@ -23,6 +8,15 @@ import cz.minestrike.me.limeth.minestrike.equipment.guns.extensions.GunExtension
 import cz.minestrike.me.limeth.minestrike.util.BoundUtil;
 import cz.minestrike.me.limeth.minestrike.util.LoreAttributes;
 import cz.minestrike.me.limeth.minestrike.util.RandomString;
+import net.minecraft.server.v1_7_R4.EnumMovingObjectType;
+import net.minecraft.server.v1_7_R4.MovingObjectPosition;
+import org.apache.commons.lang.Validate;
+import org.bukkit.*;
+import org.bukkit.block.Block;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.FireworkEffectMeta;
+import org.bukkit.util.Vector;
 
 public class Gun extends CustomizedEquipment<GunType>
 {

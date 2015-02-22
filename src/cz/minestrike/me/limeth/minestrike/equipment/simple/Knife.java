@@ -1,10 +1,22 @@
 package cz.minestrike.me.limeth.minestrike.equipment.simple;
 
+import cz.minestrike.me.limeth.minestrike.BodyPart;
+import cz.minestrike.me.limeth.minestrike.MSConstant;
+import cz.minestrike.me.limeth.minestrike.MSPlayer;
+import cz.minestrike.me.limeth.minestrike.Translation;
+import cz.minestrike.me.limeth.minestrike.equipment.Equipment;
 import cz.minestrike.me.limeth.minestrike.equipment.EquipmentCategory;
+import cz.minestrike.me.limeth.minestrike.equipment.SimpleEquipment;
+import cz.minestrike.me.limeth.minestrike.scene.Scene;
+import cz.minestrike.me.limeth.minestrike.scene.games.Team;
+import cz.minestrike.me.limeth.minestrike.scene.games.team.TeamGame;
+import cz.minestrike.me.limeth.minestrike.util.BoundUtil;
+import cz.minestrike.me.limeth.minestrike.util.LoreAttributes;
+import cz.minestrike.me.limeth.minestrike.util.SoundManager;
+import darkBlade12.ParticleEffect;
 import net.minecraft.server.v1_7_R4.EntityPlayer;
 import net.minecraft.server.v1_7_R4.EnumMovingObjectType;
 import net.minecraft.server.v1_7_R4.MovingObjectPosition;
-
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -14,19 +26,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.FireworkEffectMeta;
 import org.bukkit.util.Vector;
-
-import cz.minestrike.me.limeth.minestrike.BodyPart;
-import cz.minestrike.me.limeth.minestrike.MSConstant;
-import cz.minestrike.me.limeth.minestrike.MSPlayer;
-import cz.minestrike.me.limeth.minestrike.Translation;
-import cz.minestrike.me.limeth.minestrike.equipment.SimpleEquipment;
-import cz.minestrike.me.limeth.minestrike.scene.Scene;
-import cz.minestrike.me.limeth.minestrike.scene.games.Team;
-import cz.minestrike.me.limeth.minestrike.scene.games.team.TeamGame;
-import cz.minestrike.me.limeth.minestrike.util.BoundUtil;
-import cz.minestrike.me.limeth.minestrike.util.LoreAttributes;
-import cz.minestrike.me.limeth.minestrike.util.SoundManager;
-import darkBlade12.ParticleEffect;
 
 public class Knife extends SimpleEquipment
 {
@@ -99,8 +98,9 @@ public class Knife extends SimpleEquipment
 					double victimY = obstacle.entity.locY;
 					double relHitY = hitY - victimY;
 					BodyPart bodyPart = BodyPart.getByY(relHitY);
+					Equipment customizedKnife = msPlayer.getEquipmentInHand();
 					
-					msVictim.damage(damage, msPlayer, this, bodyPart);
+					msVictim.damage(damage, msPlayer, customizedKnife, bodyPart);
 					SoundManager.play(damageSound, hitLocation, Bukkit.getOnlinePlayers());
 					return;
 				}

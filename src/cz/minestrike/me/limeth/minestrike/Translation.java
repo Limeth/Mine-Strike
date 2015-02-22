@@ -32,7 +32,7 @@ public enum Translation
 	GAME_POLL_VOTE_REPEATED("&cYou have already voted for map &e&l{1}&c!", "&cJiz jste hlasoval(a) pro mapu &e&l{1}&c!"),
 	GAME_POLL_CHANGING("&eMap poll ended. The next map will be &l{1}&e.", "&eHlasování ukonceno. Dalsí mapa bude &l{1}&e."),
 	GAME_SHOP_PURCHASED("&aYou have purchased &e{1}&a.", "&aKoupil(a) jste &e{1}&a."),
-	GAME_SHOP_ICONPRICE("%NAME% &8(&a$&l{1}&8)", "%NAME% &8(&a$&l{1}&8)"),
+	GAME_SHOP_ICONPRICE("{1} &8(&a$&l{2}&8)", "{1} &8(&a$&l{2}&8)"),
 	GAME_SHOP_ERROR_GRENADE_FULL_GENERAL("&cYou cannot carry any more grenades.", "&cVíce granatu neuneses."),
 	GAME_SHOP_ERROR_GRENADE_FULL_SPECIFIC("&cYou cannot carry any more &e{1}&cs.", "&cVíce &e{1} &cneuneses."),
 	@Deprecated GAME_SHOP_ERROR_UNKNOWN("&cUnknown equipment type &e{1}&c.", "&cNeznámy typ vybavení - &e{1}&c."),
@@ -41,6 +41,14 @@ public enum Translation
 	GAME_SHOP_ERROR_AWAY("&cYou are not in the shopping zone.", "&cNejste v nakupovací zóne."),
 	GAME_SHOP_ERROR_UNAVAILABLE_MAP("&cShopping not available on this map.", "&cNakupování na této mape není dostupné."),
 	GAME_SHOP_ERROR_UNAVAILABLE_GAME("&cYou can not purchase any equipment in this game type.", "&cV tomto herním módu nelze nakupovat vybavení."),
+	GAME_SHOP_ERROR_SLOTTAKEN("&cWeapon slot already taken!", "&cMísto na zbran je jiz zabráno."),
+	GAME_SHOP_ERROR_KEVLARNEW("&cYou already own a brand new kevlar vest.", "&cJiz na sobe máte neposkozenou kevlar vestu."),
+	GAME_SHOP_ERROR_HELMETPRESENT("&cYou already own a helmet.", "&cJiz na sobe máte helmu."),
+	GAME_SHOP_ERROR_SETPRESENT("&cYou already own a brand new kevlar vest and a helmet.", "&cJiz na sobe máte neposkozenou kevlar vestu a helmu."),
+	GAME_SHOP_ERROR_DEFUSEKITTEAM("&cYou have to be in the counter-terrorists' team get a defuse kit.", "&cMusíte byt v tymu zásahové jednotky pro získání zneskodnovacího náradí."),
+	GAME_SHOP_ERROR_DEFUSEKITPRESENT("&cYou already own a defuse kit.", "&cJiz máte zneskodnovací náradí."),
+	GAME_SHOP_ERROR_BOMBTEAM("&cYou have to be in the terrorists' team to get a bomb.", "&cMusíte byt v tymu teroristu pro získání bomby."),
+	GAME_SHOP_ERROR_BOMBPRESENT("&cYou already own a bomb.", "&cJiz máte bombu."),
 	GAME_BOMB_RECEIVED("&c&lYou have the bomb, plant it at a bombsite.", "&c&lMás bombu, aktivuj ji na stanovisti."),
 	GAME_BOMB_INVALIDPLACEMENT("&cThe bomb must be planted at a bombsite.", "&cBomba musí byt polozena na stanovisti."),
 	@Deprecated GAME_BOMB_PLANTED("&c&lThe bomb has been planted!", "&c&lBomba byla polozena!"),
@@ -71,7 +79,7 @@ public enum Translation
 	EQUIPMENT_RARITY_LEGENDARY("Legendary", "Legendární"),
 	EQUIPMENT_RADAR("&5Radar"),
 	EQUIPMENT_KNIFE("&fKnife", "&fNuz"),
-	
+
 	BUTTON_INVENTORY_USE("Open Inventory", "Otevrít Inventár"),
 	BUTTON_INVENTORY_BACK("&fBack", "&fZpet"),
 	BUTTON_INVENTORY_EQUIP("&aEquip", "&aVybavit"),
@@ -83,13 +91,13 @@ public enum Translation
 	BUTTON_QUITGAME("&4Quit the game", "&4Opustit hru"),
 	BUTTON_TEAMCHANGE("&fChange team", "&fZmenit tym"),
 
-	INVENTORY_TITLE("Inventory","Inventár"),
-	INVENTORY_SELECTION_TITLE("Selection","Vyber"),
-	CASE_TITLE("Case","Bedna"),
+	INVENTORY_TITLE("Inventory", "Inventár"),
+	INVENTORY_SELECTION_TITLE("Selection", "Vyber"),
+	CASE_TITLE("Case", "Bedna"),
 
-	XP_GAIN("&aYou have gained &l{1}&a experience.","&aZískal(a) jste &l{1}&a zkuseností."),
-	XP_LOSS("&cYou have lost &l{1}&c experience.","&cZtratil(a) jste &l{1}&c zkuseností."),
-	XP_LEVEL_UPGRADE("&aYou now have the &r{1}&a rank!","&aNyní máte &r{1}&a rank!"),
+	XP_GAIN("&aYou have gained &l{1}&a experience.", "&aZískal(a) jste &l{1}&a zkuseností."),
+	XP_LOSS("&cYou have lost &l{1}&c experience.", "&cZtratil(a) jste &l{1}&c zkuseností."),
+	XP_LEVEL_UPGRADE("&aYou now have the &r{1}&a rank!", "&aNyní máte &r{1}&a rank!"),
 	XP_LEVEL_DOWNGRADE("&cYou now have the &r{1}&c rank!","&cNyní máte &r{1}&c rank!"),
 
 	DISPLAY_RANK_TITLE("{1}  {2}"),
@@ -118,7 +126,7 @@ public enum Translation
 	public static final String ENGLISH_NAME = "en", CZECH_NAME = "cz", DEFAULT_LANGUAGE_NAME = ENGLISH_NAME;
 	private final String defaultEN;
 	private final String defaultCZ;
-	private String message;
+	private       String message;
 
 	private Translation(String defaultEN, String defaultCZ)
 	{
@@ -179,7 +187,7 @@ public enum Translation
 				if(!enFile.delete())
 					throw new IOException("Could not delete a directory blocking the english language file path.");
 
-			if(!enFile.getParentFile().mkdirs())
+			if(!enFile.getParentFile().isDirectory() && !enFile.getParentFile().mkdirs())
 				throw new IOException("Could not create a directory for the english language file.");
 
 			if(!enFile.createNewFile())
@@ -213,7 +221,7 @@ public enum Translation
 				if(!czFile.delete())
 					throw new IOException("Could not delete a directory blocking the czech language file path.");
 
-			if(!czFile.getParentFile().mkdirs())
+			if(!czFile.getParentFile().isDirectory() && !czFile.getParentFile().mkdirs())
 				throw new IOException("Could not create a directory for the czech language file.");
 
 			if(!czFile.createNewFile())
@@ -249,15 +257,7 @@ public enum Translation
 
 	public String getMessage(Object... args)
 	{
-		String result = message;
-
-		for(int i = 0; i < args.length; i++)
-		{
-			String value = args[i].toString();
-			result = result.replaceAll("\\{" + (i + 1) + "\\}", value);
-		}
-
-		return result;
+		return replaceArguments(message, args);
 	}
 
 	public String getMessage()
@@ -269,4 +269,15 @@ public enum Translation
 	{
 		this.message = ChatColor.translateAlternateColorCodes('&', message);
 	}
+
+	public static String replaceArguments(String original, Object... args)
+	{
+		for(int i = 0; i < args.length; i++)
+		{
+			String value = args[i].toString();
+			original = original.replaceAll("\\{" + (i + 1) + "\\}", value);
+		}
+
+		return original;
 	}
+}

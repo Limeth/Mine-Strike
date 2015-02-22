@@ -34,12 +34,7 @@ public class EquipmentCustomization
 	
 	public static EquipmentCustomization skin(String name, String skin, Color color)
 	{
-		return builder().name(name).skin(skin).color(color).build();
-	}
-	
-	public static EquipmentCustomization skin(String name, String skin)
-	{
-		return skin(name, skin, null);
+		return builder().name(Translation.EQUIPMENT_CUSTOMIZATION_NAME.getMessage("{1}", name)).skin(skin).color(color).build();
 	}
 	
 	public static class EquipmentCustomizationBuilder
@@ -113,7 +108,7 @@ public class EquipmentCustomization
 		if(name != null)
 		{
 			String displayName = equipment.getDisplayName();
-			String newName = Translation.EQUIPMENT_CUSTOMIZATION_NAME.getMessage(displayName, name);
+			String newName = Translation.replaceArguments(name, displayName);
 
 			im.setDisplayName(newName);
 		}
