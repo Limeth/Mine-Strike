@@ -2,6 +2,7 @@ package cz.minestrike.me.limeth.minestrike.equipment.guns.extensions;
 
 import cz.minestrike.me.limeth.minestrike.MSPlayer;
 import cz.minestrike.me.limeth.minestrike.equipment.guns.Gun;
+import org.bukkit.inventory.ItemStack;
 
 public class GunExtension
 {
@@ -11,7 +12,8 @@ public class GunExtension
 	{
 		this.gun = gun;
 	}
-	
+
+	public void apply(ItemStack itemStack, MSPlayer msPlayer) {}
 	public void onSelect(MSPlayer msPlayer) {}
 	public void onDeselect(MSPlayer msPlayer) {}
 	public boolean onLeftClick(MSPlayer msPlayer) { return false; }

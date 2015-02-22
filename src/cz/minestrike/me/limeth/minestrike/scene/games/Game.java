@@ -186,6 +186,7 @@ public abstract class Game extends Scene
 		player.setFireTicks(0);
 		player.setHealth(((Damageable) player).getMaxHealth());
 		player.updateInventory();
+		msPlayer.updateMovementSpeed();
 	}
 
 	public boolean isWeaponEquippable(MSPlayer msPlayer)
@@ -373,7 +374,9 @@ public abstract class Game extends Scene
 			}
 		}
 		else
-			sender.sendMessage(ChatColor.RED + "Unknown game command.");
+		{
+			sender.sendMessage(getCommandPath("maps ..."));
+		}
 	}
 	
 	private String getCommandPath(String args)

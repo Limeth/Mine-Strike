@@ -1,5 +1,6 @@
 package cz.minestrike.me.limeth.minestrike.equipment.guns.tasks;
 
+import cz.minestrike.me.limeth.minestrike.equipment.containers.HotbarContainer;
 import org.bukkit.Bukkit;
 
 import cz.minestrike.me.limeth.minestrike.MSPlayer;
@@ -43,9 +44,12 @@ public class SilencerToggle extends GunTask
 	{
 		Gun gun = getGun();
 		SilencableExtension extension = (SilencableExtension) gun.getExtension();
-		
+		MSPlayer msPlayer = getMSPlayer();
+		HotbarContainer container = msPlayer.getHotbarContainer();
+
 		extension.toggleSilencer();
-		
+		container.apply(msPlayer, gun);
+
 		return false; //Remove task
 	}
 

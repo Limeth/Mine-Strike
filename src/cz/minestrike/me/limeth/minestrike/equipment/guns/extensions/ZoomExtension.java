@@ -1,17 +1,16 @@
 package cz.minestrike.me.limeth.minestrike.equipment.guns.extensions;
 
+import cz.minestrike.me.limeth.minestrike.MSPlayer;
+import cz.minestrike.me.limeth.minestrike.equipment.guns.Gun;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
-
-import cz.minestrike.me.limeth.minestrike.MSPlayer;
-import cz.minestrike.me.limeth.minestrike.equipment.guns.Gun;
 
 public class ZoomExtension extends GunExtension
 {
 	public static final float SLOWNESS_RATE = 0.15F;
 	private int stateIndex;
-	private int[] states; //0-6 inc.
+	private int[] states; //0-4 inc.
 	
 	public ZoomExtension(Gun gun)
 	{
@@ -26,13 +25,13 @@ public class ZoomExtension extends GunExtension
 		{
 		case AUG:
 		case SG_556:
-			return new int[] {3};
+			return new int[] {2};
 		case G3SG1:
 		case SCAR_20:
-			return new int[] {5};
+			return new int[] {2, 4};
 		case SSG_08:
 		case AWP:
-			return new int[] {3, 6};
+			return new int[] {2, 4};
 		default: return new int[0];
 		}
 	}
