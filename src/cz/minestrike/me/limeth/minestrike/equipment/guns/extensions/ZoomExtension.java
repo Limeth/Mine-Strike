@@ -21,7 +21,7 @@ public class ZoomExtension extends GunExtension
 	
 	private static int[] initStates(Gun gun)
 	{
-		switch(gun.getEquipment())
+		/*switch(gun.getEquipment())
 		{
 		case AUG:
 		case SG_556:
@@ -33,7 +33,9 @@ public class ZoomExtension extends GunExtension
 		case AWP:
 			return new int[] {2, 4};
 		default: return new int[0];
-		}
+		}*/ //TODO
+
+		return null;
 	}
 	
 	@Override
@@ -54,12 +56,12 @@ public class ZoomExtension extends GunExtension
 		if(zoom == null)
 		{
 			player.removePotionEffect(PotionEffectType.SLOW);
-			gun.setSecondaryState(false);
+			//TODO gun.setSecondaryState(false);
 		}
 		else
 		{
 			player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, Integer.MAX_VALUE, zoom, true), true);
-			gun.setSecondaryState(true);
+			//TODO gun.setSecondaryState(true);
 		}
 		
 		msPlayer.updateMovementSpeed();
@@ -86,7 +88,7 @@ public class ZoomExtension extends GunExtension
 		Gun gun = getGun();
 		stateIndex = 0;
 		
-		gun.setSecondaryState(false);
+		//TODO gun.setSecondaryState(false);
 		msPlayer.updateMovementSpeed();
 		player.removePotionEffect(PotionEffectType.SLOW);
 	}

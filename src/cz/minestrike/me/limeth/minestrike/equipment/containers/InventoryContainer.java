@@ -6,7 +6,9 @@ import cz.minestrike.me.limeth.minestrike.MSPlayer;
 import cz.minestrike.me.limeth.minestrike.Translation;
 import cz.minestrike.me.limeth.minestrike.equipment.*;
 import cz.minestrike.me.limeth.minestrike.equipment.guns.Gun;
-import cz.minestrike.me.limeth.minestrike.equipment.guns.GunType;
+import cz.minestrike.me.limeth.minestrike.equipment.guns.type.pistols.CZ75;
+import cz.minestrike.me.limeth.minestrike.equipment.guns.type.pistols.UspS;
+import cz.minestrike.me.limeth.minestrike.equipment.guns.type.rifles.automatic.M4A1S;
 import cz.minestrike.me.limeth.minestrike.util.PlayerUtil;
 import cz.minestrike.me.limeth.minestrike.util.SoundManager;
 import cz.minestrike.me.limeth.minestrike.util.collections.FilledArrayList;
@@ -23,53 +25,53 @@ import java.util.Collection;
 
 public class InventoryContainer extends ScalableContainer
 {
-	public static final Equipment[] DEFAULT_EQUIPMENT = {
-		new Gun(GunType.USP_S), new Gun(GunType.CZ75), new Gun(GunType.M4A1_S)
-	};
+	public static final Equipment[] DEFAULT_EQUIPMENT = {new Gun(UspS.getInstance()), new Gun(CZ75.getInstance()), new Gun(M4A1S.getInstance())};
 
-	public InventoryContainer(Collection<Equipment> equipment) {
+	public InventoryContainer(Collection<Equipment> equipment)
+	{
 		addAllItems(equipment);
 	}
 
-	public InventoryContainer() {}
-	
+	public InventoryContainer()
+	{
+	}
+
 	public Equipment getFirstBySource(Equipment source)
 	{
 		for(Equipment equipment : this)
 			if(equipment != null && equipment.getSource().equals(source))
 				return equipment;
-		
+
 		return null;
 	}
-	
+
 	public CustomizedEquipment<? extends Equipment> getEquippedCustomizedEquipment(EquipmentSectionEntry categoryEntry) throws NotFoundException
 	{
 		Validate.notNull(categoryEntry, "The category entry must not be null!");
-		
+
 		for(Equipment equipment : this)
 		{
 			if(!(equipment instanceof CustomizedEquipment))
 				continue;
-			
+
 			if(!categoryEntry.getEquipment().contains(equipment.getSource()))
 				continue;
-			
-			@SuppressWarnings("unchecked")
-			CustomizedEquipment<? extends Equipment> customEquipment = (CustomizedEquipment<? extends Equipment>) equipment;
-			
+
+			@SuppressWarnings("unchecked") CustomizedEquipment<? extends Equipment> customEquipment = (CustomizedEquipment<? extends Equipment>) equipment;
+
 			if(!customEquipment.isEquipped())
 				continue;
-			
+
 			return customEquipment;
 		}
-		
+
 		return null;
 	}
-	
+
 	public CustomizedEquipment<? extends Equipment> getEquippedCustomizedEquipment(Equipment sourceEquipment) throws NotFoundException
 	{
 		Validate.notNull(sourceEquipment, "The source equipment must not be null!");
-		
+
 		for(Equipment equipment : this)
 		{
 			if(!(equipment instanceof CustomizedEquipment))

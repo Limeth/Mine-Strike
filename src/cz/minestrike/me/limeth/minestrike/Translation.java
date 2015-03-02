@@ -274,7 +274,7 @@ public enum Translation
 	{
 		for(int i = 0; i < args.length; i++)
 		{
-			String value = args[i].toString();
+			String value = String.valueOf(args[i]);
 			original = original.replaceAll("\\{" + (i + 1) + "\\}", value);
 		}
 

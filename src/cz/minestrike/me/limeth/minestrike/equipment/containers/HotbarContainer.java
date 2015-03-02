@@ -7,7 +7,6 @@ import org.apache.commons.lang.Validate;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.PlayerInventory;
 
 import java.util.Iterator;
 import java.util.List;
@@ -35,20 +34,15 @@ public class HotbarContainer implements Container
 		for(int i = 0; i < contents.length; i++)
 			contents[i] = null;
 	}
+
+	public Equipment getHeld(Player player)
+	{
+		return getHeld(MSPlayer.get(player));
+	}
 	
 	public Equipment getHeld(MSPlayer msPlayer)
 	{
-		return getHeld(msPlayer.getPlayer());
-	}
-	
-	public Equipment getHeld(Player player)
-	{
-		return getHeld(player.getInventory());
-	}
-	
-	public Equipment getHeld(PlayerInventory inv)
-	{
-		return getHeld(inv.getHeldItemSlot());
+		return getHeld(msPlayer.getHeldItemSlot());
 	}
 	
 	public Equipment getHeld(int slot)

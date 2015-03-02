@@ -11,7 +11,7 @@ import cz.minestrike.me.limeth.minestrike.equipment.containers.HotbarContainer;
 import cz.minestrike.me.limeth.minestrike.equipment.containers.InventoryContainer;
 import cz.minestrike.me.limeth.minestrike.equipment.grenades.GrenadeType;
 import cz.minestrike.me.limeth.minestrike.equipment.guns.Gun;
-import cz.minestrike.me.limeth.minestrike.equipment.guns.GunType;
+import cz.minestrike.me.limeth.minestrike.equipment.guns.type.GunType;
 import cz.minestrike.me.limeth.minestrike.equipment.simple.*;
 import cz.minestrike.me.limeth.minestrike.scene.games.EquipmentProvider;
 import cz.minestrike.me.limeth.minestrike.scene.games.Team;
@@ -249,7 +249,7 @@ public class DefuseEquipmentProvider implements EquipmentProvider
 	public void setGun(MSPlayer msPlayer, Gun gun)
 	{
 		GunType gunType = gun.getEquipment();
-		boolean primary = gunType.isPrimary();
+		boolean primary = gunType.isPrimary(msPlayer);
 		int slot = primary ? INDEX_GUN_PRIMARY : INDEX_GUN_SECONDARY;
 		Container gameContainer = msPlayer.getHotbarContainer();
 		Player player = msPlayer.getPlayer();
@@ -502,7 +502,7 @@ public class DefuseEquipmentProvider implements EquipmentProvider
 		else if(sourceEquipment instanceof GunType)
 		{
 			GunType gunType = (GunType) sourceEquipment;
-			boolean primary = gunType.isPrimary();
+			boolean primary = gunType.isPrimary(msPlayer);
 
 			if(!purchase && getGun(msPlayer, primary) != null)
 				return Translation.GAME_SHOP_ERROR_SLOTTAKEN.getMessage();
@@ -543,7 +543,7 @@ public class DefuseEquipmentProvider implements EquipmentProvider
 		else if(sourceEquipment instanceof GunType)
 		{
 			GunType gunType = (GunType) sourceEquipment;
-			boolean primary = gunType.isPrimary();
+			boolean primary = gunType.isPrimary(msPlayer);
 			Gun previousGun = getGun(msPlayer, primary);
 			Gun gun;
 			

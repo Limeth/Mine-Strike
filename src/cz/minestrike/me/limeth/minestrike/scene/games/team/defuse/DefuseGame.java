@@ -11,6 +11,7 @@ import cz.minestrike.me.limeth.minestrike.areas.Structure;
 import cz.minestrike.me.limeth.minestrike.areas.schemes.GameLobby;
 import cz.minestrike.me.limeth.minestrike.areas.schemes.GameMap;
 import cz.minestrike.me.limeth.minestrike.areas.schemes.GameMenu;
+import cz.minestrike.me.limeth.minestrike.equipment.Equipment;
 import cz.minestrike.me.limeth.minestrike.events.ArenaJoinEvent;
 import cz.minestrike.me.limeth.minestrike.events.GameQuitEvent.SceneQuitReason;
 import cz.minestrike.me.limeth.minestrike.events.GameSpawnEvent;
@@ -29,10 +30,12 @@ import ftbastler.HeadsUpDisplay;
 import org.apache.commons.lang.Validate;
 import org.bukkit.*;
 import org.bukkit.block.Block;
+import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.plugin.PluginManager;
 
+import java.util.Map;
 import java.util.Set;
 import java.util.function.Predicate;
 
@@ -773,6 +776,48 @@ public class DefuseGame extends TeamGame
 	public Block getBombBlock()
 	{
 		return bombBlock;
+	}
+
+	public Item getBombEntity()
+	{
+		for(Map.Entry<Item, Equipment> entry : getDrops().entrySet())
+		{
+			Equipment equipment = entry.getValue();
+			Equipment source = equipment.getSource();
+
+			if(DefuseEquipmentProvider.BOMB.equals(source))
+				return entry.getKey();
+		}
+
+		return null;
+	}
+
+	public MSPlayer getBombCarrier()
+	{
+		DefuseEquipmentProvider ep = getEquipmentProvider();
+
+		for(MSPlayer msPlayer : getPlayingPlayers())
+			if(ep.hasBomb(msPlayer))
+				return msPlayer;
+
+		return null;
+	}
+
+	public Location getBombLocation()
+	{
+		Block block = getBombBlock();
+
+		if(block != null)
+			return block.getLocation();
+
+		Item item = getBombEntity();
+
+		if(item != null)
+			return item.getLocation();
+
+		MSPlayer carrier = getBombCarrier();
+
+		return carrier != null ? carrier.getPlayer().getEyeLocation() : null;
 	}
 
 	public void setBombBlock(Block bombBlock)

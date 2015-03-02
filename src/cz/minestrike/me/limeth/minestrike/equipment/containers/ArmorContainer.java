@@ -1,9 +1,12 @@
 package cz.minestrike.me.limeth.minestrike.equipment.containers;
 
-import java.util.Iterator;
-import java.util.List;
-import java.util.NoSuchElementException;
-
+import cz.minestrike.me.limeth.minestrike.BodyPart;
+import cz.minestrike.me.limeth.minestrike.MSPlayer;
+import cz.minestrike.me.limeth.minestrike.equipment.Equipment;
+import cz.minestrike.me.limeth.minestrike.equipment.guns.type.GunType;
+import cz.minestrike.me.limeth.minestrike.equipment.simple.Helmet;
+import cz.minestrike.me.limeth.minestrike.equipment.simple.Kevlar;
+import cz.minestrike.me.limeth.minestrike.util.SoundManager;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -11,13 +14,9 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.PlayerInventory;
 
-import cz.minestrike.me.limeth.minestrike.BodyPart;
-import cz.minestrike.me.limeth.minestrike.MSPlayer;
-import cz.minestrike.me.limeth.minestrike.equipment.Equipment;
-import cz.minestrike.me.limeth.minestrike.equipment.guns.GunType;
-import cz.minestrike.me.limeth.minestrike.equipment.simple.Helmet;
-import cz.minestrike.me.limeth.minestrike.equipment.simple.Kevlar;
-import cz.minestrike.me.limeth.minestrike.util.SoundManager;
+import java.util.Iterator;
+import java.util.List;
+import java.util.NoSuchElementException;
 
 
 public class ArmorContainer implements Container

@@ -1,11 +1,15 @@
 package cz.minestrike.me.limeth.minestrike.listeners;
 
-import java.util.List;
-
+import cz.minestrike.me.limeth.minestrike.MSPlayer;
+import cz.minestrike.me.limeth.minestrike.MineStrike;
+import cz.minestrike.me.limeth.minestrike.equipment.Equipment;
+import cz.minestrike.me.limeth.minestrike.equipment.containers.Container;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.PlayerDeathEvent;
@@ -13,15 +17,13 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
+import org.bukkit.scheduler.BukkitScheduler;
 
-import cz.minestrike.me.limeth.minestrike.MSPlayer;
-import cz.minestrike.me.limeth.minestrike.MineStrike;
-import cz.minestrike.me.limeth.minestrike.equipment.Equipment;
-import cz.minestrike.me.limeth.minestrike.equipment.containers.Container;
+import java.util.List;
 
 public class InteractionListener implements Listener
 {
-	@EventHandler
+	@EventHandler(priority = EventPriority.LOW)
 	public void onPlayerInteract(PlayerInteractEvent event)
 	{
 		Action action = event.getAction();
@@ -64,8 +66,8 @@ public class InteractionListener implements Listener
 	@EventHandler
 	public void onPlayerRespawn(PlayerRespawnEvent event)
 	{
-		Player player = event.getPlayer();
-		MSPlayer msPlayer = MSPlayer.get(player);
+		final Player player = event.getPlayer();
+		final MSPlayer msPlayer = MSPlayer.get(player);
 		Location loc = msPlayer.spawn(false);
 		
 		if(loc == null)
@@ -73,7 +75,14 @@ public class InteractionListener implements Listener
 			MineStrike.warn("Cannot spawn at null location!");
 			return;
 		}
-		
+
 		event.setRespawnLocation(loc);
+		BukkitScheduler scheduler = Bukkit.getScheduler();
+		Runnable runnable = () -> {
+			player.setFoodLevel(5);
+			msPlayer.updateMovementSpeed();
+		};
+
+		scheduler.scheduleSyncDelayedTask(MineStrike.getInstance(), runnable);
 	}
 }

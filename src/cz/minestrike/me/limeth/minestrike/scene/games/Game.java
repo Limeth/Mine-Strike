@@ -211,6 +211,11 @@ public abstract class Game extends Scene
 		return dead != null ? dead : false;
 	}
 
+	public boolean isAlive(MSPlayer msPlayer)
+	{
+		return !isDead(msPlayer);
+	}
+
 	public void setDead(MSPlayer msPlayer, boolean value)
 	{
 		msPlayer.setCustomData(CUSTOM_DATA_DEAD, value);
@@ -795,7 +800,12 @@ public abstract class Game extends Scene
 		
 		return drop(location, velocity, equipment, msPlayer);
 	}
-	
+
+	public HashMap<Item, Equipment> getDrops()
+	{
+		return drops;
+	}
+
 	public Equipment getDrop(Item item)
 	{
 		return drops.get(item);

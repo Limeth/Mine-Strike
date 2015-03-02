@@ -7,7 +7,7 @@ import cz.minestrike.me.limeth.minestrike.equipment.gson.EquipmentAdapter;
 import cz.minestrike.me.limeth.minestrike.equipment.gson.EquipmentCustomizationAdapter;
 import cz.minestrike.me.limeth.minestrike.equipment.gson.GunAdapter;
 import cz.minestrike.me.limeth.minestrike.equipment.guns.Gun;
-import cz.minestrike.me.limeth.minestrike.equipment.guns.GunType;
+import cz.minestrike.me.limeth.minestrike.equipment.guns.type.GunType;
 import cz.minestrike.me.limeth.minestrike.equipment.simple.Helmet;
 import cz.minestrike.me.limeth.minestrike.equipment.simple.Kevlar;
 import cz.minestrike.me.limeth.minestrike.equipment.simple.KevlarAndHelmet;
@@ -31,7 +31,7 @@ public class EquipmentManager
 	{
 		TYPES = new FilledHashMap<>();
 
-		addAll(TYPES, GunType.values());
+		addAll(TYPES, GunType.getRegisteredTypes().values());
 		addAll(TYPES, GrenadeType.values());
 
 		add(TYPES, Kevlar.KEVLAR);
@@ -52,6 +52,12 @@ public class EquipmentManager
 	}
 
 	private static void addAll(Map<String, Equipment> collection, Equipment... array)
+	{
+		for(Equipment object : array)
+			add(collection, object);
+	}
+
+	private static void addAll(Map<String, Equipment> collection, Iterable<? extends Equipment> array)
 	{
 		for(Equipment object : array)
 			add(collection, object);

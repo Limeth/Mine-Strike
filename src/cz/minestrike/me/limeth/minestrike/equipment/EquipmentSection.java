@@ -6,7 +6,19 @@ import cz.minestrike.me.limeth.minestrike.MSPlayer;
 import cz.minestrike.me.limeth.minestrike.Translation;
 import cz.minestrike.me.limeth.minestrike.equipment.containers.InventoryContainer;
 import cz.minestrike.me.limeth.minestrike.equipment.grenades.GrenadeType;
-import cz.minestrike.me.limeth.minestrike.equipment.guns.GunType;
+import cz.minestrike.me.limeth.minestrike.equipment.guns.type.lmgs.M249;
+import cz.minestrike.me.limeth.minestrike.equipment.guns.type.lmgs.Negev;
+import cz.minestrike.me.limeth.minestrike.equipment.guns.type.pistols.*;
+import cz.minestrike.me.limeth.minestrike.equipment.guns.type.rifles.automatic.*;
+import cz.minestrike.me.limeth.minestrike.equipment.guns.type.rifles.sniper.AWP;
+import cz.minestrike.me.limeth.minestrike.equipment.guns.type.rifles.sniper.G3SG1;
+import cz.minestrike.me.limeth.minestrike.equipment.guns.type.rifles.sniper.SCAR20;
+import cz.minestrike.me.limeth.minestrike.equipment.guns.type.rifles.sniper.SSG08;
+import cz.minestrike.me.limeth.minestrike.equipment.guns.type.shotguns.MAG7;
+import cz.minestrike.me.limeth.minestrike.equipment.guns.type.shotguns.Nova;
+import cz.minestrike.me.limeth.minestrike.equipment.guns.type.shotguns.SawedOff;
+import cz.minestrike.me.limeth.minestrike.equipment.guns.type.shotguns.XM1014;
+import cz.minestrike.me.limeth.minestrike.equipment.guns.type.smgs.*;
 import cz.minestrike.me.limeth.minestrike.equipment.simple.Kevlar;
 import cz.minestrike.me.limeth.minestrike.equipment.simple.KevlarAndHelmet;
 import cz.minestrike.me.limeth.minestrike.scene.Scene;
@@ -29,10 +41,10 @@ import java.util.HashSet;
 
 public class EquipmentSection
 {
-	public static final EquipmentSection PISTOLS  = new EquipmentSection("PISTOLS", Translation.EQUIPMENT_CATEGORY_PISTOLS, new EquipmentSectionEntry[]{e(GunType.GLOCK), e(GunType.P250, GunType.CZ75), e(GunType.DEAGLE), e(GunType.ELITE), e(GunType.TEC9)}, new EquipmentSectionEntry[]{e(GunType.P2000, GunType.USP_S), e(GunType.P250, GunType.CZ75), e(GunType.DEAGLE), e(GunType.ELITE), e(GunType.FIVESEVEN)});
-	public static final EquipmentSection HEAVY    = new EquipmentSection("HEAVY", Translation.EQUIPMENT_CATEGORY_HEAVY, new EquipmentSectionEntry[]{e(GunType.NOVA), e(GunType.XM1014), e(GunType.SAWEDOFF), e(GunType.M249), e(GunType.NEGEV)}, new EquipmentSectionEntry[]{e(GunType.NOVA), e(GunType.XM1014), e(GunType.MAG7), e(GunType.M249), e(GunType.NEGEV)});
-	public static final EquipmentSection SMGS     = new EquipmentSection("SMGS", Translation.EQUIPMENT_CATEGORY_SMGS, new EquipmentSectionEntry[]{e(GunType.MAC10), e(GunType.MP7), e(GunType.UMP45), e(GunType.BIZON), e(GunType.P90)}, new EquipmentSectionEntry[]{e(GunType.MP9), e(GunType.MP7), e(GunType.UMP45), e(GunType.BIZON), e(GunType.P90)});
-	public static final EquipmentSection RIFLES   = new EquipmentSection("RIFLES", Translation.EQUIPMENT_CATEGORY_RIFLES, new EquipmentSectionEntry[]{e(GunType.GALIL_AR), e(GunType.AK_47), e(GunType.SSG_08), e(GunType.SG_556), e(GunType.AWP), e(GunType.G3SG1)}, new EquipmentSectionEntry[]{e(GunType.FAMAS), e(GunType.M4A4, GunType.M4A1_S), e(GunType.SSG_08), e(GunType.AUG), e(GunType.AWP), e(GunType.SCAR_20)});
+	public static final EquipmentSection PISTOLS  = new EquipmentSection("PISTOLS", Translation.EQUIPMENT_CATEGORY_PISTOLS, new EquipmentSectionEntry[]{e(Glock.getInstance()), e(P250.getInstance(), CZ75.getInstance()), e(Deagle.getInstance()), e(Elite.getInstance()), e(TEC9.getInstance())}, new EquipmentSectionEntry[]{e(P2000.getInstance(), UspS.getInstance()), e(P250.getInstance(), CZ75.getInstance()), e(Deagle.getInstance()), e(Elite.getInstance()), e(FiveSeven.getInstance())});
+	public static final EquipmentSection HEAVY    = new EquipmentSection("HEAVY", Translation.EQUIPMENT_CATEGORY_HEAVY, new EquipmentSectionEntry[]{e(Nova.getInstance()), e(XM1014.getInstance()), e(SawedOff.getInstance()), e(M249.getInstance()), e(Negev.getInstance())}, new EquipmentSectionEntry[]{e(Nova.getInstance()), e(XM1014.getInstance()), e(MAG7.getInstance()), e(M249.getInstance()), e(Negev.getInstance())});
+	public static final EquipmentSection SMGS     = new EquipmentSection("SMGS", Translation.EQUIPMENT_CATEGORY_SMGS, new EquipmentSectionEntry[]{e(MAC10.getInstance()), e(MP7.getInstance()), e(UMP45.getInstance()), e(Bizon.getInstance()), e(P90.getInstance())}, new EquipmentSectionEntry[]{e(MP9.getInstance()), e(MP7.getInstance()), e(UMP45.getInstance()), e(Bizon.getInstance()), e(P90.getInstance())});
+	public static final EquipmentSection RIFLES   = new EquipmentSection("RIFLES", Translation.EQUIPMENT_CATEGORY_RIFLES, new EquipmentSectionEntry[]{e(GalilAR.getInstance()), e(AK47.getInstance()), e(SSG08.getInstance()), e(SG556.getInstance()), e(AWP.getInstance()), e(G3SG1.getInstance())}, new EquipmentSectionEntry[]{e(FAMAS.getInstance()), e(M4A4.getInstance(), M4A1S.getInstance()), e(SSG08.getInstance()), e(AUG.getInstance()), e(AWP.getInstance()), e(SCAR20.getInstance())});
 	public static final EquipmentSection GEAR     = new EquipmentSection("GEAR", Translation.EQUIPMENT_CATEGORY_GEAR, e(Kevlar.KEVLAR), e(KevlarAndHelmet.KEVLAR_AND_HELMET));
 	public static final EquipmentSection GRENADES = new EquipmentSection("GRENADES", Translation.EQUIPMENT_CATEGORY_GRENADES, e(GrenadeType.INCENDIARY), e(GrenadeType.DECOY), e(GrenadeType.EXPLOSIVE), e(GrenadeType.FLASH), e(GrenadeType.SMOKE));
 
@@ -91,7 +103,7 @@ public class EquipmentSection
 		for(EquipmentSection cat : categories)
 			if(cat.getIcon().equals(icon))
 				return cat;
-		
+
 		return null;
 	}
 
@@ -121,13 +133,13 @@ public class EquipmentSection
 		Player player = msPlayer.getPlayer();
 		EquipmentSectionEntry[] entries = getEntries(msPlayer);
 		Inventory inv = Bukkit.createInventory(player, PlayerUtil.INVENTORY_WIDTH * 4, MSConstant.INVENTORY_NAME_PREFIX + name);
-		
+
 		for(int i = 0; i < inv.getSize(); i++)
 			inv.setItem(i, MSConstant.ITEM_BACKGROUND);
-		
+
 		int width = (int) Math.ceil(entries.length / 2D);
 		int x = 4 - (width / 2);
-		
+
 		for(int i = 0; i < entries.length; i++)
 		{
 			int relX = i % width;

@@ -1,14 +1,13 @@
 package cz.minestrike.me.limeth.minestrike.equipment.guns.tasks;
 
-import cz.minestrike.me.limeth.minestrike.equipment.containers.HotbarContainer;
-import org.bukkit.Bukkit;
-
 import cz.minestrike.me.limeth.minestrike.MSPlayer;
 import cz.minestrike.me.limeth.minestrike.MineStrike;
+import cz.minestrike.me.limeth.minestrike.equipment.containers.HotbarContainer;
 import cz.minestrike.me.limeth.minestrike.equipment.guns.Gun;
 import cz.minestrike.me.limeth.minestrike.equipment.guns.GunTask;
-import cz.minestrike.me.limeth.minestrike.equipment.guns.extensions.SilencableExtension;
+import cz.minestrike.me.limeth.minestrike.equipment.guns.type.DoubleModeGunType;
 import cz.minestrike.me.limeth.minestrike.util.SoundManager;
+import org.bukkit.Bukkit;
 
 public class SilencerToggle extends GunTask
 {
@@ -43,11 +42,10 @@ public class SilencerToggle extends GunTask
 	protected boolean execute()
 	{
 		Gun gun = getGun();
-		SilencableExtension extension = (SilencableExtension) gun.getExtension();
 		MSPlayer msPlayer = getMSPlayer();
 		HotbarContainer container = msPlayer.getHotbarContainer();
 
-		extension.toggleSilencer();
+		DoubleModeGunType.toggleSecondMode(gun);
 		container.apply(msPlayer, gun);
 
 		return false; //Remove task

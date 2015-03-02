@@ -1,7 +1,13 @@
 package cz.minestrike.me.limeth.minestrike.equipment;
 
 import com.avaje.ebeaninternal.server.lib.util.NotFoundException;
-import cz.minestrike.me.limeth.minestrike.equipment.guns.GunType;
+import com.google.common.collect.Sets;
+import cz.minestrike.me.limeth.minestrike.equipment.guns.type.pistols.CZ75;
+import cz.minestrike.me.limeth.minestrike.equipment.guns.type.pistols.P2000;
+import cz.minestrike.me.limeth.minestrike.equipment.guns.type.pistols.P250;
+import cz.minestrike.me.limeth.minestrike.equipment.guns.type.pistols.UspS;
+import cz.minestrike.me.limeth.minestrike.equipment.guns.type.rifles.automatic.M4A1S;
+import cz.minestrike.me.limeth.minestrike.equipment.guns.type.rifles.automatic.M4A4;
 import cz.minestrike.me.limeth.minestrike.util.collections.FilledHashSet;
 import org.apache.commons.lang.Validate;
 
@@ -12,11 +18,11 @@ public class EquipmentSectionEntry
 {
 	static
 	{
-		VALUES = new HashSet<EquipmentSectionEntry>();
+		VALUES = Sets.newHashSet();
 		
-		register(GunType.P2000, GunType.USP_S);
-		register(GunType.P250, GunType.CZ75);
-		register(GunType.M4A4, GunType.M4A1_S);
+		register(P2000.getInstance(), UspS.getInstance());
+		register(P250.getInstance(), CZ75.getInstance());
+		register(M4A4.getInstance(), M4A1S.getInstance());
 		
 		for(Equipment equipment : EquipmentManager.getEquipment())
 			try
@@ -40,8 +46,7 @@ public class EquipmentSectionEntry
 	{
 		Validate.isTrue(sourceEquipment.length > 0, "Source equipment length must be larger than 0!");
 
-		FilledHashSet<Equipment> sourceEquipmentSet = new FilledHashSet<Equipment>(Arrays.asList(sourceEquipment));
-		;
+		FilledHashSet<Equipment> sourceEquipmentSet = new FilledHashSet<>(Arrays.asList(sourceEquipment));
 
 		for(EquipmentSectionEntry entry : VALUES)
 			for(Equipment curEquipment : entry.sourceEquipment)
@@ -53,12 +58,12 @@ public class EquipmentSectionEntry
 	
 	public static EquipmentSectionEntry valueOf(Equipment... sourceEquipment)
 	{
-		FilledHashSet<Equipment> sourceEquipmentSet = new FilledHashSet<Equipment>(Arrays.asList(sourceEquipment));;
+		FilledHashSet<Equipment> sourceEquipmentSet = new FilledHashSet<>(Arrays.asList(sourceEquipment));;
 		
 		for(EquipmentSectionEntry entry : VALUES)
 			if(entry.sourceEquipment.equals(sourceEquipmentSet))
 				return entry;
-		
+
 		throw new NotFoundException("Category entry for " + Arrays.toString(sourceEquipment) + " not found.");
 	}
 	
@@ -84,6 +89,6 @@ public class EquipmentSectionEntry
 	@Override
 	public String toString()
 	{
-		return "EquipmentCategoryEntry [sourceEquipment=" + sourceEquipment + ", defaultEquipment=" + defaultEquipment + "]";
+		return "EquipmentSectionEntry [sourceEquipment=" + sourceEquipment + ", defaultEquipment=" + defaultEquipment + "]";
 	}
 }

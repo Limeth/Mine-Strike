@@ -1,11 +1,11 @@
 package cz.minestrike.me.limeth.minestrike.util;
 
+import cz.minestrike.me.limeth.minestrike.equipment.grenades.GrenadeType;
+import cz.minestrike.me.limeth.minestrike.equipment.guns.type.GunType;
+
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-
-import cz.minestrike.me.limeth.minestrike.equipment.grenades.GrenadeType;
-import cz.minestrike.me.limeth.minestrike.equipment.guns.GunType;
 
 public class ResourcePackBuilder
 {
@@ -19,7 +19,7 @@ public class ResourcePackBuilder
 	
 	public static void build(File directory) throws IOException
 	{
-		for(GunType gunType : GunType.values())
+		for(GunType gunType : GunType.getRegisteredTypes().values())
 		{
 			String name = gunType.getTextureName();
 			String texturePath = "projectsurvive:textures/" + name + ".png";
@@ -39,7 +39,7 @@ public class ResourcePackBuilder
 			writer.write("texture.fireworks_charge=" + texturePath + '\n');
 			writer.write("texture.fireworks_charge_overlay=projectsurvive:textures/empty.png\n");
 			writer.write("items=minecraft:firework_charge\n");
-			writer.write("nbt.display.Lore.*=iregex:(.[0-9a-f].)(Type: )(" + gunType.name() + "( \\\\| DEFAULT)?)");
+			writer.write("nbt.display.Lore.*=iregex:(.[0-9a-f].)(Type: )(" + gunType.getGunId() + "( \\\\| DEFAULT)?)");
 			writer.close();
 		}
 		

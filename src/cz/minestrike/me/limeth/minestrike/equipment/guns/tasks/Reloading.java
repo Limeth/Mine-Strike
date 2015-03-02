@@ -1,16 +1,15 @@
 package cz.minestrike.me.limeth.minestrike.equipment.guns.tasks;
 
-import javax.annotation.Nonnull;
-
-import org.bukkit.Bukkit;
-
 import cz.minestrike.me.limeth.minestrike.MSPlayer;
 import cz.minestrike.me.limeth.minestrike.MineStrike;
 import cz.minestrike.me.limeth.minestrike.equipment.containers.Container;
 import cz.minestrike.me.limeth.minestrike.equipment.containers.HotbarContainer;
 import cz.minestrike.me.limeth.minestrike.equipment.guns.Gun;
 import cz.minestrike.me.limeth.minestrike.equipment.guns.GunTask;
-import cz.minestrike.me.limeth.minestrike.equipment.guns.GunType;
+import cz.minestrike.me.limeth.minestrike.equipment.guns.type.GunType;
+import org.bukkit.Bukkit;
+
+import javax.annotation.Nonnull;
 
 public class Reloading extends GunTask
 {
@@ -18,10 +17,10 @@ public class Reloading extends GunTask
 	private int iterationsLeft;
 	private Integer loopId;
 	
-	public Reloading(@Nonnull MSPlayer mPlayer, @Nonnull Gun gun)
+	public Reloading(@Nonnull MSPlayer msPlayer, @Nonnull Gun gun)
 	{
-		super(mPlayer, gun);
-		iterationsLeft = (int) (gun.getEquipment().getReloadTime() / CHECK_DELAY);
+		super(msPlayer, gun);
+		iterationsLeft = (int) (gun.getEquipment().getReloadTime(msPlayer) / CHECK_DELAY);
 	}
 	
 	@Override

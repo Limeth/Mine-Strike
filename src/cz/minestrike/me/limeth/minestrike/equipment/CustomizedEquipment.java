@@ -121,9 +121,9 @@ public class CustomizedEquipment<T extends Equipment> implements Equipment
 	}
 	
 	@Override
-	public String getSoundDraw()
+	public String getSoundDrawing()
 	{
-		return equipment.getSoundDraw();
+		return equipment.getSoundDrawing();
 	}
 
 	public boolean isEquipped()

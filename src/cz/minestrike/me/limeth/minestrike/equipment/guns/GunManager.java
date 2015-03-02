@@ -1,21 +1,20 @@
 package cz.minestrike.me.limeth.minestrike.equipment.guns;
 
+import cz.minestrike.me.limeth.minestrike.BodyPart;
+import cz.minestrike.me.limeth.minestrike.MSConstant;
+import cz.minestrike.me.limeth.minestrike.MSPlayer;
+import cz.minestrike.me.limeth.minestrike.equipment.Equipment;
+import cz.minestrike.me.limeth.minestrike.equipment.containers.HotbarContainer;
+import cz.minestrike.me.limeth.minestrike.equipment.guns.type.GunType;
+import darkBlade12.ParticleEffect;
 import net.minecraft.server.v1_7_R4.EnumMovingObjectType;
 import net.minecraft.server.v1_7_R4.MovingObjectPosition;
-
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
-
-import cz.minestrike.me.limeth.minestrike.BodyPart;
-import cz.minestrike.me.limeth.minestrike.MSConstant;
-import cz.minestrike.me.limeth.minestrike.MSPlayer;
-import cz.minestrike.me.limeth.minestrike.equipment.Equipment;
-import cz.minestrike.me.limeth.minestrike.equipment.containers.HotbarContainer;
-import darkBlade12.ParticleEffect;
 
 public class GunManager
 {
@@ -60,10 +59,10 @@ public class GunManager
 	}
 	
 	@SuppressWarnings("deprecation")
-	public static void onBulletHit(MovingObjectPosition[] mops, Player bukkitPlayer)
+	public static void onBulletHit(MovingObjectPosition[] mops, MSPlayer msPlayer)
 	{
-		MSPlayer msPlayer = MSPlayer.get(bukkitPlayer);
-		Location eyeLoc = bukkitPlayer.getEyeLocation();
+		Player player = msPlayer.getPlayer();
+		Location eyeLoc = player.getEyeLocation();
 		org.bukkit.World bukkitWorld = eyeLoc.getWorld();
 		
 		for(int i = 0; i < mops.length; i++)
@@ -102,8 +101,8 @@ public class GunManager
 				MSPlayer msVictim = MSPlayer.get(bukkitVictim);
 				Location effectLoc = new Location(bukkitWorld, mop.pos.a, mop.pos.b, mop.pos.c);
 				double distance = eyeLoc.distance(effectLoc);
-				double rangeModifier = type.getRangeModifier();
-				double damage = type.getDamage() / damageDivision;
+				double rangeModifier = type.getRangeModifier(msPlayer);
+				double damage = type.getDamage(msPlayer) / damageDivision;
 				
 //				if(bukkitPlayer.isOp())
 //					bukkitPlayer.sendMessage("damage: " + damage + "\nrangeModifier: " + rangeModifier + "\ndistance: " + distance

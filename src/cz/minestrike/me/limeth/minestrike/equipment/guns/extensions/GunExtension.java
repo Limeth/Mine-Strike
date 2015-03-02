@@ -4,6 +4,7 @@ import cz.minestrike.me.limeth.minestrike.MSPlayer;
 import cz.minestrike.me.limeth.minestrike.equipment.guns.Gun;
 import org.bukkit.inventory.ItemStack;
 
+@Deprecated
 public class GunExtension
 {
 	private final Gun gun;
@@ -31,7 +32,7 @@ public class GunExtension
 	
 	public String getSoundShooting(MSPlayer msPlayer)
 	{
-		return gun.getEquipment().getSoundShooting();
+		return gun.getEquipment().getSoundShooting(null /*TODO*/);
 	}
 	
 	public Gun getGun()

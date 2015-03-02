@@ -23,7 +23,7 @@ public interface Equipment
 	boolean leftClick(MSPlayer msPlayer, Block clickedBlock);
 	ItemStack newItemStack(MSPlayer msPlayer);
 	String getDisplayName();
-	String getSoundDraw();
+	String getSoundDrawing();
 	Integer getPrice(MSPlayer msPlayer);
 	float getMovementSpeed(MSPlayer msPlayer);
 	FilledArrayList<ItemButton> getSelectionButtons(MSPlayer msPlayer);

@@ -56,7 +56,7 @@ public class SimpleEquipment implements Equipment
 	}
 	
 	@Override
-	public String getSoundDraw()
+	public String getSoundDrawing()
 	{
 		return soundDraw;
 	}

@@ -61,16 +61,18 @@ public class InventoryListener implements Listener
 		{
 			oldEquipment.onDeselect(msPlayer);
 		}
+
+		msPlayer.setHeldItemSlot(newIndex);
 		
 		if(newEquipment != null)
 		{
 			Location loc = player.getEyeLocation();
-			String sound = newEquipment.getSoundDraw();
+			String sound = newEquipment.getSoundDrawing();
 			
 			newEquipment.onSelect(msPlayer);
 			SoundManager.play(sound, loc, player);
 		}
 		
-		msPlayer.updateMovementSpeed(newIndex);
+		msPlayer.updateMovementSpeed();
 	}
 }

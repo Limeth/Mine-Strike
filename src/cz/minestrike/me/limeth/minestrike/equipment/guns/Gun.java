@@ -1,10 +1,11 @@
 package cz.minestrike.me.limeth.minestrike.equipment.guns;
 
+import com.google.common.collect.Maps;
 import cz.minestrike.me.limeth.minestrike.MSPlayer;
 import cz.minestrike.me.limeth.minestrike.Translation;
 import cz.minestrike.me.limeth.minestrike.equipment.CustomizedEquipment;
 import cz.minestrike.me.limeth.minestrike.equipment.EquipmentCustomization;
-import cz.minestrike.me.limeth.minestrike.equipment.guns.extensions.GunExtension;
+import cz.minestrike.me.limeth.minestrike.equipment.guns.type.GunType;
 import cz.minestrike.me.limeth.minestrike.util.BoundUtil;
 import cz.minestrike.me.limeth.minestrike.util.LoreAttributes;
 import cz.minestrike.me.limeth.minestrike.util.RandomString;
@@ -12,11 +13,12 @@ import net.minecraft.server.v1_7_R4.EnumMovingObjectType;
 import net.minecraft.server.v1_7_R4.MovingObjectPosition;
 import org.apache.commons.lang.Validate;
 import org.bukkit.*;
-import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.FireworkEffectMeta;
 import org.bukkit.util.Vector;
+
+import java.util.Map;
 
 public class Gun extends CustomizedEquipment<GunType>
 {
@@ -26,70 +28,73 @@ public class Gun extends CustomizedEquipment<GunType>
 	private Integer kills;
 	private Long lastBulletShotAt;
 	private int loadedBullets, unusedBullets;
-	private boolean reloading, secondaryState;
-	private GunExtension lazyExtension;
-	
+	private boolean reloading;
+	private Map<String, Object> customData = Maps.newHashMap();
+
 	public Gun(GunType type, EquipmentCustomization customization, Integer kills, int loadedBullets, int unusedBullets, boolean reloading)
 	{
 		super(type, customization);
-		
+
 		Validate.notNull(type, "The type of the gun cannot be null!");
-		
+
 		this.kills = kills;
 		this.reloading = reloading;
-		
+
 		this.setLoadedBullets(loadedBullets);
 		this.setUnusedBullets(unusedBullets);
+
+		type.initialize(this);
 	}
-	
+
 	public Gun(GunType type, EquipmentCustomization customization, Integer kills)
 	{
 		this(type, customization, kills, type.getClipSize(), type.getSpareCapacity(), false);
 	}
-	
+
 	public Gun(GunType type, EquipmentCustomization customization)
 	{
 		this(type, customization, null);
 	}
-	
+
 	public Gun(GunType type, String name, String skin, Color color)
 	{
 		this(type, EquipmentCustomization.skin(name, skin, color));
 	}
-	
+
 	public Gun(GunType type, String name, String skin)
 	{
 		this(type, name, skin, null);
 	}
-	
+
 	public Gun(GunType type)
 	{
 		this(type, null);
 	}
-	
+
+	@Override
 	public Gun clone()
 	{
 		Gun gun = new Gun(getEquipment(), getCustomization(), kills, loadedBullets, unusedBullets, reloading);
-		
+
 		gun.ownerName = ownerName;
 		gun.lastBulletShotAt = lastBulletShotAt;
-		
+
 		return gun;
 	}
-	
+
 	public void shoot(MSPlayer msPlayer)
 	{
 		Player player = msPlayer.getPlayer();
 		Location location = player.getEyeLocation();
 		World world = location.getWorld();
 		GunType gunType = getEquipment();
-		int range = gunType.getRange();
+		int range = gunType.getRange(msPlayer);
 		Vector direction = location.getDirection();
 		Vector inaccuracyDirection = msPlayer.getInaccuracyVector(this);
 		msPlayer.modifyByRecoil(direction, this);
 		direction.add(inaccuracyDirection);
 		direction.multiply(range / direction.length()); //Normalize to range
-		msPlayer.increaseRecoil(gunType.getRecoilMagnitude());
+		msPlayer.increaseRecoil(gunType.getRecoilMagnitude(msPlayer));
 		
 		MovingObjectPosition[] obstacles = BoundUtil.findObstaclesByMotion(player, location, direction);
 		Location endLocation = null;
@@ -98,7 +103,7 @@ public class Gun extends CustomizedEquipment<GunType>
 		{
 			MovingObjectPosition lastObstacle = obstacles[obstacles.length - 1];
 			
-			GunManager.onBulletHit(obstacles, player);
+			GunManager.onBulletHit(obstacles, msPlayer);
 			
 			if(lastObstacle.type == EnumMovingObjectType.BLOCK)
 				endLocation = new Location(world, lastObstacle.pos.a, lastObstacle.pos.b, lastObstacle.pos.c);
@@ -111,31 +116,9 @@ public class Gun extends CustomizedEquipment<GunType>
 	}
 	
 	@Override
-	public float getMovementSpeed(MSPlayer msPlayer)
-	{
-		return getExtension().getMovementSpeed(msPlayer);
-	}
-	
-	public String getSoundShooting(MSPlayer msPlayer)
-	{
-		return getExtension().getSoundShooting(msPlayer);
-	}
-	
-	public boolean leftClick(MSPlayer msPlayer, Block clickedBlock)
-	{
-		return getExtension().onLeftClick(msPlayer);
-	}
-	
-	public boolean rightClick(MSPlayer msPlayer, Block clickedBlock)
-	{
-		return getExtension().onRightClick(msPlayer);
-	}
-	
-	@Override
 	public void onSelect(MSPlayer msPlayer)
 	{
 		getEquipment().onSelect(msPlayer);
-		getExtension().onSelect(msPlayer);
 	}
 	
 	@Override
@@ -145,12 +128,14 @@ public class Gun extends CustomizedEquipment<GunType>
 			msPlayer.getGunTask().cancel();
 		
 		getEquipment().onDeselect(msPlayer);
-		getExtension().onDeselect(msPlayer);
 	}
 	
 	public void applyAttributes(LoreAttributes attributes)
 	{
 		GunType type = getEquipment();
+
+		for(Map.Entry<String, Object> entry : customData.entrySet())
+			attributes.put(entry.getKey(), String.valueOf(entry.getValue()));
 		
 		if(reloading)
 			attributes.put("Reloading", Boolean.toString(true));
@@ -161,7 +146,7 @@ public class Gun extends CustomizedEquipment<GunType>
 		if(ownerName != null)
 			attributes.put("Owner", ownerName);
 		
-		attributes.put("Type", type.name());
+		attributes.put("Type", type.getGunId());
 		attributes.put("Loaded bullets", Integer.toString(loadedBullets));
 		attributes.put("Unused bullets", Integer.toString(unusedBullets));
 		attributes.put("Seed", RANDOM_STRING.nextString());
@@ -198,9 +183,7 @@ public class Gun extends CustomizedEquipment<GunType>
 		
 		fem.setDisplayName(displayName);
 		is.setItemMeta(fem);
-
-		if(getExtension() != null)
-			getExtension().apply(is, msPlayer);
+		getEquipment().apply(is, msPlayer, this);
 	}
 	
 	public String buildDisplayName(boolean showBulletAmount)
@@ -326,7 +309,12 @@ public class Gun extends CustomizedEquipment<GunType>
 	{
 		this.reloading = reloading;
 	}
-	
+
+	public String getSoundShooting(MSPlayer msPlayer)
+	{
+		return getEquipment().getSoundShooting(msPlayer);
+	}
+
 	@Override
 	public String getDisplayName()
 	{
@@ -362,8 +350,6 @@ public class Gun extends CustomizedEquipment<GunType>
 			return false;
 		if(reloading != gun.reloading)
 			return false;
-		if(secondaryState != gun.secondaryState)
-			return false;
 		if(unusedBullets != gun.unusedBullets)
 			return false;
 		if(kills != null ? !kills.equals(gun.kills) : gun.kills != null)
@@ -387,24 +373,18 @@ public class Gun extends CustomizedEquipment<GunType>
 		result = 31 * result + loadedBullets;
 		result = 31 * result + unusedBullets;
 		result = 31 * result + (reloading ? 1 : 0);
-		result = 31 * result + (secondaryState ? 1 : 0);
 		return result;
 	}
 
-	public boolean isShotDelaySatisfied()
+	public boolean isShotDelaySatisfied(MSPlayer msPlayer)
 	{
 		if(lastBulletShotAt == null)
 			return true;
 		
 		GunType type = getEquipment();
-		double cycleTime = type.getCycleTime() * 50;
+		double cycleTime = type.getCycleTime(msPlayer) * 50;
 		
 		return lastBulletShotAt < System.currentTimeMillis() - cycleTime;
-	}
-	
-	public GunExtension getExtension()
-	{
-		return lazyExtension != null ? lazyExtension : (lazyExtension = getEquipment().newExtension(this));
 	}
 
 	public Long getLastBulletShotAt()
@@ -422,66 +402,59 @@ public class Gun extends CustomizedEquipment<GunType>
 		this.lastBulletShotAt = System.currentTimeMillis();
 	}
 
-	public boolean isSecondaryState()
+	public Map<String, Object> getCustomData()
 	{
-		return secondaryState;
-	}
-
-	public void setSecondaryState(boolean secondaryState)
-	{
-		Validate.isTrue(getEquipment().isSecondMode(), "GunType " + getEquipment() + " doesn't have a secondary state.");
-		
-		this.secondaryState = secondaryState;
+		return customData;
 	}
 	
 	public boolean isAutomatic()
 	{
-		return secondaryState ? getEquipment().isAutomaticAlt() : getEquipment().isAutomatic();
+		return getEquipment().isAutomatic(this);
 	}
 	
 	public float getSpread()
 	{
-		return secondaryState ? getEquipment().getSpreadAlt() : getEquipment().getSpread();
+		return getEquipment().getSpread(this);
 	}
 	
 	public float getInaccuracySneak()
 	{
-		return secondaryState ? getEquipment().getInaccuracySneakAlt() : getEquipment().getInaccuracySneak();
+		return getEquipment().getInaccuracySneak(this);
 	}
 	
 	public float getInaccuracyStand()
 	{
-		return secondaryState ? getEquipment().getInaccuracyStandAlt() : getEquipment().getInaccuracyStand();
+		return getEquipment().getInaccuracyStand(this);
 	}
 	
 	public float getInaccuracyFire()
 	{
-		return secondaryState ? getEquipment().getInaccuracyFireAlt() : getEquipment().getInaccuracyFire();
+		return getEquipment().getInaccuracyFire(this);
 	}
 	
 	public float getInaccuracyMove()
 	{
-		return secondaryState ? getEquipment().getInaccuracyMoveAlt() : getEquipment().getInaccuracyMove();
+		return getEquipment().getInaccuracyMove(this);
 	}
 	
 	public float getInaccuracyJump()
 	{
-		return secondaryState ? getEquipment().getInaccuracyJumpAlt() : getEquipment().getInaccuracyJump();
+		return getEquipment().getInaccuracyJump(this);
 	}
 	
 	public float getInaccuracyLand()
 	{
-		return secondaryState ? getEquipment().getInaccuracyLandAlt() : getEquipment().getInaccuracyLand();
+		return getEquipment().getInaccuracyLand(this);
 	}
 	
 	public float getInaccuracyLadder()
 	{
-		return secondaryState ? getEquipment().getInaccuracyLadderAlt() : getEquipment().getInaccuracyLadder();
+		return getEquipment().getInaccuracyLadder(this);
 	}
 	
 	public int getShootingBullets()
 	{
-		return secondaryState ? getEquipment().getBulletsAlt() : getEquipment().getBullets();
+		return getEquipment().getBullets(this);
 	}
 	
 	@Override

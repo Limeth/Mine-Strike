@@ -87,7 +87,7 @@ public class CaseKey implements Equipment
 	}
 
 	@Override
-	public String getSoundDraw()
+	public String getSoundDrawing()
 	{
 		return null;
 	}

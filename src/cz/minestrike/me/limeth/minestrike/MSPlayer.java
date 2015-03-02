@@ -14,9 +14,9 @@ import cz.minestrike.me.limeth.minestrike.equipment.containers.HotbarContainer;
 import cz.minestrike.me.limeth.minestrike.equipment.containers.InventoryContainer;
 import cz.minestrike.me.limeth.minestrike.equipment.guns.Gun;
 import cz.minestrike.me.limeth.minestrike.equipment.guns.GunTask;
-import cz.minestrike.me.limeth.minestrike.equipment.guns.GunType;
 import cz.minestrike.me.limeth.minestrike.equipment.guns.tasks.Firing;
 import cz.minestrike.me.limeth.minestrike.equipment.guns.tasks.Reloading;
+import cz.minestrike.me.limeth.minestrike.equipment.guns.type.GunType;
 import cz.minestrike.me.limeth.minestrike.events.GameQuitEvent.SceneQuitReason;
 import cz.minestrike.me.limeth.minestrike.scene.Scene;
 import cz.minestrike.me.limeth.minestrike.scene.games.Game;
@@ -212,6 +212,7 @@ public class MSPlayer
 	private HashMap<Object, Long> cooldowns = Maps.newHashMap();
 	private float recoil;
 	private long recoilSetTime, jumpTime, landTime;
+	private int heldItemSlot;
 	private double speed;
 	private boolean inAir;
 	private Scene lazyScene;
@@ -498,22 +499,17 @@ public class MSPlayer
 		
 		return Translation.DISPLAY_RANK_SUBTITLE.getMessage(progressBar, relativeXP, relativeRequiredXP);
 	}
-	
-	public float updateMovementSpeed(int heldSlot)
-	{
-		float speed = getMovementSpeed(heldSlot);
-		Player player = getPlayer();
-		
-		player.setWalkSpeed(speed);
-		
-		return speed;
-	}
-	
+
 	public float updateMovementSpeed()
 	{
-		return updateMovementSpeed(getPlayer().getInventory().getHeldItemSlot());
+		float speed = getMovementSpeed(heldItemSlot);
+		Player player = getPlayer();
+
+		player.setWalkSpeed(speed);
+
+		return speed;
 	}
-	
+
 	public float getMovementSpeed(int heldSlot)
 	{
 		Scene scene = getScene();
@@ -579,10 +575,10 @@ public class MSPlayer
 		
 		GunType gunType = gun.getEquipment();
 		
-		if(!gun.isAutomatic() && !gun.isShotDelaySatisfied())
+		if(!gun.isAutomatic() && !gun.isShotDelaySatisfied(this))
 			return;
 		
-		if(gunType.isLoadingContinuously() && gunTask instanceof Reloading)
+		if(gunType.isLoadingContinuously(this) && gunTask instanceof Reloading)
 			gunTask.remove();
 		
 		if(gun.isAutomatic())
@@ -1331,5 +1327,15 @@ var rotateX3D = function(theta) {
 	public void setPlaytime(long playtime)
 	{
 		dataContainer.getData().setPlaytime(playtime);
+	}
+
+	public int getHeldItemSlot()
+	{
+		return heldItemSlot;
+	}
+
+	public void setHeldItemSlot(int heldItemSlot)
+	{
+		this.heldItemSlot = heldItemSlot;
 	}
 }

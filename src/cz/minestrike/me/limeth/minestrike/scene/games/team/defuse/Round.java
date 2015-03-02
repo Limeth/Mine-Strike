@@ -230,7 +230,7 @@ public class Round extends GamePhase<DefuseGame>
 		{
 			DefuseGame game = getGame();
 			
-			for(MSPlayer msPlayer : game.getPlayingPlayers())
+			for(MSPlayer msPlayer : game.getPlayingPlayers(game::isAlive))
 			{
 				Player player = msPlayer.getPlayer();
 				Location origin = ORIGIN.get(msPlayer);

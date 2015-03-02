@@ -1,13 +1,6 @@
 package cz.minestrike.me.limeth.minestrike.scene.games.team;
 
-import java.util.List;
-
-import org.bukkit.Bukkit;
-import org.bukkit.Color;
-import org.bukkit.entity.Player;
-
 import com.google.common.collect.Lists;
-
 import cz.minestrike.me.limeth.minestrike.MSConfig;
 import cz.minestrike.me.limeth.minestrike.MSPlayer;
 import cz.minestrike.me.limeth.minestrike.MineStrike;
@@ -25,12 +18,16 @@ import cz.projectsurvive.me.limeth.psmaps.surfaces.MapSurface;
 import cz.projectsurvive.me.limeth.psmaps.surfaces.OverlayMapSurface;
 import cz.projectsurvive.me.limeth.psmaps.surfaces.RegionMapSurface;
 import cz.projectsurvive.me.limeth.psmaps.views.SingleMapView;
+import org.bukkit.Bukkit;
+import org.bukkit.Color;
+import org.bukkit.entity.Player;
+
+import java.util.List;
 
 public class RadarView extends SingleMapView implements Runnable
 {
 	public static final long UPDATE_INTERVAL = 20L;
-	public static final int ICON_PLAYER_T = 0, ICON_PLAYER_CT = 1, ICON_TEAMMATE_T = 2, ICON_TEAMMATE_CT = 3,
-			ICON_BOMBSITE_A = 8, ICON_BOMBSITE_B = 9, ICON_BOMB = 10;
+	public static final int ICON_PLAYER_T = 0, ICON_PLAYER_CT = 1, ICON_TEAMMATE_T = 2, ICON_TEAMMATE_CT = 3;
 	private final TeamGame game;
 	private final RegionMapSurface regionMapSurface;
 	private final MapSurface finalSurface;
@@ -92,29 +89,23 @@ public class RadarView extends SingleMapView implements Runnable
 			return Lists.newArrayList();
 		
 		Team team = game.getTeam(msPlayer);
+		List<MapIcon> icons = Lists.newArrayList();
 		Integer iconIndex = null;
 		
 		if(team == Team.TERRORISTS)
 		{
-			iconIndex = ICON_PLAYER_T;
+			MapIcon playerIcon = new MapIcon(ICON_PLAYER_T);
+
+			playerIcon.setLocation(player.getLocation(), minX, minY, width, height);
+			icons.add(playerIcon);
 		}
 		else if(team == Team.COUNTER_TERRORISTS)
 		{
-			iconIndex = ICON_PLAYER_CT;
+			MapIcon playerIcon = new MapIcon(ICON_PLAYER_CT);
+
+			playerIcon.setLocation(player.getLocation(), minX, minY, width, height);
+			icons.add(playerIcon);
 		}
-		
-		List<MapIcon> icons;
-		
-		if(iconIndex != null)
-		{
-			MapIcon icon = new MapIcon(iconIndex);
-			
-			icon.setLocation(player.getLocation(), minX, minY, width, height);
-			
-			icons = Lists.newArrayList(icon);
-		}
-		else
-			icons = Lists.newArrayList();
 		
 		return icons;
 	}

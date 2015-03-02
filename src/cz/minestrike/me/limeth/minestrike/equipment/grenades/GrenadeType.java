@@ -595,7 +595,7 @@ public enum GrenadeType implements Equipment, DamageSource
 	}
 	
 	@Override
-	public String getSoundDraw()
+	public String getSoundDrawing()
 	{
 		return soundDraw;
 	}

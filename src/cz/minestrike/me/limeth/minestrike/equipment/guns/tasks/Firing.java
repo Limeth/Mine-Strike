@@ -1,15 +1,14 @@
 package cz.minestrike.me.limeth.minestrike.equipment.guns.tasks;
 
-import javax.annotation.Nonnull;
-
-import org.bukkit.Bukkit;
-
 import cz.minestrike.me.limeth.minestrike.MSPlayer;
 import cz.minestrike.me.limeth.minestrike.MineStrike;
 import cz.minestrike.me.limeth.minestrike.equipment.containers.HotbarContainer;
 import cz.minestrike.me.limeth.minestrike.equipment.guns.Gun;
 import cz.minestrike.me.limeth.minestrike.equipment.guns.GunTask;
-import cz.minestrike.me.limeth.minestrike.equipment.guns.GunType;
+import cz.minestrike.me.limeth.minestrike.equipment.guns.type.GunType;
+import org.bukkit.Bukkit;
+
+import javax.annotation.Nonnull;
 
 public class Firing extends GunTask
 {
@@ -38,9 +37,10 @@ public class Firing extends GunTask
 	
 	private int nextLoop()
 	{
+		MSPlayer msPlayer = getMSPlayer();
 		Gun gun = getGun();
 		GunType gunType = gun.getEquipment();
-		float cycleTime = gunType.getCycleTime();
+		float cycleTime = gunType.getCycleTime(msPlayer);
 		int rounded = (int) (cycleTime + remainder);
 		
 		//Bukkit.broadcastMessage(cycleTime + " = " + rounded + " + " + remainder);
