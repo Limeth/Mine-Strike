@@ -5,7 +5,7 @@ import com.google.common.collect.Sets;
 import cz.minestrike.me.limeth.minestrike.equipment.guns.type.pistols.CZ75;
 import cz.minestrike.me.limeth.minestrike.equipment.guns.type.pistols.P2000;
 import cz.minestrike.me.limeth.minestrike.equipment.guns.type.pistols.P250;
-import cz.minestrike.me.limeth.minestrike.equipment.guns.type.pistols.UspS;
+import cz.minestrike.me.limeth.minestrike.equipment.guns.type.pistols.USPS;
 import cz.minestrike.me.limeth.minestrike.equipment.guns.type.rifles.automatic.M4A1S;
 import cz.minestrike.me.limeth.minestrike.equipment.guns.type.rifles.automatic.M4A4;
 import cz.minestrike.me.limeth.minestrike.util.collections.FilledHashSet;
@@ -20,7 +20,7 @@ public class EquipmentSectionEntry
 	{
 		VALUES = Sets.newHashSet();
 		
-		register(P2000.getInstance(), UspS.getInstance());
+		register(P2000.getInstance(), USPS.getInstance());
 		register(P250.getInstance(), CZ75.getInstance());
 		register(M4A4.getInstance(), M4A1S.getInstance());
 		

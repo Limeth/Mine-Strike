@@ -22,9 +22,9 @@ public abstract class ScopeGunType extends DoubleModeGunType
 	private Boolean lazyFrameShown;
 	private int[] lazyZoomCycle;
 
-	public ScopeGunType(String gunId, String name, String directoryName, String textureName, boolean primary, boolean loadingContinuously, float reloadTime, float weaponArmorRatio, int damage, float rangeModifier, float cycleTime, int penetration, int killAwardCompetitive, int killAwardCasual, int movementSpeed, int clipSize, int spareCapacity, int price, int range, boolean automatic, float flinchVelocityModifierLarge, float flinchVelocityModifierSmall, float spread, float inaccuracySneak, float inaccuracyStand, float inaccuracyFire, float inaccuracyMove, float inaccuracyJump, float inaccuracyLand, float inaccuracyLadder, float recoveryTimeSneak, float recoveryTimeStand, int recoilAngleVariance, float recoilMagnitude, int recoilMagnitudeVariance, int bullets, boolean automaticAlt, float spreadAlt, float inaccuracySneakAlt, float inaccuracyStandAlt, float inaccuracyFireAlt, float inaccuracyMoveAlt, float inaccuracyJumpAlt, float inaccuracyLandAlt, float inaccuracyLadderAlt, int recoilAngleVarianceAlt, float recoilMagnitudeAlt, int recoilMagnitudeVarianceAlt, int bulletsAlt)
+	public ScopeGunType(String gunId, String name, String directoryName, String textureName, boolean primary, boolean loadingContinuously, float reloadTime, float weaponArmorRatio, int damage, float rangeModifier, float cycleTime, int penetration, int killAwardCompetitive, int killAwardCasual, int movementSpeed, int clipSize, int spareCapacity, int price, int range, boolean automatic, float flinchVelocityModifierLarge, float flinchVelocityModifierSmall, float spread, float inaccuracySneak, float inaccuracyStand, float inaccuracyFire, float inaccuracyMove, float inaccuracyJump, float inaccuracyLand, float inaccuracyLadder, float recoveryTimeSneak, float recoveryTimeStand, int recoilAngleVariance, float recoilMagnitude, int recoilMagnitudeVariance, int bullets, boolean automaticAlt, float spreadAlt, float inaccuracySneakAlt, float inaccuracyStandAlt, float inaccuracyFireAlt, float inaccuracyMoveAlt, float inaccuracyJumpAlt, float inaccuracyLandAlt, float inaccuracyLadderAlt, int recoilAngleVarianceAlt, float recoilMagnitudeAlt, int recoilMagnitudeVarianceAlt, float cycleTimeAlt, int bulletsAlt)
 	{
-		super(gunId, name, directoryName, textureName, primary, loadingContinuously, reloadTime, weaponArmorRatio, damage, rangeModifier, cycleTime, penetration, killAwardCompetitive, killAwardCasual, movementSpeed, clipSize, spareCapacity, price, range, automatic, flinchVelocityModifierLarge, flinchVelocityModifierSmall, spread, inaccuracySneak, inaccuracyStand, inaccuracyFire, inaccuracyMove, inaccuracyJump, inaccuracyLand, inaccuracyLadder, recoveryTimeSneak, recoveryTimeStand, recoilAngleVariance, recoilMagnitude, recoilMagnitudeVariance, bullets, automaticAlt, spreadAlt, inaccuracySneakAlt, inaccuracyStandAlt, inaccuracyFireAlt, inaccuracyMoveAlt, inaccuracyJumpAlt, inaccuracyLandAlt, inaccuracyLadderAlt, recoilAngleVarianceAlt, recoilMagnitudeAlt, recoilMagnitudeVarianceAlt, bulletsAlt);
+		super(gunId, name, directoryName, textureName, primary, loadingContinuously, reloadTime, weaponArmorRatio, damage, rangeModifier, cycleTime, penetration, killAwardCompetitive, killAwardCasual, movementSpeed, clipSize, spareCapacity, price, range, automatic, flinchVelocityModifierLarge, flinchVelocityModifierSmall, spread, inaccuracySneak, inaccuracyStand, inaccuracyFire, inaccuracyMove, inaccuracyJump, inaccuracyLand, inaccuracyLadder, recoveryTimeSneak, recoveryTimeStand, recoilAngleVariance, recoilMagnitude, recoilMagnitudeVariance, bullets, automaticAlt, spreadAlt, inaccuracySneakAlt, inaccuracyStandAlt, inaccuracyFireAlt, inaccuracyMoveAlt, inaccuracyJumpAlt, inaccuracyLandAlt, inaccuracyLadderAlt, recoilAngleVarianceAlt, recoilMagnitudeAlt, recoilMagnitudeVarianceAlt, cycleTimeAlt, bulletsAlt);
 	}
 
 	protected abstract boolean initFrameShown();
@@ -49,7 +49,7 @@ public abstract class ScopeGunType extends DoubleModeGunType
 	@Override
 	public boolean leftClick(MSPlayer msPlayer, Block block)
 	{
-		Gun gun = (Gun) msPlayer.getEquipmentInHand();
+		Gun gun = msPlayer.getEquipmentInHand();
 
 		nextZoom(gun);
 
@@ -89,7 +89,7 @@ public abstract class ScopeGunType extends DoubleModeGunType
 	@Override
 	public float getMovementSpeed(MSPlayer msPlayer)
 	{
-		Gun gun = (Gun) msPlayer.getEquipmentInHand();
+		Gun gun = msPlayer.getEquipmentInHand();
 		Integer zoom = getZoom(gun);
 
 		if(zoom == null)
@@ -103,7 +103,7 @@ public abstract class ScopeGunType extends DoubleModeGunType
 	public void unzoom(MSPlayer msPlayer)
 	{
 		Player player = msPlayer.getPlayer();
-		Gun gun = (Gun) msPlayer.getEquipmentInHand();
+		Gun gun = msPlayer.getEquipmentInHand();
 
 		setZoomIndex(gun, 0);
 		setSecondMode(gun, false);

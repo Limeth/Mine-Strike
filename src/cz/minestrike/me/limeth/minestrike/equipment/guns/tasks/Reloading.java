@@ -1,5 +1,6 @@
 package cz.minestrike.me.limeth.minestrike.equipment.guns.tasks;
 
+import com.google.common.collect.Lists;
 import cz.minestrike.me.limeth.minestrike.MSPlayer;
 import cz.minestrike.me.limeth.minestrike.MineStrike;
 import cz.minestrike.me.limeth.minestrike.equipment.containers.Container;
@@ -7,9 +8,12 @@ import cz.minestrike.me.limeth.minestrike.equipment.containers.HotbarContainer;
 import cz.minestrike.me.limeth.minestrike.equipment.guns.Gun;
 import cz.minestrike.me.limeth.minestrike.equipment.guns.GunTask;
 import cz.minestrike.me.limeth.minestrike.equipment.guns.type.GunType;
+import cz.minestrike.me.limeth.minestrike.util.SoundSequence;
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 
 import javax.annotation.Nonnull;
+import java.util.List;
 
 public class Reloading extends GunTask
 {
@@ -61,8 +65,14 @@ public class Reloading extends GunTask
 	{
 		Gun gun = getGun();
 		MSPlayer msPlayer = getMSPlayer();
+		List<Player> player = Lists.newArrayList(msPlayer.getPlayer());
 		HotbarContainer container = msPlayer.getHotbarContainer();
-		
+		GunType gunType = gun.getEquipment();
+		SoundSequence sequence = gunType.getReloadingSoundSequence();
+
+		if(sequence != null)
+			sequence.play(() -> player);
+
 		gun.setReloading(true);
 		container.apply(msPlayer, gun);
 	}

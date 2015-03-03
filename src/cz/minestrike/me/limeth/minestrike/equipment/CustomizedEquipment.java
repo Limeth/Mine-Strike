@@ -165,7 +165,13 @@ public class CustomizedEquipment<T extends Equipment> implements Equipment
 	{
 		return equipment.leftClick(msPlayer, clickedBlock);
 	}
-	
+
+	@Override
+	public void dropButtonPress(MSPlayer msPlayer)
+	{
+		equipment.dropButtonPress(msPlayer);
+	}
+
 	public static final ItemButton BUTTON_EQUIP = new ItemButton()
 	{
 		@Override
@@ -173,37 +179,36 @@ public class CustomizedEquipment<T extends Equipment> implements Equipment
 		{
 			ItemStack itemStack = new ItemStack(MSConstant.MATERIAL_CONFIRM);
 			ItemMeta im = itemStack.getItemMeta();
-			
+
 			im.setDisplayName(Translation.BUTTON_INVENTORY_EQUIP.getMessage());
 			itemStack.setItemMeta(im);
-			
+
 			return itemStack;
 		}
-		
+
 		@Override
 		public void onClick(Inventory inv, MSPlayer msPlayer)
 		{
 			InventoryContainer invContainer = msPlayer.getInventoryContainer();
 			int selectionIndex = msPlayer.getCustomData(InventoryContainer.SELECTION_INDEX_DATA);
 			Equipment selectedEquipment = invContainer.getItem(selectionIndex);
-			
+
 			if(!(selectedEquipment instanceof CustomizedEquipment))
 			{
 				SoundManager.play(ClickSound.INVALID.getAbsolouteName(), msPlayer.getPlayer());
 				throw new RuntimeException("The equipment isn't an instance of customized equipment.");
 			}
-			
-			@SuppressWarnings("unchecked")
-			CustomizedEquipment<? extends Equipment> ce = (CustomizedEquipment<? extends Equipment>) selectedEquipment;
+
+			@SuppressWarnings("unchecked") CustomizedEquipment<? extends Equipment> ce = (CustomizedEquipment<? extends Equipment>) selectedEquipment;
 			Equipment source = ce.getSource();
-			
+
 			invContainer.unequip(source);
 			ce.setEquipped(true);
 			InventoryContainer.equipSelection(inv, msPlayer);
 			SoundManager.play(ClickSound.ACCEPT.getAbsolouteName(), msPlayer.getPlayer());
 		}
 	};
-	
+
 	public static final ItemButton BUTTON_UNEQUIP = new ItemButton()
 	{
 		@Override
@@ -211,35 +216,34 @@ public class CustomizedEquipment<T extends Equipment> implements Equipment
 		{
 			ItemStack itemStack = new ItemStack(MSConstant.MATERIAL_DENY);
 			ItemMeta im = itemStack.getItemMeta();
-			
+
 			im.setDisplayName(Translation.BUTTON_INVENTORY_UNEQUIP.getMessage());
 			itemStack.setItemMeta(im);
-			
+
 			return itemStack;
 		}
-		
+
 		@Override
 		public void onClick(Inventory inv, MSPlayer msPlayer)
 		{
 			InventoryContainer invContainer = msPlayer.getInventoryContainer();
 			int selectionIndex = msPlayer.getCustomData(InventoryContainer.SELECTION_INDEX_DATA);
 			Equipment selectedEquipment = invContainer.getItem(selectionIndex);
-			
+
 			if(!(selectedEquipment instanceof CustomizedEquipment))
 			{
 				SoundManager.play(ClickSound.INVALID.getAbsolouteName(), msPlayer.getPlayer());
 				throw new RuntimeException("The equipment isn't an instance of customized equipment.");
 			}
-			
-			@SuppressWarnings("unchecked")
-			CustomizedEquipment<? extends Equipment> ce = (CustomizedEquipment<? extends Equipment>) selectedEquipment;
-			
+
+			@SuppressWarnings("unchecked") CustomizedEquipment<? extends Equipment> ce = (CustomizedEquipment<? extends Equipment>) selectedEquipment;
+
 			ce.setEquipped(false);
 			InventoryContainer.equipSelection(inv, msPlayer);
 			SoundManager.play(ClickSound.ACCEPT.getAbsolouteName(), msPlayer.getPlayer());
 		}
 	};
-	
+
 	@Override
 	public FilledArrayList<ItemButton> getSelectionButtons(MSPlayer msPlayer)
 	{
@@ -248,9 +252,9 @@ public class CustomizedEquipment<T extends Equipment> implements Equipment
 		Equipment source = getSource();
 		Equipment equippedEquipment = invContainer.getEquippedCustomizedEquipment(source);
 		boolean isEquipped = equippedEquipment != null && equippedEquipment.equals(this);
-		
+
 		buttons.add(isEquipped ? BUTTON_UNEQUIP : BUTTON_EQUIP);
-		
+
 		return buttons;
 	}
 

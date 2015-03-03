@@ -513,7 +513,12 @@ public enum GunTypeOld implements Equipment
 	{
 		return false;
 	}
-	
+
+	@Override
+	public void dropButtonPress(MSPlayer msPlayer)
+	{
+	}
+
 	@Override
 	public String getDefaultSkin(MSPlayer msPlayer)
 	{

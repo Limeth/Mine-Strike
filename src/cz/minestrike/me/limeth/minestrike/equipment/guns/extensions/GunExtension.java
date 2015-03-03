@@ -21,7 +21,7 @@ public class GunExtension
 	
 	public boolean onRightClick(MSPlayer msPlayer)
 	{
-		msPlayer.pressTrigger(gun);
+		gun.pressTrigger(msPlayer);
 		return true;
 	}
 	

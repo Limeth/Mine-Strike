@@ -21,6 +21,8 @@ public interface Equipment
 	 * @return setCancelled
 	 */
 	boolean leftClick(MSPlayer msPlayer, Block clickedBlock);
+
+	void dropButtonPress(MSPlayer msPlayer);
 	ItemStack newItemStack(MSPlayer msPlayer);
 	String getDisplayName();
 	String getSoundDrawing();

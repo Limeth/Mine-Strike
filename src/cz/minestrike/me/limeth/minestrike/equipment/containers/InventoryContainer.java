@@ -7,7 +7,7 @@ import cz.minestrike.me.limeth.minestrike.Translation;
 import cz.minestrike.me.limeth.minestrike.equipment.*;
 import cz.minestrike.me.limeth.minestrike.equipment.guns.Gun;
 import cz.minestrike.me.limeth.minestrike.equipment.guns.type.pistols.CZ75;
-import cz.minestrike.me.limeth.minestrike.equipment.guns.type.pistols.UspS;
+import cz.minestrike.me.limeth.minestrike.equipment.guns.type.pistols.USPS;
 import cz.minestrike.me.limeth.minestrike.equipment.guns.type.rifles.automatic.M4A1S;
 import cz.minestrike.me.limeth.minestrike.util.PlayerUtil;
 import cz.minestrike.me.limeth.minestrike.util.SoundManager;
@@ -25,7 +25,7 @@ import java.util.Collection;
 
 public class InventoryContainer extends ScalableContainer
 {
-	public static final Equipment[] DEFAULT_EQUIPMENT = {new Gun(UspS.getInstance()), new Gun(CZ75.getInstance()), new Gun(M4A1S.getInstance())};
+	public static final Equipment[] DEFAULT_EQUIPMENT = {new Gun(USPS.getInstance()), new Gun(CZ75.getInstance()), new Gun(M4A1S.getInstance())};
 
 	public InventoryContainer(Collection<Equipment> equipment)
 	{

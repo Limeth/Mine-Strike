@@ -12,7 +12,7 @@ public class SSG08 extends ScopeGunType
 
 	private SSG08()
 	{
-		super("SSG_08", "SSG 08", "ssg08", null, true, false, 3.6F, 1.700F, 88, 0.980F, 1.250F, 3, MoneyAward.KILL_OTHER_COMPETITIVE.getAmount(), MoneyAward.KILL_OTHER_CASUAL.getAmount(), 230, 10, 90, 2000, 8192, false, 0.35F, 0.40F, 0.30F, 23.78F, 31.70F, 22.92F, 123.45F, 0.716F, 0.215F, 95.490F, 0.055783F, 0.142096F, 20, 33F, 15, 1, false, 0.30F, 3.00F, 4.00F, 22.92F, 123.45F, 0.716F, 0.215F, 95.490F, 0, 0F, 0, 1);
+		super("SSG_08", "SSG 08", "ssg08", null, true, false, 3.6F, 1.700F, 88, 0.980F, 1.250F, 3, MoneyAward.KILL_OTHER_COMPETITIVE.getAmount(), MoneyAward.KILL_OTHER_CASUAL.getAmount(), 230, 10, 90, 2000, 8192, false, 0.35F, 0.40F, 0.30F, 23.78F, 31.70F, 22.92F, 123.45F, 0.716F, 0.215F, 95.490F, 0.055783F, 0.142096F, 20, 33F, 15, 1, false, 0.30F, 3.00F, 4.00F, 22.92F, 123.45F, 0.716F, 0.215F, 95.490F, 0, 0F, 0, 1.250F, 1);
 	}
 
 	public static SSG08 getInstance()

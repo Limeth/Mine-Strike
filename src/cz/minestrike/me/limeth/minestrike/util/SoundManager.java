@@ -1,14 +1,9 @@
 package cz.minestrike.me.limeth.minestrike.util;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
+import cz.minestrike.me.limeth.minestrike.util.collections.FilledHashSet;
 import net.minecraft.server.v1_7_R4.EntityPlayer;
 import net.minecraft.server.v1_7_R4.PacketPlayOutNamedSoundEffect;
 import net.minecraft.server.v1_7_R4.PlayerConnection;
-
 import org.bukkit.Location;
 import org.bukkit.craftbukkit.libs.com.google.gson.Gson;
 import org.bukkit.craftbukkit.libs.com.google.gson.GsonBuilder;
@@ -17,7 +12,10 @@ import org.bukkit.craftbukkit.libs.com.google.gson.JsonObject;
 import org.bukkit.craftbukkit.v1_7_R4.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 
-import cz.minestrike.me.limeth.minestrike.util.collections.FilledHashSet;
+import java.io.File;
+import java.io.IOException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class SoundManager
 {
@@ -28,45 +26,95 @@ public class SoundManager
 			CraftPlayer craftPlayer = (CraftPlayer) player;
 			EntityPlayer nmsPlayer = craftPlayer.getHandle();
 			PlayerConnection connection = nmsPlayer.playerConnection;
-			
+
 			connection.sendPacket(packet);
 		}
 	}
-	
+
+	public static void play(PacketPlayOutNamedSoundEffect packet, Iterable<Player> players)
+	{
+		for(Player player : players)
+		{
+			CraftPlayer craftPlayer = (CraftPlayer) player;
+			EntityPlayer nmsPlayer = craftPlayer.getHandle();
+			PlayerConnection connection = nmsPlayer.playerConnection;
+
+			connection.sendPacket(packet);
+		}
+	}
+
 	public static void play(String path, float volume, float pitch, Player... players)
 	{
 		for(Player player : players)
 		{
 			Location loc = player.getEyeLocation();
 			PacketPlayOutNamedSoundEffect packet = buildPacket(path, loc, volume, pitch);
-			
+
 			play(packet, player);
 		}
 	}
-	
+
+	public static void play(String path, float volume, float pitch, Iterable<Player> players)
+	{
+		for(Player player : players)
+		{
+			Location loc = player.getEyeLocation();
+			PacketPlayOutNamedSoundEffect packet = buildPacket(path, loc, volume, pitch);
+
+			play(packet, player);
+		}
+	}
+
 	public static void play(String path, Location loc, float volume, float pitch, Player... players)
 	{
 		PacketPlayOutNamedSoundEffect packet = buildPacket(path, loc, volume, pitch);
-		
+
 		play(packet, players);
 	}
-	
+
+	public static void play(String path, Location loc, float volume, float pitch, Iterable<Player> players)
+	{
+		PacketPlayOutNamedSoundEffect packet = buildPacket(path, loc, volume, pitch);
+
+		play(packet, players);
+	}
+
 	public static void play(String path, float volume, Player... players)
 	{
 		play(path, volume, 1, players);
 	}
-	
+
+	public static void play(String path, float volume, Iterable<Player> players)
+	{
+		play(path, volume, 1, players);
+	}
+
 	public static void play(String path, Location loc, float volume, Player... players)
 	{
 		play(path, loc, volume, 1, players);
 	}
-	
+
+	public static void play(String path, Location loc, float volume, Iterable<Player> players)
+	{
+		play(path, loc, volume, 1, players);
+	}
+
 	public static void play(String path, Player... players)
 	{
 		play(path, 1, players);
 	}
-	
+
+	public static void play(String path, Iterable<Player> players)
+	{
+		play(path, 1, players);
+	}
+
 	public static void play(String path, Location loc, Player... players)
+	{
+		play(path, loc, 1, players);
+	}
+
+	public static void play(String path, Location loc, Iterable<Player> players)
 	{
 		play(path, loc, 1, players);
 	}

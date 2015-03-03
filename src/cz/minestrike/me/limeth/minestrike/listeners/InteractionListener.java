@@ -81,6 +81,7 @@ public class InteractionListener implements Listener
 		Runnable runnable = () -> {
 			player.setFoodLevel(5);
 			msPlayer.updateMovementSpeed();
+			msPlayer.clearPotionEffects();
 		};
 
 		scheduler.scheduleSyncDelayedTask(MineStrike.getInstance(), runnable);

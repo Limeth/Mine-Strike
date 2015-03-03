@@ -79,6 +79,8 @@ public enum Translation
 	EQUIPMENT_RARITY_LEGENDARY("Legendary", "Legendární"),
 	EQUIPMENT_RADAR("&5Radar"),
 	EQUIPMENT_KNIFE("&fKnife", "&fNuz"),
+	EQUIPMENT_BURSTFIRE_ENABLED("&7Burstfire mode enabled", "&7Burstfire mód povolen"),
+	EQUIPMENT_BURSTFIRE_DISABLED("&7Burstfire mode disabled", "&7Burstfire mód zakázán"),
 
 	BUTTON_INVENTORY_USE("Open Inventory", "Otevrít Inventár"),
 	BUTTON_INVENTORY_BACK("&fBack", "&fZpet"),

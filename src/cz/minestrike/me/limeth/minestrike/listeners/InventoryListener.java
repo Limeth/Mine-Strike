@@ -1,5 +1,9 @@
 package cz.minestrike.me.limeth.minestrike.listeners;
 
+import cz.minestrike.me.limeth.minestrike.MSPlayer;
+import cz.minestrike.me.limeth.minestrike.equipment.Equipment;
+import cz.minestrike.me.limeth.minestrike.equipment.containers.Container;
+import cz.minestrike.me.limeth.minestrike.util.SoundManager;
 import org.bukkit.Location;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
@@ -9,12 +13,6 @@ import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerItemHeldEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
-
-import cz.minestrike.me.limeth.minestrike.MSPlayer;
-import cz.minestrike.me.limeth.minestrike.equipment.Equipment;
-import cz.minestrike.me.limeth.minestrike.equipment.containers.Container;
-import cz.minestrike.me.limeth.minestrike.equipment.guns.Gun;
-import cz.minestrike.me.limeth.minestrike.util.SoundManager;
 
 public class InventoryListener implements Listener
 {
@@ -36,14 +34,7 @@ public class InventoryListener implements Listener
 		
 		item.remove();
 		inv.setItem(slot, is);
-		
-		if(!(equipment instanceof Gun))
-			return;
-		
-		Gun gun = (Gun) equipment;
-		
-		if(gun != null && gun.canBeReloaded())
-			msPlayer.reloadGun(gun);
+		equipment.dropButtonPress(msPlayer);
 	}
 	
 	@EventHandler

@@ -177,6 +177,11 @@ public class SimpleEquipment implements Equipment
 	}
 
 	@Override
+	public void dropButtonPress(MSPlayer msPlayer)
+	{
+	}
+
+	@Override
 	public EquipmentCategory getCategory()
 	{
 		return category;

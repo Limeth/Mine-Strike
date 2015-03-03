@@ -7,6 +7,10 @@ import cz.minestrike.me.limeth.minestrike.equipment.Equipment;
 import cz.minestrike.me.limeth.minestrike.equipment.EquipmentCategory;
 import cz.minestrike.me.limeth.minestrike.equipment.ItemButton;
 import cz.minestrike.me.limeth.minestrike.equipment.guns.Gun;
+import cz.minestrike.me.limeth.minestrike.equipment.guns.GunManager;
+import cz.minestrike.me.limeth.minestrike.equipment.guns.GunTask;
+import cz.minestrike.me.limeth.minestrike.equipment.guns.tasks.Firing;
+import cz.minestrike.me.limeth.minestrike.equipment.guns.tasks.Reloading;
 import cz.minestrike.me.limeth.minestrike.equipment.guns.type.lmgs.M249;
 import cz.minestrike.me.limeth.minestrike.equipment.guns.type.lmgs.Negev;
 import cz.minestrike.me.limeth.minestrike.equipment.guns.type.pistols.*;
@@ -20,12 +24,25 @@ import cz.minestrike.me.limeth.minestrike.equipment.guns.type.shotguns.Nova;
 import cz.minestrike.me.limeth.minestrike.equipment.guns.type.shotguns.SawedOff;
 import cz.minestrike.me.limeth.minestrike.equipment.guns.type.shotguns.XM1014;
 import cz.minestrike.me.limeth.minestrike.equipment.guns.type.smgs.*;
+import cz.minestrike.me.limeth.minestrike.scene.Scene;
+import cz.minestrike.me.limeth.minestrike.util.BoundUtil;
+import cz.minestrike.me.limeth.minestrike.util.SoundManager;
+import cz.minestrike.me.limeth.minestrike.util.SoundSequence;
 import cz.minestrike.me.limeth.minestrike.util.collections.FilledArrayList;
+import net.minecraft.server.v1_7_R4.EnumMovingObjectType;
+import net.minecraft.server.v1_7_R4.MovingObjectPosition;
+import org.bukkit.Location;
+import org.bukkit.World;
+import org.bukkit.block.Block;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.PlayerInventory;
+import org.bukkit.util.Vector;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -45,7 +62,7 @@ public abstract class GunType implements Equipment
 				FiveSeven.class,
 				Glock.class,
 				P2000.class,
-				UspS.class,
+				USPS.class,
 				P250.class,
 				CZ75.class,
 				TEC9.class,
@@ -120,6 +137,7 @@ public abstract class GunType implements Equipment
 
 	public abstract String getSoundShooting(MSPlayer msPlayer);
 	public abstract String getName();
+	public abstract SoundSequence getReloadingSoundSequence();
 	public abstract String getDirectoryName(MSPlayer msPlayer);
 	public abstract String getTextureName();
 	public abstract boolean isPrimary(MSPlayer msPlayer);
@@ -168,6 +186,131 @@ public abstract class GunType implements Equipment
 	}
 
 	public void initialize(Gun gun) {}
+
+	public void pressTrigger(MSPlayer msPlayer)
+	{
+		Gun gun = msPlayer.getEquipmentInHand();
+
+		if(!gun.isLoaded())
+			return;
+
+		GunTask gunTask = msPlayer.getGunTask();
+
+		if(!gun.isAutomatic() && !gun.isShotDelaySatisfied(msPlayer))
+			return;
+
+		if(isLoadingContinuously(msPlayer) && gunTask instanceof Reloading)
+			gunTask.remove();
+
+		if(gun.isAutomatic())
+		{
+			if(gunTask == null)
+			{
+				gunTask = new Firing(msPlayer, gun).startLoop();
+
+				msPlayer.setGunTask(gunTask);
+			}
+			else if(gunTask instanceof Firing)
+				((Firing) gunTask).setLastTimeFired(System.currentTimeMillis());
+		}
+		else
+		{
+			if(gunTask != null)
+				if(gunTask instanceof Firing)
+					gunTask.remove();
+				else
+					return;
+
+			gun.decreaseLoadedBullets();
+			shoot(msPlayer);
+			gun.apply(msPlayer.getItemInHand(), msPlayer);
+		}
+	}
+
+	public void shoot(MSPlayer msPlayer)
+	{
+		Gun gun = msPlayer.getEquipmentInHand();
+		int amount = gun.getShootingBullets();
+		Player player = msPlayer.getPlayer();
+		Location location = player.getEyeLocation();
+		String shootSound = gun.getSoundShooting(msPlayer);
+		Scene scene = msPlayer.getScene();
+		Set<Player> playersInScene = scene.getBukkitPlayers();
+		World world = location.getWorld();
+		int range = getRange(msPlayer);
+
+		SoundManager.play(shootSound, location, playersInScene);
+
+		for(int i = 0; i < amount; i++)
+		{
+			Vector inaccuracyDirection = msPlayer.getInaccuracyVector(gun);
+			Vector direction = location.getDirection();
+			msPlayer.modifyByRecoil(direction, gun);
+			direction.add(inaccuracyDirection);
+			direction.multiply(range / direction.length()); //Normalize to range
+			msPlayer.increaseRecoil(getRecoilMagnitude(msPlayer));
+
+			MovingObjectPosition[] obstacles = BoundUtil.findObstaclesByMotion(player, location, direction);
+			Location endLocation = null;
+
+			if(obstacles.length > 0)
+			{
+				MovingObjectPosition lastObstacle = obstacles[obstacles.length - 1];
+
+				GunManager.onBulletHit(obstacles, msPlayer);
+
+				if(lastObstacle.type == EnumMovingObjectType.BLOCK)
+					endLocation = new Location(world, lastObstacle.pos.a, lastObstacle.pos.b, lastObstacle.pos.c);
+			}
+
+			if(endLocation == null)
+				endLocation = location.clone().add(direction);
+
+			GunManager.showTrace(location, endLocation);
+		}
+
+		gun.setLastBulletShotAt();
+	}
+
+	public void reload(MSPlayer msPlayer)
+	{
+		Gun gun = msPlayer.getEquipmentInHand();
+		Player player = msPlayer.getPlayer();
+		PlayerInventory inv = player.getInventory();
+		int slot = inv.getHeldItemSlot();
+
+		gun.setReloading(true);
+
+		ItemStack is = gun.newItemStack(msPlayer);
+
+		inv.setItem(slot, is);
+
+		Reloading reloading = new Reloading(msPlayer, gun).startLoop();
+
+		msPlayer.setGunTask(reloading);
+	}
+
+	@Override
+	public boolean rightClick(MSPlayer msPlayer, Block clickedBlock)
+	{
+		pressTrigger(msPlayer);
+		return true;
+	}
+
+	@Override
+	public boolean leftClick(MSPlayer msPlayer, Block clickedBlock)
+	{
+		return false;
+	}
+
+	@Override
+	public void dropButtonPress(MSPlayer msPlayer)
+	{
+		Gun gun = msPlayer.getEquipmentInHand();
+
+		if(gun.canBeReloaded())
+			reload(msPlayer);
+	}
 
 	public void apply(ItemStack itemStack, MSPlayer msPlayer, Gun gun) {}
 

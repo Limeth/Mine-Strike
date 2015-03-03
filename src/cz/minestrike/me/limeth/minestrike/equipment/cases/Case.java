@@ -72,7 +72,7 @@ public enum Case implements Equipment
 
 							.unique(new Gun(G3SG1.getInstance(), ChatColor.LIGHT_PURPLE + "Subwoofer", "SUBWOOFER", Color.fromRGB(255, 0, 127))).unique(new Gun(Negev.getInstance(), ChatColor.YELLOW + "Retro", "RETRO", Color.YELLOW))
 
-							.rare(new Gun(FAMAS.getInstance(), ChatColor.WHITE + "Tuxedo", "TUXEDO", Color.WHITE)).rare(new Gun(UspS.getInstance(), ChatColor.AQUA + "Candy", "CANDY", Color.AQUA))
+							.rare(new Gun(FAMAS.getInstance(), ChatColor.WHITE + "Tuxedo", "TUXEDO", Color.WHITE)).rare(new Gun(USPS.getInstance(), ChatColor.AQUA + "Candy", "CANDY", Color.AQUA))
 
 							.valuable(new Gun(GalilAR.getInstance(), ChatColor.GOLD + "Tigris", "TIGRIS", Color.ORANGE)).valuable(new Gun(P90.getInstance(), ChatColor.AQUA + "Lightning", "LIGHTNING", Color.AQUA))
 
@@ -230,6 +230,11 @@ public enum Case implements Equipment
 	public boolean leftClick(MSPlayer msPlayer, Block clickedBlock)
 	{
 		return false;
+	}
+
+	@Override
+	public void dropButtonPress(MSPlayer msPlayer)
+	{
 	}
 
 	@Override

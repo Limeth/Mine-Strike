@@ -8,10 +8,11 @@ import java.util.Map;
 /**
  * @author Limeth
  */
+@SuppressWarnings("unused")
 public class DoubleModeGunType extends SimpleGunType
 {
 	private static final String DATA_SECOND_MODE = "type.mode.second";
-	private final float spreadAlt, inaccuracySneakAlt, inaccuracyStandAlt, inaccuracyFireAlt, inaccuracyMoveAlt, inaccuracyJumpAlt, inaccuracyLandAlt, inaccuracyLadderAlt, recoilMagnitudeAlt;
+	private final float spreadAlt, inaccuracySneakAlt, inaccuracyStandAlt, inaccuracyFireAlt, inaccuracyMoveAlt, inaccuracyJumpAlt, inaccuracyLandAlt, inaccuracyLadderAlt, recoilMagnitudeAlt, cycleTimeAlt;
 	private final int recoilAngleVarianceAlt, recoilMagnitudeVarianceAlt, bulletsAlt;
 	private final boolean automaticAlt;
 
@@ -28,7 +29,7 @@ public class DoubleModeGunType extends SimpleGunType
 	                            float inaccuracySneakAlt, float inaccuracyStandAlt, float inaccuracyFireAlt,
 	                            float inaccuracyMoveAlt, float inaccuracyJumpAlt, float inaccuracyLandAlt,
 	                            float inaccuracyLadderAlt, int recoilAngleVarianceAlt, float recoilMagnitudeAlt,
-	                            int recoilMagnitudeVarianceAlt, int bulletsAlt)
+	                            int recoilMagnitudeVarianceAlt, float cycleTimeAlt, int bulletsAlt)
 	{
 		super(gunId, name, directoryName, textureName, primary, loadingContinuously, reloadTime, weaponArmorRatio, damage, rangeModifier, cycleTime, penetration, killAwardCompetitive, killAwardCasual, movementSpeed, clipSize, spareCapacity, price, range, automatic, flinchVelocityModifierLarge, flinchVelocityModifierSmall, spread, inaccuracySneak, inaccuracyStand, inaccuracyFire, inaccuracyMove, inaccuracyJump, inaccuracyLand, inaccuracyLadder, recoveryTimeSneak, recoveryTimeStand, recoilAngleVariance, recoilMagnitude, recoilMagnitudeVariance, bullets);
 		this.spreadAlt = spreadAlt;
@@ -42,6 +43,7 @@ public class DoubleModeGunType extends SimpleGunType
 		this.recoilMagnitudeAlt = recoilMagnitudeAlt;
 		this.recoilAngleVarianceAlt = recoilAngleVarianceAlt;
 		this.recoilMagnitudeVarianceAlt = recoilMagnitudeVarianceAlt;
+		this.cycleTimeAlt = cycleTimeAlt * 20F;
 		this.bulletsAlt = bulletsAlt;
 		this.automaticAlt = automaticAlt;
 	}
@@ -59,7 +61,7 @@ public class DoubleModeGunType extends SimpleGunType
 		     killAwardCompetitive, killAwardCasual, movementSpeed, clipSize, spareCapacity, price, range, automatic, flinchVelocityModifierLarge, flinchVelocityModifierSmall,
 		     spread, inaccuracySneak, inaccuracyStand, inaccuracyFire, inaccuracyMove, inaccuracyJump, inaccuracyLand, inaccuracyLadder, recoveryTimeSneak, recoveryTimeStand,
 		     recoilAngleVariance, recoilMagnitude, recoilMagnitudeVariance, bullets, automatic, spread, inaccuracySneak, inaccuracyStand, inaccuracyFire,
-		     inaccuracyMove, inaccuracyJump, inaccuracyLand, inaccuracyLadder, recoilAngleVariance, recoilMagnitude, recoilMagnitudeVariance, bullets);
+		     inaccuracyMove, inaccuracyJump, inaccuracyLand, inaccuracyLadder, recoilAngleVariance, recoilMagnitude, recoilMagnitudeVariance, cycleTime, bullets);
 	}
 
 	public static boolean isSecondMode(MSPlayer msPlayer)
@@ -222,6 +224,17 @@ public class DoubleModeGunType extends SimpleGunType
 	public int getRecoilMagnitudeVarianceAlt(MSPlayer msPlayer)
 	{
 		return recoilMagnitudeVarianceAlt;
+	}
+
+	@Override
+	public float getCycleTime(MSPlayer msPlayer)
+	{
+		return isSecondMode(msPlayer) ? getCycleTimeAlt(msPlayer) : super.getCycleTime(msPlayer);
+	}
+
+	public float getCycleTimeAlt(MSPlayer msPlayer)
+	{
+		return cycleTimeAlt;
 	}
 
 	@Override

@@ -67,7 +67,7 @@ public class BurstFireExtension extends GunExtension
 		HotbarContainer container = msPlayer.getHotbarContainer();
 		
 		gun.decreaseLoadedBullets();
-		msPlayer.shoot(gun);
+		gun.getEquipment().shoot(msPlayer);
 		container.apply(msPlayer, gun);
 	}
 	

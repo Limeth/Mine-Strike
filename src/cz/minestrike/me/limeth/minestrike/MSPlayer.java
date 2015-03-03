@@ -43,6 +43,7 @@ import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.plugin.PluginManager;
+import org.bukkit.potion.PotionEffect;
 import org.bukkit.util.Vector;
 
 import java.sql.SQLException;
@@ -567,74 +568,7 @@ public class MSPlayer
 	{
 		getPlayer().sendMessage(string);
 	}
-	
-	public void pressTrigger(Gun gun)
-	{
-		if(!gun.isLoaded())
-			return;
-		
-		GunType gunType = gun.getEquipment();
-		
-		if(!gun.isAutomatic() && !gun.isShotDelaySatisfied(this))
-			return;
-		
-		if(gunType.isLoadingContinuously(this) && gunTask instanceof Reloading)
-			gunTask.remove();
-		
-		if(gun.isAutomatic())
-		{
-			if(gunTask == null)
-				gunTask = new Firing(this, gun).startLoop();
-			else if(gunTask instanceof Firing)
-			{
-				((Firing) gunTask).setLastTimeFired(System.currentTimeMillis());
-			}
-		}
-		else
-		{
-			if(gunTask != null)
-				if(gunTask instanceof Firing)
-					gunTask.remove();
-				else
-					return;
-			
-			Player player = getPlayer();
-			
-			gun.decreaseLoadedBullets();
-			shoot(gun);
-			gun.apply(player.getItemInHand(), this);
-		}
-	}
-	
-	public void reloadGun(Gun gun)
-	{
-		Player player = getPlayer();
-		PlayerInventory inv = player.getInventory();
-		int slot = inv.getHeldItemSlot();
-		
-		gun.setReloading(true);
-		
-		ItemStack is = gun.newItemStack(this);
-		
-		inv.setItem(slot, is);
-		setGunTask(new Reloading(this, gun).startLoop());
-	}
-	
-	public void shoot(Gun gun)
-	{
-		Player player = getPlayer();
-		
-		if(player == null)
-			return;
-		
-		Location location = player.getEyeLocation();
-		String shootSound = gun.getSoundShooting(this);
-		
-		gun.setLastBulletShotAt();
-		SoundManager.play(shootSound, location, Bukkit.getOnlinePlayers());
-		gun.shoot(this);
-	}
-	
+
 	public void setCustomData(String key, Object value)
 	{
 		int index = 0;
@@ -1213,10 +1147,20 @@ var rotateX3D = function(theta) {
 	{
 		return hotbarContainer;
 	}
-	
-	public Equipment getEquipmentInHand()
+
+	@SuppressWarnings("unchecked")
+	public <T extends Equipment> T getEquipmentInHand() throws IllegalStateException
 	{
-		return hotbarContainer.getHeld(this);
+		return (T) hotbarContainer.getHeld(this);
+	}
+
+	public ItemStack getItemInHand()
+	{
+		Player player = getPlayer();
+		PlayerInventory inv = player.getInventory();
+		int slot = getHeldItemSlot();
+
+		return inv.getItem(slot);
 	}
 	
 	public double getReceivedDamage(MSPlayer msPlayer)
@@ -1337,5 +1281,13 @@ var rotateX3D = function(theta) {
 	public void setHeldItemSlot(int heldItemSlot)
 	{
 		this.heldItemSlot = heldItemSlot;
+	}
+
+	public void clearPotionEffects()
+	{
+		Player player = getPlayer();
+
+		for(PotionEffect effect : player.getActivePotionEffects())
+			player.removePotionEffect(effect.getType());
 	}
 }

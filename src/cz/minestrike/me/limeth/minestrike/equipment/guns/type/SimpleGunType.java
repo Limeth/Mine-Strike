@@ -3,7 +3,7 @@ package cz.minestrike.me.limeth.minestrike.equipment.guns.type;
 import cz.minestrike.me.limeth.minestrike.MSConstant;
 import cz.minestrike.me.limeth.minestrike.MSPlayer;
 import cz.minestrike.me.limeth.minestrike.equipment.guns.Gun;
-import org.bukkit.block.Block;
+import cz.minestrike.me.limeth.minestrike.util.SoundSequence;
 
 /**
  * @author Limeth
@@ -67,6 +67,12 @@ public class SimpleGunType extends GunType
 	}
 
 	@Override
+	public SoundSequence getReloadingSoundSequence()
+	{
+		return null;
+	}
+
+	@Override
 	public String getSoundShooting(MSPlayer msPlayer)
 	{
 		return "projectsurvive:counterstrike.weapons." + directoryName + "." + directoryName;
@@ -76,19 +82,6 @@ public class SimpleGunType extends GunType
 	public String getSoundDrawing()
 	{
 		return "projectsurvive:counterstrike.weapons." + directoryName + "." + directoryName + "_draw";
-	}
-
-	@Override
-	public boolean rightClick(MSPlayer msPlayer, Block clickedBlock)
-	{
-		msPlayer.pressTrigger((Gun) msPlayer.getEquipmentInHand());
-		return true;
-	}
-
-	@Override
-	public boolean leftClick(MSPlayer msPlayer, Block clickedBlock)
-	{
-		return false;
 	}
 
 	@Override

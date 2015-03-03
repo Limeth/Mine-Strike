@@ -121,7 +121,12 @@ public class CaseKey implements Equipment
 	{
 		return false;
 	}
-	
+
+	@Override
+	public void dropButtonPress(MSPlayer msPlayer)
+	{
+	}
+
 	@Override
 	public void onSelect(MSPlayer msPlayer)
 	{
