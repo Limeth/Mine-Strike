@@ -62,7 +62,7 @@ public abstract class ScopeGunType extends DoubleModeGunType
 			player.removePotionEffect(PotionEffectType.SLOW);
 			setSecondMode(gun, false);
 
-			if(previousMode)
+			if(previousMode && isFrameShown())
 				msPlayer.updateInventory();
 		}
 		else
@@ -70,7 +70,7 @@ public abstract class ScopeGunType extends DoubleModeGunType
 			player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, Integer.MAX_VALUE, zoom, true), true);
 			setSecondMode(gun, true);
 
-			if(!previousMode)
+			if(!previousMode && isFrameShown())
 			{
 				CraftPlayer craftPlayer = ((CraftPlayer) msPlayer.getPlayer());
 				EntityPlayer nmsPlayer = craftPlayer.getHandle();
