@@ -279,9 +279,9 @@ public class Gun extends CustomizedEquipment<GunType>
 		this.reloading = reloading;
 	}
 
-	public String getSoundShooting(MSPlayer msPlayer)
+	public String getSoundShooting()
 	{
-		return getEquipment().getSoundShooting(msPlayer);
+		return getEquipment().getSoundShooting(this);
 	}
 
 	@Override

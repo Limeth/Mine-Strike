@@ -151,7 +151,7 @@ public enum GrenadeType implements Equipment, DamageSource
 						return false;
 					}
 
-					final String sound = gun.getSoundShooting(msPlayer);
+					final String sound = gun.getSoundShooting();
 
 					new EffectHandler(grenade, sound).start();
 

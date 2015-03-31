@@ -135,7 +135,7 @@ public abstract class GunType implements Equipment
 		this.gunId = gunId;
 	}
 
-	public abstract String getSoundShooting(MSPlayer msPlayer);
+	public abstract String getSoundShooting(Gun gun);
 	public abstract String getName();
 	public abstract SoundSequence getReloadingSoundSequence();
 	public abstract String getDirectoryName(MSPlayer msPlayer);
@@ -233,7 +233,7 @@ public abstract class GunType implements Equipment
 		int amount = gun.getShootingBullets();
 		Player player = msPlayer.getPlayer();
 		Location location = player.getEyeLocation();
-		String shootSound = gun.getSoundShooting(msPlayer);
+		String shootSound = gun.getSoundShooting();
 		Scene scene = msPlayer.getScene();
 		Set<Player> playersInScene = scene.getBukkitPlayers();
 		World world = location.getWorld();

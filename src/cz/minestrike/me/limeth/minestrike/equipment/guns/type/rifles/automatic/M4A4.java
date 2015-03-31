@@ -1,6 +1,6 @@
 package cz.minestrike.me.limeth.minestrike.equipment.guns.type.rifles.automatic;
 
-import cz.minestrike.me.limeth.minestrike.MSPlayer;
+import cz.minestrike.me.limeth.minestrike.equipment.guns.Gun;
 import cz.minestrike.me.limeth.minestrike.equipment.guns.type.SimpleGunType;
 import cz.minestrike.me.limeth.minestrike.scene.games.MoneyAward;
 
@@ -22,8 +22,8 @@ public class M4A4 extends SimpleGunType
 	}
 
 	@Override
-	public String getSoundShooting(MSPlayer msPlayer)
+	public String getSoundShooting(Gun gun)
 	{
-		return super.getSoundShooting(msPlayer) + "_unsil";
+		return super.getSoundShooting(gun) + "_unsil";
 	}
 }

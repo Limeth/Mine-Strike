@@ -31,10 +31,9 @@ public class SilencableGunType extends DoubleModeGunType
 	}
 
 	@Override
-	public String getSoundShooting(MSPlayer msPlayer)
+	public String getSoundShooting(Gun gun)
 	{
-		String sound = super.getSoundShooting(msPlayer);
-		Gun gun = msPlayer.getEquipmentInHand();
+		String sound = super.getSoundShooting(gun);
 
 		if(!isSecondMode(gun))
 			sound += "_unsil";
@@ -50,7 +49,7 @@ public class SilencableGunType extends DoubleModeGunType
 
 		Gun gun = msPlayer.getEquipmentInHand();
 		boolean silenced = isSecondMode(gun);
-		String sound = super.getSoundShooting(msPlayer) + "_silencer_" + (silenced ? "off" : "on");
+		String sound = super.getSoundShooting(gun) + "_silencer_" + (silenced ? "off" : "on");
 
 		msPlayer.setGunTask(new SilencerToggle(msPlayer, gun, sound).startLoop());
 

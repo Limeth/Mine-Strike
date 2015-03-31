@@ -73,7 +73,7 @@ public class SimpleGunType extends GunType
 	}
 
 	@Override
-	public String getSoundShooting(MSPlayer msPlayer)
+	public String getSoundShooting(Gun gun)
 	{
 		return "projectsurvive:counterstrike.weapons." + directoryName + "." + directoryName;
 	}
