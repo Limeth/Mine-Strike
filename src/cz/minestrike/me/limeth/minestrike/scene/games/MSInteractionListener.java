@@ -71,10 +71,9 @@ public class MSInteractionListener extends MSSceneListener<Game>
 					msKiller.addXP(game.getXPForKill(msPlayer, msKiller));
 					msKiller.addKills(1);
 				}
-				
-				double dmg = msPlayer.getReceivedDamage(assistant);
-				int xp = (int) Math.ceil((dmg * 5) - 25);
-				
+
+				int xp = game.getXPForAssist(msPlayer, msKiller);
+
 				assistant.addXP(xp);
 				assistant.addAssists(1);
 			}
@@ -97,13 +96,13 @@ public class MSInteractionListener extends MSSceneListener<Game>
 				else
 				{
 					message = Translation.GAME_DEATH_SOURCE_SOLO.getMessage(msPlayer.getNameTag(), msKiller.getNameTag());
-					
-					msKiller.addXP(game.getXPForKill(msPlayer, msKiller));
+					int xp = game.getXPForKill(msPlayer, msKiller);
+
+					msKiller.addXP(xp);
 					msKiller.addKills(1);
 				}
 			}
-			
-			msPlayer.clearReceivedDamage();
+
 			msPlayer.setLastDamageSource(null);
 		}
 		else
@@ -111,6 +110,7 @@ public class MSInteractionListener extends MSSceneListener<Game>
 
 		ArenaPostDeathEvent arenaPostEvent = new ArenaPostDeathEvent(game, msPlayer);
 
+		msPlayer.clearReceivedDamage();
 		msPlayer.addDeaths(1);
 		game.setDead(msPlayer, true);
 		game.broadcast(message);

@@ -99,6 +99,7 @@ public abstract class Game extends Scene
 	
 	public abstract boolean isPlayerPlaying(MSPlayer msPlayer);
 	public abstract int getXPForKill(MSPlayer msVictim, MSPlayer msKiller);
+	public abstract int getXPForAssist(MSPlayer msVictim, MSPlayer msAssistant);
 	
 	public void firstStart()
 	{

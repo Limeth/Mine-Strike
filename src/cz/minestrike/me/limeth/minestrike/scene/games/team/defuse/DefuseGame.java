@@ -43,7 +43,7 @@ public class DefuseGame extends TeamGame
 {
 	public static final String CUSTOM_DATA_BALANCE = "MineStrike.game.balance";
 	public static final int MONEY_CAP = 10000, REQUIRED_ROUNDS = 8,
-			XP_KILL = 100, XP_MATCH_WIN = 200, XP_MATCH_LOSE = 50;
+			XP_KILL = 100, XP_ASSIST_OFFSET = -25, XP_MATCH_WIN = 200, XP_MATCH_LOSE = 50;
 	private int tScore, ctScore;
 	private int                         winsInRow;
 	private Team                        lastWinner;
@@ -119,6 +119,7 @@ public class DefuseGame extends TeamGame
 			Player player = msPlayer.getPlayer();
 
 			player.setWalkSpeed(0);
+			msPlayer.clearReceivedDamage();
 			setDead(msPlayer, false);
 			spawnAndEquip(msPlayer, false);
 			showWitherBar(msPlayer);
@@ -479,7 +480,8 @@ public class DefuseGame extends TeamGame
 			start();
 		
 		boolean dead = isDeadAfterJoin(msPlayer, team);
-		
+
+		msPlayer.clearReceivedDamage();
 		setDead(msPlayer, dead);
 		setTeam(msPlayer, team);
 		msPlayer.setPlayerStructure(getMapStructure());
@@ -855,7 +857,15 @@ public class DefuseGame extends TeamGame
 	{
 		return XP_KILL;
 	}
-	
+
+	@Override
+	public int getXPForAssist(MSPlayer msVictim, MSPlayer msAssistant)
+	{
+		double dmg = msVictim.getReceivedDamage(msAssistant);
+
+		return (int) Math.ceil((dmg * 5) + XP_ASSIST_OFFSET);
+	}
+
 	@Override
 	public DefuseEquipmentProvider getEquipmentProvider()
 	{
