@@ -72,7 +72,7 @@ public class MSInteractionListener extends MSSceneListener<Game>
 					msKiller.addKills(1);
 				}
 
-				int xp = game.getXPForAssist(msPlayer, msKiller);
+				int xp = game.getXPForAssist(msPlayer, assistant);
 
 				assistant.addXP(xp);
 				assistant.addAssists(1);
