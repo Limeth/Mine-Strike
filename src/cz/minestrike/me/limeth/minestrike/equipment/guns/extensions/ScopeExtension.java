@@ -10,6 +10,7 @@ import org.bukkit.craftbukkit.v1_7_R4.entity.CraftPlayer;
 import cz.minestrike.me.limeth.minestrike.MSPlayer;
 import cz.minestrike.me.limeth.minestrike.equipment.guns.Gun;
 
+@Deprecated
 public class ScopeExtension extends ZoomExtension
 {
 	public ScopeExtension(Gun gun)

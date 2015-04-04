@@ -51,6 +51,9 @@ public abstract class ScopeGunType extends DoubleModeGunType
 	{
 		Gun gun = msPlayer.getEquipmentInHand();
 
+		if(msPlayer.hasGunTask())
+			return true;
+
 		nextZoom(gun);
 
 		Integer zoom = getZoom(gun);

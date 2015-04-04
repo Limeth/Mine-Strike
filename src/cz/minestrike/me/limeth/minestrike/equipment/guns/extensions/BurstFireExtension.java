@@ -8,6 +8,7 @@ import cz.minestrike.me.limeth.minestrike.equipment.containers.HotbarContainer;
 import cz.minestrike.me.limeth.minestrike.equipment.guns.Gun;
 import cz.minestrike.me.limeth.minestrike.util.SoundManager;
 
+@Deprecated
 public class BurstFireExtension extends GunExtension
 {
 	public static final String SOUND_TOGGLE = "projectsurvive:counterstrike.weapons.auto_semiauto_switch";

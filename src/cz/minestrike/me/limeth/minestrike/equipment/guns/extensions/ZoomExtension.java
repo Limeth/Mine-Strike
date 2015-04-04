@@ -6,6 +6,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
+@Deprecated
 public class ZoomExtension extends GunExtension
 {
 	public static final float SLOWNESS_RATE = 0.15F;

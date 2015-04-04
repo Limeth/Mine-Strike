@@ -6,6 +6,7 @@ import cz.minestrike.me.limeth.minestrike.equipment.guns.tasks.SilencerToggle;
 import cz.minestrike.me.limeth.minestrike.util.LoreAttributes;
 import org.bukkit.inventory.ItemStack;
 
+@Deprecated
 public class SilencableExtension extends GunExtension
 {
 	public static final String  ATTRIBUTE_SUFFIX_SILENCED = " | SILENCED";
