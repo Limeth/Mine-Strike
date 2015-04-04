@@ -168,11 +168,19 @@ public class CaseOpening implements Runnable
 		{
 			InventoryContainer container = msPlayer.getInventoryContainer();
 			Player player = msPlayer.getPlayer();
+			String nameTag = msPlayer.getNameTag();
+			String caseName = caze.getName();
+			Equipment resultEquipment = result.getEquipment();
+			String resultName = resultEquipment.getDisplayName();
 			CaseContentRarity rarity = result.getRarity();
 			String sound = rarity.getSoundName();
+			String message = Translation.EQUIPMENT_CASE_OPENED.getMessage(nameTag, caseName, resultName);
 			
 			InventoryContainer.openSelection(msPlayer, container.getSize() - 1);
 			SoundManager.play(sound, player);
+
+			if(message.length() > 0)
+				Bukkit.broadcastMessage(message);
 		}
 	}
 }

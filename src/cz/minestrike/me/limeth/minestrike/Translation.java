@@ -62,7 +62,8 @@ public enum Translation
 	GAME_DEATH_WEAPONSOURCE_ASSIST("&7Player &r{1}&7 was killed using &r{3}&7 by &r{2}&7 and &r{4}&7.", "&7Hrác &r{1}&7 byl zabit pomocí &r{3}&7 hráci &r{2}&7 a &r{4}&7."),
 
 	EQUIPMENT_CUSTOMIZATION_NAME("&r{2} &7(&r{1}&7)"),
-	EQUIPMENT_CASE("{1}&f Case", "{1}&f Bedna"),
+	EQUIPMENT_CASE_NAME("{1}&f Case", "{1}&f Bedna"),
+	EQUIPMENT_CASE_OPENED("&7{1}&6&l opened &7{2}&f Case&6&l and got &7&l{3}&6&l!", "&6&lHrác &7{1}&6&l otevrel &7{2}&f Bednu&6&l a získal &7{3}&6&l!"),
 	EQUIPMENT_KEY("{1}&f Case &lKey", "&f&lKlíč&f pro {1}&f Bednu"),
 	EQUIPMENT_DEFUSEKIT_DEFAULT("&rDefuse Kit", "&rNáradí"),
 	EQUIPMENT_DEFUSEKIT_BOUGHT("&aAdvanced Defuse Kit", "&aPokrocilé Náradí"),
@@ -100,30 +101,27 @@ public enum Translation
 	XP_GAIN("&aYou have gained &l{1}&a experience.", "&aZískal(a) jste &l{1}&a zkuseností."),
 	XP_LOSS("&cYou have lost &l{1}&c experience.", "&cZtratil(a) jste &l{1}&c zkuseností."),
 	XP_LEVEL_UPGRADE("&aYou now have the &r{1}&a rank!", "&aNyní máte &r{1}&a rank!"),
-	XP_LEVEL_DOWNGRADE("&cYou now have the &r{1}&c rank!","&cNyní máte &r{1}&c rank!"),
+	XP_LEVEL_DOWNGRADE("&cYou now have the &r{1}&c rank!", "&cNyní máte &r{1}&c rank!"),
 
 	DISPLAY_RANK_TITLE("{1}  {2}"),
-	DISPLAY_RANK_SUBTITLE("&8[{1}&8]  &7{2} / {3} XP","&8[{1}&8]  &7{2} / {3} ZK"),
-	DISPLAY_RANK_NOTYET_1("&7You don't have a rank yet.","&7Zatím nemáte hodnost."),
-	DISPLAY_RANK_NOTYET_2("&fProgress:","&fPrubeh:"),
-	DISPLAY_RANK_BOTTOM("&7{1} / {2} XP","&7{1} / {2} ZK"),
+	DISPLAY_RANK_SUBTITLE("&8[{1}&8]  &7{2} / {3} XP", "&8[{1}&8]  &7{2} / {3} ZK"),
+	DISPLAY_RANK_NOTYET_1("&7You don't have a rank yet.", "&7Zatím nemáte hodnost."),
+	DISPLAY_RANK_NOTYET_2("&fProgress:", "&fPrubeh:"),
+	DISPLAY_RANK_BOTTOM("&7{1} / {2} XP", "&7{1} / {2} ZK"),
 
-	COMMAND_TOP_COOLDOWN("&cYou can use this command in {1} seconds again.","&cTento príkaz muzete znovu pouzit za {1} sekund."),
-	COMMAND_TOP_INVALIDPAGE("&cInvalid page!","&cNesprávná strana!"),
-	COMMAND_TOP_ENTRY("&8[&7{1}&8|&f{2}&8]&f {3}&7   {4} XP","&8[&7{1}&8|&7{2}&8]&f {3}&7   {4} ZK"),
+	COMMAND_TOP_COOLDOWN("&cYou can use this command in {1} seconds again.", "&cTento príkaz muzete znovu pouzit za {1} sekund."),
+	COMMAND_TOP_INVALIDPAGE("&cInvalid page!", "&cNesprávná strana!"),
+	COMMAND_TOP_ENTRY("&8[&7{1}&8|&f{2}&8]&f {3}&7   {4} XP", "&8[&7{1}&8|&7{2}&8]&f {3}&7   {4} ZK"),
 
 	TAB_HEADER("&8&l»&9&lMINE&f&l-&6&lSTRIKE&8&l«"),
-	TAB_LOBBY_FOOTER("&lWebsite not specified.","&lWeb nebyl urcen."),
+	TAB_LOBBY_FOOTER("&lWebsite not specified.", "&lWeb nebyl urcen."),
 	TAB_GAME_DEFUSE_FOOTER("&9{3} &8[ &9&l{1} &f: &6&l{2} &8] &6{4}"),
 
-	ACTIONBAR_GAME_DEFUSE_BOMB_PLANTED_T("&4&lThe bomb has been planted, don't let them defuse it.","&4&lBomba byla polozena, kryj ji."),
-	ACTIONBAR_GAME_DEFUSE_BOMB_PLANTED_CT("&4&lThe bomb has been planted, defuse it.","&4&lBomba byla polozena, zneskodni ji."),
-	REWARD_GIVEN("&ePlayer &r{1}&e was awarded by a gift: &r{2}","&eHrác &r{1}&e byl za aktivitu odmenen dárkem: &r{2}"),
-	CLAN_CREATE_ERROR_LOWRANK("&cYour rank must be &6Gold I &cor higher to create a clan. Purchase &8[&bVIP&8] &cto create it now.",
-			                          "&cVase hodnost musí byt alespon &6Gold I&c. Kupte si &8[&bVIP&8] &cpro vytvorení klanu nyní."),
-	DATA_COMPARISON("&8&l--- DATA CHANGE NOTIFICATION ---\n&r{1}\n&8&l--- --- --- --- ---",
-	                "&8&l--- UPOZORNENI NA ZMENU DAT ---\n&r{1}\n&8&l--- --- --- --- ---"),
-	;
+	ACTIONBAR_GAME_DEFUSE_BOMB_PLANTED_T("&4&lThe bomb has been planted, don't let them defuse it.", "&4&lBomba byla polozena, kryj ji."),
+	ACTIONBAR_GAME_DEFUSE_BOMB_PLANTED_CT("&4&lThe bomb has been planted, defuse it.", "&4&lBomba byla polozena, zneskodni ji."),
+	REWARD_GIVEN("&ePlayer &r{1}&e was awarded by a gift: &r{2}", "&eHrác &r{1}&e byl za aktivitu odmenen dárkem: &r{2}"),
+	CLAN_CREATE_ERROR_LOWRANK("&cYour rank must be &6Gold I &cor higher to create a clan. Purchase &8[&bVIP&8] &cto create it now.", "&cVase hodnost musí byt alespon &6Gold I&c. Kupte si &8[&bVIP&8] &cpro vytvorení klanu nyní."),
+	DATA_COMPARISON("&8&l--- DATA CHANGE NOTIFICATION ---\n&r{1}\n&8&l--- --- --- --- ---", "&8&l--- UPOZORNENI NA ZMENU DAT ---\n&r{1}\n&8&l--- --- --- --- ---"),;
 
 	public static final String ENGLISH_NAME = "en", CZECH_NAME = "cz", DEFAULT_LANGUAGE_NAME = ENGLISH_NAME;
 	private final String defaultEN;

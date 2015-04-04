@@ -151,7 +151,7 @@ public enum Case implements Equipment
 	@Override
 	public String getDisplayName()
 	{
-		return Translation.EQUIPMENT_CASE.getMessage(name);
+		return Translation.EQUIPMENT_CASE_NAME.getMessage(name);
 	}
 
 	@Override
