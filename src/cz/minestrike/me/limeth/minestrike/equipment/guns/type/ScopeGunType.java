@@ -47,6 +47,13 @@ public abstract class ScopeGunType extends DoubleModeGunType
 	}
 
 	@Override
+	public void reloadStart(MSPlayer msPlayer)
+	{
+		unzoom(msPlayer);
+		super.reloadStart(msPlayer);
+	}
+
+	@Override
 	public boolean leftClick(MSPlayer msPlayer, Block block)
 	{
 		Gun gun = msPlayer.getEquipmentInHand();
