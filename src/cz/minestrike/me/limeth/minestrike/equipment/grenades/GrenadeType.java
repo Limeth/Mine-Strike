@@ -12,6 +12,7 @@ import cz.minestrike.me.limeth.minestrike.equipment.guns.Gun;
 import cz.minestrike.me.limeth.minestrike.scene.Scene;
 import cz.minestrike.me.limeth.minestrike.scene.games.*;
 import cz.minestrike.me.limeth.minestrike.scene.games.team.TeamGame;
+import cz.minestrike.me.limeth.minestrike.util.LoreAttributes;
 import cz.minestrike.me.limeth.minestrike.util.SoundManager;
 import cz.minestrike.me.limeth.minestrike.util.collections.FilledArrayList;
 import darkBlade12.ParticleEffect;
@@ -519,6 +520,11 @@ public enum GrenadeType implements Equipment, DamageSource
 
 		im.setDisplayName(getDisplayName());
 		is.setItemMeta(im);
+
+		LoreAttributes.TEMP.clear();
+		LoreAttributes.extract(is, LoreAttributes.TEMP);
+		LoreAttributes.TEMP.put("Type", name());
+		LoreAttributes.TEMP.apply(is);
 
 		return is;
 	}

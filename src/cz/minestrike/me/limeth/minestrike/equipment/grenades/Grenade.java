@@ -33,13 +33,8 @@ public class Grenade
 		Grenade grenade = new Grenade(type, msShooter);
 		int color = type.getColor();
 		GrenadeExplosionTrigger trigger = type.getTrigger();
-		WorldServer nmsWorld = ((CraftWorld) loc.getWorld()).getHandle();
-		EntityGrenade nmsEntity = new EntityGrenade(grenade, nmsWorld, loc.getX(), loc.getY(), loc.getZ(), color);
-		nmsEntity.motX = vec.getX();
-		nmsEntity.motY = vec.getY();
-		nmsEntity.motZ = vec.getZ();
-		
-		nmsWorld.addEntity(nmsEntity);
+		EntityGrenade nmsEntity = EntityGrenade.spawn(msShooter, grenade, loc, vec);
+
 		grenade.setNMSEntity(nmsEntity);
 		
 		if(trigger == GrenadeExplosionTrigger.TIMEOUT)

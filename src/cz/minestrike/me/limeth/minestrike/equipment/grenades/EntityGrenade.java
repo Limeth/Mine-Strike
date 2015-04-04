@@ -1,14 +1,12 @@
 package cz.minestrike.me.limeth.minestrike.equipment.grenades;
 
-import net.minecraft.server.v1_7_R4.EntityLiving;
-import net.minecraft.server.v1_7_R4.EntityPotion;
-import net.minecraft.server.v1_7_R4.EnumMovingObjectType;
-import net.minecraft.server.v1_7_R4.ItemStack;
-import net.minecraft.server.v1_7_R4.Items;
-import net.minecraft.server.v1_7_R4.MovingObjectPosition;
-import net.minecraft.server.v1_7_R4.World;
-
+import cz.minestrike.me.limeth.minestrike.MSPlayer;
+import net.minecraft.server.v1_7_R4.*;
+import org.bukkit.Location;
+import org.bukkit.craftbukkit.v1_7_R4.CraftWorld;
+import org.bukkit.craftbukkit.v1_7_R4.inventory.CraftItemStack;
 import org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason;
+import org.bukkit.util.Vector;
 
 public class EntityGrenade extends EntityPotion//EntityProjectile
 {
@@ -43,9 +41,27 @@ public class EntityGrenade extends EntityPotion//EntityProjectile
 		this.grenade = grenade;
 	}
 
+	@Deprecated
 	public EntityGrenade(Grenade grenade, World world, double d0, double d1, double d2, int i)
 	{
 		this(grenade, world, d0, d1, d2, new ItemStack(Items.POTION, 1, i));
+	}
+
+	public static EntityGrenade spawn(MSPlayer msPlayer, Grenade grenade, Location location, Vector velocity)
+	{
+		GrenadeType type = grenade.getType();
+		int color = type.getColor();
+		org.bukkit.inventory.ItemStack bukkitItemStack = type.newItemStack(msPlayer);
+		ItemStack nmsItemStack = CraftItemStack.asNMSCopy(bukkitItemStack);
+		WorldServer nmsWorld = ((CraftWorld) location.getWorld()).getHandle();
+		EntityGrenade nmsEntity = new EntityGrenade(grenade, nmsWorld, location.getX(), location.getY(), location.getZ(), nmsItemStack);
+		nmsEntity.motX = velocity.getX();
+		nmsEntity.motY = velocity.getY();
+		nmsEntity.motZ = velocity.getZ();
+
+		nmsWorld.addEntity(nmsEntity);
+
+		return nmsEntity;
 	}
 	
 	protected void a(MovingObjectPosition mop)
