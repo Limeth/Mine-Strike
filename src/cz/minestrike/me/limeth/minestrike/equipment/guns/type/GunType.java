@@ -223,6 +223,7 @@ public abstract class GunType implements Equipment
 
 			gun.decreaseLoadedBullets();
 			shoot(msPlayer);
+			gun.reloadIfNecessary(msPlayer);
 			gun.apply(msPlayer.getItemInHand(), msPlayer);
 		}
 	}
@@ -272,24 +273,6 @@ public abstract class GunType implements Equipment
 		gun.setLastBulletShotAt();
 	}
 
-	public void reload(MSPlayer msPlayer)
-	{
-		Gun gun = msPlayer.getEquipmentInHand();
-		Player player = msPlayer.getPlayer();
-		PlayerInventory inv = player.getInventory();
-		int slot = inv.getHeldItemSlot();
-
-		gun.setReloading(true);
-
-		ItemStack is = gun.newItemStack(msPlayer);
-
-		inv.setItem(slot, is);
-
-		Reloading reloading = new Reloading(msPlayer, gun).startLoop();
-
-		msPlayer.setGunTask(reloading);
-	}
-
 	@Override
 	public boolean rightClick(MSPlayer msPlayer, Block clickedBlock)
 	{
@@ -303,13 +286,27 @@ public abstract class GunType implements Equipment
 		return false;
 	}
 
+	public void reloadStart(MSPlayer msPlayer)
+	{
+		Gun gun = msPlayer.getEquipmentInHand();
+		Player player = msPlayer.getPlayer();
+		PlayerInventory inv = player.getInventory();
+		int slot = msPlayer.getHeldItemSlot();
+
+		gun.setReloading(true);
+
+		ItemStack is = newItemStack(msPlayer);
+
+		inv.setItem(slot, is);
+
+		Reloading reloading = new Reloading(msPlayer, gun).startLoop();
+
+		msPlayer.setGunTask(reloading);
+	}
+
 	@Override
 	public void dropButtonPress(MSPlayer msPlayer)
 	{
-		Gun gun = msPlayer.getEquipmentInHand();
-
-		if(gun.canBeReloaded())
-			reload(msPlayer);
 	}
 
 	public void apply(ItemStack itemStack, MSPlayer msPlayer, Gun gun) {}

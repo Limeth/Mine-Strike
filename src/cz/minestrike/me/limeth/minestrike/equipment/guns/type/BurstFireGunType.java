@@ -106,6 +106,7 @@ public abstract class BurstFireGunType extends DoubleModeGunType
 
 		gun.decreaseLoadedBullets();
 		shoot(msPlayer);
+		gun.reloadIfNecessary(msPlayer);
 		container.apply(msPlayer, gun);
 	}
 }

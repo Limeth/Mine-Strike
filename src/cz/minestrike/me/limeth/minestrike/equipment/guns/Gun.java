@@ -83,11 +83,18 @@ public class Gun extends CustomizedEquipment<GunType>
 	{
 		getEquipment().pressTrigger(msPlayer);
 	}
+
+	public void reloadIfNecessary(MSPlayer msPlayer)
+	{
+		if(getLoadedBullets() <= 0 && canBeReloaded())
+			getEquipment().reloadStart(msPlayer);
+	}
 	
 	@Override
 	public void onSelect(MSPlayer msPlayer)
 	{
 		getEquipment().onSelect(msPlayer);
+		reloadIfNecessary(msPlayer);
 	}
 	
 	@Override
@@ -98,7 +105,14 @@ public class Gun extends CustomizedEquipment<GunType>
 		
 		getEquipment().onDeselect(msPlayer);
 	}
-	
+
+	@Override
+	public void dropButtonPress(MSPlayer msPlayer)
+	{
+		if(canBeReloaded())
+			getEquipment().reloadStart(msPlayer);
+	}
+
 	public void applyAttributes(LoreAttributes attributes)
 	{
 		GunType type = getEquipment();
