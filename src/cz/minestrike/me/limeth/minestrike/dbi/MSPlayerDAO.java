@@ -125,14 +125,14 @@ public interface MSPlayerDAO
 			+ "(:player." + FIELD_DATA_USERNAME + ", :player." + FIELD_DATA_XP + ", :player." + FIELD_DATA_KILLS + ", :player." + FIELD_DATA_ASSISTS + ", :player." + FIELD_DATA_DEATHS + ", :player." + FIELD_DATA_PLAYTIME + ")")
 	void insertData(@Define("table") String tableName, @BindBean("player") MSPlayerData msPlayer);
 	
-	@SqlQuery("SELECT * FROM <table> WHERE `" + FIELD_EQUIPMENT_SERVER + "` = '" + VALUE_EQUIPMENT_SERVER + "' AND `" + FIELD_DATA_USERNAME + "` = :username")
+	@SqlQuery("SELECT * FROM <table> WHERE `" + FIELD_EQUIPMENT_SERVER + "` = '" + VALUE_EQUIPMENT_SERVER + "' AND `" + FIELD_DATA_USERNAME + "` = :username AND `selling_price` IS NULL")
 	public Collection<Equipment> selectEquipment(@Define("table") String tableName, @Bind("username") String playerName);
 
 	@SqlBatch("INSERT INTO <table> (`" + FIELD_EQUIPMENT_USERNAME + "`, `" + FIELD_EQUIPMENT_SERVER + "`, `" + FIELD_EQUIPMENT_CATEGORY + "`, `" + FIELD_EQUIPMENT_TRADABLE + "`, `" + FIELD_EQUIPMENT_TYPE + "`, `" + FIELD_EQUIPMENT_DATA + "`) VALUES"
 			+ "(:username, '" + VALUE_EQUIPMENT_SERVER + "', :equipment." + FIELD_EQUIPMENT_CATEGORY + ", :equipment." + FIELD_EQUIPMENT_TRADABLE + ", :equipment." + FIELD_EQUIPMENT_TYPE + ", :equipment." + FIELD_EQUIPMENT_DATA + ")")
 	void insertEquipment(@Define("table") String tableName, @Bind("username") String playerName, @BindEquipment("equipment") Iterable<Equipment> container);
 	
-	@SqlUpdate("DELETE FROM <table> WHERE `" + FIELD_EQUIPMENT_USERNAME + "` = :username")
+	@SqlUpdate("DELETE FROM <table> WHERE `" + FIELD_EQUIPMENT_USERNAME + "` = :username AND `selling_price` IS NULL")
 	void clearEquipment(@Define("table") String tableName, @Bind("username") String playerName);
 	
 	void close();
