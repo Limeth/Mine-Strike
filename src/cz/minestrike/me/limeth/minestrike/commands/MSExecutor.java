@@ -20,8 +20,9 @@ import cz.minestrike.me.limeth.minestrike.areas.schemes.Scheme;
 import cz.minestrike.me.limeth.minestrike.areas.schemes.SchemeManager;
 import cz.minestrike.me.limeth.minestrike.areas.schemes.SchemeType;
 import cz.minestrike.me.limeth.minestrike.equipment.Equipment;
+import cz.minestrike.me.limeth.minestrike.equipment.EquipmentCustomizationManager;
 import cz.minestrike.me.limeth.minestrike.equipment.EquipmentManager;
-import cz.minestrike.me.limeth.minestrike.equipment.cases.Case;
+import cz.minestrike.me.limeth.minestrike.equipment.cases.AbstractCase;
 import cz.minestrike.me.limeth.minestrike.equipment.cases.CaseContent;
 import cz.minestrike.me.limeth.minestrike.equipment.cases.CaseContentRarity;
 import cz.minestrike.me.limeth.minestrike.equipment.containers.InventoryContainer;
@@ -60,6 +61,7 @@ public class MSExecutor implements CommandExecutor
 		{
 			sender.sendMessage("/ms give [Equipment ID] (Player)");
 			sender.sendMessage("/ms case [Case ID] [Rarity] [Index] (Player) (Drop)");
+			sender.sendMessage("/ms free [Index] (Player) (Drop)");
 			sender.sendMessage("/ms xp [set|add] [Amount] (Player)");
 			sender.sendMessage("/ms data [save|load|reload] (Player) (Comparison TRUE|false)");
 			sender.sendMessage("/ms packet ...");
@@ -231,50 +233,50 @@ public class MSExecutor implements CommandExecutor
 			if(args.length <= 1)
 			{
 				String cases = "";
-				
-				for(Case caze : Case.values())
+
+				for(AbstractCase caze : EquipmentCustomizationManager.getCases())
 					cases += caze.getId() + ", ";
-				
+
 				sender.sendMessage(ChatColor.RED + cases);
 				sender.sendMessage("/ms case [Case ID] [Rarity] [Index] (Player) (Drop)");
 				return true;
 			}
-			
+
 			Equipment potentialCase = EquipmentManager.getEquipment(args[1]);
-			
-			if(potentialCase == null || !(potentialCase.getSource() instanceof Case))
+
+			if(potentialCase == null || !(potentialCase.getSource() instanceof AbstractCase))
 			{
 				sender.sendMessage(ChatColor.RED + "The specified equipment isn't a case.");
 				return true;
 			}
-			
-			Case caze = (Case) potentialCase;
-			
+
+			AbstractCase caze = (AbstractCase) potentialCase;
+
 			if(args.length <= 3)
 			{
 				for(CaseContentRarity rarity : CaseContentRarity.values())
 				{
 					FilledArrayList<CaseContent> contents = caze.getContents(rarity);
-					
+
 					sender.sendMessage(rarity.getColoredName() + ChatColor.RESET + " (" + rarity.name() + "):");
-					
+
 					for(int i = 0; i < contents.size(); i++)
 					{
 						CaseContent content = contents.get(i);
 						Equipment equipment = content.getEquipment();
 						String equipmentName = equipment.getDisplayName();
-						
+
 						sender.sendMessage("  [" + i + "] " + equipmentName);
 					}
 				}
-				
+
 				sender.sendMessage("/ms case [Case ID] [Rarity] [Index] (Player)");
 				return true;
 			}
-			
+
 			CaseContentRarity rarity;
 			int index;
-			
+
 			try
 			{
 				rarity = CaseContentRarity.valueOf(args[2].toUpperCase());
@@ -290,24 +292,24 @@ public class MSExecutor implements CommandExecutor
 				sender.sendMessage(ChatColor.RED + "Invalid rarity: " + args[2]);
 				return true;
 			}
-			
+
 			FilledArrayList<CaseContent> selectedContents = caze.getContents(rarity);
-			
+
 			if(index < 0 || index >= selectedContents.size())
 			{
 				sender.sendMessage(ChatColor.RED + "Index out of bounds.");
 				return true;
 			}
-			
+
 			CaseContent selectedContent = selectedContents.get(index);
 			Equipment equipment = selectedContent.getEquipment();
 			Player target;
 			boolean drop = false;
-			
+
 			if(args.length >= 5)
 			{
 				target = Bukkit.getPlayer(args[4]);
-				
+
 				if(target == null)
 				{
 					sender.sendMessage(ChatColor.RED + "Target " + args[4] + " not found!");
@@ -324,7 +326,87 @@ public class MSExecutor implements CommandExecutor
 				sender.sendMessage(ChatColor.RED + "Specify the target player.");
 				return true;
 			}
-			
+
+			MSPlayer msTarget = MSPlayer.get(target);
+
+			if(drop)
+			{
+				Location eyeLoc = target.getEyeLocation();
+				World world = eyeLoc.getWorld();
+				ItemStack itemStack = equipment.newItemStack(msTarget);
+
+				world.dropItemNaturally(eyeLoc, itemStack);
+				sender.sendMessage(ChatColor.GREEN + "Equipment " + equipment.getDisplayName() + ChatColor.GREEN + " dropped near player " + target.getName() + ".");
+			}
+			else
+			{
+				InventoryContainer container = msTarget.getInventoryContainer();
+
+				container.addItem(equipment);
+				sender.sendMessage(ChatColor.GREEN + "Equipment " + equipment.getDisplayName() + ChatColor.GREEN + " added to " + target.getName() + "'s inventory.");
+			}
+		}
+		else if(args[0].equalsIgnoreCase("free"))
+		{
+			List<Equipment> freeEquipmentList = EquipmentCustomizationManager.getFreeEquipment();
+
+			if(args.length <= 1)
+			{
+				for(int i = 0; i < freeEquipmentList.size(); i++)
+				{
+					Equipment freeEquipment = freeEquipmentList.get(i);
+					String equipmentName = freeEquipment.getDisplayName();
+
+					sender.sendMessage("[" + i + "] " + equipmentName);
+				}
+
+				sender.sendMessage("/ms free [Index] (Player) (Drop)");
+				return true;
+			}
+
+			int index;
+
+			try
+			{
+				index = Integer.parseInt(args[1]);
+			}
+			catch(NumberFormatException e)
+			{
+				sender.sendMessage(ChatColor.RED + "Invalid index: " + args[1]);
+				return true;
+			}
+
+			if(index < 0 || index >= freeEquipmentList.size())
+			{
+				sender.sendMessage(ChatColor.RED + "Index out of bounds.");
+				return true;
+			}
+
+			Equipment equipment = freeEquipmentList.get(index);
+			Player target;
+			boolean drop = false;
+
+			if(args.length >= 3)
+			{
+				target = Bukkit.getPlayer(args[2]);
+
+				if(target == null)
+				{
+					sender.sendMessage(ChatColor.RED + "Target " + args[2] + " not found!");
+					return true;
+				}
+
+				if(args.length >= 4)
+					drop = Boolean.parseBoolean(args[3]);
+			}
+			else if(sender instanceof Player)
+				target = (Player) sender;
+			else
+			{
+				sender.sendMessage(ChatColor.RED + "Specify the target player.");
+				return true;
+			}
+
 			MSPlayer msTarget = MSPlayer.get(target);
 
 			if(drop)

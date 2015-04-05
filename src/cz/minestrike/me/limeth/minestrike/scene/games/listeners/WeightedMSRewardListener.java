@@ -1,8 +1,9 @@
-package cz.minestrike.me.limeth.minestrike.scene.games;
+package cz.minestrike.me.limeth.minestrike.scene.games.listeners;
 
 import com.google.common.base.Optional;
 import cz.minestrike.me.limeth.minestrike.MSPlayer;
 import cz.minestrike.me.limeth.minestrike.equipment.Equipment;
+import cz.minestrike.me.limeth.minestrike.scene.games.Game;
 
 import java.util.Map;
 import java.util.Random;

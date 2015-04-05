@@ -1,4 +1,4 @@
-package cz.minestrike.me.limeth.minestrike.scene.games;
+package cz.minestrike.me.limeth.minestrike.scene.games.listeners;
 
 import cz.minestrike.me.limeth.minestrike.MSPlayer;
 import cz.minestrike.me.limeth.minestrike.Translation;
@@ -6,6 +6,7 @@ import cz.minestrike.me.limeth.minestrike.equipment.Equipment;
 import cz.minestrike.me.limeth.minestrike.events.ArenaPostDeathEvent;
 import cz.minestrike.me.limeth.minestrike.events.ArenaPreDeathEvent;
 import cz.minestrike.me.limeth.minestrike.listeners.msPlayer.MSSceneListener;
+import cz.minestrike.me.limeth.minestrike.scene.games.Game;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;

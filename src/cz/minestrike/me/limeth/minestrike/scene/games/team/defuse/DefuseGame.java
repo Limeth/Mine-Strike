@@ -17,6 +17,7 @@ import cz.minestrike.me.limeth.minestrike.events.GameQuitEvent.SceneQuitReason;
 import cz.minestrike.me.limeth.minestrike.events.GameSpawnEvent;
 import cz.minestrike.me.limeth.minestrike.listeners.msPlayer.MSSceneListener;
 import cz.minestrike.me.limeth.minestrike.scene.games.*;
+import cz.minestrike.me.limeth.minestrike.scene.games.listeners.MSRewardListener;
 import cz.minestrike.me.limeth.minestrike.scene.games.team.RadarView;
 import cz.minestrike.me.limeth.minestrike.scene.games.team.TeamGame;
 import cz.minestrike.me.limeth.minestrike.scene.games.team.defuse.Round.RoundPhase;
@@ -45,11 +46,11 @@ public class DefuseGame extends TeamGame
 	public static final int MONEY_CAP = 10000, REQUIRED_ROUNDS = 8,
 			XP_KILL = 100, XP_ASSIST_OFFSET = -25, XP_MATCH_WIN = 200, XP_MATCH_LOSE = 50;
 	private int tScore, ctScore;
-	private int                         winsInRow;
-	private Team                        lastWinner;
-	private Block                       bombBlock;
-	private boolean                     bombGiven;
-	private MSSceneListener<DefuseGame> defuseGameListener;
+	private int                          winsInRow;
+	private Team                         lastWinner;
+	private Block                        bombBlock;
+	private boolean                      bombGiven;
+	private MSSceneListener<DefuseGame>  defuseGameListener;
 	private MSRewardListener<DefuseGame> defuseRewardListener;
 
 	public DefuseGame(String id, String name, MSPlayer owner, boolean open, String lobby, String menu, FilledArrayList<String> maps)
@@ -159,7 +160,7 @@ public class DefuseGame extends TeamGame
 			DefuseEquipmentProvider mgr = getEquipmentProvider();
 			int i = 0;
 			MSPlayer carrier = null;
-			
+
 			for(MSPlayer terrorist : terrorists)
 			{
 				if(i >= randomIndex)

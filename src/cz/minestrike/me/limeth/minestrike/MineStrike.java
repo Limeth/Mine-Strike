@@ -11,6 +11,8 @@ import cz.minestrike.me.limeth.minestrike.commands.TopExecutor;
 import cz.minestrike.me.limeth.minestrike.dbi.MSPlayerDAO;
 import cz.minestrike.me.limeth.minestrike.dbi.RewardRecordDAO;
 import cz.minestrike.me.limeth.minestrike.dbi.binding.MSPlayerData;
+import cz.minestrike.me.limeth.minestrike.equipment.EquipmentCustomizationManager;
+import cz.minestrike.me.limeth.minestrike.equipment.EquipmentManager;
 import cz.minestrike.me.limeth.minestrike.listeners.*;
 import cz.minestrike.me.limeth.minestrike.listeners.clan.ClanListener;
 import cz.minestrike.me.limeth.minestrike.listeners.msPlayer.MSListenerManager;
@@ -145,6 +147,7 @@ public class MineStrike extends JavaPlugin
 		SchemeManager.loadSchemes();
 		PlotManager.loadPlots();
 		GameManager.loadGames();
+		EquipmentCustomizationManager.loadCustomizations();
 	}
 	
 	private void saveData() throws Exception

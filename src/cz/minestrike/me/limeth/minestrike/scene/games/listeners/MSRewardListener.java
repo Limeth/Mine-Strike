@@ -1,4 +1,4 @@
-package cz.minestrike.me.limeth.minestrike.scene.games;
+package cz.minestrike.me.limeth.minestrike.scene.games.listeners;
 
 import com.google.common.base.Optional;
 import com.google.common.collect.Lists;
@@ -13,6 +13,7 @@ import cz.minestrike.me.limeth.minestrike.events.ArenaJoinEvent;
 import cz.minestrike.me.limeth.minestrike.events.ArenaQuitEvent;
 import cz.minestrike.me.limeth.minestrike.events.GameStartEvent;
 import cz.minestrike.me.limeth.minestrike.listeners.msPlayer.MSSceneListener;
+import cz.minestrike.me.limeth.minestrike.scene.games.Game;
 import cz.minestrike.me.limeth.minestrike.util.SoundManager;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;

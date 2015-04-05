@@ -1,6 +1,5 @@
 package cz.minestrike.me.limeth.minestrike.equipment;
 
-import cz.minestrike.me.limeth.minestrike.equipment.cases.Case;
 import cz.minestrike.me.limeth.minestrike.equipment.grenades.GrenadeType;
 import cz.minestrike.me.limeth.minestrike.equipment.gson.CustomizedEquipmentAdapter;
 import cz.minestrike.me.limeth.minestrike.equipment.gson.EquipmentAdapter;
@@ -17,7 +16,6 @@ import cz.minestrike.me.limeth.minestrike.util.collections.FilledHashMap;
 import org.apache.commons.lang.Validate;
 import org.bukkit.craftbukkit.libs.com.google.gson.*;
 
-import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -31,41 +29,35 @@ public class EquipmentManager
 	{
 		TYPES = new FilledHashMap<>();
 
-		addAll(TYPES, GunType.getRegisteredTypes().values());
-		addAll(TYPES, GrenadeType.values());
+		registerAll(GunType.getRegisteredTypes().values());
+		registerAll(GrenadeType.values());
 
-		add(TYPES, Kevlar.KEVLAR);
-		add(TYPES, Helmet.HELMET);
-		add(TYPES, KevlarAndHelmet.KEVLAR_AND_HELMET);
-		add(TYPES, Knife.KNIFE);
+		register(Kevlar.KEVLAR);
+		register(Helmet.HELMET);
+		register(KevlarAndHelmet.KEVLAR_AND_HELMET);
+		register(Knife.KNIFE);
 
-		//Defuse
-		add(TYPES, DefuseEquipmentProvider.BOMB);
-		add(TYPES, DefuseEquipmentProvider.DEFUSE_KIT_DEFAULT);
-		add(TYPES, DefuseEquipmentProvider.DEFUSE_KIT_BOUGHT);
-
-		for(Case caze : Case.values())
-		{
-			add(TYPES, caze);
-			add(TYPES, caze.getKey());
-		}
+		//Defuse TODO register dynamically
+		register(DefuseEquipmentProvider.BOMB);
+		register(DefuseEquipmentProvider.DEFUSE_KIT_DEFAULT);
+		register(DefuseEquipmentProvider.DEFUSE_KIT_BOUGHT);
 	}
 
-	private static void addAll(Map<String, Equipment> collection, Equipment... array)
+	public static void registerAll(Equipment... array)
 	{
 		for(Equipment object : array)
-			add(collection, object);
+			register(object);
 	}
 
-	private static void addAll(Map<String, Equipment> collection, Iterable<? extends Equipment> array)
+	public static void registerAll(Iterable<? extends Equipment> array)
 	{
 		for(Equipment object : array)
-			add(collection, object);
+			register(object);
 	}
 
-	private static void add(Map<String, Equipment> collection, Equipment equipment)
+	public static void register(Equipment equipment)
 	{
-		collection.put(equipment.getId(), equipment);
+		TYPES.put(equipment.getId(), equipment);
 	}
 
 	public static Equipment getEquipment(String id)

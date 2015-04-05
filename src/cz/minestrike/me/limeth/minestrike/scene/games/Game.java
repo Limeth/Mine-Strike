@@ -8,6 +8,9 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import cz.minestrike.me.limeth.minestrike.events.*;
+import cz.minestrike.me.limeth.minestrike.scene.games.listeners.MSInteractionListener;
+import cz.minestrike.me.limeth.minestrike.scene.games.listeners.MSInventoryListener;
+import cz.minestrike.me.limeth.minestrike.scene.games.listeners.MSShoppingListener;
 import net.minecraft.server.v1_7_R4.EntityItem;
 import net.minecraft.server.v1_7_R4.PacketPlayOutNamedSoundEffect;
 import net.minecraft.server.v1_7_R4.WorldServer;
@@ -43,7 +46,6 @@ import cz.minestrike.me.limeth.minestrike.areas.schemes.GameMenu;
 import cz.minestrike.me.limeth.minestrike.areas.schemes.Scheme;
 import cz.minestrike.me.limeth.minestrike.areas.schemes.SchemeManager;
 import cz.minestrike.me.limeth.minestrike.equipment.Equipment;
-import cz.minestrike.me.limeth.minestrike.equipment.EquipmentSection;
 import cz.minestrike.me.limeth.minestrike.equipment.EquipmentManagerInitializationException;
 import cz.minestrike.me.limeth.minestrike.events.GameQuitEvent.SceneQuitReason;
 import cz.minestrike.me.limeth.minestrike.scene.Scene;
@@ -53,30 +55,35 @@ import cz.minestrike.me.limeth.minestrike.util.collections.FilledArrayList;
 
 public abstract class Game extends Scene
 {
-	private static final String SOUND_JOIN = "projectsurvive:counterstrike.ui.valve_logo_music",
-								CUSTOM_DATA_DEAD = "MineStrike.game.dead";
-	@Expose private final GameType type;
-	@Expose private final String id;
-	@Expose private String name;
-	private MSPlayer owner;
-	private boolean open;
-	private HashSet<MSPlayer> players;
-	private HashSet<String> invited;
-	@Expose private String lobbyId;
-	@Expose private String menuId;
-	@Expose private FilledArrayList<String> maps;
-	private FilledArrayList<GameMap> lazyCorrespondingMaps;
-	private Structure<? extends GameLobby> lobbyStructure;
-	private Structure<? extends GameMenu> menuStructure;
-	private Structure<? extends GameMap> mapStructure;
-	private GamePhase<? extends Game> phase;
-	private MSInventoryListener inventoryListener;
-	private MSShoppingListener shoppingListener;
-	private MSInteractionListener interactionListener;
-	private EquipmentProvider equipmentProvider;
-	private Scoreboard scoreboard;
-	private HashMap<Item, Equipment> drops;
-	
+	private static final String SOUND_JOIN = "projectsurvive:counterstrike.ui.valve_logo_music", CUSTOM_DATA_DEAD = "MineStrike.game.dead";
+	@Expose
+	private final GameType                       type;
+	@Expose
+	private final String                         id;
+	@Expose
+	private       String                         name;
+	private       MSPlayer                       owner;
+	private       boolean                        open;
+	private       HashSet<MSPlayer>              players;
+	private       HashSet<String>                invited;
+	@Expose
+	private       String                         lobbyId;
+	@Expose
+	private       String                         menuId;
+	@Expose
+	private       FilledArrayList<String>        maps;
+	private       FilledArrayList<GameMap>       lazyCorrespondingMaps;
+	private       Structure<? extends GameLobby> lobbyStructure;
+	private       Structure<? extends GameMenu>  menuStructure;
+	private       Structure<? extends GameMap>   mapStructure;
+	private       GamePhase<? extends Game>      phase;
+	private       MSInventoryListener            inventoryListener;
+	private       MSShoppingListener             shoppingListener;
+	private       MSInteractionListener          interactionListener;
+	private       EquipmentProvider              equipmentProvider;
+	private       Scoreboard                     scoreboard;
+	private       HashMap<Item, Equipment>       drops;
+
 	public Game(GameType gameType, String id, String name, MSPlayer owner, boolean open, String lobbyId, String menuId, FilledArrayList<String> maps)
 	{
 		Validate.notNull(gameType, "The type of the game cannot be null!");
@@ -84,7 +91,7 @@ public abstract class Game extends Scene
 		Validate.notNull(name, "The name must not be null!");
 		Validate.notEmpty(name, "The name must not be empty!");
 		Validate.notNull(maps, "The map list must not be null!");
-		
+
 		this.type = gameType;
 		this.id = id;
 		this.name = name;
@@ -93,21 +100,23 @@ public abstract class Game extends Scene
 		this.maps = maps;
 		this.lobbyId = lobbyId;
 		this.menuId = menuId;
-		
+
 		Collections.shuffle(this.maps);
 	}
-	
+
 	public abstract boolean isPlayerPlaying(MSPlayer msPlayer);
+
 	public abstract int getXPForKill(MSPlayer msVictim, MSPlayer msKiller);
+
 	public abstract int getXPForAssist(MSPlayer msVictim, MSPlayer msAssistant);
-	
+
 	public void firstStart()
 	{
 		FilledArrayList<GameMap> maps = getMaps();
-		
+
 		setMap(maps.get(MSConstant.RANDOM.nextInt(maps.size())));
 	}
-	
+
 	public void start()
 	{
 		if(open && mapStructure == null)
@@ -115,7 +124,7 @@ public abstract class Game extends Scene
 
 		Bukkit.getPluginManager().callEvent(new GameStartEvent(this));
 	}
-	
+
 	public void joinMenu(MSPlayer msPlayer, boolean spawn)
 	{
 		msPlayer.setPlayerState(PlayerState.MENU_GAME);
@@ -129,7 +138,7 @@ public abstract class Game extends Scene
 	{
 		joinMenu(msPlayer, true);
 	}
-	
+
 	public void joinLobby(MSPlayer msPlayer, boolean spawn)
 	{
 		msPlayer.setPlayerState(PlayerState.LOBBY_GAME);
@@ -143,22 +152,22 @@ public abstract class Game extends Scene
 	{
 		joinLobby(msPlayer, true);
 	}
-	
+
 	public boolean quitArena(MSPlayer msPlayer, boolean spawn)
 	{
 		ArenaQuitEvent event = new ArenaQuitEvent(this, msPlayer);
 		PluginManager pm = Bukkit.getPluginManager();
-		
+
 		pm.callEvent(event);
-		
+
 		if(event.isCancelled())
 			return false;
-		
+
 		if(owner != null && owner.equals(msPlayer))
 			joinLobby(msPlayer, spawn);
 		else
 			joinMenu(msPlayer, spawn);
-		
+
 		return true;
 	}
 
@@ -166,7 +175,7 @@ public abstract class Game extends Scene
 	{
 		return quitArena(msPlayer, true);
 	}
-	
+
 	@SuppressWarnings("deprecation")
 	public void equip(MSPlayer msPlayer, boolean force)
 	{

@@ -19,29 +19,29 @@ import cz.minestrike.me.limeth.minestrike.util.collections.FilledHashMap;
 
 public class CaseKey implements Equipment
 {
-	private static final FilledHashMap<Case, CaseKey> CASE_TO_KEY = new FilledHashMap<Case, CaseKey>();
-	private final Case caze;
-	
-	private CaseKey(Case caze)
+	private static final FilledHashMap<AbstractCase, CaseKey> CASE_TO_KEY = new FilledHashMap<AbstractCase, CaseKey>();
+	private final AbstractCase caze;
+
+	private CaseKey(AbstractCase caze)
 	{
 		this.caze = caze;
 	}
-	
-	public static CaseKey ofCase(Case caze)
+
+	public static CaseKey ofCase(AbstractCase caze)
 	{
 		CaseKey key = CASE_TO_KEY.get(caze);
-		
+
 		if(key != null)
 			return key;
-		
+
 		key = new CaseKey(caze);
-		
+
 		CASE_TO_KEY.put(caze, key);
-		
+
 		return key;
 	}
-	
-	public Case getCase()
+
+	public AbstractCase getCase()
 	{
 		return caze;
 	}
@@ -51,13 +51,13 @@ public class CaseKey implements Equipment
 	{
 		return "KEY_" + caze.getId();
 	}
-	
+
 	@Override
 	public Class<? extends Equipment> getEquipmentClass()
 	{
 		return Equipment.class;
 	}
-	
+
 	@Override
 	public Equipment getSource()
 	{
@@ -69,14 +69,14 @@ public class CaseKey implements Equipment
 	{
 		ItemStack item = new ItemStack(Material.IRON_HOE);
 		ItemMeta im = item.getItemMeta();
-		
+
 		im.setDisplayName(getDisplayName());
 		item.setItemMeta(im);
 
 		LoreAttributes.TEMP.clear();
 		LoreAttributes.TEMP.put("Type", getId());
 		LoreAttributes.TEMP.apply(item);
-		
+
 		return item;
 	}
 

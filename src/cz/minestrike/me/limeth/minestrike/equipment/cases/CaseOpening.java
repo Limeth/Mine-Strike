@@ -21,35 +21,35 @@ public class CaseOpening implements Runnable
 			SHOWN_EQUIPMENT_AMOUNT = VIEW_WIDTH - 1 + INITIAL_SPEED, RESULT_DELAY = 20,
 			INVENTORY_HEIGHT = 5;
 	private static final double BASE = 2, POWER = 30;
-	private static final String SOUND_OPEN = "projectsurvive:counterstrike.ui.csgo_ui_crate_open";
+	private static final String SOUND_OPEN   = "projectsurvive:counterstrike.ui.csgo_ui_crate_open";
 	private static final String SOUND_SCROLL = "projectsurvive:counterstrike.ui.csgo_ui_crate_item_scroll";
-	private final MSPlayer msPlayer;
-	private final Case caze;
-	private final CaseContent result;
-	private Inventory inventory;
-	private FilledArrayList<CaseContent> shownContent;
-	private Integer taskId;
-	private int speed;
-	
-	public CaseOpening(MSPlayer msPlayer, Case caze, CaseContent result)
+	private final MSPlayer                     msPlayer;
+	private final AbstractCase                 caze;
+	private final CaseContent                  result;
+	private       Inventory                    inventory;
+	private       FilledArrayList<CaseContent> shownContent;
+	private       Integer                      taskId;
+	private       int                          speed;
+
+	public CaseOpening(MSPlayer msPlayer, AbstractCase caze, CaseContent result)
 	{
 		this.msPlayer = msPlayer;
 		this.caze = caze;
 		this.result = result;
 	}
-	
+
 	public void start()
 	{
 		if(taskId != null)
 			throw new RuntimeException("This opening has already been started.");
-		
+
 		shownContent = initShownContent();
 		speed = INITIAL_SPEED;
 		SoundManager.play(SOUND_OPEN, msPlayer.getPlayer());
 		openInventory();
 		run();
 	}
-	
+
 	private int nextTask()
 	{
 		/*double percentage = 1 - speed / (double) INITIAL_SPEED;
