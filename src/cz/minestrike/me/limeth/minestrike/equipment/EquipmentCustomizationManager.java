@@ -17,6 +17,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author Limeth
@@ -119,7 +120,9 @@ public class EquipmentCustomizationManager
 			cases.add(caze);
 		}
 
+		//TODO register dynamically
 		EquipmentManager.registerAll(cases);
+		EquipmentManager.registerAll(cases.stream().map(AbstractCase::getKey).collect(Collectors.toList()));
 	}
 	
 	private static void loadFreeEquipment(YamlConfiguration yml)
