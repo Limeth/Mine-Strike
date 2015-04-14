@@ -1,16 +1,10 @@
 package cz.minestrike.me.limeth.minestrike.equipment.gson;
 
-import java.lang.reflect.Type;
-
-import org.bukkit.craftbukkit.libs.com.google.gson.JsonDeserializationContext;
-import org.bukkit.craftbukkit.libs.com.google.gson.JsonDeserializer;
-import org.bukkit.craftbukkit.libs.com.google.gson.JsonElement;
-import org.bukkit.craftbukkit.libs.com.google.gson.JsonParseException;
-import org.bukkit.craftbukkit.libs.com.google.gson.JsonSerializationContext;
-import org.bukkit.craftbukkit.libs.com.google.gson.JsonSerializer;
-
 import cz.minestrike.me.limeth.minestrike.equipment.Equipment;
 import cz.minestrike.me.limeth.minestrike.equipment.EquipmentManager;
+import org.bukkit.craftbukkit.libs.com.google.gson.*;
+
+import java.lang.reflect.Type;
 
 public class EquipmentAdapter implements JsonSerializer<Equipment>, JsonDeserializer<Equipment>
 {

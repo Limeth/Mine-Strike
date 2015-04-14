@@ -61,6 +61,7 @@ public enum Translation
 	GAME_DEATH_SOURCE_ASSIST("&7Player &r{1}&7 was killed by &r{2}&7 and &r{4}&7.", "&7Hrác &r{1}&7 byl zabit hráci &r{2}&7 a &r{4}&7."),
 	GAME_DEATH_WEAPONSOURCE_ASSIST("&7Player &r{1}&7 was killed using &r{3}&7 by &r{2}&7 and &r{4}&7.", "&7Hrác &r{1}&7 byl zabit pomocí &r{3}&7 hráci &r{2}&7 a &r{4}&7."),
 
+	EQUIPMENT_PLACEHOLDER_NAME("&c&lAn error occured", "&c&lNastala chyba"),
 	EQUIPMENT_CUSTOMIZATION_NAME("&r{2} &7(&r{1}&7)"),
 	EQUIPMENT_CASE_NAME("{1}&f Case", "{1}&f Bedna"),
 	EQUIPMENT_CASE_OPENED("&7{1}&6&l opened &7{2}&f Case&6&l and got &7&l{3}&6&l!", "&6&lHrác &7{1}&6&l otevrel &7{2}&f Bednu&6&l a získal &7{3}&6&l!"),

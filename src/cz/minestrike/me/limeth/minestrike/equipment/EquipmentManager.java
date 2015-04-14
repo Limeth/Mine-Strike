@@ -1,16 +1,10 @@
 package cz.minestrike.me.limeth.minestrike.equipment;
 
 import cz.minestrike.me.limeth.minestrike.equipment.grenades.GrenadeType;
-import cz.minestrike.me.limeth.minestrike.equipment.gson.CustomizedEquipmentAdapter;
-import cz.minestrike.me.limeth.minestrike.equipment.gson.EquipmentAdapter;
-import cz.minestrike.me.limeth.minestrike.equipment.gson.EquipmentCustomizationAdapter;
-import cz.minestrike.me.limeth.minestrike.equipment.gson.GunAdapter;
+import cz.minestrike.me.limeth.minestrike.equipment.gson.*;
 import cz.minestrike.me.limeth.minestrike.equipment.guns.Gun;
 import cz.minestrike.me.limeth.minestrike.equipment.guns.type.GunType;
-import cz.minestrike.me.limeth.minestrike.equipment.simple.Helmet;
-import cz.minestrike.me.limeth.minestrike.equipment.simple.Kevlar;
-import cz.minestrike.me.limeth.minestrike.equipment.simple.KevlarAndHelmet;
-import cz.minestrike.me.limeth.minestrike.equipment.simple.Knife;
+import cz.minestrike.me.limeth.minestrike.equipment.simple.*;
 import cz.minestrike.me.limeth.minestrike.scene.games.team.defuse.DefuseEquipmentProvider;
 import cz.minestrike.me.limeth.minestrike.util.collections.FilledHashMap;
 import org.apache.commons.lang.Validate;
@@ -22,7 +16,7 @@ import java.util.stream.Collectors;
 public class EquipmentManager
 {
 	private static final FilledHashMap<String, Equipment> TYPES;
-	private static final Gson       GSON   = new GsonBuilder().registerTypeAdapter(Equipment.class, EquipmentAdapter.INSTANCE).registerTypeAdapter(EquipmentCustomization.class, EquipmentCustomizationAdapter.INSTANCE).registerTypeAdapter(CustomizedEquipment.class, CustomizedEquipmentAdapter.INSTANCE).registerTypeAdapter(Gun.class, GunAdapter.INSTANCE).create();
+	public static final  Gson       GSON   = new GsonBuilder().registerTypeAdapter(Equipment.class, EquipmentAdapter.INSTANCE).registerTypeAdapter(EquipmentCustomization.class, EquipmentCustomizationAdapter.INSTANCE).registerTypeAdapter(CustomizedEquipment.class, CustomizedEquipmentAdapter.INSTANCE).registerTypeAdapter(Gun.class, GunAdapter.INSTANCE).registerTypeAdapter(Placeholder.class, PlaceholderAdapter.INSTANCE).create();
 	private static final JsonParser PARSER = new JsonParser();
 
 	static
