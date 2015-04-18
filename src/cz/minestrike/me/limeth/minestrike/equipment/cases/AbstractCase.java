@@ -108,6 +108,11 @@ public abstract class AbstractCase implements Equipment
 		return "CASE_" + id;
 	}
 
+	public String getCaseId()
+	{
+		return id;
+	}
+
 	@Override
 	public Class<? extends Equipment> getEquipmentClass()
 	{

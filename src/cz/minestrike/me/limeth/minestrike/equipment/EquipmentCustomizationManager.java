@@ -11,12 +11,17 @@ import cz.minestrike.me.limeth.minestrike.equipment.guns.Gun;
 import cz.minestrike.me.limeth.minestrike.equipment.guns.type.rifles.automatic.FAMAS;
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
-import org.bukkit.configuration.ConfigurationSection;
-import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.craftbukkit.libs.com.google.gson.JsonArray;
+import org.bukkit.craftbukkit.libs.com.google.gson.JsonElement;
+import org.bukkit.craftbukkit.libs.com.google.gson.JsonObject;
+import org.bukkit.craftbukkit.libs.com.google.gson.JsonParser;
 
 import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -24,7 +29,7 @@ import java.util.stream.Collectors;
  */
 public class EquipmentCustomizationManager
 {
-	public static final  File   FILE              = new File("plugins/MineStrike/equipmentCustomizations.json");
+	public static final  File   FILE              = new File("plugins/MineStrike/equipment_customizations.json");
 	private static final String KEY_CASES         = "cases";
 	private static final String KEY_CASE_NAME     = "name";
 	private static final String KEY_CASE_DISABLED = "disabled";
@@ -45,46 +50,58 @@ public class EquipmentCustomizationManager
 
 	public static void loadCustomizations()
 	{
-		YamlConfiguration yml = prepareFile();
+		JsonElement root = prepareFile();
 		
-		loadCases(yml);
-		loadFreeEquipment(yml);
+		loadCases(root);
+		loadFreeEquipment(root);
 	}
 	
-	private static void loadCases(YamlConfiguration yml)
+	private static void loadCases(JsonElement rawRoot)
 	{
-		ConfigurationSection sectionCases = yml.getConfigurationSection(KEY_CASES);
+		if(!rawRoot.isJsonObject())
+			return;
+
+		JsonObject root = rawRoot.getAsJsonObject();
+		JsonObject jsonCases = root.get(KEY_CASES).getAsJsonObject();
 
 		cases.clear();
 
-		for(String caseId : sectionCases.getKeys(false))
+		for(Map.Entry<String, JsonElement> entry : jsonCases.entrySet())
 		{
-			boolean disabled = sectionCases.contains(connect(caseId, KEY_CASE_DISABLED)) && sectionCases.getBoolean(connect(caseId, KEY_CASE_DISABLED));
+			JsonObject jsonCase = entry.getValue().getAsJsonObject();
+			String caseId = entry.getKey().toUpperCase();
+			boolean disabled = jsonCase.has(KEY_CASE_DISABLED)
+			                   && jsonCase.get(KEY_CASE_DISABLED).isJsonPrimitive()
+			                   && jsonCase.get(KEY_CASE_DISABLED).getAsJsonPrimitive().isBoolean()
+			                   && jsonCase.get(KEY_CASE_DISABLED).getAsBoolean();
 
 			if(disabled)
 				continue;
 
-			String caseName = ChatColor.translateAlternateColorCodes('&', sectionCases.getString(connect(caseId, KEY_CASE_NAME)));
+			String caseName = jsonCase.get(KEY_CASE_NAME).getAsString();
+			JsonObject caseContent = jsonCase.get(KEY_CASE_CONTENT).getAsJsonObject();
 			List<CaseContent> contents = Lists.newArrayList();
 
 			for(CaseContentRarity rarity : CaseContentRarity.values())
 			{
-				String rarityKey = connect(caseId, KEY_CASE_CONTENT, rarity.name().toLowerCase());
+				String rarityKey = rarity.name().toLowerCase();
 
-				if(!sectionCases.contains(rarityKey))
+				if(!caseContent.has(rarityKey))
 					continue;
 
-				if(sectionCases.isList(rarityKey))
-				{
-					List<String> rawEquipmentList = sectionCases.getStringList(rarityKey);
+				JsonElement jsonRarity = caseContent.get(rarityKey);
 
-					for(int i = 0; i < rawEquipmentList.size(); i++)
+				if(jsonRarity.isJsonArray())
+				{
+					JsonArray jsonRarityContent = jsonRarity.getAsJsonArray();
+
+					for(int i = 0; i < jsonRarityContent.size(); i++)
 					{
-						String rawEquipment = rawEquipmentList.get(i);
+						JsonElement jsonEquipment = jsonRarityContent.get(i);
 
 						try
 						{
-							Equipment equipment = EquipmentManager.fromJson(rawEquipment);
+							Equipment equipment = EquipmentManager.fromJsonElement(jsonEquipment);
 							CaseContent content = new CaseContent(equipment, rarity);
 
 							contents.add(content);
@@ -96,13 +113,11 @@ public class EquipmentCustomizationManager
 						}
 					}
 				}
-				else if(sectionCases.isString(rarityKey))
+				else
 				{
-					String rawEquipment = sectionCases.getString(rarityKey);
-
 					try
 					{
-						Equipment equipment = EquipmentManager.fromJson(rawEquipment);
+						Equipment equipment = EquipmentManager.fromJsonElement(jsonRarity);
 						CaseContent content = new CaseContent(equipment, rarity);
 
 						contents.add(content);
@@ -125,24 +140,31 @@ public class EquipmentCustomizationManager
 		EquipmentManager.registerAll(cases.stream().map(AbstractCase::getKey).collect(Collectors.toList()));
 	}
 	
-	private static void loadFreeEquipment(YamlConfiguration yml)
+	private static void loadFreeEquipment(JsonElement rawRoot)
 	{
 		freeEquipment.clear();
 
-		if(!yml.contains(KEY_FREE))
+		if(!rawRoot.isJsonObject())
 			return;
 
-		if(yml.isList(KEY_FREE))
-		{
-			List<String> rawEquipmentList = yml.getStringList(KEY_FREE);
+		JsonObject root = rawRoot.getAsJsonObject();
 
-			for(int i = 0; i < rawEquipmentList.size(); i++)
+		if(!root.has(KEY_FREE))
+			return;
+
+		JsonElement rawFree = root.get(KEY_FREE);
+
+		if(rawFree.isJsonArray())
+		{
+			JsonArray free = rawFree.getAsJsonArray();
+
+			for(int i = 0; i < free.size(); i++)
 			{
-				String rawEquipment = rawEquipmentList.get(i);
+				JsonElement jsonEquipment = free.get(i);
 
 				try
 				{
-					Equipment equipment = EquipmentManager.fromJson(rawEquipment);
+					Equipment equipment = EquipmentManager.fromJsonElement(jsonEquipment);
 
 					freeEquipment.add(equipment);
 				}
@@ -153,13 +175,11 @@ public class EquipmentCustomizationManager
 				}
 			}
 		}
-		else if(yml.isString(KEY_FREE))
+		else
 		{
-			String rawEquipment = yml.getString(KEY_FREE);
-
 			try
 			{
-				Equipment equipment = EquipmentManager.fromJson(rawEquipment);
+				Equipment equipment = EquipmentManager.fromJsonElement(rawFree);
 
 				freeEquipment.add(equipment);
 			}
@@ -171,7 +191,7 @@ public class EquipmentCustomizationManager
 		}
 	}
 
-	private static YamlConfiguration prepareFile()
+	private static JsonElement prepareFile()
 	{
 		try
 		{
@@ -183,7 +203,7 @@ public class EquipmentCustomizationManager
 		}
 	}
 
-	private static YamlConfiguration prepareFileUnsafe() throws IOException
+	private static JsonElement prepareFileUnsafe() throws IOException
 	{
 		if(!FILE.isFile())
 		{
@@ -196,24 +216,91 @@ public class EquipmentCustomizationManager
 			if(!FILE.createNewFile())
 				throw new IOException("Couldn't create a new equipmentCustomizations.json file.");
 
-			YamlConfiguration yml = new YamlConfiguration();
-			String caseName = "exampleCase";
-			String example = EquipmentManager.toJson(new Gun(FAMAS.getInstance(), ChatColor.DARK_RED + "Example Red", "EXAMPLE", Color.RED));
+			JsonObject root = new JsonObject();
+			JsonObject cases = new JsonObject();
 
-			yml.set(connect(KEY_CASES, caseName, KEY_CASE_NAME), "&4Example");
-			yml.set(connect(KEY_CASES, caseName, KEY_CASE_DISABLED), false);
+			JsonObject jsonExampleCase = new JsonObject();
+			String caseName = "exampleCase";
+			JsonElement jsonExampleEquipment = EquipmentManager.toJsonElement(new Gun(FAMAS.getInstance(), ChatColor.DARK_RED + "Example Red", "EXAMPLE", Color.RED));
+			JsonArray jsonExampleLegendary = new JsonArray();
+			JsonObject jsonExampleContent = new JsonObject();
+
+			jsonExampleCase.addProperty(KEY_CASE_NAME, "&4Example");
+			jsonExampleCase.addProperty(KEY_CASE_DISABLED, false);
+			jsonExampleCase.add(KEY_CASE_CONTENT, jsonExampleContent);
 
 			for(CaseContentRarity rarity : CaseContentRarity.values())
-				yml.set(connect(KEY_CASES, caseName, KEY_CASE_CONTENT, rarity.name().toLowerCase()), new String[0]);
+				jsonExampleContent.add(rarity.name().toLowerCase(), new JsonArray());
 
-			yml.set(connect(KEY_CASES, caseName, KEY_CASE_CONTENT, CaseContentRarity.LEGENDARY.name().toLowerCase()), new String[] {example});
-			yml.save(FILE);
+			jsonExampleLegendary.add(jsonExampleEquipment);
+			jsonExampleContent.add(CaseContentRarity.LEGENDARY.name().toLowerCase(), jsonExampleLegendary);
 
-			return yml;
+			cases.add(caseName, jsonExampleCase);
+			root.add(KEY_CASES, cases);
+			root.add(KEY_FREE, jsonExampleLegendary);
+
+			FileWriter writer = new FileWriter(FILE);
+
+			EquipmentManager.GSON_PRETTY.toJson(root, writer);
+			writer.close();
+
+			return root;
 		}
 
-		return YamlConfiguration.loadConfiguration(FILE);
+		FileReader reader = new FileReader(FILE);
+		JsonParser parser = new JsonParser();
+		JsonElement result = parser.parse(reader);
+
+		reader.close();
+
+		return result;
 	}
+
+	/*
+	public static void toJson() throws IOException
+	{
+		File outFile = new File("plugins/MineStrike/equipment_customizations.json");
+
+		//outFile.createNewFile();
+
+		FileWriter writer = new FileWriter(outFile);
+		JsonObject root = new JsonObject();
+		JsonObject cases = new JsonObject();
+		JsonArray free = new JsonArray();
+
+		root.add(KEY_CASES, cases);
+		root.add(KEY_FREE, free);
+
+		for(AbstractCase caze : EquipmentCustomizationManager.cases)
+		{
+			JsonObject jsonCase = new JsonObject();
+			JsonObject jsonContent = new JsonObject();
+
+			for(CaseContentRarity rarity : CaseContentRarity.values())
+			{
+				JsonArray jsonRarityContents = new JsonArray();
+
+				for(CaseContent content : caze.getContents(rarity))
+					jsonRarityContents.add(EquipmentManager.toJsonElement(content.getEquipment()));
+
+				jsonContent.add(rarity.name().toLowerCase(), jsonRarityContents);
+			}
+
+			jsonCase.addProperty(KEY_CASE_NAME, caze.getName().replace('\u0026', '&'));
+			jsonCase.addProperty(KEY_CASE_DISABLED, false);
+			jsonCase.add(KEY_CASE_CONTENT, jsonContent);
+
+			cases.add(caze.getCaseId().toLowerCase(), jsonCase);
+		}
+
+		for(Equipment equipment : freeEquipment)
+			free.add(EquipmentManager.toJsonElement(equipment));
+
+		EquipmentManager.GSON_PRETTY.toJson(root, writer);
+		writer.flush();
+		writer.close();
+	}
+	*/
 
 	/*
 	betaContent = createContents(new CaseContent.ArrayBuilder()

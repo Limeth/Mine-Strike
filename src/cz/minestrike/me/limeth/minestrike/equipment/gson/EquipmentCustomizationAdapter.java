@@ -1,21 +1,13 @@
 package cz.minestrike.me.limeth.minestrike.equipment.gson;
 
+import cz.minestrike.me.limeth.minestrike.equipment.EquipmentCustomization;
+import cz.minestrike.me.limeth.minestrike.equipment.EquipmentCustomization.EquipmentCustomizationBuilder;
+import org.bukkit.Color;
+import org.bukkit.craftbukkit.libs.com.google.gson.*;
+
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
-
-import org.bukkit.Color;
-import org.bukkit.craftbukkit.libs.com.google.gson.JsonArray;
-import org.bukkit.craftbukkit.libs.com.google.gson.JsonDeserializationContext;
-import org.bukkit.craftbukkit.libs.com.google.gson.JsonDeserializer;
-import org.bukkit.craftbukkit.libs.com.google.gson.JsonElement;
-import org.bukkit.craftbukkit.libs.com.google.gson.JsonObject;
-import org.bukkit.craftbukkit.libs.com.google.gson.JsonParseException;
-import org.bukkit.craftbukkit.libs.com.google.gson.JsonSerializationContext;
-import org.bukkit.craftbukkit.libs.com.google.gson.JsonSerializer;
-
-import cz.minestrike.me.limeth.minestrike.equipment.EquipmentCustomization;
-import cz.minestrike.me.limeth.minestrike.equipment.EquipmentCustomization.EquipmentCustomizationBuilder;
 
 public class EquipmentCustomizationAdapter implements
 	JsonSerializer<EquipmentCustomization>,
@@ -38,12 +30,15 @@ public class EquipmentCustomizationAdapter implements
 			builder.skin(object.get("skin").getAsString());
 		
 		if(object.has("color"))
-			builder.color(Color.fromRGB(object.get("color").getAsInt()));
+			if(object.getAsJsonPrimitive("color").isNumber())
+				builder.color(Color.fromRGB(object.get("color").getAsInt()));
+			else
+				builder.color(stringToColor(object.get("color").getAsString()));
 		
 		if(object.has("preLore"))
 		{
 			JsonArray lore = object.get("preLore").getAsJsonArray();
-			List<String> list = new ArrayList<String>();
+			List<String> list = new ArrayList<>();
 			
 			for(JsonElement element : lore)
 				list.add(element.getAsString());
@@ -54,7 +49,7 @@ public class EquipmentCustomizationAdapter implements
 		if(object.has("postLore"))
 		{
 			JsonArray lore = object.get("postLore").getAsJsonArray();
-			List<String> list = new ArrayList<String>();
+			List<String> list = new ArrayList<>();
 			
 			for(JsonElement element : lore)
 				list.add(element.getAsString());
@@ -77,7 +72,7 @@ public class EquipmentCustomizationAdapter implements
 			object.addProperty("skin", target.getSkin());
 		
 		if(target.getColor() != null)
-			object.addProperty("color", target.getColor().asRGB());
+			object.addProperty("color", colorToString(target.getColor()));
 		
 		if(target.getPreLore().size() > 0)
 			object.add("preLore", context.serialize(target.getPreLore()));
@@ -86,5 +81,20 @@ public class EquipmentCustomizationAdapter implements
 			object.add("postLore", context.serialize(target.getPostLore()));
 		
 		return object;
+	}
+
+	private static String colorToString(Color color)
+	{
+		return String.format("#%02x%02x%02x", color.getRed(), color.getGreen(), color.getBlue());
+	}
+
+	private static Color stringToColor(String string)
+	{
+		int value = Integer.decode(string);
+		int red = (value >> 16) & 0xFF;
+		int green = (value >> 8) & 0xFF;
+		int blue = value & 0xFF;
+
+		return Color.fromRGB(red, green, blue);
 	}
 }

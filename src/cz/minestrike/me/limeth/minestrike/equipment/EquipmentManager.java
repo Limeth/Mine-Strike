@@ -16,7 +16,9 @@ import java.util.stream.Collectors;
 public class EquipmentManager
 {
 	private static final FilledHashMap<String, Equipment> TYPES;
-	public static final  Gson       GSON   = new GsonBuilder().registerTypeAdapter(Equipment.class, EquipmentAdapter.INSTANCE).registerTypeAdapter(EquipmentCustomization.class, EquipmentCustomizationAdapter.INSTANCE).registerTypeAdapter(CustomizedEquipment.class, CustomizedEquipmentAdapter.INSTANCE).registerTypeAdapter(Gun.class, GunAdapter.INSTANCE).registerTypeAdapter(Placeholder.class, PlaceholderAdapter.INSTANCE).create();
+	private static final GsonBuilder GSON_BUILDER = new GsonBuilder().registerTypeAdapter(Equipment.class, EquipmentAdapter.INSTANCE).registerTypeAdapter(EquipmentCustomization.class, EquipmentCustomizationAdapter.INSTANCE).registerTypeAdapter(CustomizedEquipment.class, CustomizedEquipmentAdapter.INSTANCE).registerTypeAdapter(Gun.class, GunAdapter.INSTANCE).registerTypeAdapter(Placeholder.class, PlaceholderAdapter.INSTANCE);
+	public static final  Gson        GSON   = GSON_BUILDER.create();
+	public static final  Gson        GSON_PRETTY = GSON_BUILDER.setPrettyPrinting().create();
 	private static final JsonParser PARSER = new JsonParser();
 
 	static
