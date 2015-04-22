@@ -282,6 +282,7 @@ public enum GrenadeType implements Equipment, DamageSource
 			{
 				private static final double maxDistance = 32;
 				private static final double maxDuration = 6; //seconds
+				private final PotionEffectType[] effectTypes = new PotionEffectType[]{PotionEffectType.BLINDNESS, PotionEffectType.NIGHT_VISION};
 
 				@Override
 				public boolean onExplosion(Grenade grenade)
@@ -346,29 +347,32 @@ public enum GrenadeType implements Equipment, DamageSource
 						Vector dVec = pLoc.getDirection();
 						double directionMultiplier = getDirectionMultiplier(pLoc, loc, dVec);
 
-						int duration = (int) ((1 - distance / maxDistance) * maxDuration * directionMultiplier * 20.0);
-						boolean hasLongerLastingEffect = false;
-
-						for(PotionEffect effect : player.getActivePotionEffects())
+						for(PotionEffectType effectType : effectTypes)
 						{
-							PotionEffectType type = effect.getType();
+							int duration = (int) ((1 - distance / maxDistance) * maxDuration * directionMultiplier * 20.0);
+							boolean hasLongerLastingEffect = false;
 
-							if(type != PotionEffectType.BLINDNESS)
+							for(PotionEffect currentEffect : player.getActivePotionEffects())
+							{
+								PotionEffectType currentEffectType = currentEffect.getType();
+
+								if(currentEffectType != effectType)
+									continue;
+
+								int curDuration = currentEffect.getDuration();
+
+								if(curDuration > duration)
+								{
+									hasLongerLastingEffect = true;
+									break;
+								}
+							}
+
+							if(hasLongerLastingEffect)
 								continue;
 
-							int curDuration = effect.getDuration();
-
-							if(curDuration > duration)
-							{
-								hasLongerLastingEffect = true;
-								break;
-							}
+							player.addPotionEffect(new PotionEffect(effectType, duration, 0, true), true);
 						}
-
-						if(hasLongerLastingEffect)
-							continue;
-
-						player.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, duration, 0, true), true);
 					}
 				}
 

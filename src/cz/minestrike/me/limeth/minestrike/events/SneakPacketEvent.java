@@ -1,20 +1,20 @@
 package cz.minestrike.me.limeth.minestrike.events;
 
-import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
-
-import org.bukkit.entity.Player;
-import org.bukkit.event.Cancellable;
-import org.bukkit.event.HandlerList;
-
 import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.ProtocolManager;
 import com.comphenix.protocol.events.PacketContainer;
 import com.comphenix.protocol.wrappers.WrappedWatchableObject;
-
+import com.google.common.collect.Lists;
 import cz.minestrike.me.limeth.minestrike.MSPlayer;
 import cz.minestrike.me.limeth.minestrike.MineStrike;
+import org.bukkit.entity.Player;
+import org.bukkit.event.Cancellable;
+import org.bukkit.event.HandlerList;
 
+import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
+
+@Deprecated
 public class SneakPacketEvent extends MSPlayerEvent implements Cancellable
 {
 	private static final HandlerList handlers = new HandlerList();
@@ -28,17 +28,30 @@ public class SneakPacketEvent extends MSPlayerEvent implements Cancellable
 		this.sneakingPlayer = sneakingPlayer;
 		this.sneaking = sneaking;
 	}
+
+	public static PacketContainer createUpdatePacket(Player player, boolean sneaking)
+	{
+		ProtocolManager pm = MineStrike.getProtocolManager();
+		PacketContainer packet = pm.createPacket(PacketType.Play.Server.ENTITY_METADATA);
+		ArrayList<WrappedWatchableObject> list = Lists.newArrayList();
+
+		list.add(new WrappedWatchableObject(0, (byte) (sneaking ? 2 : 0)));
+		packet.getIntegers().write(0, player.getEntityId());
+		packet.getWatchableCollectionModifier().write(0, list);
+
+		return packet;
+	}
+
+	public static PacketContainer createUpdatePacket(Player player)
+	{
+		return createUpdatePacket(player, player.isSneaking());
+	}
 	
 	public static void update(Player msPlayer, Player[] receivers, boolean sneaking)
 	{
 		ProtocolManager pm = MineStrike.getProtocolManager();
-		PacketContainer packet = pm.createPacket(PacketType.Play.Server.ENTITY_METADATA);
-		ArrayList<WrappedWatchableObject> list = new ArrayList<WrappedWatchableObject>();
-		
-		list.add(new WrappedWatchableObject(0, (byte) (sneaking ? 2 : 0)));
-		packet.getIntegers().write(0, msPlayer.getPlayer().getEntityId());
-		packet.getWatchableCollectionModifier().write(0, list);
-		
+		PacketContainer packet = createUpdatePacket(msPlayer, sneaking);
+
 		for(Player receiver : receivers)
 			try
 			{
@@ -50,7 +63,7 @@ public class SneakPacketEvent extends MSPlayerEvent implements Cancellable
 			}
 	}
 	
-	public static void update(Player msPlayer, Player[] receivers)
+	public static void update(Player msPlayer, Player... receivers)
 	{
 		update(msPlayer, receivers, msPlayer.getPlayer().isSneaking());
 	}

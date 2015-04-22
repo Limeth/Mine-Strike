@@ -1290,4 +1290,10 @@ var rotateX3D = function(theta) {
 		for(PotionEffect effect : player.getActivePotionEffects())
 			player.removePotionEffect(effect.getType());
 	}
+
+	@Override
+	public String toString()
+	{
+		return "MSPlayer{ " + player.toString() + " }";
+	}
 }

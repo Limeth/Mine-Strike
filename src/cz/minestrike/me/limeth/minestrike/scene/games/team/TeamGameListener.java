@@ -2,7 +2,7 @@ package cz.minestrike.me.limeth.minestrike.scene.games.team;
 
 import cz.minestrike.me.limeth.minestrike.MSPlayer;
 import cz.minestrike.me.limeth.minestrike.events.GameSpawnEvent;
-import cz.minestrike.me.limeth.minestrike.events.SneakPacketEvent;
+import cz.minestrike.me.limeth.minestrike.events.PlayerMetadataPacketEvent;
 import cz.minestrike.me.limeth.minestrike.listeners.msPlayer.MSSceneListener;
 import cz.minestrike.me.limeth.minestrike.scene.games.PlayerState;
 import cz.minestrike.me.limeth.minestrike.scene.games.Team;
@@ -114,29 +114,32 @@ public class TeamGameListener extends MSSceneListener<TeamGame>
 		Player player = msPlayer.getPlayer();
 		Set<Player> viewers = game.getBukkitPlayers();
 		
-		SneakPacketEvent.update(player, viewers.toArray(new Player[viewers.size()]));
+		PlayerMetadataPacketEvent.update(player, viewers.toArray(new Player[viewers.size()]));
 	}
-	
+
 	@EventHandler
-	public void onSneakPacket(SneakPacketEvent event, MSPlayer msViewer)
+	public void onMetadataPacketSend(PlayerMetadataPacketEvent event, MSPlayer msViewer)
 	{
 		TeamGame game = getScene();
-		
+
 		if(!game.isPlayerPlaying(msViewer))
 			return;
-		
-		MSPlayer msSneaking = event.getSneakingPlayer();
-		
-		if(!game.isPlayerPlaying(msSneaking))
+
+		MSPlayer msTarget = event.getMSTarget();
+
+		if(msViewer == msTarget)
 			return;
-		
+
+		if(!game.isPlayerPlaying(msTarget))
+			return;
+
 		Team viewerTeam = game.getTeam(msViewer);
-		Team sneakingTeam = game.getTeam(msSneaking);
-		boolean sneaking = viewerTeam != sneakingTeam;
-		
-		if(event.isSneaking() == sneaking)
-			event.setCancelled(true);
-		else
-			event.setSneaking(sneaking);
+		Team targetTeam = game.getTeam(msTarget);
+
+		boolean sneaking = viewerTeam != targetTeam;
+		PlayerMetadataPacketEvent.VariousMetadata variousMetadata = event.getVariousOrCreate();
+
+		variousMetadata.setSneaking(sneaking);
+		event.setVarious(variousMetadata);
 	}
 }

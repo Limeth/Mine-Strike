@@ -21,7 +21,7 @@ public class MSConstant
 		ITEM_BACKGROUND = backgroundItem;
 	}
 	
-	public static final boolean DEBUG = false;
+	public static final boolean DEBUG = true;
 	public static final Random RANDOM = new Random();
 	public static final String CONSOLE_PREFIX = ChatColor.BLUE + "Mine" + ChatColor.GRAY + "-" + ChatColor.GOLD + "Strike" + ChatColor.GRAY + ": " + ChatColor.RESET,
 			INVENTORY_NAME_PREFIX = ChatColor.DARK_BLUE + "" + ChatColor.BOLD + "Mine-Strike" + ChatColor.BLACK + " | " + ChatColor.BOLD,
