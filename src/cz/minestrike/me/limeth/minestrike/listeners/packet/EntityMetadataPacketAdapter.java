@@ -31,7 +31,7 @@ public class EntityMetadataPacketAdapter extends PacketAdapter
 		Player viewer = event.getPlayer();
 		MSPlayer msViewer = MSPlayer.get(viewer);
 		int playerId = packet.getIntegers().read(0);
-		Player targetPlayer = PacketManager.getPlayerByEntityId(playerId);
+		Player targetPlayer = PacketManager.getInstance().getPlayerByEntityId(playerId);
 
 		if(targetPlayer == null)
 			return;

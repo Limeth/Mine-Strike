@@ -1,49 +1,70 @@
 package cz.minestrike.me.limeth.minestrike.listeners.packet;
 
-import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.ProtocolManager;
 import com.comphenix.protocol.events.ListenerPriority;
-import com.comphenix.protocol.events.PacketAdapter;
-import com.comphenix.protocol.events.PacketContainer;
-import com.comphenix.protocol.events.PacketEvent;
-import com.comphenix.protocol.reflect.StructureModifier;
-import com.comphenix.protocol.wrappers.WrappedWatchableObject;
-import cz.minestrike.me.limeth.minestrike.MSPlayer;
+import com.google.common.collect.Maps;
 import cz.minestrike.me.limeth.minestrike.MineStrike;
-import cz.minestrike.me.limeth.minestrike.events.PlayerMetadataPacketEvent;
-import cz.minestrike.me.limeth.minestrike.events.SneakPacketEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.PluginManager;
-import org.bukkit.scheduler.BukkitScheduler;
 
-import java.util.Iterator;
-import java.util.List;
+import java.util.HashMap;
 
-public class PacketManager
+public class PacketManager implements Listener
 {
-	private PacketManager() {}
-	
-	public static void registerListeners()
-	{
-		ProtocolManager pm = MineStrike.getProtocolManager();
+	private static HashMap<Integer, Player> entityIdToPlayer = Maps.newHashMap();
+	private static PacketManager            instance         = new PacketManager();
 
-		pm.addPacketListener(new EntityMetadataPacketAdapter(MineStrike.getInstance(), ListenerPriority.NORMAL));
-		pm.addPacketListener(new NamedEntitySpawnPacketAdapter(MineStrike.getInstance(), ListenerPriority.NORMAL));
+	private PacketManager()
+	{
 	}
 
-	//TODO Find a faster way (HashMap?)
-	public static Player getPlayerByEntityId(int id)
+	public void registerListeners()
 	{
-		for(Player player : Bukkit.getOnlinePlayers())
-			if(player.getEntityId() == id)
-				return player;
+		PluginManager pm = Bukkit.getPluginManager();
+		ProtocolManager prm = MineStrike.getProtocolManager();
 
-		return null;
+		pm.registerEvents(this, MineStrike.getInstance());
+		prm.addPacketListener(new EntityMetadataPacketAdapter(MineStrike.getInstance(), ListenerPriority.NORMAL));
+		prm.addPacketListener(new NamedEntitySpawnPacketAdapter(MineStrike.getInstance(), ListenerPriority.NORMAL));
 	}
-	
-	public static void unregisterListeners()
+
+	public Player getPlayerByEntityId(int id)
+	{
+		return entityIdToPlayer.get(id);
+	}
+
+	public void unregisterListeners()
 	{
 		MineStrike.getProtocolManager().removePacketListeners(MineStrike.getInstance());
+		entityIdToPlayer.clear();
+	}
+
+	@EventHandler(priority = EventPriority.LOWEST)
+	public void onPlayerJoin(PlayerJoinEvent event)
+	{
+		Player player = event.getPlayer();
+		int entityId = player.getEntityId();
+
+		entityIdToPlayer.put(entityId, player);
+	}
+
+	@EventHandler(priority = EventPriority.HIGHEST)
+	public void onPlayerQuit(PlayerQuitEvent event)
+	{
+		Player player = event.getPlayer();
+		int entityId = player.getEntityId();
+
+		entityIdToPlayer.remove(entityId);
+	}
+
+	public static PacketManager getInstance()
+	{
+		return instance;
 	}
 }

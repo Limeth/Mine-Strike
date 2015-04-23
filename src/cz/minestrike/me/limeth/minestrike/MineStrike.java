@@ -70,7 +70,7 @@ public class MineStrike extends JavaPlugin
 			
 			registerMSListeners();
 			registerBukkitListeners();
-			PacketManager.registerListeners();
+			PacketManager.getInstance().registerListeners();
 			loadData();
 			setupDBI();
 			redirectCommands();
@@ -125,7 +125,7 @@ public class MineStrike extends JavaPlugin
 		
 		MSPlayer.stopMovementLoop();
 		MSPlayer.clearOnlinePlayers();
-		PacketManager.unregisterListeners();
+		PacketManager.getInstance().unregisterListeners();
 		Bukkit.getScheduler().cancelTasks(this);
 		info("Mine-Strike successfully disabled!");
 		

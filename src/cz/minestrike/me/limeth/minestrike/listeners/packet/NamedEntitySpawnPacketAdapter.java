@@ -27,7 +27,7 @@ public class NamedEntitySpawnPacketAdapter extends PacketAdapter
 	{
 		PacketContainer packet = event.getPacket();
 		int playerId = packet.getIntegers().read(0);
-		Player spawnedPlayer = PacketManager.getPlayerByEntityId(playerId);
+		Player spawnedPlayer = PacketManager.getInstance().getPlayerByEntityId(playerId);
 
 		if(spawnedPlayer == null)
 			return;
