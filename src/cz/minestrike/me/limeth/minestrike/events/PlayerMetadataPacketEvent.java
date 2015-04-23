@@ -9,7 +9,6 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import cz.minestrike.me.limeth.minestrike.MSPlayer;
 import cz.minestrike.me.limeth.minestrike.MineStrike;
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.HandlerList;
@@ -90,16 +89,6 @@ public class PlayerMetadataPacketEvent extends MSPlayerEvent implements Cancella
 	public static void update(MSPlayer msTarget, MSPlayer... msViewers)
 	{
 		update(msTarget.getPlayer(), Arrays.stream(msViewers).map(MSPlayer::getPlayer).toArray(Player[]::new));
-	}
-
-	//TODO Find a faster way (HashMap?)
-	private static Player getPlayerByEntityId(int id)
-	{
-		for(Player player : Bukkit.getOnlinePlayers())
-			if(player.getEntityId() == id)
-				return player;
-
-		return null;
 	}
 
 	public List<WrappedWatchableObject> getData()
