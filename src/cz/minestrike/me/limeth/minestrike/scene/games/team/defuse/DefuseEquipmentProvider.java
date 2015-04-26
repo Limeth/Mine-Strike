@@ -75,7 +75,11 @@ public class DefuseEquipmentProvider implements EquipmentProvider
 		bomb.setItemMeta(bombIM);
 		
 		BOMB = new SimpleEquipment("BOMB", bomb, EquipmentCategory.MISCELLANEOUS, false, 0, MSConstant.MOVEMENT_SPEED_DEFAULT, "projectsurvive:counterstrike.weapons.c4.c4_draw", true, true);
-		
+
+		EquipmentManager.register(DefuseEquipmentProvider.BOMB);
+		EquipmentManager.register(DefuseEquipmentProvider.DEFUSE_KIT_DEFAULT);
+		EquipmentManager.register(DefuseEquipmentProvider.DEFUSE_KIT_BOUGHT);
+
 		FilledArrayList<EquipmentSection> categories = new FilledArrayList<>();
 		
 		categories.add(EquipmentSection.PISTOLS);

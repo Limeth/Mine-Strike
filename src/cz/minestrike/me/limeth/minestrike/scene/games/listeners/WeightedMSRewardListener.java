@@ -14,7 +14,6 @@ import java.util.Random;
 public abstract class WeightedMSRewardListener<T extends Game> extends MSRewardListener<T>
 {
 	private static final Random RANDOM = new Random();
-	private double                 globalChance;
 	private Map<Equipment, Double> equipmentWeights;
 
 	public WeightedMSRewardListener(T scene, long requiredPlaytimeMillis, int requiredKills, int maxRewardGenerosity)
@@ -22,16 +21,15 @@ public abstract class WeightedMSRewardListener<T extends Game> extends MSRewardL
 		super(scene, requiredPlaytimeMillis, requiredKills, maxRewardGenerosity);
 
 		this.equipmentWeights = initEquipmentWeights();
-		this.globalChance = initGlobalChance();
 	}
 
 	public abstract Map<Equipment, Double> initEquipmentWeights();
-	public abstract double initGlobalChance();
+	public abstract double getGlobalChance();
 
 	@Override
 	public Optional<Equipment> getReward(MSPlayer msPlayer)
 	{
-		if(RANDOM.nextDouble() > globalChance)
+		if(RANDOM.nextDouble() > getGlobalChance())
 			return Optional.absent();
 
 		double range = getWeightRange();
@@ -42,7 +40,7 @@ public abstract class WeightedMSRewardListener<T extends Game> extends MSRewardL
 		{
 			countedWeight += entry.getValue();
 
-			if(countedWeight > weightedIndex)
+			if(countedWeight >= weightedIndex)
 				return Optional.of(entry.getKey());
 		}
 

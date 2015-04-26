@@ -375,9 +375,6 @@ public class PlayerMetadataPacketEvent extends MSPlayerEvent implements Cancella
 
 	public void debug()
 	{
-		for(WrappedWatchableObject object : dataMap.values())
-			MineStrike.warn(object.toString());
-
 		MineStrike.debug("PlayerMetadataPacketEvent[viewer=" + getPlayer().getName() + ", target=" + getMSTarget().getName() + "] {");
 		MineStrike.debug("  various: " + getVarious());
 		MineStrike.debug("  airLevel: " + getAirLevel());

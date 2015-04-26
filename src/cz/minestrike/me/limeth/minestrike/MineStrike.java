@@ -146,8 +146,8 @@ public class MineStrike extends JavaPlugin
 		Translation.load();
 		SchemeManager.loadSchemes();
 		PlotManager.loadPlots();
-		GameManager.loadGames();
 		EquipmentCustomizationManager.loadCustomizations();
+		GameManager.loadGames();
 	}
 	
 	private void saveData() throws Exception
@@ -185,7 +185,7 @@ public class MineStrike extends JavaPlugin
 	
 	public static <T> T debug(String message, T object)
 	{
-		if(MSConstant.DEBUG)
+		if(MSConfig.isDebug())
 			System.out.println("[DEBUG] " + String.format(message, object));
 		
 		return object;
@@ -193,7 +193,7 @@ public class MineStrike extends JavaPlugin
 	
 	public static void debug(Object object)
 	{
-		if(MSConstant.DEBUG)
+		if(MSConfig.isDebug())
 			System.out.println("[DEBUG] " + object);
 	}
 	

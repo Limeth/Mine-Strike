@@ -5,7 +5,6 @@ import cz.minestrike.me.limeth.minestrike.equipment.gson.*;
 import cz.minestrike.me.limeth.minestrike.equipment.guns.Gun;
 import cz.minestrike.me.limeth.minestrike.equipment.guns.type.GunType;
 import cz.minestrike.me.limeth.minestrike.equipment.simple.*;
-import cz.minestrike.me.limeth.minestrike.scene.games.team.defuse.DefuseEquipmentProvider;
 import cz.minestrike.me.limeth.minestrike.util.collections.FilledHashMap;
 import org.apache.commons.lang.Validate;
 import org.bukkit.craftbukkit.libs.com.google.gson.*;
@@ -32,11 +31,6 @@ public class EquipmentManager
 		register(Helmet.HELMET);
 		register(KevlarAndHelmet.KEVLAR_AND_HELMET);
 		register(Knife.KNIFE);
-
-		//Defuse TODO register dynamically
-		register(DefuseEquipmentProvider.BOMB);
-		register(DefuseEquipmentProvider.DEFUSE_KIT_DEFAULT);
-		register(DefuseEquipmentProvider.DEFUSE_KIT_BOUGHT);
 	}
 
 	public static void registerAll(Equipment... array)

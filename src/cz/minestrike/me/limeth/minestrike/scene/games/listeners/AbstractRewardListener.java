@@ -46,7 +46,7 @@ public abstract class AbstractRewardListener<T extends Game> extends WeightedMSR
 	}
 
 	@Override
-	public double initGlobalChance()
+	public double getGlobalChance()
 	{
 		return globalChance;
 	}

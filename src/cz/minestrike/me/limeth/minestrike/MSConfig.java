@@ -24,6 +24,7 @@ public class MSConfig
 			.excludeFieldsWithoutExposeAnnotation()
 			.setPrettyPrinting()
 			.create();
+	private static boolean debug;
 	private static World world;
 	private static DirectedPoint spawn;
 	private static String languageName, mysqlIP, mysqlDatabase, mysqlUsername, mysqlPassword, mysqlTablePlayers, mysqlTableEquipment;
@@ -37,7 +38,8 @@ public class MSConfig
 	public static void load() throws Exception
 	{
 		JsonObject root = prepare();
-		
+
+		debug = root.get("debug").getAsBoolean();
 		languageName = root.get("language").getAsString();
 		world = Bukkit.getWorld(root.get("world").getAsString());
 		spawn = GSON.fromJson(root.get("spawn"), DirectedPoint.class);
@@ -83,6 +85,9 @@ public class MSConfig
 			if(!FILE.createNewFile())
 				throw new IOException("Could not create the config file.");
 		}
+
+		if(!root.has("debug"))
+			root.addProperty("debug", false);
 
 		if(!root.has("language"))
 			root.addProperty("language", Translation.DEFAULT_LANGUAGE_NAME);
@@ -132,7 +137,11 @@ public class MSConfig
 
 		mysql.add("tables", mysqlTables);
 		root.add("mysql", mysql);
-		
+
+/*		JsonObject mysqlTables = mysql.has("tables") ? mysql.get("tables").getAsJsonObject() : new JsonObject();
+
+		root.add(penetrationPercentage);*/
+
 		GSON.toJson(root, writer);
 		writer.close();
 
@@ -170,7 +179,12 @@ public class MSConfig
 			return "world";
 		}
 	}
-	
+
+	public static boolean isDebug()
+	{
+		return debug;
+	}
+
 	public static String getLanguageName()
 	{
 		return languageName;
