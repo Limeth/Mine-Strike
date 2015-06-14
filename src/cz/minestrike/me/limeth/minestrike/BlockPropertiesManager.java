@@ -1,7 +1,6 @@
 package cz.minestrike.me.limeth.minestrike;
 
 import com.google.common.collect.Maps;
-import cz.minestrike.me.limeth.minestrike.equipment.BlockProperties;
 import cz.minestrike.me.limeth.minestrike.equipment.EquipmentManager;
 import org.bukkit.Material;
 import org.bukkit.craftbukkit.libs.com.google.gson.JsonElement;

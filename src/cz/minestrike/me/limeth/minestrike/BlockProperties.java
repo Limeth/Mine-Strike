@@ -1,4 +1,4 @@
-package cz.minestrike.me.limeth.minestrike.equipment;
+package cz.minestrike.me.limeth.minestrike;
 
 import com.google.common.base.Preconditions;
 import org.bukkit.craftbukkit.libs.com.google.gson.JsonElement;
