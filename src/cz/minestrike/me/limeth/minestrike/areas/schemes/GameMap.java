@@ -1,18 +1,17 @@
 package cz.minestrike.me.limeth.minestrike.areas.schemes;
 
-import java.util.ArrayList;
-
-import org.apache.commons.lang.Validate;
-import org.bukkit.ChatColor;
-import org.bukkit.command.CommandSender;
-import org.bukkit.craftbukkit.libs.com.google.gson.annotations.Expose;
-
 import cz.minestrike.me.limeth.minestrike.areas.Point;
 import cz.minestrike.me.limeth.minestrike.areas.Region;
 import cz.minestrike.me.limeth.minestrike.areas.RegionList;
 import cz.minestrike.me.limeth.minestrike.commands.SchemeCommandHandler;
 import cz.minestrike.me.limeth.minestrike.scene.games.Team;
 import cz.minestrike.me.limeth.minestrike.util.collections.FilledHashMap;
+import org.apache.commons.lang.Validate;
+import org.bukkit.ChatColor;
+import org.bukkit.command.CommandSender;
+import org.bukkit.craftbukkit.libs.com.google.gson.annotations.Expose;
+
+import java.util.ArrayList;
 
 
 public abstract class GameMap extends Scheme
@@ -20,7 +19,7 @@ public abstract class GameMap extends Scheme
 	public static final String SCHEME_ID_PREFIX = "map_";
 	
 	@Expose private String name;
-	@Expose private RegionList tSpawn, ctSpawn, shoppingZones;
+	@Expose private RegionList tSpawn, ctSpawn, shoppingZones, spectatorZones;
 	@Expose private Point spectatorSpawn;
 	
 	public GameMap(SchemeType type, String id, Region region, String name, RegionList tSpawn, RegionList ctSpawn, RegionList shoppingZones, Point spectatorSpawn)
@@ -54,9 +53,10 @@ public abstract class GameMap extends Scheme
 	{
 		FilledHashMap<String, RegionList> regionList = super.getRegionsLists();
 		
-		regionList.put("TSpawn", tSpawn);
-		regionList.put("CTSpawn", ctSpawn);
-		regionList.put("shoppingZones", shoppingZones);
+		regionList.put("TSpawn", getTSpawn());
+		regionList.put("CTSpawn", getCTSpawn());
+		regionList.put("shoppingZones", getShoppingZones());
+		regionList.put("spectatorZones", getSpectatorZones());
 		
 		return regionList;
 	}
@@ -91,7 +91,7 @@ public abstract class GameMap extends Scheme
 
 	public RegionList getTSpawn()
 	{
-		return tSpawn;
+		return tSpawn != null ? tSpawn : (tSpawn = new RegionList());
 	}
 	
 	public void setTSpawn(RegionList tSpawn)
@@ -101,7 +101,7 @@ public abstract class GameMap extends Scheme
 
 	public RegionList getCTSpawn()
 	{
-		return ctSpawn;
+		return ctSpawn != null ? ctSpawn : (ctSpawn = new RegionList());
 	}
 
 	public void setCTSpawn(RegionList ctSpawn)
@@ -111,12 +111,22 @@ public abstract class GameMap extends Scheme
 
 	public RegionList getShoppingZones()
 	{
-		return shoppingZones;
+		return shoppingZones != null ? shoppingZones : (shoppingZones = new RegionList());
 	}
 
 	public void setShoppingZones(RegionList shoppingZones)
 	{
 		this.shoppingZones = shoppingZones;
+	}
+
+	public RegionList getSpectatorZones()
+	{
+		return spectatorZones != null ? spectatorZones : (spectatorZones = new RegionList());
+	}
+
+	public void setSpectatorZones(RegionList spectatorZones)
+	{
+		this.spectatorZones = spectatorZones;
 	}
 
 	public Point getSpectatorSpawn()

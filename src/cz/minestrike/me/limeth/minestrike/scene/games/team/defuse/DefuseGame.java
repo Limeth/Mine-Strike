@@ -114,6 +114,7 @@ public class DefuseGame extends TeamGame
 	{
 		clearBombsites();
 		clearDrops();
+		repairDamagedBlocks();
 
 		for(MSPlayer msPlayer : getPlayingPlayers())
 		{

@@ -2,6 +2,7 @@ package cz.minestrike.me.limeth.minestrike.equipment.guns.type;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
 import cz.minestrike.me.limeth.minestrike.MSPlayer;
 import cz.minestrike.me.limeth.minestrike.equipment.Equipment;
 import cz.minestrike.me.limeth.minestrike.equipment.EquipmentCategory;
@@ -11,19 +12,23 @@ import cz.minestrike.me.limeth.minestrike.equipment.guns.GunManager;
 import cz.minestrike.me.limeth.minestrike.equipment.guns.GunTask;
 import cz.minestrike.me.limeth.minestrike.equipment.guns.tasks.Firing;
 import cz.minestrike.me.limeth.minestrike.equipment.guns.tasks.Reloading;
-import cz.minestrike.me.limeth.minestrike.equipment.guns.type.lmgs.*;
+import cz.minestrike.me.limeth.minestrike.equipment.guns.type.lmgs.M249;
+import cz.minestrike.me.limeth.minestrike.equipment.guns.type.lmgs.Negev;
 import cz.minestrike.me.limeth.minestrike.equipment.guns.type.pistols.*;
 import cz.minestrike.me.limeth.minestrike.equipment.guns.type.rifles.automatic.*;
-import cz.minestrike.me.limeth.minestrike.equipment.guns.type.rifles.sniper.*;
-import cz.minestrike.me.limeth.minestrike.equipment.guns.type.shotguns.*;
+import cz.minestrike.me.limeth.minestrike.equipment.guns.type.rifles.sniper.AWP;
+import cz.minestrike.me.limeth.minestrike.equipment.guns.type.rifles.sniper.G3SG1;
+import cz.minestrike.me.limeth.minestrike.equipment.guns.type.rifles.sniper.SCAR20;
+import cz.minestrike.me.limeth.minestrike.equipment.guns.type.rifles.sniper.SSG08;
+import cz.minestrike.me.limeth.minestrike.equipment.guns.type.shotguns.MAG7;
+import cz.minestrike.me.limeth.minestrike.equipment.guns.type.shotguns.Nova;
+import cz.minestrike.me.limeth.minestrike.equipment.guns.type.shotguns.SawedOff;
+import cz.minestrike.me.limeth.minestrike.equipment.guns.type.shotguns.XM1014;
 import cz.minestrike.me.limeth.minestrike.equipment.guns.type.smgs.*;
 import cz.minestrike.me.limeth.minestrike.scene.Scene;
-import cz.minestrike.me.limeth.minestrike.util.BoundUtil;
 import cz.minestrike.me.limeth.minestrike.util.SoundManager;
 import cz.minestrike.me.limeth.minestrike.util.SoundSequence;
 import cz.minestrike.me.limeth.minestrike.util.collections.FilledArrayList;
-import net.minecraft.server.v1_7_R4.EnumMovingObjectType;
-import net.minecraft.server.v1_7_R4.MovingObjectPosition;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.block.Block;
@@ -241,6 +246,35 @@ public abstract class GunType implements Equipment
 			Vector direction = location.getDirection();
 			msPlayer.modifyByRecoil(direction, gun);
 			direction.add(inaccuracyDirection);
+			direction.multiply(1 / direction.length()); //Normalize
+			msPlayer.increaseRecoil(getRecoilMagnitude(msPlayer));
+
+			GunManager.shootBullet(msPlayer, location, direction, range);
+		}
+
+		gun.setLastBulletShotAt();
+	}
+
+/*	public void shootOld(MSPlayer msPlayer)
+	{
+		Gun gun = msPlayer.getEquipmentInHand();
+		int amount = gun.getShootingBullets();
+		Player player = msPlayer.getPlayer();
+		Location location = player.getEyeLocation();
+		String shootSound = gun.getSoundShooting();
+		Scene scene = msPlayer.getScene();
+		Set<Player> playersInScene = scene.getBukkitPlayers();
+		World world = location.getWorld();
+		int range = getRange(msPlayer);
+
+		SoundManager.play(shootSound, location, playersInScene);
+
+		for(int i = 0; i < amount; i++)
+		{
+			Vector inaccuracyDirection = msPlayer.getInaccuracyVector(gun);
+			Vector direction = location.getDirection();
+			msPlayer.modifyByRecoil(direction, gun);
+			direction.add(inaccuracyDirection);
 			direction.multiply(range / direction.length()); //Normalize to range
 			msPlayer.increaseRecoil(getRecoilMagnitude(msPlayer));
 
@@ -251,7 +285,7 @@ public abstract class GunType implements Equipment
 			{
 				MovingObjectPosition lastObstacle = obstacles[obstacles.length - 1];
 
-				GunManager.onBulletHit(obstacles, msPlayer);
+				GunManager.onBulletHit(obstacles, msPlayer, 1);
 
 				if(lastObstacle.type == EnumMovingObjectType.BLOCK)
 					endLocation = new Location(world, lastObstacle.pos.a, lastObstacle.pos.b, lastObstacle.pos.c);
@@ -264,7 +298,7 @@ public abstract class GunType implements Equipment
 		}
 
 		gun.setLastBulletShotAt();
-	}
+	}*/
 
 	@Override
 	public boolean rightClick(MSPlayer msPlayer, Block clickedBlock)

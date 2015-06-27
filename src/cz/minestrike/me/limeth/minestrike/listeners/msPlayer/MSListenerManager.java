@@ -73,9 +73,9 @@ public class MSListenerManager implements Listener
 	
 	private static final class ReflectionEventExecutor extends MSPlayerEventExecutor<Event>
 	{
-		private static final HashMap<Class<? extends Event>, ReflectionEventExecutor> map = new HashMap<Class<? extends Event>, ReflectionEventExecutor>();
+		private static final HashMap<Class<? extends Event>, ReflectionEventExecutor> map = new HashMap<>();
 		private final Method method;
-		
+
 		private ReflectionEventExecutor(Class<? extends Event> clazz)
 		{
 			try
@@ -85,25 +85,26 @@ public class MSListenerManager implements Listener
 			catch(NoSuchMethodException | SecurityException e)
 			{
 				throw new IllegalArgumentException(e);
-			};
+			}
+			;
 		}
-		
+
 		public static ReflectionEventExecutor valueOf(Class<? extends Event> clazz)
 		{
 			ReflectionEventExecutor value = map.get(clazz);
-			
+
 			if(value == null)
 			{
 				map.put(clazz, value = new ReflectionEventExecutor(clazz));
 			}
-			
+
 			return value;
 		}
-		
+
 		public static boolean isApplicable(Class<? extends Event> clazz)
 		{
 			Method method;
-			
+
 			try
 			{
 				method = clazz.getDeclaredMethod("getPlayer");
@@ -112,15 +113,15 @@ public class MSListenerManager implements Listener
 			{
 				return false;
 			}
-//			
-//			if(!method.isAccessible())
-//				return false;
-//			
+			//
+			//			if(!method.isAccessible())
+			//				return false;
+			//
 			Class<?> returnType = method.getReturnType();
-			
+
 			return returnType == Player.class;
 		}
-		
+
 		@Override
 		protected Player getPlayer(Event event)
 		{
@@ -132,7 +133,7 @@ public class MSListenerManager implements Listener
 			{
 				e.printStackTrace();
 			}
-			
+
 			return null;
 		}
 
@@ -142,49 +143,52 @@ public class MSListenerManager implements Listener
 			return "ReflectionEventExecutor [method=" + method + "]";
 		}
 	}
-	
-	private final EventExecutor playerEventExecutor = new MSPlayerEventExecutor<PlayerEvent>() {
-		
+
+	private final EventExecutor playerEventExecutor = new MSPlayerEventExecutor<PlayerEvent>()
+	{
+
 		@Override
 		protected Player getPlayer(PlayerEvent event)
 		{
 			PlayerEvent playerEvent = (PlayerEvent) event;
-			
+
 			return playerEvent.getPlayer();
 		}
-		
+
 	};
-	
-	private final EventExecutor entityEventExecutor = new MSPlayerEventExecutor<EntityEvent>() {
-		
+
+	private final EventExecutor entityEventExecutor = new MSPlayerEventExecutor<EntityEvent>()
+	{
+
 		@Override
 		protected Player getPlayer(EntityEvent event)
 		{
 			EntityEvent entityEvent = (EntityEvent) event;
 			Entity entity = entityEvent.getEntity();
-			
+
 			if(!(entity instanceof Player))
 				return null;
-			
+
 			return (Player) entity;
 		}
-		
+
 	};
-	
-	private final EventExecutor inventoryEventExecutor = new MSPlayerEventExecutor<InventoryEvent>() {
-		
+
+	private final EventExecutor inventoryEventExecutor = new MSPlayerEventExecutor<InventoryEvent>()
+	{
+
 		@Override
 		protected Player getPlayer(InventoryEvent event)
 		{
 			InventoryEvent invEvent = (InventoryEvent) event;
 			InventoryView view = invEvent.getView();
 			HumanEntity human = view.getPlayer();
-			
+
 			return (Player) human;
 		}
-		
+
 	};
-	
+
 	public static abstract class MSPlayerEventExecutor<T extends Event> implements EventExecutor
 	{
 		protected abstract Player getPlayer(T event);

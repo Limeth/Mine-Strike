@@ -3,6 +3,7 @@ package cz.minestrike.me.limeth.minestrike;
 import com.google.common.collect.Maps;
 import cz.minestrike.me.limeth.minestrike.equipment.EquipmentManager;
 import org.bukkit.Material;
+import org.bukkit.block.Block;
 import org.bukkit.craftbukkit.libs.com.google.gson.JsonElement;
 import org.bukkit.craftbukkit.libs.com.google.gson.JsonObject;
 import org.bukkit.craftbukkit.libs.com.google.gson.JsonParser;
@@ -21,14 +22,32 @@ import java.util.regex.Pattern;
  */
 public class BlockPropertiesManager
 {
-	public static final String                             GROUP_BLOCK_NAMESPACE = "namespace";
-	public static final String                             GROUP_BLOCK_ID        = "id";
-	public static final String                             GROUP_BLOCK_DATA      = "data";
-	public static final String                             REGEX_BLOCK           = "^((?<" + GROUP_BLOCK_NAMESPACE + ">[a-zA-Z0-9_]+):)??(?<" + GROUP_BLOCK_ID + ">[a-zA-Z0-9_]+)(:(?<" + GROUP_BLOCK_DATA + ">[0-9]+))?$";
-	public static final Pattern                            PATTERN_BLOCK         = Pattern.compile(REGEX_BLOCK);
-	public static final File                               FILE                  = new File("plugins/MineStrike/blocks.json");
-	public static final Map<Material, BlockProperties>     materialMap           = Maps.newHashMap();
-	public static final Map<MaterialData, BlockProperties> materialDataMap       = Maps.newHashMap();
+	public static final String                              GROUP_BLOCK_NAMESPACE = "namespace";
+	public static final String                              GROUP_BLOCK_ID        = "id";
+	public static final String                              GROUP_BLOCK_DATA      = "data";
+	public static final String                              REGEX_BLOCK           = "^((?<" + GROUP_BLOCK_NAMESPACE + ">[a-zA-Z0-9_]+):)??(?<" + GROUP_BLOCK_ID + ">[a-zA-Z0-9_]+)(:(?<" + GROUP_BLOCK_DATA + ">[0-9]+))?$";
+	public static final Pattern                             PATTERN_BLOCK         = Pattern.compile(REGEX_BLOCK);
+	public static final File                                FILE                  = new File("plugins/MineStrike/blocks.json");
+	private static final Map<Material, BlockProperties>     materialMap           = Maps.newHashMap();
+	private static final Map<MaterialData, BlockProperties> materialDataMap       = Maps.newHashMap();
+
+	public static BlockProperties getProperties(Block block)
+	{
+		Material type = block.getType();
+		byte data = block.getData();
+		MaterialData materialData = new MaterialData(type, data);
+		BlockProperties properties = materialDataMap.get(materialData);
+
+		if(properties != null)
+			return properties;
+
+		properties = materialMap.get(type);
+
+		if(properties != null)
+			return properties;
+
+		return BlockProperties.DEFAULT;
+	}
 
 	public static void load()
 	{
@@ -44,10 +63,15 @@ public class BlockPropertiesManager
 
 		for(Map.Entry<String, JsonElement> entry : root.entrySet())
 		{
+			String target = entry.getKey();
+
 			try
 			{
-				String target = entry.getKey();
 				Matcher matcher = PATTERN_BLOCK.matcher(target);
+
+				if(!matcher.matches())
+					throw new IllegalStateException("Invalid material-data: " + target);
+
 				String namespace = matcher.group(GROUP_BLOCK_NAMESPACE);
 				String id = matcher.group(GROUP_BLOCK_ID);
 				String rawData = matcher.group(GROUP_BLOCK_DATA);
@@ -67,9 +91,9 @@ public class BlockPropertiesManager
 					materialDataMap.put(materialData, properties);
 				}
 			}
-			catch(NumberFormatException | BlockProperties.BlockPropertiesParseException e)
+			catch(BlockProperties.BlockPropertiesParseException | IllegalArgumentException e)
 			{
-				e.printStackTrace();
+				new BlockProperties.BlockPropertiesParseException("Could not parse material-data: " + target, e).printStackTrace();
 			}
 		}
 	}

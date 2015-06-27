@@ -1,25 +1,31 @@
 package cz.minestrike.me.limeth.minestrike.scene.games;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.function.Predicate;
-import java.util.stream.Collectors;
-
+import com.google.common.collect.Maps;
+import cz.minestrike.me.limeth.minestrike.MSConstant;
+import cz.minestrike.me.limeth.minestrike.MSPlayer;
+import cz.minestrike.me.limeth.minestrike.MineStrike;
+import cz.minestrike.me.limeth.minestrike.areas.PlotManager;
+import cz.minestrike.me.limeth.minestrike.areas.Point;
+import cz.minestrike.me.limeth.minestrike.areas.Structure;
+import cz.minestrike.me.limeth.minestrike.areas.schemes.*;
+import cz.minestrike.me.limeth.minestrike.equipment.Equipment;
+import cz.minestrike.me.limeth.minestrike.equipment.EquipmentManagerInitializationException;
 import cz.minestrike.me.limeth.minestrike.events.*;
+import cz.minestrike.me.limeth.minestrike.events.GameQuitEvent.SceneQuitReason;
+import cz.minestrike.me.limeth.minestrike.scene.Scene;
+import cz.minestrike.me.limeth.minestrike.scene.games.listeners.GameShotListener;
 import cz.minestrike.me.limeth.minestrike.scene.games.listeners.MSInteractionListener;
 import cz.minestrike.me.limeth.minestrike.scene.games.listeners.MSInventoryListener;
 import cz.minestrike.me.limeth.minestrike.scene.games.listeners.MSShoppingListener;
+import cz.minestrike.me.limeth.minestrike.util.PlayerUtil;
+import cz.minestrike.me.limeth.minestrike.util.SoundManager;
+import cz.minestrike.me.limeth.minestrike.util.collections.FilledArrayList;
 import net.minecraft.server.v1_7_R4.EntityItem;
 import net.minecraft.server.v1_7_R4.PacketPlayOutNamedSoundEffect;
 import net.minecraft.server.v1_7_R4.WorldServer;
-
 import org.apache.commons.lang.Validate;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Location;
-import org.bukkit.World;
+import org.bukkit.*;
+import org.bukkit.block.Block;
 import org.bukkit.command.CommandSender;
 import org.bukkit.craftbukkit.libs.com.google.gson.annotations.Expose;
 import org.bukkit.craftbukkit.v1_7_R4.CraftWorld;
@@ -35,23 +41,9 @@ import org.bukkit.plugin.PluginManager;
 import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.util.Vector;
 
-import cz.minestrike.me.limeth.minestrike.MSConstant;
-import cz.minestrike.me.limeth.minestrike.MSPlayer;
-import cz.minestrike.me.limeth.minestrike.MineStrike;
-import cz.minestrike.me.limeth.minestrike.areas.PlotManager;
-import cz.minestrike.me.limeth.minestrike.areas.Structure;
-import cz.minestrike.me.limeth.minestrike.areas.schemes.GameLobby;
-import cz.minestrike.me.limeth.minestrike.areas.schemes.GameMap;
-import cz.minestrike.me.limeth.minestrike.areas.schemes.GameMenu;
-import cz.minestrike.me.limeth.minestrike.areas.schemes.Scheme;
-import cz.minestrike.me.limeth.minestrike.areas.schemes.SchemeManager;
-import cz.minestrike.me.limeth.minestrike.equipment.Equipment;
-import cz.minestrike.me.limeth.minestrike.equipment.EquipmentManagerInitializationException;
-import cz.minestrike.me.limeth.minestrike.events.GameQuitEvent.SceneQuitReason;
-import cz.minestrike.me.limeth.minestrike.scene.Scene;
-import cz.minestrike.me.limeth.minestrike.util.PlayerUtil;
-import cz.minestrike.me.limeth.minestrike.util.SoundManager;
-import cz.minestrike.me.limeth.minestrike.util.collections.FilledArrayList;
+import java.util.*;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 public abstract class Game extends Scene
 {
@@ -80,9 +72,11 @@ public abstract class Game extends Scene
 	private       MSInventoryListener            inventoryListener;
 	private       MSShoppingListener             shoppingListener;
 	private       MSInteractionListener          interactionListener;
+	private       GameShotListener               gameShotListener;
 	private       EquipmentProvider              equipmentProvider;
 	private       Scoreboard                     scoreboard;
-	private       HashMap<Item, Equipment>       drops;
+	private       Map<Item, Equipment>           drops;
+	private       Map<Block, Double>             blockDamageMap;
 
 	public Game(GameType gameType, String id, String name, MSPlayer owner, boolean open, String lobbyId, String menuId, FilledArrayList<String> maps)
 	{
@@ -234,9 +228,12 @@ public abstract class Game extends Scene
 	@Override
 	public void redirect(Event event, MSPlayer msPlayer)
 	{
+		super.redirect(event, msPlayer);
+
 		inventoryListener.redirect(event, msPlayer);
 		shoppingListener.redirect(event, msPlayer);
 		interactionListener.redirect(event, msPlayer);
+		gameShotListener.redirect(event, msPlayer);
 		
 		if(hasPhase())
 			phase.redirect(event, msPlayer);
@@ -245,6 +242,8 @@ public abstract class Game extends Scene
 	@SuppressWarnings("unchecked")
 	public Game setup()
 	{
+		super.setup();
+
 		Scheme lobbyScheme = SchemeManager.getScheme(lobbyId);
 		
 		if(lobbyScheme == null)
@@ -284,10 +283,12 @@ public abstract class Game extends Scene
 		inventoryListener = new MSInventoryListener(this);
 		shoppingListener = new MSShoppingListener(this);
 		interactionListener = new MSInteractionListener(this);
+		gameShotListener = new GameShotListener(this);
 		players = new HashSet<>();
 		invited = open ? null : new HashSet<>();
 		scoreboard = Bukkit.getScoreboardManager().getNewScoreboard();
 		drops = new HashMap<>();
+		blockDamageMap = Maps.newHashMap();
 		
 		return this;
 	}
@@ -811,7 +812,7 @@ public abstract class Game extends Scene
 		return drop(location, velocity, equipment, msPlayer);
 	}
 
-	public HashMap<Item, Equipment> getDrops()
+	public Map<Item, Equipment> getDrops()
 	{
 		return drops;
 	}
@@ -835,7 +836,33 @@ public abstract class Game extends Scene
 		
 		drops.clear();
 	}
-	
+
+	public Map<Block, Double> getBlockDamageMap()
+	{
+		return blockDamageMap;
+	}
+
+	public void repairDamagedBlocks()
+	{
+		for(Block block : blockDamageMap.keySet())
+		{
+			Material type = block.getType();
+
+			if(type != Material.AIR)
+				continue;
+
+			Structure<? extends GameMap> structure = getMapStructure();
+			GameMap scheme = structure.getScheme();
+			Point base = structure.getBase();
+			Point relativeSource = Point.valueOf(block).subtract(base);
+			World world = block.getWorld();
+
+			scheme.build(relativeSource, base, world);
+		}
+
+		blockDamageMap.clear();
+	}
+
 	@Override
 	public String toString()
 	{

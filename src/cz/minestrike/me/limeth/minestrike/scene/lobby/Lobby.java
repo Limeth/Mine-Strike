@@ -35,6 +35,8 @@ public class Lobby extends Scene
 	@Override
 	public Lobby setup()
 	{
+		super.setup();
+
 		interactionListener = new MSLobbyInteractionListener(this);
 		inventoryListener = new MSLobbyInventoryListener(this);
 		
@@ -63,6 +65,8 @@ public class Lobby extends Scene
 	@Override
 	public void redirect(Event event, MSPlayer msPlayer)
 	{
+		super.redirect(event, msPlayer);
+
 		interactionListener.redirect(event, msPlayer);
 		inventoryListener.redirect(event, msPlayer);
 	}

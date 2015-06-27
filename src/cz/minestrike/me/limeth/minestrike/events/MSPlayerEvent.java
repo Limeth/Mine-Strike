@@ -5,7 +5,7 @@ import org.bukkit.event.player.PlayerEvent;
 
 import cz.minestrike.me.limeth.minestrike.MSPlayer;
 
-public class MSPlayerEvent extends PlayerEvent
+public abstract class MSPlayerEvent extends PlayerEvent
 {
 	private static final HandlerList handlers = new HandlerList();
 	private final MSPlayer msPlayer;

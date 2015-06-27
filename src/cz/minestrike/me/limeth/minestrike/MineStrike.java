@@ -144,6 +144,7 @@ public class MineStrike extends JavaPlugin
 	{
 		MSConfig.load();
 		Translation.load();
+		BlockPropertiesManager.load();
 		SchemeManager.loadSchemes();
 		PlotManager.loadPlots();
 		EquipmentCustomizationManager.loadCustomizations();

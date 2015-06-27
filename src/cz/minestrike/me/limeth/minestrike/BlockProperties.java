@@ -69,26 +69,26 @@ public class BlockProperties
 
 	public static class BlockPropertiesParseException extends Throwable
 	{
-		private BlockPropertiesParseException()
+		public BlockPropertiesParseException()
 		{
 		}
 
-		private BlockPropertiesParseException(String message)
+		public BlockPropertiesParseException(String message)
 		{
 			super(message);
 		}
 
-		private BlockPropertiesParseException(String message, Throwable cause)
+		public BlockPropertiesParseException(String message, Throwable cause)
 		{
 			super(message, cause);
 		}
 
-		private BlockPropertiesParseException(Throwable cause)
+		public BlockPropertiesParseException(Throwable cause)
 		{
 			super(cause);
 		}
 
-		private BlockPropertiesParseException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace)
+		public BlockPropertiesParseException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace)
 		{
 			super(message, cause, enableSuppression, writableStackTrace);
 		}

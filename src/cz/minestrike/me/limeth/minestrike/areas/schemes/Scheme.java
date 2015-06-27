@@ -1,11 +1,17 @@
 package cz.minestrike.me.limeth.minestrike.areas.schemes;
 
-import java.util.ArrayList;
-
+import com.sk89q.worldedit.IncompleteRegionException;
+import com.sk89q.worldedit.LocalSession;
+import com.sk89q.worldedit.WorldEdit;
+import com.sk89q.worldedit.regions.RegionSelector;
+import com.sk89q.worldedit.session.SessionManager;
+import cz.minestrike.me.limeth.minestrike.MSConfig;
+import cz.minestrike.me.limeth.minestrike.areas.*;
+import cz.minestrike.me.limeth.minestrike.commands.SchemeCommandHandler;
+import cz.minestrike.me.limeth.minestrike.util.collections.FilledHashMap;
 import net.minecraft.server.v1_7_R4.NBTTagCompound;
 import net.minecraft.server.v1_7_R4.TileEntity;
 import net.minecraft.server.v1_7_R4.WorldServer;
-
 import org.apache.commons.lang.Validate;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -16,20 +22,7 @@ import org.bukkit.craftbukkit.libs.com.google.gson.annotations.Expose;
 import org.bukkit.craftbukkit.v1_7_R4.CraftWorld;
 import org.bukkit.entity.Player;
 
-import com.sk89q.worldedit.IncompleteRegionException;
-import com.sk89q.worldedit.LocalSession;
-import com.sk89q.worldedit.WorldEdit;
-import com.sk89q.worldedit.regions.RegionSelector;
-import com.sk89q.worldedit.session.SessionManager;
-
-import cz.minestrike.me.limeth.minestrike.MSConfig;
-import cz.minestrike.me.limeth.minestrike.areas.Plot;
-import cz.minestrike.me.limeth.minestrike.areas.Point;
-import cz.minestrike.me.limeth.minestrike.areas.Region;
-import cz.minestrike.me.limeth.minestrike.areas.RegionList;
-import cz.minestrike.me.limeth.minestrike.areas.Structure;
-import cz.minestrike.me.limeth.minestrike.commands.SchemeCommandHandler;
-import cz.minestrike.me.limeth.minestrike.util.collections.FilledHashMap;
+import java.util.ArrayList;
 
 public abstract class Scheme
 {
@@ -180,37 +173,47 @@ public abstract class Scheme
 	{
 		CraftWorld world = (CraftWorld) MSConfig.getWorld();
 		WorldServer nmsWorld = world.getHandle();
+		WorldServer nmsDestWorld = ((CraftWorld) destWorld).getHandle();
 		
 		for(int x = 0; x < region.getWidth(); x++)
 			for(int y = 0; y < region.getHeight(); y++)
 				for(int z = 0; z < region.getDepth(); z++)
-				{
-					int srcX = region.getLower().getX() + x;
-					int srcY = region.getLower().getY() + y;
-					int srcZ = region.getLower().getZ() + z;
-					int destX = destPoint.getX() + x;
-					int destY = destPoint.getY() + y;
-					int destZ = destPoint.getZ() + z;
-					Block srcBlock = world.getBlockAt(srcX, srcY, srcZ);
-					Block destBlock = world.getBlockAt(destX, destY, destZ);
-					TileEntity srcTileEntity = nmsWorld.getTileEntity(srcX, srcY, srcZ);
-					
-					destBlock.setTypeIdAndData(srcBlock.getType().getId(), srcBlock.getData(), false);
-					
-					if(srcTileEntity != null)
-						try
-						{
-							TileEntity cloneTileEntity = cloneTileEntity(srcTileEntity);
-							
-							//System.out.println(cloneTileEntity);
-							
-							nmsWorld.setTileEntity(destX, destY, destZ, cloneTileEntity);
-						}
-						catch(Exception e)
-						{
-							e.printStackTrace();
-						}
-				}
+					build(x, y, z, destPoint, destWorld);
+	}
+
+	public void build(int x, int y, int z, Point absDestination, World destinationWorld)
+	{
+		CraftWorld world = (CraftWorld) MSConfig.getWorld();
+		WorldServer nmsWorld = world.getHandle();
+		WorldServer nmsDestinationWorld = ((CraftWorld) destinationWorld).getHandle();
+		int srcX = region.getLower().getX() + x;
+		int srcY = region.getLower().getY() + y;
+		int srcZ = region.getLower().getZ() + z;
+		int destX = absDestination.getX() + x;
+		int destY = absDestination.getY() + y;
+		int destZ = absDestination.getZ() + z;
+		Block srcBlock = world.getBlockAt(srcX, srcY, srcZ);
+		Block destBlock = destinationWorld.getBlockAt(destX, destY, destZ);
+		TileEntity srcTileEntity = nmsWorld.getTileEntity(srcX, srcY, srcZ);
+
+		destBlock.setTypeIdAndData(srcBlock.getType().getId(), srcBlock.getData(), false);
+
+		if(srcTileEntity != null)
+			try
+			{
+				TileEntity cloneTileEntity = cloneTileEntity(srcTileEntity);
+
+				nmsDestinationWorld.setTileEntity(destX, destY, destZ, cloneTileEntity);
+			}
+			catch(Exception e)
+			{
+				e.printStackTrace();
+			}
+	}
+
+	public void build(Point relativeSource, Point destinationBase, World destinationWorld)
+	{
+		build(relativeSource.getX(), relativeSource.getY(), relativeSource.getZ(), destinationBase, destinationWorld);
 	}
 	
 	public static TileEntity cloneTileEntity(TileEntity value) throws InstantiationException, IllegalAccessException
