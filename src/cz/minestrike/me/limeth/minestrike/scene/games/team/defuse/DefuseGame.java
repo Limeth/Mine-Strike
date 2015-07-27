@@ -20,7 +20,7 @@ import cz.minestrike.me.limeth.minestrike.scene.games.*;
 import cz.minestrike.me.limeth.minestrike.scene.games.listeners.MSRewardListener;
 import cz.minestrike.me.limeth.minestrike.scene.games.team.RadarView;
 import cz.minestrike.me.limeth.minestrike.scene.games.team.TeamGame;
-import cz.minestrike.me.limeth.minestrike.scene.games.team.defuse.Round.RoundPhase;
+import cz.minestrike.me.limeth.minestrike.scene.games.team.defuse.DefuseRound.DefuseRoundPhase;
 import cz.minestrike.me.limeth.minestrike.util.SoundManager;
 import cz.minestrike.me.limeth.minestrike.util.collections.FilledArrayList;
 import cz.projectsurvive.limeth.dynamicdisplays.DynamicDisplays;
@@ -44,7 +44,7 @@ public class DefuseGame extends TeamGame
 {
 	public static final String CUSTOM_DATA_BALANCE = "MineStrike.game.balance";
 	public static final int MONEY_CAP = 10000, REQUIRED_ROUNDS = 8,
-			XP_KILL = 100, XP_ASSIST_OFFSET = -25, XP_MATCH_WIN = 200, XP_MATCH_LOSE = 50;
+			HEALTH_ASSIST_OFFSET = -25, XP_KILL = 100, XP_MATCH_WIN = 200, XP_MATCH_LOSE = 50;
 	private int tScore, ctScore;
 	private int                          winsInRow;
 	private Team                         lastWinner;
@@ -78,7 +78,7 @@ public class DefuseGame extends TeamGame
 	{
 		super.start();
 
-		Round round = new Round(this);
+		DefuseRound round = new DefuseRound(this);
 		winsInRow = 0;
 		lastWinner = null;
 
@@ -193,10 +193,10 @@ public class DefuseGame extends TeamGame
 		Validate.notNull(block, "The block cannot be null!");
 		
 		bombBlock = block;
-		Round round = getRound();
+		DefuseRound round = getRound();
 		
 		round.setRanAt(System.currentTimeMillis());
-		round.setPhase(RoundPhase.PLANTED);
+		round.setPhase(DefuseRoundPhase.PLANTED);
 		round.startExplodeRunnable();
 		getPlayingPlayers().forEach(this::showWitherBar);
 		playSound("projectsurvive:counterstrike.radio.bombpl");
@@ -220,7 +220,7 @@ public class DefuseGame extends TeamGame
 	
 	public void defuse()
 	{
-		Round round = getRound();
+		DefuseRound round = getRound();
 		
 		clearBombsites();
 		round.cancel();
@@ -279,16 +279,16 @@ public class DefuseGame extends TeamGame
 		
 		if(phaseType == GamePhaseType.RUNNING)
 		{
-			Round round = getRound();
-			RoundPhase roundPhase = round.getPhase();
+			DefuseRound round = getRound();
+			DefuseRoundPhase roundPhase = round.getPhase();
 			Long time = null;
 			
-			if(roundPhase == RoundPhase.PREPARING)
-				time = Round.SPAWN_TIME;
-			else if(roundPhase == RoundPhase.STARTED)
-				time = Round.ROUND_TIME;
-			else if(roundPhase == RoundPhase.PLANTED)
-				time = Round.BOMB_TIME;
+			if(roundPhase == DefuseRoundPhase.PREPARING)
+				time = DefuseRound.SPAWN_TIME;
+			else if(roundPhase == DefuseRoundPhase.STARTED)
+				time = DefuseRound.ROUND_TIME;
+			else if(roundPhase == DefuseRoundPhase.PLANTED)
+				time = DefuseRound.BOMB_TIME;
 			
 			if(time != null)
 			{
@@ -367,7 +367,7 @@ public class DefuseGame extends TeamGame
 		
 		Team victorTeam = reason.getVictorTeam();
 		int newScore = addScore(victorTeam, 1);
-		Round round = getRound();
+		DefuseRound round = getRound();
 		
 		for(MSPlayer msPlayer : getPlayingPlayers())
 		{
@@ -390,20 +390,20 @@ public class DefuseGame extends TeamGame
 				Player player = msPlayer.getPlayer();
 				String endMessage = Translation.GAME_ROUND_END.getMessage(victorTeam.getColoredName());
 				PlayerDisplay display = new TimedPlayerDisplay(player)
-						.startCountdown(Round.END_TIME).setLines(endMessage)
+						.startCountdown(DefuseRound.END_TIME).setLines(endMessage)
 						.setDistance(2);
 				
 				DynamicDisplays.setDisplay(player, display);
 			}
 			
-			round.setPhase(RoundPhase.ENDED);
+			round.setPhase(DefuseRoundPhase.ENDED);
 			round.startNextRunnable();
 		}
 	}
 	
 	public void matchEnd(Team victorTeam)
 	{
-		Round round = getRound();
+		DefuseRound round = getRound();
 		Team loserTeam = victorTeam.getOppositeTeam();
 		
 		for(MSPlayer msPlayer : getPlayingPlayers())
@@ -428,13 +428,13 @@ public class DefuseGame extends TeamGame
 						ChatColor.DARK_GRAY + "× × ×",
 					};
 			PlayerDisplay display = new TimedPlayerDisplay(player)
-					.startCountdown(Round.VOTE_TIME).setLines(endMessages[1], endMessages[2], endMessages)
+					.startCountdown(DefuseRound.VOTE_TIME).setLines(endMessages[1], endMessages[2], endMessages)
 					.setDistance(2);
 			
 			DynamicDisplays.setDisplay(player, display);
 		}
 		
-		round.setPhase(RoundPhase.ENDED);
+		round.setPhase(DefuseRoundPhase.ENDED);
 		round.startVoteRunnable();
 	}
 	
@@ -447,11 +447,11 @@ public class DefuseGame extends TeamGame
 	{
 		GamePhase<? extends Game> gamePhase = getPhase();
 
-		if(!(gamePhase instanceof Round))
+		if(!(gamePhase instanceof DefuseRound))
 			return true;
 		
-		Round round = (Round) gamePhase;
-		RoundPhase roundPhase = round.getPhase();
+		DefuseRound round = (DefuseRound) gamePhase;
+		DefuseRoundPhase roundPhase = round.getPhase();
 		int tPlayers = 0, ctPlayers = 0;
 		
 		for(MSPlayer playingPlayer : getPlayingPlayers())
@@ -464,7 +464,7 @@ public class DefuseGame extends TeamGame
 				ctPlayers++;
 		}
 		
-		return roundPhase != RoundPhase.PREPARING && tPlayers > 0 && ctPlayers > 0;
+		return roundPhase != DefuseRoundPhase.PREPARING && tPlayers > 0 && ctPlayers > 0;
 	}
 
 	@Override
@@ -516,14 +516,14 @@ public class DefuseGame extends TeamGame
 		return p.getPlayerState() == PlayerState.JOINED_GAME && getTeam(p) != null;
 	}
 	
-	public Round getRound()
+	public DefuseRound getRound()
 	{
 		GamePhase<? extends Game> phase = getPhase();
 		
-		if(!(phase instanceof Round))
-			throw new RuntimeException("The current phase isn't an instance of Round");
+		if(!(phase instanceof DefuseRound))
+			throw new RuntimeException("The current phase isn't an instance of DefuseRound");
 		
-		return (Round) phase;
+		return (DefuseRound) phase;
 	}
 	
 	public void addBalance(Team team, int difference)
@@ -622,8 +622,8 @@ public class DefuseGame extends TeamGame
 		else if(playerState == PlayerState.JOINED_GAME)
 		{
 			Team team = getTeam(msPlayer);
-			Structure<? extends GameMap> mapStructure = getMapStructure();
-			GameMap map = mapStructure.getScheme();
+			Structure<? extends DefuseGameMap> mapStructure = getMapStructure();
+			DefuseGameMap map = mapStructure.getScheme();
 			
 			if(team != null && !isDead(msPlayer))
 			{
@@ -631,7 +631,7 @@ public class DefuseGame extends TeamGame
 				Point base = map.getBase();
 				spawnPoint = mapStructure.getAbsolutePoint(spawnRegion.getRandomSpawnablePoint(base, MSConstant.RANDOM));
 				
-				msPlayer.showRankInfo(Round.SPAWN_TIME);
+				msPlayer.showRankInfo(DefuseRound.SPAWN_TIME);
 				
 				if(spawnPoint == null)
 				{
@@ -865,7 +865,7 @@ public class DefuseGame extends TeamGame
 	{
 		double dmg = msVictim.getReceivedDamage(msAssistant);
 
-		return (int) Math.ceil((dmg * 5) + XP_ASSIST_OFFSET);
+		return (int) Math.ceil((dmg * 5) + HEALTH_ASSIST_OFFSET);
 	}
 
 	@Override

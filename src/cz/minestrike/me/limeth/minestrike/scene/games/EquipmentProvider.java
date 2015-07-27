@@ -14,19 +14,19 @@ public interface EquipmentProvider
 {
 	/* Must have a constructor with the current game. */
 	
-	public void equip(MSPlayer msPlayer);
-	public boolean pickup(MSPlayer msPlayer, Equipment equipment);
-	public void purchase(MSPlayer msPlayer, Equipment equipment) throws EquipmentPurchaseException;
-	public void setGun(MSPlayer msPlayer, Gun gun);
-	public Gun getGun(MSPlayer msPlayer, boolean primary);
-	public void removeGun(MSPlayer msPlayer, boolean primary);
-	public boolean addGrenade(MSPlayer msPlayer, GrenadeType type);
-	public ArrayList<GrenadeType> getGrenades(MSPlayer msPlayer);
-	public void setKevlar(MSPlayer msPlayer, boolean equipped);
-	public boolean hasKevlar(MSPlayer msPlayer);
-	public float getKevlarDurability(MSPlayer msPlayer);
-	public void setHelmet(MSPlayer msPlayer, boolean equipped);
-	public boolean hasHelmet(MSPlayer msPlayer);
-	public void equipKevlarAndHelmet(MSPlayer msPlayer);
-	public FilledArrayList<EquipmentSection> getEquipmentCategories();
+	void equip(MSPlayer msPlayer);
+	boolean pickup(MSPlayer msPlayer, Equipment equipment);
+	void purchase(MSPlayer msPlayer, Equipment equipment) throws EquipmentPurchaseException;
+	void setGun(MSPlayer msPlayer, Gun gun);
+	Gun getGun(MSPlayer msPlayer, boolean primary);
+	void removeGun(MSPlayer msPlayer, boolean primary);
+	boolean addGrenade(MSPlayer msPlayer, GrenadeType type);
+	ArrayList<GrenadeType> getGrenades(MSPlayer msPlayer);
+	void setKevlar(MSPlayer msPlayer, boolean equipped);
+	boolean hasKevlar(MSPlayer msPlayer);
+	float getKevlarDurability(MSPlayer msPlayer);
+	void setHelmet(MSPlayer msPlayer, boolean equipped);
+	boolean hasHelmet(MSPlayer msPlayer);
+	void equipKevlarAndHelmet(MSPlayer msPlayer);
+	FilledArrayList<EquipmentSection> getEquipmentCategories();
 }

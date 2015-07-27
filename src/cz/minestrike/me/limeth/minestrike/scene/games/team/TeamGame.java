@@ -142,7 +142,7 @@ public abstract class TeamGame extends Game
 	{
 		String soundName = sound.getAbsoluteName(team);
 		
-		playSound(soundName, location, Float.MAX_VALUE, 1, p -> { return getTeam(p) == team; });
+		playSound(soundName, location, Float.MAX_VALUE, 1, p -> getTeam(p) == team);
 	}
 	
 	public RadarView getRadarView()

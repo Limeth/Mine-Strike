@@ -3,12 +3,14 @@ package cz.minestrike.me.limeth.minestrike.scene.games;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 
+import cz.minestrike.me.limeth.minestrike.scene.games.team.deathmatch.DeathMatchGame;
 import cz.minestrike.me.limeth.minestrike.scene.games.team.defuse.DefuseEquipmentProvider;
 import cz.minestrike.me.limeth.minestrike.scene.games.team.defuse.DefuseGame;
 
 public enum GameType
 {
-	DEFUSE(DefuseGame.class, DefuseEquipmentProvider.class);
+	DEFUSE(DefuseGame.class, DefuseEquipmentProvider.class),
+	DEATH_MATCH(DeathMatchGame.class, DeathMatchEquipmentProvider.class);
 	
 	private final Class<? extends Game> clazz;
 	private final Class<? extends EquipmentProvider> equipmentManagerClazz;

@@ -67,7 +67,7 @@ public class MineStrike extends JavaPlugin
 			protocolManager = ProtocolLibrary.getProtocolManager();
 			instance = this;
 			logger = Logger.getLogger("minecraft");
-			
+
 			registerMSListeners();
 			registerBukkitListeners();
 			PacketManager.getInstance().registerListeners();

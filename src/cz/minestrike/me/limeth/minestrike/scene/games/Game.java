@@ -215,7 +215,7 @@ public abstract class Game extends Scene
 		return dead != null ? dead : false;
 	}
 
-	public boolean isAlive(MSPlayer msPlayer)
+	public final boolean isAlive(MSPlayer msPlayer)
 	{
 		return !isDead(msPlayer);
 	}

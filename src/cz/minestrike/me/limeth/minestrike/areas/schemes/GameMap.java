@@ -19,56 +19,12 @@ public abstract class GameMap extends Scheme
 	public static final String SCHEME_ID_PREFIX = "map_";
 	
 	@Expose private String name;
-	@Expose private RegionList tSpawn, ctSpawn, shoppingZones, spectatorZones;
-	@Expose private Point spectatorSpawn;
 	
-	public GameMap(SchemeType type, String id, Region region, String name, RegionList tSpawn, RegionList ctSpawn, RegionList shoppingZones, Point spectatorSpawn)
+	public GameMap(SchemeType type, String id, Region region, String name)
 	{
 		super(type, id, region);
 		
-		Validate.notNull(tSpawn, "The TSpawn set cannot be null!");
-		Validate.notNull(ctSpawn, "The CTSpawn set cannot be null!");
-		Validate.notNull(shoppingZones, "The shopping zones set cannot be null!");
-		Validate.notNull(spectatorSpawn, "The spectator cannot be null!");
-		
 		this.name = name;
-		this.tSpawn = tSpawn;
-		this.ctSpawn = ctSpawn;
-		this.shoppingZones = shoppingZones;
-		this.spectatorSpawn = spectatorSpawn;
-	}
-	
-	public RegionList getSpawn(Team team)
-	{
-		switch(team)
-		{
-		case TERRORISTS: return getTSpawn();
-		case COUNTER_TERRORISTS: return getCTSpawn();
-		default: return null;
-		}
-	}
-	
-	@Override
-	public FilledHashMap<String, RegionList> getRegionsLists()
-	{
-		FilledHashMap<String, RegionList> regionList = super.getRegionsLists();
-		
-		regionList.put("TSpawn", getTSpawn());
-		regionList.put("CTSpawn", getCTSpawn());
-		regionList.put("shoppingZones", getShoppingZones());
-		regionList.put("spectatorZones", getSpectatorZones());
-		
-		return regionList;
-	}
-	
-	@Override
-	public FilledHashMap<String, Point> getPoints()
-	{
-		FilledHashMap<String, Point> points = super.getPoints();
-		
-		points.put("spectatorSpawn", spectatorSpawn);
-		
-		return points;
 	}
 	
 	@Override
@@ -77,8 +33,6 @@ public abstract class GameMap extends Scheme
 		ArrayList<SchemeCommandHandler> handlers = super.getCommandHandlers();
 		
 		handlers.add(SET_NAME);
-		handlers.add(RegionList.COMMAND_HANDLER);
-		handlers.add(Point.COMMAND_HANDLER);
 		
 		return handlers;
 	}
@@ -86,57 +40,7 @@ public abstract class GameMap extends Scheme
 	@Override
 	public boolean isSetUp()
 	{
-		return name != null && !tSpawn.isEmpty() && !ctSpawn.isEmpty();
-	}
-
-	public RegionList getTSpawn()
-	{
-		return tSpawn != null ? tSpawn : (tSpawn = new RegionList());
-	}
-	
-	public void setTSpawn(RegionList tSpawn)
-	{
-		this.tSpawn = tSpawn;
-	}
-
-	public RegionList getCTSpawn()
-	{
-		return ctSpawn != null ? ctSpawn : (ctSpawn = new RegionList());
-	}
-
-	public void setCTSpawn(RegionList ctSpawn)
-	{
-		this.ctSpawn = ctSpawn;
-	}
-
-	public RegionList getShoppingZones()
-	{
-		return shoppingZones != null ? shoppingZones : (shoppingZones = new RegionList());
-	}
-
-	public void setShoppingZones(RegionList shoppingZones)
-	{
-		this.shoppingZones = shoppingZones;
-	}
-
-	public RegionList getSpectatorZones()
-	{
-		return spectatorZones != null ? spectatorZones : (spectatorZones = new RegionList());
-	}
-
-	public void setSpectatorZones(RegionList spectatorZones)
-	{
-		this.spectatorZones = spectatorZones;
-	}
-
-	public Point getSpectatorSpawn()
-	{
-		return spectatorSpawn;
-	}
-
-	public void setSpectatorSpawn(Point spectatorSpawn)
-	{
-		this.spectatorSpawn = spectatorSpawn;
+		return name != null;
 	}
 
 	public String getName()

@@ -1,5 +1,6 @@
 package cz.minestrike.me.limeth.minestrike.scene.games.team.defuse;
 
+import cz.minestrike.me.limeth.minestrike.areas.schemes.TeamGameMap;
 import org.apache.commons.lang.Validate;
 import org.bukkit.craftbukkit.libs.com.google.gson.annotations.Expose;
 
@@ -11,7 +12,7 @@ import cz.minestrike.me.limeth.minestrike.areas.schemes.SchemeType;
 import cz.minestrike.me.limeth.minestrike.util.collections.FilledHashMap;
 
 
-public class DefuseGameMap extends GameMap
+public class DefuseGameMap extends TeamGameMap
 {
 	@Expose RegionList bombSites;
 	
@@ -46,6 +47,8 @@ public class DefuseGameMap extends GameMap
 
 	public void setBombSites(RegionList bombSites)
 	{
+		Validate.notNull(bombSites, "The bombsite list cannot be null!");
+
 		this.bombSites = bombSites;
 	}
 

@@ -45,12 +45,12 @@ public abstract class Scheme
 	
 	public FilledHashMap<String, RegionList> getRegionsLists()
 	{
-		return new FilledHashMap<String, RegionList>();
+		return new FilledHashMap<>();
 	}
 	
 	public FilledHashMap<String, Point> getPoints()
 	{
-		return new FilledHashMap<String, Point>();
+		return new FilledHashMap<>();
 	}
 	
 	public SchemeCommandHandler getCommandHandler(String command)

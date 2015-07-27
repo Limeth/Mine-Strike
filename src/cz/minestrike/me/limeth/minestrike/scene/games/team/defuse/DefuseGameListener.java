@@ -6,6 +6,7 @@ import cz.minestrike.me.limeth.minestrike.areas.RegionList;
 import cz.minestrike.me.limeth.minestrike.areas.Structure;
 import cz.minestrike.me.limeth.minestrike.areas.schemes.GameMap;
 import cz.minestrike.me.limeth.minestrike.areas.schemes.Scheme;
+import cz.minestrike.me.limeth.minestrike.areas.schemes.TeamGameMap;
 import cz.minestrike.me.limeth.minestrike.equipment.Equipment;
 import cz.minestrike.me.limeth.minestrike.equipment.containers.HotbarContainer;
 import cz.minestrike.me.limeth.minestrike.events.ArenaPostDeathEvent;
@@ -16,7 +17,7 @@ import cz.minestrike.me.limeth.minestrike.listeners.msPlayer.MSSceneListener;
 import cz.minestrike.me.limeth.minestrike.scene.games.PlayerState;
 import cz.minestrike.me.limeth.minestrike.scene.games.Team;
 import cz.minestrike.me.limeth.minestrike.scene.games.team.defuse.DefuseGame.RoundEndReason;
-import cz.minestrike.me.limeth.minestrike.scene.games.team.defuse.Round.RoundPhase;
+import cz.minestrike.me.limeth.minestrike.scene.games.team.defuse.DefuseRound.DefuseRoundPhase;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -61,7 +62,7 @@ public class DefuseGameListener extends MSSceneListener<DefuseGame>
 		DefuseGame game = getScene();
 		PlayerState state = msPlayer.getPlayerState();
 		
-		if(state != PlayerState.JOINED_GAME || !game.hasTeam(msPlayer) || !(game.getPhase() instanceof Round))
+		if(state != PlayerState.JOINED_GAME || !game.hasTeam(msPlayer) || !(game.getPhase() instanceof DefuseRound))
 			return;
 		
 		Team team = game.getTeam(msPlayer);
@@ -115,12 +116,12 @@ public class DefuseGameListener extends MSSceneListener<DefuseGame>
 		}
 		
 		DefuseEquipmentProvider ep = game.getEquipmentProvider();
-		Round round = game.getRound();
-		RoundPhase roundPhase = round.getPhase();
+		DefuseRound round = game.getRound();
+		DefuseRoundPhase roundPhase = round.getPhase();
 		
 		ep.removeBomb(msPlayer);
 		
-		if(roundPhase != RoundPhase.PLANTED && roundPhase != RoundPhase.ENDED)
+		if(roundPhase != DefuseRoundPhase.PLANTED && roundPhase != DefuseRoundPhase.ENDED)
 			game.plant(block);
 		
 		event.setCancelled(false);
@@ -150,14 +151,14 @@ public class DefuseGameListener extends MSSceneListener<DefuseGame>
 		Scheme scheme = structure.getScheme();
 		Player player = msPlayer.getPlayer();
 		
-		if(!(scheme instanceof GameMap))
+		if(!(scheme instanceof TeamGameMap))
 		{
 			event.setCancelled(true);
 			player.sendMessage(Translation.GAME_SHOP_ERROR_SCHEME.getMessage());
 			return;
 		}
 		
-		GameMap map = (GameMap) scheme;
+		TeamGameMap map = (TeamGameMap) scheme;
 		RegionList shoppingZones = map.getShoppingZones();
 		
 		if(shoppingZones.size() <= 0)
