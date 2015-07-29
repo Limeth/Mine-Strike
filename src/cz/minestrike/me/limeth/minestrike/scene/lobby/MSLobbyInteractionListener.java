@@ -44,24 +44,16 @@ public class MSLobbyInteractionListener extends MSSceneListener<Lobby>
 			{
 				targetBlock = targetBlock.getRelative(attachedFace);
 				BlockState targetState = targetBlock.getState();
-				String command = null;
 				
 				if(!(targetState instanceof Sign))
 					continue;
 				
 				Sign sign = (Sign) targetState;
 				String[] lines = sign.getLines();
+				String command = lines[0];
 				
-				for(String line : lines)
-				{
-					line = line.trim();
-					
-					if(line.length() > 0)
-						if(command == null)
-							command = line;
-						else
-							command += " " + line;
-				}
+				for(int lineIndex = 1; lineIndex < lines.length; lineIndex++)
+					command += lines[lineIndex];
 				
 				if(command.length() > 0)
 					Bukkit.dispatchCommand(player, command);
