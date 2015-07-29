@@ -15,9 +15,9 @@ import cz.minestrike.me.limeth.minestrike.events.GameQuitEvent;
 import cz.minestrike.me.limeth.minestrike.events.ShopOpenEvent;
 import cz.minestrike.me.limeth.minestrike.listeners.msPlayer.MSSceneListener;
 import cz.minestrike.me.limeth.minestrike.scene.games.PlayerState;
+import cz.minestrike.me.limeth.minestrike.scene.games.RoundPhase;
 import cz.minestrike.me.limeth.minestrike.scene.games.Team;
 import cz.minestrike.me.limeth.minestrike.scene.games.team.defuse.DefuseGame.RoundEndReason;
-import cz.minestrike.me.limeth.minestrike.scene.games.team.defuse.DefuseRound.DefuseRoundPhase;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -53,6 +53,9 @@ public class DefuseGameListener extends MSSceneListener<DefuseGame>
 	@EventHandler
 	public void onArenaPostDeath(ArenaPostDeathEvent event, MSPlayer msPlayer)
 	{
+		DefuseGame game = getScene();
+
+		game.setDead(msPlayer, true);
 		checkLoss(msPlayer);
 		msPlayer.clearTemporaryContainers();
 	}
@@ -117,11 +120,11 @@ public class DefuseGameListener extends MSSceneListener<DefuseGame>
 		
 		DefuseEquipmentProvider ep = game.getEquipmentProvider();
 		DefuseRound round = game.getRound();
-		DefuseRoundPhase roundPhase = round.getPhase();
+		RoundPhase roundPhase = round.getPhase();
 		
 		ep.removeBomb(msPlayer);
 		
-		if(roundPhase != DefuseRoundPhase.PLANTED && roundPhase != DefuseRoundPhase.ENDED)
+		if(roundPhase != DefuseRound.PHASE_BOMB && roundPhase != DefuseRound.PHASE_END)
 			game.plant(block);
 		
 		event.setCancelled(false);

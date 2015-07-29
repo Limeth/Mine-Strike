@@ -1,6 +1,8 @@
 package cz.minestrike.me.limeth.minestrike.scene.games.team.deathmatch;
 
+import com.google.common.base.Joiner;
 import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
 import cz.minestrike.me.limeth.minestrike.MSConfig;
 import cz.minestrike.me.limeth.minestrike.MSConstant;
 import cz.minestrike.me.limeth.minestrike.MSPlayer;
@@ -14,7 +16,10 @@ import cz.minestrike.me.limeth.minestrike.areas.schemes.GameMenu;
 import cz.minestrike.me.limeth.minestrike.events.ArenaJoinEvent;
 import cz.minestrike.me.limeth.minestrike.events.GameQuitEvent;
 import cz.minestrike.me.limeth.minestrike.events.GameSpawnEvent;
+import cz.minestrike.me.limeth.minestrike.listeners.msPlayer.MSSceneListener;
+import cz.minestrike.me.limeth.minestrike.scene.Scene;
 import cz.minestrike.me.limeth.minestrike.scene.games.*;
+import cz.minestrike.me.limeth.minestrike.scene.games.listeners.MSRewardListener;
 import cz.minestrike.me.limeth.minestrike.scene.games.team.RadarView;
 import cz.minestrike.me.limeth.minestrike.scene.games.team.TeamGame;
 import cz.minestrike.me.limeth.minestrike.scene.games.team.defuse.*;
@@ -29,19 +34,26 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.plugin.PluginManager;
 
-import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 public class DeathMatchGame extends TeamGame
 {
+    public static final String CUSTOM_DATA_MOVED = "MineStrike.game.moved";
     public static final int HEALTH_ASSIST_OFFSET = -25, XP_KILL = 20, XP_MATCH_WIN = 150, XP_MATCH_LOSE = 40;
-    private final HashMap<String, Integer> score = Maps.newHashMap();
+    private Map<String, Integer> score;
+    private DeathMatchGameListener gameListener;
+    private MSRewardListener<DeathMatchGame> rewardListener;
 
-    public DeathMatchGame(String id, String name, MSPlayer owner, boolean open, String lobbyId, String menuId, FilledArrayList<String> maps) {
-        super(GameType.DEATH_MATCH, id, name, owner, open, lobbyId, menuId, maps);
+    public DeathMatchGame(String id, String name, MSPlayer owner, boolean open, String lobbyId, String menuId, FilledArrayList<String> maps)
+    {
+        super(GameType.DEATHMATCH, id, name, owner, open, lobbyId, menuId, maps);
     }
 
-    public DeathMatchGame(String id, String name) {
+    public DeathMatchGame(String id, String name)
+    {
         this(id, name, null, true, "lobby_global_deathmatch", "menu_global_deathmatch", new FilledArrayList<>());
     }
 
@@ -49,8 +61,10 @@ public class DeathMatchGame extends TeamGame
     public DeathMatchGame setup()
     {
         super.setup();
-        defuseGameListener = new DefuseGameListener(this);
-        defuseRewardListener = new DefuseRewardListener(this);
+
+        score = Maps.newHashMap();
+        gameListener = new DeathMatchGameListener(this);
+        rewardListener = new DeathMatchRewardListener(this);
 
         return this;
     }
@@ -65,6 +79,7 @@ public class DeathMatchGame extends TeamGame
         getPlayingPlayers().forEach(cz.minestrike.me.limeth.minestrike.MSPlayer::clearTemporaryContainers);
         clearScore();
         setPhase(round);
+        gameListener.start();
     }
 
     @Override
@@ -77,8 +92,8 @@ public class DeathMatchGame extends TeamGame
     public void redirect(Event event, MSPlayer msPlayer)
     {
         super.redirect(event, msPlayer);
-        defuseGameListener.redirect(event, msPlayer);
-        defuseRewardListener.redirect(event, msPlayer);
+        gameListener.redirect(event, msPlayer);
+        rewardListener.redirect(event, msPlayer);
 
         if(getPhaseType() == GamePhaseType.RUNNING)
             getRound().redirect(event, msPlayer);
@@ -95,8 +110,7 @@ public class DeathMatchGame extends TeamGame
 
             player.setWalkSpeed(0);
             msPlayer.clearReceivedDamage();
-            setDead(msPlayer, false);
-            spawnAndEquip(msPlayer, false);
+            spawn(msPlayer, true); //spawnAndEquip(msPlayer, false);
             showWitherBar(msPlayer);
         }
 
@@ -138,28 +152,17 @@ public class DeathMatchGame extends TeamGame
 
         if(phaseType == GamePhaseType.RUNNING)
         {
-            DefuseRound round = getRound();
-            DefuseRound.DefuseRoundPhase roundPhase = round.getPhase();
-            Long time = null;
+            DeathMatchRound round = getRound();
+            RoundPhase roundPhase = round.getPhase();
+            long time = roundPhase.getDuration();
+            long nowMillis = System.currentTimeMillis();
+            long ranAtMillis = round.getRanAt();
+            long differenceMillis = nowMillis - ranAtMillis;
+            double difference = differenceMillis * 20D / 1000D;
 
-            if(roundPhase == DefuseRound.DefuseRoundPhase.PREPARING)
-                time = DefuseRound.SPAWN_TIME;
-            else if(roundPhase == DefuseRound.DefuseRoundPhase.STARTED)
-                time = DefuseRound.ROUND_TIME;
-            else if(roundPhase == DefuseRound.DefuseRoundPhase.PLANTED)
-                time = DefuseRound.BOMB_TIME;
+            HeadsUpDisplay.displayLoadingBar(getWitherTitle(), player, difference, time, false, () -> HeadsUpDisplay.displayTextBar(getWitherTitle(), player));
 
-            if(time != null)
-            {
-                long nowMillis = System.currentTimeMillis();
-                long ranAtMillis = round.getRanAt();
-                long differenceMillis = nowMillis - ranAtMillis;
-                double difference = differenceMillis * 20D / 1000D;
-
-                HeadsUpDisplay.displayLoadingBar(getWitherTitle(), player, difference, time, false, () -> HeadsUpDisplay.displayTextBar(getWitherTitle(), player));
-
-                return;
-            }
+            return;
         }
 
         HeadsUpDisplay.displayTextBar(getWitherTitle(), player);
@@ -170,22 +173,83 @@ public class DeathMatchGame extends TeamGame
         HeadsUpDisplay.removeBar(msPlayer.getPlayer());
     }
 
+    public Map<MSPlayer, Integer> getScoreOfPlayingPlayers()
+    {
+        Map<MSPlayer, Integer> result = Maps.newHashMap();
+
+        for(Map.Entry<String, Integer> entry : score.entrySet())
+        {
+            String playerName = entry.getKey();
+            Player player = Bukkit.getPlayerExact(playerName);
+
+            if(player == null)
+                continue;
+
+            MSPlayer msPlayer = MSPlayer.get(player);
+
+            if(msPlayer == null)
+                continue;
+
+            Scene scene = msPlayer.getScene();
+
+            if(scene != this || !isPlayerPlaying(msPlayer))
+                continue;
+
+            int individualScore = entry.getValue();
+
+            result.put(msPlayer, individualScore);
+        }
+
+        return result;
+    }
+
+    public Map<String, Integer> getScore()
+    {
+        return Maps.newHashMap(score);
+    }
+
     public String getWitherTitle()
     {
-        String middle;
+        return ChatColor.RED + "WITHER TITLE | NEDOKONCENO";
+    }
 
-        if(isBombPlaced())
-            middle = ChatColor.DARK_GRAY + " | " + Translation.GAME_BOMB_PLANTED.getMessage() + ChatColor.DARK_GRAY + " | ";
-        else
-            middle = ChatColor.DARK_GRAY + " | ";
+    private Set<MSPlayer> computeWinners()
+    {
+        Map<MSPlayer, Integer> activeScore = getScoreOfPlayingPlayers();
 
-        return ChatColor.BLUE + "" + ctScore + middle + ChatColor.GOLD + tScore;
+        if(Sets.newHashSet(activeScore.values()).size() > 1)
+        {
+            Set<MSPlayer> winners = Sets.newHashSet();
+            int highestScore = 0;
+
+            for(Map.Entry<MSPlayer, Integer> entry : activeScore.entrySet())
+            {
+                int individualScore = entry.getValue();
+
+                if(individualScore > highestScore)
+                {
+                    winners.clear();
+
+                    highestScore = individualScore;
+                }
+
+                if(individualScore >= highestScore)
+                {
+                    MSPlayer msPlayer = entry.getKey();
+
+                    winners.add(msPlayer);
+                }
+            }
+
+            return winners;
+        }
+
+        return Sets.newHashSet();
     }
 
     public void roundEnd()
     {
-        int newScore = addScore(victorTeam, 1);
-        DefuseRound round = getRound();
+        DeathMatchRound round = getRound();
 
         for(MSPlayer msPlayer : getPlayingPlayers())
         {
@@ -194,65 +258,48 @@ public class DeathMatchGame extends TeamGame
             player.setWalkSpeed(0);
         }
 
-        String winSound = victorTeam.getWinSound();
-
-        playSound(winSound);
         updateTabHeadersAndFooters();
 
-        if(newScore >= REQUIRED_ROUNDS)
-            matchEnd(victorTeam);
+        Set<MSPlayer> winners = computeWinners();
+        String firstMessage, secondMessage;
+
+        if(winners.size() > 0)
+        {
+            boolean plural = winners.size() > 1;
+            String winnersString = Joiner.on(ChatColor.DARK_GRAY + ", " + ChatColor.RESET).join(
+                    winners.stream().map(MSPlayer::getNameTag).collect(Collectors.toSet())
+            );
+
+            if(plural)
+            {
+                firstMessage = Translation.GAME_MATCH_END_1_PLURAL.getMessage(winnersString);
+                secondMessage = Translation.GAME_MATCH_END_2_PLURAL.getMessage(winnersString);
+            }
+            else
+            {
+                firstMessage = Translation.GAME_MATCH_END_1_SINGULAR.getMessage(winnersString);
+                secondMessage = Translation.GAME_MATCH_END_2_SINGULAR.getMessage(winnersString);
+            }
+        }
         else
         {
-            for(MSPlayer msPlayer : getPlayingPlayers(p -> p.getPlayerState() == PlayerState.JOINED_GAME))
-            {
-                Player player = msPlayer.getPlayer();
-                String endMessage = Translation.GAME_ROUND_END.getMessage(victorTeam.getColoredName());
-                PlayerDisplay display = new TimedPlayerDisplay(player)
-                        .startCountdown(DefuseRound.END_TIME).setLines(endMessage)
-                        .setDistance(2);
-
-                DynamicDisplays.setDisplay(player, display);
-            }
-
-            round.setPhase(DefuseRound.DefuseRoundPhase.ENDED);
-            round.startNextRunnable();
-        }
-    }
-
-    public void matchEnd()
-    {
-        DefuseRound round = getRound();
-        Team loserTeam = victorTeam.getOppositeTeam();
-
-        for(MSPlayer msPlayer : getPlayingPlayers())
-        {
-            Team team = getTeam(msPlayer);
-
-            if(team == victorTeam)
-                msPlayer.addXP(XP_MATCH_WIN);
-            else if(team == loserTeam)
-                msPlayer.addXP(XP_MATCH_LOSE);
+            firstMessage = Translation.GAME_MATCH_END_1_NONE.getMessage();
+            secondMessage = Translation.GAME_MATCH_END_2_NONE.getMessage();
         }
 
-        defuseRewardListener.rewardPlayers();
-
-        for(MSPlayer msPlayer : getPlayingPlayers(p -> p.getPlayerState() == PlayerState.JOINED_GAME))
+        for (MSPlayer msPlayer : getPlayingPlayers(p -> p.getPlayerState() == PlayerState.JOINED_GAME))
         {
             Player player = msPlayer.getPlayer();
-            String[] endMessages = {
-                    ChatColor.DARK_GRAY + "× × ×",
-                    Translation.GAME_MATCH_END_1.getMessage(victorTeam.getColoredName()),
-                    Translation.GAME_MATCH_END_2.getMessage(victorTeam.getColoredName()),
-                    ChatColor.DARK_GRAY + "× × ×",
-            };
+            String decor = "× × ×";
             PlayerDisplay display = new TimedPlayerDisplay(player)
-                    .startCountdown(DefuseRound.VOTE_TIME).setLines(endMessages[1], endMessages[2], endMessages)
+                    .startCountdown(DefuseRound.PHASE_POLL.getDuration()).setLines(firstMessage, secondMessage, new String[]{decor, firstMessage, secondMessage, decor})
                     .setDistance(2);
 
             DynamicDisplays.setDisplay(player, display);
         }
 
-        round.setPhase(DefuseRound.DefuseRoundPhase.ENDED);
+        rewardListener.rewardPlayers();
+        round.setPhase(DeathMatchRound.PHASE_END);
         round.startVoteRunnable();
     }
 
@@ -280,7 +327,7 @@ public class DeathMatchGame extends TeamGame
         msPlayer.setPlayerStructure(getMapStructure());
         msPlayer.setPlayerState(PlayerState.JOINED_GAME);
 
-        Location spawnLoc = spawnAndEquip(msPlayer, true);
+        Location spawnLoc = spawn(msPlayer, true); //spawnAndEquip(msPlayer, true);
 
         if(spawnLoc == null)
             return false;
@@ -301,14 +348,14 @@ public class DeathMatchGame extends TeamGame
         return p.getPlayerState() == PlayerState.JOINED_GAME && getTeam(p) != null;
     }
 
-    public DefuseRound getRound()
+    public DeathMatchRound getRound()
     {
         GamePhase<? extends Game> phase = getPhase();
 
-        if(!(phase instanceof DefuseRound))
-            throw new RuntimeException("The current phase isn't an instance of DefuseRound");
+        if(!(phase instanceof DeathMatchRound))
+            throw new RuntimeException("The current phase isn't an instance of DeathMatchRound");
 
-        return (DefuseRound) phase;
+        return (DeathMatchRound) phase;
     }
 
     public void broadcast(String text)
@@ -328,16 +375,26 @@ public class DeathMatchGame extends TeamGame
         return !hasTeam(msPlayer);
     }
 
-    public Location spawnAndEquip(MSPlayer msPlayer, boolean force)
+/*    public Location spawnAndEquip(MSPlayer msPlayer, boolean force)
     {
         equip(msPlayer, force);
 
         return spawn(msPlayer, true);
-    }
+    }*/
 
     public void clearScore()
     {
         score.clear();
+    }
+
+    public boolean hasMoved(MSPlayer msPlayer)
+    {
+        return msPlayer.getCustomData(CUSTOM_DATA_MOVED, false);
+    }
+
+    public void setMoved(MSPlayer msPlayer, boolean moved)
+    {
+        msPlayer.setCustomData(CUSTOM_DATA_MOVED, moved);
     }
 
     @Override
@@ -375,7 +432,7 @@ public class DeathMatchGame extends TeamGame
             Point base = map.getBase();
             spawnPoint = mapStructure.getAbsolutePoint(spawnRegion.getRandomSpawnablePoint(base, MSConstant.RANDOM));
 
-            msPlayer.showRankInfo(DefuseRound.SPAWN_TIME);
+            msPlayer.showRankInfo(DefuseRound.PHASE_PREPARATION.getDuration());
 
             if(spawnPoint == null)
             {
@@ -394,13 +451,17 @@ public class DeathMatchGame extends TeamGame
         if(teleport)
             msPlayer.teleport(spawnLocation);
 
+        equip(msPlayer, false);
+        setMoved(msPlayer, false);
+        gameListener.resetMovedRunnable(msPlayer);
+
         return spawnLocation;
     }
 
     @Override
     public void equip(MSPlayer msPlayer, boolean force)
     {
-        if(force || isDead(msPlayer))
+        if(force)
         {
             PlayerState state = msPlayer.getPlayerState();
 
@@ -411,9 +472,6 @@ public class DeathMatchGame extends TeamGame
                 return;
         }
 
-        DefuseEquipmentProvider ep = getEquipmentProvider();
-
-        ep.removeBomb(msPlayer);
         super.equip(msPlayer, force);
     }
 
@@ -426,20 +484,7 @@ public class DeathMatchGame extends TeamGame
     @Override
     public String getTabFooter(MSPlayer msPlayer)
     {
-        int ctAlive = 0;
-        int tAlive = 0;
-
-        for(MSPlayer currentPlayer : getPlayers())
-        {
-            Team team = getTeam(currentPlayer);
-
-            if(team == Team.COUNTER_TERRORISTS)
-                ctAlive++;
-            else if(team == Team.TERRORISTS)
-                tAlive++;
-        }
-
-        return Translation.TAB_GAME_DEFUSE_FOOTER.getMessage(ctScore, tScore, ctAlive, tAlive);
+        return "TAB FOOTER | NEDOKONCENO";
     }
 
     @Override
@@ -457,9 +502,9 @@ public class DeathMatchGame extends TeamGame
     }
 
     @Override
-    public DefuseEquipmentProvider getEquipmentProvider()
+    public DeathMatchEquipmentProvider getEquipmentProvider()
     {
-        return (DefuseEquipmentProvider) super.getEquipmentProvider();
+        return (DeathMatchEquipmentProvider) super.getEquipmentProvider();
     }
 
     @Override

@@ -1,5 +1,6 @@
 package cz.minestrike.me.limeth.minestrike.scene.games.team.deathmatch;
 
+import cz.minestrike.me.limeth.minestrike.areas.Point;
 import cz.minestrike.me.limeth.minestrike.areas.Region;
 import cz.minestrike.me.limeth.minestrike.areas.RegionList;
 import cz.minestrike.me.limeth.minestrike.areas.schemes.GameMap;
@@ -11,11 +12,11 @@ import org.bukkit.craftbukkit.libs.com.google.gson.annotations.Expose;
 
 public class DeathMatchGameMap extends GameMap
 {
-	@Expose RegionList spawnZones;
+	@Expose private RegionList spawnZones;
 
-	public DeathMatchGameMap(String id, Region region, String name, RegionList spawnZones)
+	public DeathMatchGameMap(String id, Region region, String name, RegionList spawnZones, RegionList spectatorZones, Point spectatorSpawn)
 	{
-		super(SchemeType.MAP_DEFUSE, id, region, name);
+		super(SchemeType.MAP_DEATHMATCH, id, region, name, spectatorZones, spectatorSpawn);
 
 		Validate.notNull(spawnZones, "The spawnZones list cannot be null!");
 
@@ -24,7 +25,7 @@ public class DeathMatchGameMap extends GameMap
 
 	public DeathMatchGameMap(String id, Region region)
 	{
-		this(id, region, null, new RegionList());
+		this(id, region, null, new RegionList(), new RegionList(), region.getMidpoint());
 	}
 	
 	@Override

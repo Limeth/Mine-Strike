@@ -17,53 +17,79 @@ import org.bukkit.scheduler.BukkitScheduler;
 import java.util.HashMap;
 import java.util.function.BooleanSupplier;
 
-//TODO extends the RespawnMovementRunnable
-public class PreparationCheckRunnable extends MSSceneListener<Game> implements Runnable
+public abstract class RespawnMovementRunnable<T extends Game> extends MSSceneListener<T> implements Runnable
 {
     private static final double MAX_DISTANCE = 0.25;
     private final HashMap<MSPlayer, Location> origin = Maps.newHashMap();
-    private BooleanSupplier isBeingPrepared;
-    private Runnable onEnd;
     private Integer preparationCheckTaskId;
+    private double sensitivity;
+    private long frequencyTicks;
 
-    public PreparationCheckRunnable(Game game, BooleanSupplier isBeingPrepared, Runnable onEnd)
+    public RespawnMovementRunnable(T game, double sensitivity, long frequencyTicks)
     {
         super(game);
 
-        Preconditions.checkNotNull(isBeingPrepared, "The isBeingPrepared BooleanSupplier must not be null!");
-        Preconditions.checkNotNull(onEnd, "The onEnd Runnable must not be null!");
+        Preconditions.checkArgument(frequencyTicks > 0, "The frequency must be larger than 0!");
 
-        this.isBeingPrepared = isBeingPrepared;
-        this.onEnd = onEnd;
+        this.sensitivity = sensitivity;
+        this.frequencyTicks = frequencyTicks;
     }
 
-    public int start(long frequency)
+    public abstract void moved(MSPlayer msPlayer, Location origin);
+
+    public void reset()
     {
-        return preparationCheckTaskId = Bukkit.getScheduler().scheduleSyncRepeatingTask(MineStrike.getInstance(), this, 0L, frequency);
+        origin.clear();
     }
 
-    public void setIsBeingPrepared(BooleanSupplier isBeingPrepared)
+    public void reset(MSPlayer msPlayer)
     {
-        Preconditions.checkNotNull(isBeingPrepared, "The isBeingPrepared BooleanSupplier must not be null!");
-
-        this.isBeingPrepared = isBeingPrepared;
+        origin.remove(msPlayer);
     }
 
-    public BooleanSupplier getIsBeingPrepared()
+    public int start()
     {
-        return isBeingPrepared;
+        if(isRunning())
+            throw new IllegalStateException("Already running!");
+
+        return preparationCheckTaskId = Bukkit.getScheduler().scheduleSyncRepeatingTask(MineStrike.getInstance(), this, 0L, frequencyTicks);
     }
 
-    public void setOnEnd(Runnable onEnd)
+    public void stop()
     {
-        Preconditions.checkNotNull(onEnd, "The onEnd Runnable must not be null!");
+        if(!isRunning())
+            throw new IllegalStateException("Not running!");
 
-        this.onEnd = onEnd;
+        BukkitScheduler scheduler = Bukkit.getScheduler();
+
+        scheduler.cancelTask(preparationCheckTaskId);
+
+        preparationCheckTaskId = null;
     }
 
-    public Runnable getOnEnd()
+    public boolean isRunning()
     {
-        return onEnd;
+        return preparationCheckTaskId != null;
+    }
+
+    public double getSensitivity()
+    {
+        return sensitivity;
+    }
+
+    public void setSensitivity(double sensitivity)
+    {
+        this.sensitivity = sensitivity;
+    }
+
+    public long getFrequencyTicks()
+    {
+        return frequencyTicks;
+    }
+
+    public void setFrequencyTicks(long frequencyTicks)
+    {
+        this.frequencyTicks = frequencyTicks;
     }
 
     @Override
@@ -79,24 +105,8 @@ public class PreparationCheckRunnable extends MSSceneListener<Game> implements R
 
             if(origin == null)
                 this.origin.put(msPlayer, loc);
-            else if(origin.distanceSquared(loc) > MAX_DISTANCE * MAX_DISTANCE)
-            {
-                origin.setYaw(loc.getYaw());
-                origin.setPitch(loc.getPitch());
-
-                msPlayer.teleport(origin, false);
-            }
-        }
-
-        if(!isBeingPrepared.getAsBoolean() && preparationCheckTaskId != null)
-        {
-            BukkitScheduler scheduler = Bukkit.getScheduler();
-
-            scheduler.cancelTask(preparationCheckTaskId);
-
-            preparationCheckTaskId = null;
-
-            onEnd.run();
+            else if(origin.distanceSquared(loc) > sensitivity * sensitivity)
+                moved(msPlayer, loc);
         }
     }
 

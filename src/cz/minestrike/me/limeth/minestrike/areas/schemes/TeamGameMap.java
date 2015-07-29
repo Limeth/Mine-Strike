@@ -16,22 +16,19 @@ import java.util.ArrayList;
 //TODO Better name, please!
 public abstract class TeamGameMap extends GameMap
 {
-	@Expose private RegionList tSpawn, ctSpawn, shoppingZones, spectatorZones;
-	@Expose private Point spectatorSpawn;
+	@Expose private RegionList tSpawn, ctSpawn, shoppingZones;
 
-	public TeamGameMap(SchemeType type, String id, Region region, String name, RegionList tSpawn, RegionList ctSpawn, RegionList shoppingZones, Point spectatorSpawn)
+	public TeamGameMap(SchemeType type, String id, Region region, String name, RegionList tSpawn, RegionList ctSpawn, RegionList shoppingZones, RegionList spectatorZones, Point spectatorSpawn)
 	{
-		super(type, id, region, name);
+		super(type, id, region, name, spectatorZones, spectatorSpawn);
 		
 		Validate.notNull(tSpawn, "The TSpawn set cannot be null!");
 		Validate.notNull(ctSpawn, "The CTSpawn set cannot be null!");
 		Validate.notNull(shoppingZones, "The shopping zones set cannot be null!");
-		Validate.notNull(spectatorSpawn, "The spectator cannot be null!");
 
 		this.tSpawn = tSpawn;
 		this.ctSpawn = ctSpawn;
 		this.shoppingZones = shoppingZones;
-		this.spectatorSpawn = spectatorSpawn;
 	}
 	
 	public RegionList getSpawn(Team team)
@@ -52,30 +49,8 @@ public abstract class TeamGameMap extends GameMap
 		regionList.put("TSpawn", getTSpawn());
 		regionList.put("CTSpawn", getCTSpawn());
 		regionList.put("shoppingZones", getShoppingZones());
-		regionList.put("spectatorZones", getSpectatorZones());
 		
 		return regionList;
-	}
-	
-	@Override
-	public FilledHashMap<String, Point> getPoints()
-	{
-		FilledHashMap<String, Point> points = super.getPoints();
-		
-		points.put("spectatorSpawn", spectatorSpawn);
-		
-		return points;
-	}
-	
-	@Override
-	public ArrayList<SchemeCommandHandler> getCommandHandlers()
-	{
-		ArrayList<SchemeCommandHandler> handlers = super.getCommandHandlers();
-
-		handlers.add(RegionList.COMMAND_HANDLER);
-		handlers.add(Point.COMMAND_HANDLER);
-		
-		return handlers;
 	}
 	
 	@Override
@@ -91,6 +66,8 @@ public abstract class TeamGameMap extends GameMap
 	
 	public void setTSpawn(RegionList tSpawn)
 	{
+		Validate.notNull(tSpawn, "The TSpawn set cannot be null!");
+
 		this.tSpawn = tSpawn;
 	}
 
@@ -101,6 +78,8 @@ public abstract class TeamGameMap extends GameMap
 
 	public void setCTSpawn(RegionList ctSpawn)
 	{
+		Validate.notNull(ctSpawn, "The CTSpawn set cannot be null!");
+
 		this.ctSpawn = ctSpawn;
 	}
 
@@ -111,26 +90,8 @@ public abstract class TeamGameMap extends GameMap
 
 	public void setShoppingZones(RegionList shoppingZones)
 	{
+		Validate.notNull(shoppingZones, "The shopping zones set cannot be null!");
+
 		this.shoppingZones = shoppingZones;
-	}
-
-	public RegionList getSpectatorZones()
-	{
-		return spectatorZones != null ? spectatorZones : (spectatorZones = new RegionList());
-	}
-
-	public void setSpectatorZones(RegionList spectatorZones)
-	{
-		this.spectatorZones = spectatorZones;
-	}
-
-	public Point getSpectatorSpawn()
-	{
-		return spectatorSpawn;
-	}
-
-	public void setSpectatorSpawn(Point spectatorSpawn)
-	{
-		this.spectatorSpawn = spectatorSpawn;
 	}
 }

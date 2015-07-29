@@ -20,7 +20,6 @@ import cz.minestrike.me.limeth.minestrike.scene.games.*;
 import cz.minestrike.me.limeth.minestrike.scene.games.listeners.MSRewardListener;
 import cz.minestrike.me.limeth.minestrike.scene.games.team.RadarView;
 import cz.minestrike.me.limeth.minestrike.scene.games.team.TeamGame;
-import cz.minestrike.me.limeth.minestrike.scene.games.team.defuse.DefuseRound.DefuseRoundPhase;
 import cz.minestrike.me.limeth.minestrike.util.SoundManager;
 import cz.minestrike.me.limeth.minestrike.util.collections.FilledArrayList;
 import cz.projectsurvive.limeth.dynamicdisplays.DynamicDisplays;
@@ -50,8 +49,8 @@ public class DefuseGame extends TeamGame
 	private Team                         lastWinner;
 	private Block                        bombBlock;
 	private boolean                      bombGiven;
-	private MSSceneListener<DefuseGame>  defuseGameListener;
-	private MSRewardListener<DefuseGame> defuseRewardListener;
+	private MSSceneListener<DefuseGame>  gameListener;
+	private MSRewardListener<DefuseGame> rewardListener;
 
 	public DefuseGame(String id, String name, MSPlayer owner, boolean open, String lobby, String menu, FilledArrayList<String> maps)
 	{
@@ -67,8 +66,8 @@ public class DefuseGame extends TeamGame
 	public DefuseGame setup()
 	{
 		super.setup();
-		defuseGameListener = new DefuseGameListener(this);
-		defuseRewardListener = new DefuseRewardListener(this);
+		gameListener = new DefuseGameListener(this);
+		rewardListener = new DefuseRewardListener(this);
 
 		return this;
 	}
@@ -103,8 +102,8 @@ public class DefuseGame extends TeamGame
 	public void redirect(Event event, MSPlayer msPlayer)
 	{
 		super.redirect(event, msPlayer);
-		defuseGameListener.redirect(event, msPlayer);
-		defuseRewardListener.redirect(event, msPlayer);
+		gameListener.redirect(event, msPlayer);
+		rewardListener.redirect(event, msPlayer);
 
 		if(getPhaseType() == GamePhaseType.RUNNING)
 			getRound().redirect(event, msPlayer);
@@ -196,7 +195,7 @@ public class DefuseGame extends TeamGame
 		DefuseRound round = getRound();
 		
 		round.setRanAt(System.currentTimeMillis());
-		round.setPhase(DefuseRoundPhase.PLANTED);
+		round.setPhase(DefuseRound.PHASE_BOMB);
 		round.startExplodeRunnable();
 		getPlayingPlayers().forEach(this::showWitherBar);
 		playSound("projectsurvive:counterstrike.radio.bombpl");
@@ -280,30 +279,19 @@ public class DefuseGame extends TeamGame
 		if(phaseType == GamePhaseType.RUNNING)
 		{
 			DefuseRound round = getRound();
-			DefuseRoundPhase roundPhase = round.getPhase();
-			Long time = null;
-			
-			if(roundPhase == DefuseRoundPhase.PREPARING)
-				time = DefuseRound.SPAWN_TIME;
-			else if(roundPhase == DefuseRoundPhase.STARTED)
-				time = DefuseRound.ROUND_TIME;
-			else if(roundPhase == DefuseRoundPhase.PLANTED)
-				time = DefuseRound.BOMB_TIME;
-			
-			if(time != null)
-			{
-				long nowMillis = System.currentTimeMillis();
-				long ranAtMillis = round.getRanAt();
-				long differenceMillis = nowMillis - ranAtMillis;
-				double difference = differenceMillis * 20D / 1000D;
-				
-				HeadsUpDisplay.displayLoadingBar(getWitherTitle(), player, difference, time, false, () -> HeadsUpDisplay.displayTextBar(getWitherTitle(), player));
-				
-				return;
-			}
+			RoundPhase roundPhase = round.getPhase(); //If not working, skip the PHASE_END & PHASE_POLL
+			long time = roundPhase.getDuration();
+			long nowMillis = System.currentTimeMillis();
+			long ranAtMillis = round.getRanAt();
+			long differenceMillis = nowMillis - ranAtMillis;
+			double difference = differenceMillis * 20D / 1000D;
+
+			HeadsUpDisplay.displayLoadingBar(getWitherTitle(), player, difference, time, false, () -> HeadsUpDisplay.displayTextBar(getWitherTitle(), player));
+
+			//return;
 		}
 		
-		HeadsUpDisplay.displayTextBar(getWitherTitle(), player);
+		//HeadsUpDisplay.displayTextBar(getWitherTitle(), player);
 	}
 	
 	public void removeWitherBar(MSPlayer msPlayer)
@@ -388,15 +376,15 @@ public class DefuseGame extends TeamGame
 			for(MSPlayer msPlayer : getPlayingPlayers(p -> p.getPlayerState() == PlayerState.JOINED_GAME))
 			{
 				Player player = msPlayer.getPlayer();
-				String endMessage = Translation.GAME_ROUND_END.getMessage(victorTeam.getColoredName());
+				String endMessage = Translation.GAME_ROUND_END_PLURAL.getMessage(victorTeam.getColoredName());
 				PlayerDisplay display = new TimedPlayerDisplay(player)
-						.startCountdown(DefuseRound.END_TIME).setLines(endMessage)
+						.startCountdown(DefuseRound.PHASE_END.getDuration()).setLines(endMessage)
 						.setDistance(2);
 				
 				DynamicDisplays.setDisplay(player, display);
 			}
 			
-			round.setPhase(DefuseRoundPhase.ENDED);
+			round.setPhase(DefuseRound.PHASE_END);
 			round.startNextRunnable();
 		}
 	}
@@ -416,25 +404,25 @@ public class DefuseGame extends TeamGame
 				msPlayer.addXP(XP_MATCH_LOSE);
 		}
 
-		defuseRewardListener.rewardPlayers();
+		rewardListener.rewardPlayers();
 		
 		for(MSPlayer msPlayer : getPlayingPlayers(p -> p.getPlayerState() == PlayerState.JOINED_GAME))
 		{
 			Player player = msPlayer.getPlayer();
 			String[] endMessages = {
 						ChatColor.DARK_GRAY + "× × ×",
-						Translation.GAME_MATCH_END_1.getMessage(victorTeam.getColoredName()),
-						Translation.GAME_MATCH_END_2.getMessage(victorTeam.getColoredName()),
+						Translation.GAME_MATCH_END_1_PLURAL.getMessage(victorTeam.getColoredName()),
+						Translation.GAME_MATCH_END_2_PLURAL.getMessage(victorTeam.getColoredName()),
 						ChatColor.DARK_GRAY + "× × ×",
 					};
 			PlayerDisplay display = new TimedPlayerDisplay(player)
-					.startCountdown(DefuseRound.VOTE_TIME).setLines(endMessages[1], endMessages[2], endMessages)
+					.startCountdown(DefuseRound.PHASE_POLL.getDuration()).setLines(endMessages[1], endMessages[2], endMessages)
 					.setDistance(2);
 			
 			DynamicDisplays.setDisplay(player, display);
 		}
 		
-		round.setPhase(DefuseRoundPhase.ENDED);
+		round.setPhase(DefuseRound.PHASE_END);
 		round.startVoteRunnable();
 	}
 	
@@ -451,7 +439,7 @@ public class DefuseGame extends TeamGame
 			return true;
 		
 		DefuseRound round = (DefuseRound) gamePhase;
-		DefuseRoundPhase roundPhase = round.getPhase();
+		RoundPhase roundPhase = round.getPhase();
 		int tPlayers = 0, ctPlayers = 0;
 		
 		for(MSPlayer playingPlayer : getPlayingPlayers())
@@ -464,7 +452,7 @@ public class DefuseGame extends TeamGame
 				ctPlayers++;
 		}
 		
-		return roundPhase != DefuseRoundPhase.PREPARING && tPlayers > 0 && ctPlayers > 0;
+		return roundPhase != DefuseRound.PHASE_PREPARATION && tPlayers > 0 && ctPlayers > 0;
 	}
 
 	@Override
@@ -631,7 +619,7 @@ public class DefuseGame extends TeamGame
 				Point base = map.getBase();
 				spawnPoint = mapStructure.getAbsolutePoint(spawnRegion.getRandomSpawnablePoint(base, MSConstant.RANDOM));
 				
-				msPlayer.showRankInfo(DefuseRound.SPAWN_TIME);
+				msPlayer.showRankInfo(DefuseRound.PHASE_PREPARATION.getDuration());
 				
 				if(spawnPoint == null)
 				{

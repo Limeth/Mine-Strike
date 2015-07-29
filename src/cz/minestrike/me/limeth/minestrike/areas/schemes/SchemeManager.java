@@ -5,7 +5,9 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.HashSet;
+import java.util.Set;
 
+import com.google.common.collect.Sets;
 import org.bukkit.craftbukkit.libs.com.google.gson.Gson;
 import org.bukkit.craftbukkit.libs.com.google.gson.GsonBuilder;
 import org.bukkit.craftbukkit.libs.com.google.gson.JsonArray;
@@ -15,7 +17,7 @@ import org.bukkit.craftbukkit.libs.com.google.gson.JsonParser;
 
 public class SchemeManager
 {
-	public static final HashSet<Scheme> SCHEMES = new HashSet<Scheme>();
+	public static final Set<Scheme> SCHEMES = Sets.newHashSet();
 	public static final File FILE = new File("plugins/MineStrike/schemes.json");
 	
 	public static void loadSchemes() throws Exception

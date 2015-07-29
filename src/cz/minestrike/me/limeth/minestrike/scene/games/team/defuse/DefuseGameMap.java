@@ -14,11 +14,11 @@ import cz.minestrike.me.limeth.minestrike.util.collections.FilledHashMap;
 
 public class DefuseGameMap extends TeamGameMap
 {
-	@Expose RegionList bombSites;
+	@Expose private RegionList bombSites;
 	
-	public DefuseGameMap(String id, Region region, String name, RegionList TSpawn, RegionList CTSpawn, RegionList shoppingZones, Point spectatorSpawn, RegionList bombSites)
+	public DefuseGameMap(String id, Region region, String name, RegionList TSpawn, RegionList CTSpawn, RegionList shoppingZones, RegionList bombSites, RegionList spectatorZones, Point spectatorSpawn)
 	{
-		super(SchemeType.MAP_DEFUSE, id, region, name, TSpawn, CTSpawn, shoppingZones, spectatorSpawn);
+		super(SchemeType.MAP_DEFUSE, id, region, name, TSpawn, CTSpawn, shoppingZones, spectatorZones, spectatorSpawn);
 		
 		Validate.notNull(bombSites, "The bombsite list cannot be null!");
 		
@@ -27,9 +27,9 @@ public class DefuseGameMap extends TeamGameMap
 	
 	public DefuseGameMap(String id, Region region)
 	{
-		this(id, region, null, new RegionList(), new RegionList(), new RegionList(), region.getMidpoint(), new RegionList());
+		this(id, region, null, new RegionList(), new RegionList(), new RegionList(), new RegionList(), new RegionList(), region.getMidpoint());
 	}
-	
+
 	@Override
 	public FilledHashMap<String, RegionList> getRegionsLists()
 	{

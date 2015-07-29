@@ -113,7 +113,7 @@ public class MSInteractionListener extends MSSceneListener<Game>
 
 		msPlayer.clearReceivedDamage();
 		msPlayer.addDeaths(1);
-		game.setDead(msPlayer, true);
+		//game.setDead(msPlayer, true); Moved to DefuseGameListener
 		game.broadcast(message);
 		pm.callEvent(arenaPostEvent);
 	}

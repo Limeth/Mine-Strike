@@ -1,5 +1,6 @@
 package cz.minestrike.me.limeth.minestrike.areas.schemes;
 
+import com.google.common.base.Preconditions;
 import cz.minestrike.me.limeth.minestrike.areas.Point;
 import cz.minestrike.me.limeth.minestrike.areas.Region;
 import cz.minestrike.me.limeth.minestrike.areas.RegionList;
@@ -12,6 +13,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.craftbukkit.libs.com.google.gson.annotations.Expose;
 
 import java.util.ArrayList;
+import java.util.Optional;
 
 
 public abstract class GameMap extends Scheme
@@ -19,12 +21,19 @@ public abstract class GameMap extends Scheme
 	public static final String SCHEME_ID_PREFIX = "map_";
 	
 	@Expose private String name;
+	@Expose private RegionList spectatorZones;
+	@Expose private Point spectatorSpawn;
 	
-	public GameMap(SchemeType type, String id, Region region, String name)
+	public GameMap(SchemeType type, String id, Region region, String name, RegionList spectatorZones, Point spectatorSpawn)
 	{
 		super(type, id, region);
-		
+
+        Preconditions.checkNotNull(spectatorZones, "The spectator zones must not be null!");
+		Preconditions.checkNotNull(spectatorSpawn, "The spectator spawn must not be null!");
+
 		this.name = name;
+        this.spectatorZones = spectatorZones;
+        this.spectatorSpawn = spectatorSpawn;
 	}
 	
 	@Override
@@ -33,6 +42,8 @@ public abstract class GameMap extends Scheme
 		ArrayList<SchemeCommandHandler> handlers = super.getCommandHandlers();
 		
 		handlers.add(SET_NAME);
+		handlers.add(RegionList.COMMAND_HANDLER);
+		handlers.add(Point.COMMAND_HANDLER);
 		
 		return handlers;
 	}
@@ -43,7 +54,27 @@ public abstract class GameMap extends Scheme
 		return name != null;
 	}
 
-	public String getName()
+    @Override
+    public FilledHashMap<String, RegionList> getRegionsLists()
+    {
+        FilledHashMap<String, RegionList> regionLists = super.getRegionsLists();
+
+        regionLists.put("spectatorZones", spectatorZones);
+
+        return regionLists;
+    }
+
+    @Override
+    public FilledHashMap<String, Point> getPoints()
+    {
+        FilledHashMap<String, Point> points = super.getPoints();
+
+        points.put("spectatorSpawn", spectatorSpawn);
+
+        return points;
+    }
+
+    public String getName()
 	{
 		return name;
 	}
@@ -52,6 +83,26 @@ public abstract class GameMap extends Scheme
 	{
 		this.name = name;
 	}
+
+    public RegionList getSpectatorZones()
+    {
+        return spectatorZones != null ? spectatorZones : (spectatorZones = new RegionList());
+    }
+
+    public void setSpectatorZones(RegionList spectatorZones)
+    {
+        this.spectatorZones = spectatorZones;
+    }
+
+    public Point getSpectatorSpawn()
+    {
+        return spectatorSpawn;
+    }
+
+    public void setSpectatorSpawn(Point spectatorSpawn)
+    {
+        this.spectatorSpawn = spectatorSpawn;
+    }
 	
 	private static final SchemeCommandHandler SET_NAME = new SchemeCommandHandler("setName", "ms scheme select [Scheme] setName [Name]", "Sets the name of this map")
 	{

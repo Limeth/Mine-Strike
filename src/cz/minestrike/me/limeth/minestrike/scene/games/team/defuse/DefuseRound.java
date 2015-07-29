@@ -1,5 +1,7 @@
 package cz.minestrike.me.limeth.minestrike.scene.games.team.defuse;
 
+import com.google.common.base.Preconditions;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Maps;
 import cz.minestrike.me.limeth.minestrike.MSPlayer;
 import cz.minestrike.me.limeth.minestrike.MineStrike;
@@ -10,6 +12,7 @@ import cz.minestrike.me.limeth.minestrike.listeners.msPlayer.MSSceneListener;
 import cz.minestrike.me.limeth.minestrike.scene.games.Game;
 import cz.minestrike.me.limeth.minestrike.scene.games.GamePhase;
 import cz.minestrike.me.limeth.minestrike.scene.games.GamePhaseType;
+import cz.minestrike.me.limeth.minestrike.scene.games.RoundPhase;
 import cz.minestrike.me.limeth.minestrike.scene.games.team.PreparationCheckRunnable;
 import cz.minestrike.me.limeth.minestrike.scene.games.team.defuse.DefuseGame.RoundEndReason;
 import org.bukkit.Bukkit;
@@ -20,20 +23,26 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.scheduler.BukkitScheduler;
 
 import java.util.HashMap;
+import java.util.List;
 
 public class DefuseRound extends GamePhase<DefuseGame>
 {
-	public static final long BOMB_TIME = 60 * 20, SPAWN_TIME = 10 * 20, ROUND_TIME = 20 * 60 * 3, END_TIME = 5 * 20, VOTE_TIME = 10 * 20;
+    public static final RoundPhase PHASE_PREPARATION = new RoundPhase("PREPARATION", 10 * 20),
+            PHASE_RUNNING = new RoundPhase("RUNNING", 20 * 60 * 3),
+            PHASE_BOMB = new RoundPhase("BOMB", 20 * 60),
+            PHASE_END = new RoundPhase("END", 5 * 20),
+            PHASE_POLL = new RoundPhase("POLL", 10 * 20);
+    public static final List<RoundPhase> PHASES = ImmutableList.of(PHASE_PREPARATION, PHASE_RUNNING, PHASE_BOMB, PHASE_END, PHASE_POLL);
 
 	private void onPrepare()
 	{
 		setRanAt(System.currentTimeMillis());
-		setPhase(DefuseRoundPhase.PREPARING);
+		setPhase(PHASE_PREPARATION);
 		boolean cont = getGame().roundPrepare();
 
 		if(cont)
 		{
-			taskId = Bukkit.getScheduler().scheduleSyncDelayedTask(MineStrike.getInstance(), this::onStart, SPAWN_TIME);
+			taskId = Bukkit.getScheduler().scheduleSyncDelayedTask(MineStrike.getInstance(), this::onStart, PHASE_PREPARATION.getDuration());
             startPreparationCheckRunnable();
 		}
 	}
@@ -41,11 +50,11 @@ public class DefuseRound extends GamePhase<DefuseGame>
 	private void onStart()
 	{
 		setRanAt(System.currentTimeMillis());
-		setPhase(DefuseRoundPhase.STARTED);
+		setPhase(PHASE_RUNNING);
 		boolean cont = getGame().roundStart();
 
 		if (cont)
-			taskId = Bukkit.getScheduler().scheduleSyncDelayedTask(MineStrike.getInstance(), this::onEnd, ROUND_TIME);
+			taskId = Bukkit.getScheduler().scheduleSyncDelayedTask(MineStrike.getInstance(), this::onEnd, PHASE_RUNNING.getDuration());
 	}
 
 	private void onEnd()
@@ -78,7 +87,7 @@ public class DefuseRound extends GamePhase<DefuseGame>
 	
 	private final MSSceneListener<DefuseGame> listener;
 	private PreparationCheckRunnable checker;
-	private DefuseRoundPhase phase;
+	private RoundPhase phase;
 	private Integer taskId;
 	private Long ranAt;
 	
@@ -101,7 +110,7 @@ public class DefuseRound extends GamePhase<DefuseGame>
 		if(hasTask())
 			cancelTask();
 		
-		taskId = Bukkit.getScheduler().scheduleSyncDelayedTask(MineStrike.getInstance(), this::onNext, END_TIME);
+		taskId = Bukkit.getScheduler().scheduleSyncDelayedTask(MineStrike.getInstance(), this::onNext, PHASE_END.getDuration());
 	}
 	
 	public void startVoteRunnable()
@@ -109,7 +118,7 @@ public class DefuseRound extends GamePhase<DefuseGame>
 		if(hasTask())
 			cancelTask();
 		
-		taskId = Bukkit.getScheduler().scheduleSyncDelayedTask(MineStrike.getInstance(), this::onVote, VOTE_TIME);
+		taskId = Bukkit.getScheduler().scheduleSyncDelayedTask(MineStrike.getInstance(), this::onVote, PHASE_POLL.getDuration());
 	}
 	
 	public void startExplodeRunnable()
@@ -117,12 +126,12 @@ public class DefuseRound extends GamePhase<DefuseGame>
 		if(hasTask())
 			cancelTask();
 		
-		taskId = Bukkit.getScheduler().scheduleSyncDelayedTask(MineStrike.getInstance(), this::onExplode, BOMB_TIME);
+		taskId = Bukkit.getScheduler().scheduleSyncDelayedTask(MineStrike.getInstance(), this::onExplode, PHASE_BOMB.getDuration());
 	}
 
     private void startPreparationCheckRunnable()
     {
-        checker = new PreparationCheckRunnable(getGame(), () -> phase == DefuseRoundPhase.PREPARING, () -> checker = null);
+        checker = new PreparationCheckRunnable(getGame(), () -> phase == PHASE_PREPARATION, () -> checker = null);
         checker.start(5L);
     }
 	
@@ -139,27 +148,14 @@ public class DefuseRound extends GamePhase<DefuseGame>
 		return taskId != null;
 	}
 	
-	public DefuseRoundPhase getPhase()
+	public RoundPhase getPhase()
 	{
 		return phase;
 	}
 
-	public void setPhase(DefuseRoundPhase phase)
+	public void setPhase(RoundPhase phase)
 	{
 		this.phase = phase;
-	}
-
-	public static enum DefuseRoundPhase
-	{
-		PREPARING, STARTED, PLANTED, ENDED;
-		
-		public DefuseRoundPhase getNext()
-		{
-			int index = ordinal();
-			DefuseRoundPhase[] phases = values();
-			
-			return index < phases.length - 1 ? phases[index + 1] : null;
-		}
 	}
 	
 	@Override
@@ -189,7 +185,7 @@ public class DefuseRound extends GamePhase<DefuseGame>
 	
 	public boolean hasEnded()
 	{
-		return phase == DefuseRoundPhase.ENDED;
+		return phase == PHASE_END;
 	}
 
 	private static class RoundListener extends MSSceneListener<DefuseGame>
@@ -208,9 +204,9 @@ public class DefuseRound extends GamePhase<DefuseGame>
 			if(phase instanceof DefuseRound)
 			{
 				DefuseRound round = (DefuseRound) phase;
-				DefuseRoundPhase roundPhase = round.getPhase();
+				RoundPhase roundPhase = round.getPhase();
 				
-				if(roundPhase == DefuseRoundPhase.PREPARING || roundPhase == DefuseRoundPhase.ENDED)
+				if(roundPhase == PHASE_PREPARATION || roundPhase == PHASE_END)
 				{
 					Player player = msPlayer.getPlayer();
 					

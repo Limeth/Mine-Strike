@@ -24,12 +24,7 @@ public class EquipmentSectionEntry
 		register(P250.getInstance(), CZ75.getInstance());
 		register(M4A4.getInstance(), M4A1S.getInstance());
 		
-		for(Equipment equipment : EquipmentManager.getEquipment())
-			try
-			{
-				register(equipment);
-			}
-			catch(Exception e) {}
+		updateManagedEquipment();
 	}
 
 	private static final HashSet<EquipmentSectionEntry> VALUES;
@@ -40,6 +35,17 @@ public class EquipmentSectionEntry
 	{
 		this.sourceEquipment = sourceEquipment;
 		this.defaultEquipment = defaultEquipment;
+	}
+
+	@Deprecated
+	public static void updateManagedEquipment() //Replace with proper dynamic registration
+	{
+		for(Equipment equipment : EquipmentManager.getEquipment())
+			try
+			{
+				register(equipment);
+			}
+			catch(Exception e) {}
 	}
 
 	private static void register(Equipment... sourceEquipment)
