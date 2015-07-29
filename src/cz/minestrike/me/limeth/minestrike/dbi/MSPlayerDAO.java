@@ -31,6 +31,7 @@ public interface MSPlayerDAO
 	String FIELD_EQUIPMENT_SERVER   = "server";
 	String FIELD_EQUIPMENT_CATEGORY   = "category";
 	String FIELD_EQUIPMENT_TRADABLE   = "tradable";
+	String FIELD_EQUIPMENT_SELLINGPRICE = "selling_price";
 	String FIELD_EQUIPMENT_TYPE     = "type";
 	String FIELD_EQUIPMENT_DATA     = "data";
 	String VALUE_EQUIPMENT_SERVER   = "minestrike";
@@ -51,7 +52,13 @@ public interface MSPlayerDAO
 	
 	static void prepareTableEquipment()
 	{
-		prepareTable(MSConfig.getMySQLTableEquipment(), null, column(FIELD_EQUIPMENT_USERNAME, "varchar(16) COLLATE utf8_czech_ci NOT NULL"), column(FIELD_EQUIPMENT_SERVER, "varchar(16) NOT NULL"), column(FIELD_EQUIPMENT_CATEGORY, "varchar(32) NOT NULL"), column(FIELD_EQUIPMENT_TRADABLE, "BOOLEAN NOT NULL"), column(FIELD_EQUIPMENT_TYPE, "varchar(64) NOT NULL"), column(FIELD_EQUIPMENT_DATA, "varchar(256) NOT NULL"));
+		prepareTable(MSConfig.getMySQLTableEquipment(), null, column(FIELD_EQUIPMENT_USERNAME, "varchar(16) COLLATE utf8_czech_ci NOT NULL"),
+				column(FIELD_EQUIPMENT_SERVER, "varchar(16) NOT NULL"),
+				column(FIELD_EQUIPMENT_CATEGORY, "varchar(32) NOT NULL"),
+				column(FIELD_EQUIPMENT_TRADABLE, "BOOLEAN NOT NULL"),
+				column(FIELD_EQUIPMENT_SELLINGPRICE, "INT(10) UNSIGNED"),
+				column(FIELD_EQUIPMENT_TYPE, "varchar(64) NOT NULL"),
+				column(FIELD_EQUIPMENT_DATA, "varchar(256) NOT NULL"));
 	}
 	
 	static void prepareTables()
@@ -125,14 +132,14 @@ public interface MSPlayerDAO
 			+ "(:player." + FIELD_DATA_USERNAME + ", :player." + FIELD_DATA_XP + ", :player." + FIELD_DATA_KILLS + ", :player." + FIELD_DATA_ASSISTS + ", :player." + FIELD_DATA_DEATHS + ", :player." + FIELD_DATA_PLAYTIME + ")")
 	void insertData(@Define("table") String tableName, @BindBean("player") MSPlayerData msPlayer);
 	
-	@SqlQuery("SELECT * FROM <table> WHERE `" + FIELD_EQUIPMENT_SERVER + "` = '" + VALUE_EQUIPMENT_SERVER + "' AND `" + FIELD_DATA_USERNAME + "` = :username AND `selling_price` IS NULL")
+	@SqlQuery("SELECT * FROM <table> WHERE `" + FIELD_EQUIPMENT_SERVER + "` = '" + VALUE_EQUIPMENT_SERVER + "' AND `" + FIELD_DATA_USERNAME + "` = :username AND `" + FIELD_EQUIPMENT_SELLINGPRICE +"` IS NULL")
 	public Collection<Equipment> selectEquipment(@Define("table") String tableName, @Bind("username") String playerName);
 
 	@SqlBatch("INSERT INTO <table> (`" + FIELD_EQUIPMENT_USERNAME + "`, `" + FIELD_EQUIPMENT_SERVER + "`, `" + FIELD_EQUIPMENT_CATEGORY + "`, `" + FIELD_EQUIPMENT_TRADABLE + "`, `" + FIELD_EQUIPMENT_TYPE + "`, `" + FIELD_EQUIPMENT_DATA + "`) VALUES"
 			+ "(:username, '" + VALUE_EQUIPMENT_SERVER + "', :equipment." + FIELD_EQUIPMENT_CATEGORY + ", :equipment." + FIELD_EQUIPMENT_TRADABLE + ", :equipment." + FIELD_EQUIPMENT_TYPE + ", :equipment." + FIELD_EQUIPMENT_DATA + ")")
 	void insertEquipment(@Define("table") String tableName, @Bind("username") String playerName, @BindEquipment("equipment") Iterable<Equipment> container);
 	
-	@SqlUpdate("DELETE FROM <table> WHERE `" + FIELD_EQUIPMENT_USERNAME + "` = :username AND `selling_price` IS NULL")
+	@SqlUpdate("DELETE FROM <table> WHERE `" + FIELD_EQUIPMENT_USERNAME + "` = :username AND `" + FIELD_EQUIPMENT_SELLINGPRICE + "` IS NULL")
 	void clearEquipment(@Define("table") String tableName, @Bind("username") String playerName);
 	
 	void close();
