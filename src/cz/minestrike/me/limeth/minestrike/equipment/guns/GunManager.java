@@ -21,7 +21,7 @@ import java.util.Set;
 
 public class GunManager
 {
-	public static void shootBullet(MSPlayer msPlayer, Location location, Vector direction, double range, double penetration, Set<Object> hitObjects)
+	public static void shootBullet(MSPlayer msPlayer, Location location, Vector direction, double range, double penetration, boolean penetrated, Set<Object> hitObjects)
 	{
 		Vector deltaLocation = direction.clone().multiply(range);
 		Player player = msPlayer.getPlayer();
@@ -39,7 +39,7 @@ public class GunManager
 			uniqueHit = hitObject != null && hitObjects.add(hitObject);
 
 			if(uniqueHit)
-				hitResult = GunManager.onBulletHit(firstObstacle, msPlayer, penetration);
+				hitResult = GunManager.onBulletHit(firstObstacle, msPlayer, penetration, penetrated);
 
 			endLocation = new Location(world, firstObstacle.pos.a, firstObstacle.pos.b, firstObstacle.pos.c);
 		}
@@ -56,7 +56,7 @@ public class GunManager
 				{
 					Location nextLocation = endLocation.clone().add(direction);
 
-					shootBullet(msPlayer, nextLocation, direction, remainingRange, nextPenetration, hitObjects);
+					shootBullet(msPlayer, nextLocation, direction, remainingRange, nextPenetration, true, hitObjects);
 				}
 			}
 		}
@@ -70,7 +70,7 @@ public class GunManager
 
 	public static void shootBullet(MSPlayer msPlayer, Location location, Vector direction, double range)
 	{
-		shootBullet(msPlayer, location, direction, range, 1, Sets.newHashSet());
+		shootBullet(msPlayer, location, direction, range, 1, false, Sets.newHashSet());
 	}
 
 	public static void showTrace(Location from, Location to, double stepSize)
@@ -112,7 +112,7 @@ public class GunManager
 	}
 	
 	@SuppressWarnings("deprecation")
-	public static HitResult onBulletHit(MovingObjectPosition mop, MSPlayer msPlayer, double penetration)
+	public static HitResult onBulletHit(MovingObjectPosition mop, MSPlayer msPlayer, double penetration, boolean penetrated)
 	{
 		Player player = msPlayer.getPlayer();
 		Location eyeLoc = player.getEyeLocation();
@@ -137,13 +137,14 @@ public class GunManager
 		if(mop.type == EnumMovingObjectType.BLOCK)
 		{
 			Block block = bukkitWorld.getBlockAt(mop.b, mop.c, mop.d);
-			BlockShotEvent event = new BlockShotEvent(msPlayer, hitLoc, damage, block);
+			BlockShotEvent event = new BlockShotEvent(msPlayer, hitLoc, damage, penetration, penetrated, block);
 
 			pm.callEvent(event);
 
-			double currentPenetration = event.getPenetration();
+			double currentPenetration = event.getRelativePenetration();
+			penetrated = event.isPenetrated();
 
-			return new HitResult(currentPenetration, block);
+			return new HitResult(currentPenetration, penetrated, block);
 
 		}
 		else if(mop.type == EnumMovingObjectType.ENTITY)
@@ -151,17 +152,18 @@ public class GunManager
 			org.bukkit.entity.Entity rawBukkitVictim = mop.entity.getBukkitEntity();
 
 			if(!(rawBukkitVictim instanceof Player))
-				return new HitResult(1, null);
+				return new HitResult(1, penetrated, null);
 
 			Player bukkitVictim = (Player) rawBukkitVictim;
 			MSPlayer msVictim = MSPlayer.get(bukkitVictim);
-			PlayerShotEvent event = new PlayerShotEvent(msPlayer, hitLoc, damage, msVictim);
+			PlayerShotEvent event = new PlayerShotEvent(msPlayer, hitLoc, damage, penetration, penetrated, msVictim);
 
 			pm.callEvent(event);
 
-			double currentPenetration = event.getPenetration();
+			double currentPenetration = event.getRelativePenetration();
+			penetrated = event.isPenetrated();
 
-			return new HitResult(currentPenetration, rawBukkitVictim);
+			return new HitResult(currentPenetration, penetrated, rawBukkitVictim);
 		}
 
 		throw new IllegalStateException("Invalid MovingObjectPosition; type: " + mop.type);
@@ -180,17 +182,19 @@ public class GunManager
 	private static class HitResult
 	{
 		public final double penetrationModifier;
+		public final boolean penetrated;
 		public final Object hitObject;
 
-		public HitResult(double penetrationModifier, Object hitObject)
+		public HitResult(double penetrationModifier, boolean penetrated, Object hitObject)
 		{
 			this.penetrationModifier = penetrationModifier;
+			this.penetrated = penetrated;
 			this.hitObject = hitObject;
 		}
 
-		public HitResult(double penetrationModifier, MovingObjectPosition mop, World world)
+		public HitResult(double penetrationModifier, boolean penetrated, MovingObjectPosition mop, World world)
 		{
-			this(penetrationModifier, getHitObject(mop, world));
+			this(penetrationModifier, penetrated, getHitObject(mop, world));
 		}
 	}
 }

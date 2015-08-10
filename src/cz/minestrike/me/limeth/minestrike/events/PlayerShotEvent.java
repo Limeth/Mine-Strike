@@ -4,7 +4,6 @@ import com.google.common.base.Preconditions;
 import cz.minestrike.me.limeth.minestrike.BodyPart;
 import cz.minestrike.me.limeth.minestrike.DamageRecord;
 import cz.minestrike.me.limeth.minestrike.MSPlayer;
-import cz.minestrike.me.limeth.minestrike.equipment.Equipment;
 import cz.minestrike.me.limeth.minestrike.equipment.guns.Gun;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -18,24 +17,27 @@ public class PlayerShotEvent extends MSPlayerEvent implements ShotEvent
 	private static final HandlerList handlers = new HandlerList();
 	private final MSPlayer msVictim;
 	private final Location locationBulletFinal;
+	private final double absolutePenetration;
 	private double damage;
-	private double penetration;
+	private double relativePenetration;
 	private boolean penetrated;
 	private boolean cancelled;
 
-	public PlayerShotEvent(MSPlayer msPlayer, Location locationBulletFinal, double damage, MSPlayer msVictim)
+	public PlayerShotEvent(MSPlayer msPlayer, Location locationBulletFinal, double damage, double absolutePenetration, boolean penetrated, MSPlayer msVictim)
 	{
 		super(msPlayer);
 
 		Preconditions.checkNotNull(msPlayer, "The player must not be null!");
 		Preconditions.checkNotNull(locationBulletFinal, "The final bullet location must not be null!");
 		Preconditions.checkNotNull(msVictim, "The shot block must not be null!");
+        Preconditions.checkNotNull(absolutePenetration >= 0, "The absolute penetration must not be negative!");
 
 		this.locationBulletFinal = locationBulletFinal;
 		this.msVictim = msVictim;
 		this.damage = damage;
-		this.penetration = 1;
-		this.penetrated = false;
+		this.relativePenetration = 1;
+		this.absolutePenetration = absolutePenetration;
+		this.penetrated = penetrated;
 		this.cancelled = false;
 	}
 
@@ -85,9 +87,15 @@ public class PlayerShotEvent extends MSPlayerEvent implements ShotEvent
 	}
 
 	@Override
-	public double getPenetration()
+	public double getRelativePenetration()
 	{
-		return penetration;
+		return relativePenetration;
+	}
+
+	@Override
+	public double getAbsolutePenetration()
+	{
+		return relativePenetration * absolutePenetration;
 	}
 
 	@Override
@@ -96,7 +104,7 @@ public class PlayerShotEvent extends MSPlayerEvent implements ShotEvent
         if(!penetrated)
             penetrated = true;
 
-		return this.penetration *= penetrationModifier;
+		return this.relativePenetration *= penetrationModifier;
 	}
 
     @Override

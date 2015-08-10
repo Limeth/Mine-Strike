@@ -14,24 +14,27 @@ public class BlockShotEvent extends MSPlayerEvent implements ShotEvent
 	private static final HandlerList handlers = new HandlerList();
 	private final Block block;
 	private final Location locationBulletFinal;
+	private final double absolutePenetration;
 	private double damage;
-	private double penetration;
+	private double relativePenetration;
 	private boolean cancelled;
 	private boolean penetrated;
 
-	public BlockShotEvent(MSPlayer msPlayer, Location locationBulletFinal, double damage, Block block)
+	public BlockShotEvent(MSPlayer msPlayer, Location locationBulletFinal, double damage, double absolutePenetration, boolean penetrated, Block block)
 	{
 		super(msPlayer);
 
 		Preconditions.checkNotNull(msPlayer, "The player must not be null!");
 		Preconditions.checkNotNull(locationBulletFinal, "The final bullet location must not be null!");
 		Preconditions.checkNotNull(block, "The shot block must not be null!");
+		Preconditions.checkNotNull(absolutePenetration >= 0, "The absolute penetration must not be negative!");
 
 		this.locationBulletFinal = locationBulletFinal;
 		this.block = block;
 		this.damage = damage;
-		this.penetration = 1;
-		this.penetrated = false;
+		this.relativePenetration = 1;
+		this.absolutePenetration = absolutePenetration;
+		this.penetrated = penetrated;
 		this.cancelled = false;
 	}
 
@@ -59,9 +62,15 @@ public class BlockShotEvent extends MSPlayerEvent implements ShotEvent
 	}
 
 	@Override
-	public double getPenetration()
+	public double getRelativePenetration()
 	{
-		return penetration;
+		return relativePenetration;
+	}
+
+	@Override
+	public double getAbsolutePenetration()
+	{
+		return relativePenetration * absolutePenetration;
 	}
 
 	@Override
@@ -70,7 +79,7 @@ public class BlockShotEvent extends MSPlayerEvent implements ShotEvent
 		if(!penetrated)
 			penetrated = true;
 
-		return penetration *= penetrationModifier;
+		return relativePenetration *= penetrationModifier;
 	}
 
 	@Override

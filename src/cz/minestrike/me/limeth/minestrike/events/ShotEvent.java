@@ -15,7 +15,20 @@ public interface ShotEvent extends Cancellable
 	Location getLocationBulletFinal();
 	double getDamage();
 	void setDamage(double damage);
-	double getPenetration();
+
+	/**
+     * Defaults to 1
+     *
+	 * @return The relative damage modifier, describes the penetration value of this object.
+	 */
+	double getRelativePenetration();
+
+	/**
+     * Relative Penetration * Absolute Penetration of the previous object or 1 if none
+     *
+	 * @return The absolute damage modifier applied to bullets after penetrating this object
+	 */
+	double getAbsolutePenetration();
 	double penetrate(double penetrationModifier);
 	boolean isPenetrated();
 
