@@ -18,9 +18,9 @@ import cz.minestrike.me.limeth.minestrike.Translation;
 public class TopExecutor implements CommandExecutor
 {
 	public static final String DATA_LAST_USE = "MineStrike.command.top.lastuse";
-	public static final long DELAY = 10000;
+	public static final long DELAY = 3000;
 	public static final int ENTRIES_PER_PAGE = 10;
-	
+
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args)
 	{
