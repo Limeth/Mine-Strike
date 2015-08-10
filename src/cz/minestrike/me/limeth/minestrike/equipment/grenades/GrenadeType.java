@@ -1,5 +1,6 @@
 package cz.minestrike.me.limeth.minestrike.equipment.grenades;
 
+import cz.minestrike.me.limeth.minestrike.DamageRecord;
 import cz.minestrike.me.limeth.minestrike.MSConstant;
 import cz.minestrike.me.limeth.minestrike.MSPlayer;
 import cz.minestrike.me.limeth.minestrike.MineStrike;
@@ -74,8 +75,9 @@ public enum GrenadeType implements Equipment, DamageSource
 						double damage = DAMAGE * damageModifier;
 						Player target = (Player) targetEntity;
 						MSPlayer msTarget = MSPlayer.get(target);
+						DamageRecord damageRecord = new DamageRecord(msShooter, this, null, false, damage);
 
-						msTarget.damage(damage, msShooter, this, null);
+						msTarget.damage(damageRecord);
 					}
 
 					return false;

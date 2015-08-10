@@ -1,9 +1,6 @@
 package cz.minestrike.me.limeth.minestrike.equipment.simple;
 
-import cz.minestrike.me.limeth.minestrike.BodyPart;
-import cz.minestrike.me.limeth.minestrike.MSConstant;
-import cz.minestrike.me.limeth.minestrike.MSPlayer;
-import cz.minestrike.me.limeth.minestrike.Translation;
+import cz.minestrike.me.limeth.minestrike.*;
 import cz.minestrike.me.limeth.minestrike.equipment.Equipment;
 import cz.minestrike.me.limeth.minestrike.equipment.EquipmentCategory;
 import cz.minestrike.me.limeth.minestrike.equipment.SimpleEquipment;
@@ -99,8 +96,9 @@ public class Knife extends SimpleEquipment
 					double relHitY = hitY - victimY;
 					BodyPart bodyPart = BodyPart.getByY(relHitY);
 					Equipment customizedKnife = msPlayer.getEquipmentInHand();
-					
-					msVictim.damage(damage, msPlayer, customizedKnife, bodyPart);
+					DamageRecord damageRecord = new DamageRecord(msPlayer, customizedKnife, bodyPart, false, damage);
+
+					msVictim.damage(damageRecord);
 					SoundManager.play(damageSound, hitLocation, Bukkit.getOnlinePlayers());
 					return;
 				}

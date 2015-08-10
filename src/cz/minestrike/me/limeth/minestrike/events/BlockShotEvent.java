@@ -17,6 +17,7 @@ public class BlockShotEvent extends MSPlayerEvent implements ShotEvent
 	private double damage;
 	private double penetration;
 	private boolean cancelled;
+	private boolean penetrated;
 
 	public BlockShotEvent(MSPlayer msPlayer, Location locationBulletFinal, double damage, Block block)
 	{
@@ -30,6 +31,8 @@ public class BlockShotEvent extends MSPlayerEvent implements ShotEvent
 		this.block = block;
 		this.damage = damage;
 		this.penetration = 1;
+		this.penetrated = false;
+		this.cancelled = false;
 	}
 
 	@Override
@@ -62,9 +65,18 @@ public class BlockShotEvent extends MSPlayerEvent implements ShotEvent
 	}
 
 	@Override
-	public void setPenetration(double penetration)
+	public double penetrate(double penetrationModifier)
 	{
-		this.penetration = penetration;
+		if(!penetrated)
+			penetrated = true;
+
+		return penetration *= penetrationModifier;
+	}
+
+	@Override
+	public boolean isPenetrated()
+	{
+		return penetrated;
 	}
 
 	public HandlerList getHandlers()

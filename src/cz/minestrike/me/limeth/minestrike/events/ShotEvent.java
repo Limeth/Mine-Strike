@@ -16,7 +16,8 @@ public interface ShotEvent extends Cancellable
 	double getDamage();
 	void setDamage(double damage);
 	double getPenetration();
-	void setPenetration(double penetration);
+	double penetrate(double penetrationModifier);
+	boolean isPenetrated();
 
 	default Location getLocationBulletInitial()
 	{

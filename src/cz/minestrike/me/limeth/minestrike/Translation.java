@@ -1,10 +1,13 @@
 package cz.minestrike.me.limeth.minestrike;
 
+import cz.minestrike.me.limeth.minestrike.scene.games.listeners.MSInteractionListener;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.File;
 import java.io.IOException;
+
+import static cz.minestrike.me.limeth.minestrike.scene.games.listeners.MSInteractionListener.CHARACTER_SKULL;
 
 public enum Translation
 {
@@ -60,13 +63,11 @@ public enum Translation
 	GAME_BOMB_INVALIDPLACEMENT("&cThe bomb must be planted at a bombsite.", "&cBomba musí byt polozena na stanovisti."),
 	@Deprecated GAME_BOMB_PLANTED("&c&lThe bomb has been planted!", "&c&lBomba byla polozena!"),
 	GAME_BOMB_DEFUSED("&e&lThe bomb has been defused.", "&e&lBomba byla zneskodnena."),
-	GAME_DEATH_UNKNOWN("&7Player &r{1}&7 died.", "&7Hrác &r{1}&7 zemrel."),
-	GAME_DEATH_SUICIDE_SOLO("&7Player &r{1}&7 was killed by their &r{2}&7.", "&7Hrác &r{1}&7 byl zabit svym &r{2}&7."),
-	GAME_DEATH_SOURCE_SOLO("&7Player &r{1}&7 was killed by &r{2}&7.", "&7Hrác &r{1}&7 byl zabit hrácem &r{2}&7."),
-	GAME_DEATH_WEAPONSOURCE_SOLO("&7Player &r{1}&7 was killed using &r{3}&7 by &r{2}&7.", "&7Hrác &r{1}&7 byl zabit pomocí &r{3}&7 hrácem &r{2}&7."),
-	GAME_DEATH_SUICIDE_ASSIST("&7Player &r{1}&7 was killed by their &r{2}&7.", "&7Hrác &r{1}&7 byl zabit svym &r{2}&7."),
-	GAME_DEATH_SOURCE_ASSIST("&7Player &r{1}&7 was killed by &r{2}&7 and &r{4}&7.", "&7Hrác &r{1}&7 byl zabit hráci &r{2}&7 a &r{4}&7."),
-	GAME_DEATH_WEAPONSOURCE_ASSIST("&7Player &r{1}&7 was killed using &r{3}&7 by &r{2}&7 and &r{4}&7.", "&7Hrác &r{1}&7 byl zabit pomocí &r{3}&7 hráci &r{2}&7 a &r{4}&7."),
+	GAME_DEATH_UNKNOWN("&7" + CHARACTER_SKULL + " &r{1}"),
+	GAME_DEATH_SUICIDE_SOLO("&7" + CHARACTER_SKULL + " &r{1}&7 < &r{2}&r{3}&7"),
+	GAME_DEATH_WEAPONSOURCE_SOLO("&7" + CHARACTER_SKULL + " &r{1}&7 < &r{2}&r{3}&7 < &r{4}&7"),
+	GAME_DEATH_SUICIDE_ASSIST("&7" + CHARACTER_SKULL + " &r{1}&7 < &r{2}&r{3}&7 < &r{1}&7 + &r{4}&7"),
+	GAME_DEATH_WEAPONSOURCE_ASSIST("&7" + CHARACTER_SKULL + " &r{1}&7 < &r{2}&r{3}&7 < &r{4}&7 + &r{5}&7"),
 
 	EQUIPMENT_PLACEHOLDER_NAME("&c&lAn error occured", "&c&lNastala chyba"),
 	EQUIPMENT_CUSTOMIZATION_NAME("&r{2} &7(&r{1}&7)"),

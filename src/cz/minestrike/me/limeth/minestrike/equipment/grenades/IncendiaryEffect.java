@@ -9,6 +9,7 @@ import java.util.Random;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import cz.minestrike.me.limeth.minestrike.DamageRecord;
 import net.minecraft.server.v1_7_R4.AxisAlignedBB;
 import net.minecraft.server.v1_7_R4.Entity;
 import net.minecraft.server.v1_7_R4.EnumMovingObjectType;
@@ -131,8 +132,8 @@ public class IncendiaryEffect
 			MSPlayer msPlayer = MSPlayer.get((Player) entity);
 			double damage = entry.getValue();
 			double curDamage = damage * damageMultiplier * damageModifier;
-			
-			msPlayer.damage(curDamage, shooter, weapon, null);
+			DamageRecord damageRecord = new DamageRecord(shooter, weapon, null, false, curDamage);
+
 			entity.setFireTicks(5);
 		}
 		

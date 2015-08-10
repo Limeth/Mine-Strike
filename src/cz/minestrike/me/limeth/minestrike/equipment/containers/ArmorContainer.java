@@ -1,6 +1,7 @@
 package cz.minestrike.me.limeth.minestrike.equipment.containers;
 
 import cz.minestrike.me.limeth.minestrike.BodyPart;
+import cz.minestrike.me.limeth.minestrike.DamageRecord;
 import cz.minestrike.me.limeth.minestrike.MSPlayer;
 import cz.minestrike.me.limeth.minestrike.equipment.Equipment;
 import cz.minestrike.me.limeth.minestrike.equipment.guns.type.GunType;
@@ -129,15 +130,17 @@ public class ArmorContainer implements Container
 		player.setExp(kevlarDurability > 1 ? 1 : kevlarDurability);
 	}
 	
-	public double reduceDamage(MSPlayer msPlayer, double damage, Equipment equipment, BodyPart bodyPart, boolean damageArmor)
+	public DamageRecord reduceDamage(DamageRecord damageRecord, MSPlayer msVictim, boolean damageArmor)
 	{
+		Equipment equipment = damageRecord.getWeapon();
+		BodyPart bodyPart = damageRecord.getBodyPart();
 		Float weaponArmorRatio = getWeaponArmorRatio(equipment, bodyPart);
 		
 		if(weaponArmorRatio != null)
 		{
 			if(damageArmor)
 			{
-				Location eyeLoc = msPlayer.getPlayer().getEyeLocation();
+				Location eyeLoc = msVictim.getPlayer().getEyeLocation();
 				String hitSound = bodyPart.getHitSoundArmored();
 				
 				if(bodyPart == BodyPart.CHEST || bodyPart == BodyPart.ABDOMEN)
@@ -145,23 +148,23 @@ public class ArmorContainer implements Container
 					float armorCost = weaponArmorRatio / 2;
 					
 					decreaseKevlarDurability(armorCost);
-					applyKevlarDurability(msPlayer);
+					applyKevlarDurability(msVictim);
 				}
 				
 				SoundManager.play(hitSound, eyeLoc, Bukkit.getOnlinePlayers());
 			}
 			
-			damage *= weaponArmorRatio;
+			damageRecord = damageRecord.setDamage(damageRecord.getDamage() * weaponArmorRatio);
 		}
 		else if(damageArmor)
 		{
-			Location eyeLoc = msPlayer.getPlayer().getEyeLocation();
+			Location eyeLoc = msVictim.getPlayer().getEyeLocation();
 			String hitSound = bodyPart != null ? bodyPart.getHitSound() : BodyPart.CHEST.getHitSound();
 			
 			SoundManager.play(hitSound, eyeLoc, Bukkit.getOnlinePlayers());
 		}
 		
-		return damage;
+		return damageRecord;
 	}
 	
 	public Float getWeaponArmorRatio(Equipment equipment, BodyPart bodyPart)

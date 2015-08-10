@@ -1,5 +1,6 @@
 package cz.minestrike.me.limeth.minestrike.scene.games.listeners;
 
+import cz.minestrike.me.limeth.minestrike.DamageRecord;
 import cz.minestrike.me.limeth.minestrike.MSPlayer;
 import cz.minestrike.me.limeth.minestrike.Translation;
 import cz.minestrike.me.limeth.minestrike.equipment.Equipment;
@@ -18,6 +19,10 @@ import org.bukkit.plugin.PluginManager;
 
 public class MSInteractionListener extends MSSceneListener<Game>
 {
+    public static final char CHARACTER_SKULL = '〙';
+	public static final char CHARACTER_PENETRATED = '〚';
+	public static final char CHARACTER_HEADSHOT = '〛';
+
 	public MSInteractionListener(Game game)
 	{
 		super(game);
@@ -39,39 +44,30 @@ public class MSInteractionListener extends MSSceneListener<Game>
 		if(arenaPreEvent.isCancelled())
 			return;
 
-		MSPlayer msKiller = msPlayer.getLastDamageSource();
+        DamageRecord lastDamageRecord = msPlayer.getLastDamageRecord();
 		String message;
 		
-		if(msKiller != null)
+		if(lastDamageRecord != null)
 		{
+            MSPlayer msKiller = lastDamageRecord.getDamager();
+
 			msPlayer.removeReceivedDamage(msKiller);
 			
 			MSPlayer assistant = msPlayer.getPlayerAssistedInKill();
-			Equipment weapon = msPlayer.getLastDamageWeapon();
+			Equipment weapon = lastDamageRecord.getWeapon();
+            String deathIcons = getDeathIcons(lastDamageRecord);
 			
 			if(assistant != null)
 			{
-				if(weapon != null)
-				{
-					if(msKiller.equals(msPlayer))
-						message = Translation.GAME_DEATH_SUICIDE_ASSIST.getMessage(msPlayer.getNameTag(), weapon.getDisplayName(), assistant.getNameTag());
-					else
-					{
-						message = Translation.GAME_DEATH_WEAPONSOURCE_ASSIST.getMessage(msPlayer.getNameTag(), msKiller.getNameTag(), weapon.getDisplayName(), assistant.getNameTag());
-						
-						msKiller.addXP(game.getXPForKill(msPlayer, msKiller));
-						msKiller.addKills(1);
-					}
-					
-					msPlayer.setLastDamageWeapon(null);
-				}
-				else
-				{
-					message = Translation.GAME_DEATH_SOURCE_ASSIST.getMessage(msPlayer.getNameTag(), msKiller.getNameTag(), assistant.getNameTag());
-					
-					msKiller.addXP(game.getXPForKill(msPlayer, msKiller));
-					msKiller.addKills(1);
-				}
+                if(msKiller.equals(msPlayer))
+                    message = Translation.GAME_DEATH_SUICIDE_ASSIST.getMessage(msPlayer.getNameTag(), weapon.getDisplayName(), deathIcons, assistant.getNameTag());
+                else
+                {
+                    message = Translation.GAME_DEATH_WEAPONSOURCE_ASSIST.getMessage(msPlayer.getNameTag(), weapon.getDisplayName(), deathIcons, msKiller.getNameTag(), assistant.getNameTag());
+
+                    msKiller.addXP(game.getXPForKill(msPlayer, msKiller));
+                    msKiller.addKills(1);
+                }
 
 				int xp = game.getXPForAssist(msPlayer, assistant);
 
@@ -80,31 +76,18 @@ public class MSInteractionListener extends MSSceneListener<Game>
 			}
 			else
 			{
-				if(weapon != null)
-				{
-					if(msKiller.equals(msPlayer))
-						message = Translation.GAME_DEATH_SUICIDE_SOLO.getMessage(msPlayer.getNameTag(), weapon.getDisplayName());
-					else
-					{
-						message = Translation.GAME_DEATH_WEAPONSOURCE_SOLO.getMessage(msPlayer.getNameTag(), msKiller.getNameTag(), weapon.getDisplayName());
-						
-						msKiller.addXP(game.getXPForKill(msPlayer, msKiller));
-						msKiller.addKills(1);
-					}
-					
-					msPlayer.setLastDamageWeapon(null);
-				}
-				else
-				{
-					message = Translation.GAME_DEATH_SOURCE_SOLO.getMessage(msPlayer.getNameTag(), msKiller.getNameTag());
-					int xp = game.getXPForKill(msPlayer, msKiller);
+                if(msKiller.equals(msPlayer))
+                    message = Translation.GAME_DEATH_SUICIDE_SOLO.getMessage(msPlayer.getNameTag(), weapon.getDisplayName(), deathIcons);
+                else
+                {
+                    message = Translation.GAME_DEATH_WEAPONSOURCE_SOLO.getMessage(msPlayer.getNameTag(), weapon.getDisplayName(), deathIcons, msKiller.getNameTag());
 
-					msKiller.addXP(xp);
-					msKiller.addKills(1);
-				}
+                    msKiller.addXP(game.getXPForKill(msPlayer, msKiller));
+                    msKiller.addKills(1);
+                }
 			}
 
-			msPlayer.setLastDamageSource(null);
+			msPlayer.setLastDamageRecord(null);
 		}
 		else
 			message = Translation.GAME_DEATH_UNKNOWN.getMessage(msPlayer.getNameTag());
@@ -117,6 +100,18 @@ public class MSInteractionListener extends MSSceneListener<Game>
 		game.broadcast(message);
 		pm.callEvent(arenaPostEvent);
 	}
+
+    private static String getDeathIcons(DamageRecord lastDamageRecord)
+    {
+        String result = "";
+
+        if(lastDamageRecord.isPenetrated())
+            result += CHARACTER_PENETRATED;
+        if(lastDamageRecord.isHeadshot())
+            result += CHARACTER_HEADSHOT;
+
+        return result.length() == 0 ? "" : (" " + result);
+    }
 	
 	@EventHandler
 	public void onEntityDamageByEntity(EntityDamageByEntityEvent event, MSPlayer msVictim)

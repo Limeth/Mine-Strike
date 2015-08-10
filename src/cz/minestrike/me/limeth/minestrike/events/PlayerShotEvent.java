@@ -1,7 +1,11 @@
 package cz.minestrike.me.limeth.minestrike.events;
 
 import com.google.common.base.Preconditions;
+import cz.minestrike.me.limeth.minestrike.BodyPart;
+import cz.minestrike.me.limeth.minestrike.DamageRecord;
 import cz.minestrike.me.limeth.minestrike.MSPlayer;
+import cz.minestrike.me.limeth.minestrike.equipment.Equipment;
+import cz.minestrike.me.limeth.minestrike.equipment.guns.Gun;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
@@ -16,6 +20,7 @@ public class PlayerShotEvent extends MSPlayerEvent implements ShotEvent
 	private final Location locationBulletFinal;
 	private double damage;
 	private double penetration;
+	private boolean penetrated;
 	private boolean cancelled;
 
 	public PlayerShotEvent(MSPlayer msPlayer, Location locationBulletFinal, double damage, MSPlayer msVictim)
@@ -30,7 +35,26 @@ public class PlayerShotEvent extends MSPlayerEvent implements ShotEvent
 		this.msVictim = msVictim;
 		this.damage = damage;
 		this.penetration = 1;
+		this.penetrated = false;
+		this.cancelled = false;
 	}
+
+    public DamageRecord getDamageRecord()
+    {
+        MSPlayer msDamager = getMSPlayer();
+        Location hitLoc = getLocationBulletFinal();
+        MSPlayer msVictim = getMSVictim();
+        Player victim = msVictim.getPlayer();
+        Location victimLoc = victim.getLocation();
+        double hitY = hitLoc.getY();
+        double victimY = victimLoc.getY();
+        double relHitY = hitY - victimY;
+        BodyPart bodyPart = BodyPart.getByY(relHitY);
+        double damage = getDamage();
+        Gun gun = getGun();
+
+        return new DamageRecord(msDamager, gun, bodyPart, penetrated, damage);
+    }
 
 	@Override
 	public Location getLocationBulletFinal()
@@ -67,12 +91,21 @@ public class PlayerShotEvent extends MSPlayerEvent implements ShotEvent
 	}
 
 	@Override
-	public void setPenetration(double penetration)
+	public double penetrate(double penetrationModifier)
 	{
-		this.penetration = penetration;
+        if(!penetrated)
+            penetrated = true;
+
+		return this.penetration *= penetrationModifier;
 	}
 
-	public HandlerList getHandlers()
+    @Override
+    public boolean isPenetrated()
+    {
+        return penetrated;
+    }
+
+    public HandlerList getHandlers()
 	{
 		return handlers;
 	}

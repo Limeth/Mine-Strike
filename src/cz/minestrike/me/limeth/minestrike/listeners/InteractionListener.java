@@ -60,6 +60,7 @@ public class InteractionListener implements Listener
 		event.setDroppedExp(0);
 		drops.clear();
 		msPlayer.respawnDelayed();
+		player.setTotalExperience(0);
 		event.setDeathMessage(null);
 	}
 	

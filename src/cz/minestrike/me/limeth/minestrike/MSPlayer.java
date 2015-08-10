@@ -208,8 +208,7 @@ public class MSPlayer
 	private PlayerState playerState;
 	private Structure<? extends Scheme> playerStructure;
 	private HashMap<MSPlayer, Double> receivedDamage = Maps.newHashMap();
-	private MSPlayer lastDamageSource;
-	private Equipment lastDamageWeapon;
+    private DamageRecord lastDamageRecord;
 	private HashMap<Object, Long> cooldowns = Maps.newHashMap();
 	private float recoil;
 	private long recoilSetTime, jumpTime, landTime;
@@ -723,28 +722,26 @@ public class MSPlayer
 		hotbarContainer.clear();
 	}
 	
-	public void damage(double amount, MSPlayer damager, Equipment weapon, BodyPart bodyPart)
+	public void damage(DamageRecord damageRecord)
 	{
-		if(bodyPart != null)
-			amount = bodyPart.modifyDamage(amount);
-		
+		MSPlayer damager = damageRecord.getDamager();
 		Player bukkitVictim = getPlayer();
 		Player bukkitDamager = damager.getPlayer();
-		amount = armorContainer.reduceDamage(this, amount, weapon, bodyPart, false);
-		EntityDamageByEntityEvent event = new EntityDamageByEntityEvent(bukkitDamager, bukkitVictim, DamageCause.CUSTOM, amount);
+		damageRecord = armorContainer.reduceDamage(damageRecord, this, false);
+		double damage = damageRecord.getDamage();
+		EntityDamageByEntityEvent event = new EntityDamageByEntityEvent(bukkitDamager, bukkitVictim, DamageCause.CUSTOM, damage);
 		PluginManager pm = Bukkit.getPluginManager();
 		
 		pm.callEvent(event);
 		
 		if(event.isCancelled())
 			return;
-		
-		armorContainer.reduceDamage(this, amount, weapon, bodyPart, true);
-		setLastDamageSource(damager);
-		setLastDamageWeapon(weapon);
-		addReceivedDamage(damager, amount);
+
+		armorContainer.reduceDamage(damageRecord, this, true);
+		setLastDamageRecord(damageRecord);
+		addReceivedDamage(damager, damage);
 		player.setNoDamageTicks(0);
-		player.damage(amount);
+		player.damage(damage);
 	}
 	
 	public boolean hasCooldown(Object object, long durationMillis, boolean set)
@@ -1221,28 +1218,18 @@ var rotateX3D = function(theta) {
 		
 		return maxDamager;
 	}
-	
-	public MSPlayer getLastDamageSource()
-	{
-		return lastDamageSource;
-	}
 
-	public void setLastDamageSource(MSPlayer lastDamageSource)
-	{
-		this.lastDamageSource = lastDamageSource;
-	}
+    public DamageRecord getLastDamageRecord()
+    {
+        return lastDamageRecord;
+    }
 
-	public Equipment getLastDamageWeapon()
-	{
-		return lastDamageWeapon;
-	}
+    public void setLastDamageRecord(DamageRecord lastDamageRecord)
+    {
+        this.lastDamageRecord = lastDamageRecord;
+    }
 
-	public void setLastDamageWeapon(Equipment lastDamageWeapon)
-	{
-		this.lastDamageWeapon = lastDamageWeapon;
-	}
-	
-	public ArmorContainer getArmorContainer()
+    public ArmorContainer getArmorContainer()
 	{
 		return armorContainer;
 	}

@@ -3,6 +3,7 @@ package cz.minestrike.me.limeth.minestrike.scene.games.listeners;
 import com.google.common.base.Optional;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import cz.minestrike.me.limeth.minestrike.DamageRecord;
 import cz.minestrike.me.limeth.minestrike.MSPlayer;
 import cz.minestrike.me.limeth.minestrike.Translation;
 import cz.minestrike.me.limeth.minestrike.equipment.Equipment;
@@ -132,18 +133,18 @@ public abstract class MSRewardListener<T extends Game> extends MSSceneListener<T
 	@EventHandler
 	public void onArenaDeath(ArenaPreDeathEvent event, MSPlayer msPlayer)
 	{
-		MSPlayer damageSource = msPlayer.getLastDamageSource();
-		Equipment damageSourceWeapon = msPlayer.getLastDamageWeapon();
+		DamageRecord lastDamageRecord = msPlayer.getLastDamageRecord();
 
-		if(damageSource == null || damageSourceWeapon == null)
+		if(lastDamageRecord == null)
 			return;
 
-		Player damageSourcePlayer = damageSource.getPlayer();
-		String damageSourcePlayerName = damageSourcePlayer.getName();
-		Integer foundKills = kills.get(damageSourcePlayerName);
+		MSPlayer msDamager = lastDamageRecord.getDamager();
+		Player damager = msDamager.getPlayer();
+		String damagerName = damager.getName();
+		Integer foundKills = kills.get(damagerName);
 		int newKills = foundKills != null ? foundKills + 1 : 1;
 
-		kills.put(damageSourcePlayerName, newKills);
+		kills.put(damagerName, newKills);
 	}
 
 	@EventHandler

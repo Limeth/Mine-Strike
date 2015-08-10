@@ -1,9 +1,6 @@
 package cz.minestrike.me.limeth.minestrike.listeners;
 
-import cz.minestrike.me.limeth.minestrike.BlockProperties;
-import cz.minestrike.me.limeth.minestrike.BlockPropertiesManager;
-import cz.minestrike.me.limeth.minestrike.BodyPart;
-import cz.minestrike.me.limeth.minestrike.MSPlayer;
+import cz.minestrike.me.limeth.minestrike.*;
 import cz.minestrike.me.limeth.minestrike.equipment.guns.Gun;
 import cz.minestrike.me.limeth.minestrike.events.BlockShotEvent;
 import cz.minestrike.me.limeth.minestrike.events.PlayerShotEvent;
@@ -27,21 +24,13 @@ public class UniversalShotListener extends MSListener
 	@EventHandler(ignoreCancelled = true)
 	public void onPlayerShot(PlayerShotEvent event, MSPlayer msPlayer)
 	{
-		Location hitLoc = event.getLocationBulletFinal();
+		DamageRecord damageRecord = event.getDamageRecord();
 		MSPlayer msVictim = event.getMSVictim();
-		Player victim = msVictim.getPlayer();
-		Location victimLoc = victim.getLocation();
-		double hitY = hitLoc.getY();
-		double victimY = victimLoc.getY();
-		double relHitY = hitY - victimY;
-		BodyPart bodyPart = BodyPart.getByY(relHitY);
-		double damage = event.getDamage();
-		Gun gun = event.getGun();
+		Location hitLoc = event.getLocationBulletFinal();
 
-		msVictim.damage(damage, msPlayer, gun, bodyPart);
+		msVictim.damage(damageRecord);
 		ParticleEffect.displayBlockCrack(hitLoc, Material.REDSTONE_BLOCK.getId(), (byte) 0, 0, 0, 0, 1.5F, 20);
-
-		event.setPenetration(event.getPenetration() * PENETRATION_PLAYER);
+		event.penetrate(PENETRATION_PLAYER);
 	}
 
 	@EventHandler(ignoreCancelled = true)
@@ -59,7 +48,7 @@ public class UniversalShotListener extends MSListener
 
 		ParticleEffect.displayBlockDust(hitLoc, id, data, 0, 0, 0, 0.1F, 25);
 		bukkitWorld.playSound(hitLoc, sound, 1F, (float) (1 + Math.random()));
-		event.setPenetration(event.getPenetration() * penetration);
+		event.penetrate(penetration);
 	}
 
 	private final static Sound[] digSounds = {
