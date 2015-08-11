@@ -134,6 +134,7 @@ public class IncendiaryEffect
 			double curDamage = damage * damageMultiplier * damageModifier;
 			DamageRecord damageRecord = new DamageRecord(shooter, weapon, null, false, curDamage);
 
+			msPlayer.damage(damageRecord);
 			entity.setFireTicks(5);
 		}
 		
