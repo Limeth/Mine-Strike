@@ -51,6 +51,7 @@ public class DefuseGame extends TeamGame
 	private boolean                      bombGiven;
 	private MSSceneListener<DefuseGame>  gameListener;
 	private MSRewardListener<DefuseGame> rewardListener;
+	private BombRepeater                 bombRepeater;
 
 	public DefuseGame(String id, String name, MSPlayer owner, boolean open, String lobby, String menu, FilledArrayList<String> maps)
 	{
@@ -68,6 +69,7 @@ public class DefuseGame extends TeamGame
 		super.setup();
 		gameListener = new DefuseGameListener(this);
 		rewardListener = new DefuseRewardListener(this);
+        bombRepeater = new BombRepeater(this);
 
 		return this;
 	}
@@ -199,6 +201,7 @@ public class DefuseGame extends TeamGame
 		round.startExplodeRunnable();
 		getPlayingPlayers().forEach(this::showWitherBar);
 		playSound("projectsurvive:counterstrike.radio.bombpl");
+        bombRepeater.start();
 		
 		for(MSPlayer msPlayer : getPlayingPlayers())
 		{
@@ -225,6 +228,7 @@ public class DefuseGame extends TeamGame
 		round.cancel();
 		playSound("projectsurvive:counterstrike.radio.bombdef");
 		broadcast(Translation.GAME_BOMB_DEFUSED.getMessage());
+        bombRepeater.interrupt();
 		
 		if(!getRound().hasEnded())
 			roundEnd(RoundEndReason.DEFUSED);

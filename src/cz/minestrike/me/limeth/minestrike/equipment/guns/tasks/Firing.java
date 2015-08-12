@@ -16,7 +16,7 @@ public class Firing extends GunTask
 	private long lastTimeFired;
 	private Integer loopId;
 	private float remainder;
-	
+
 	public Firing(@Nonnull MSPlayer msPlayer, @Nonnull Gun gun, long lastTimeFired)
 	{
 		super(msPlayer, gun);
