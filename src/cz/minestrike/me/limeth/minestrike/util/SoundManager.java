@@ -72,9 +72,23 @@ public class SoundManager
 		play(packet, players);
 	}
 
+	public static void play(String path, double x, double y, double z, float volume, float pitch, Player... players)
+	{
+		PacketPlayOutNamedSoundEffect packet = buildPacket(path, x, y, z, volume, pitch);
+
+		play(packet, players);
+	}
+
 	public static void play(String path, Location loc, float volume, float pitch, Iterable<Player> players)
 	{
 		PacketPlayOutNamedSoundEffect packet = buildPacket(path, loc, volume, pitch);
+
+		play(packet, players);
+	}
+
+	public static void play(String path, double x, double y, double z, float volume, float pitch, Iterable<Player> players)
+	{
+		PacketPlayOutNamedSoundEffect packet = buildPacket(path, x, y, z, volume, pitch);
 
 		play(packet, players);
 	}
@@ -94,9 +108,19 @@ public class SoundManager
 		play(path, loc, volume, 1, players);
 	}
 
+	public static void play(String path, double x, double y, double z, float volume, Player... players)
+	{
+		play(path, x, y, z, volume, 1, players);
+	}
+
 	public static void play(String path, Location loc, float volume, Iterable<Player> players)
 	{
 		play(path, loc, volume, 1, players);
+	}
+
+	public static void play(String path, double x, double y, double z, float volume, Iterable<Player> players)
+	{
+		play(path, x, y, z, volume, 1, players);
 	}
 
 	public static void play(String path, Player... players)
@@ -114,14 +138,29 @@ public class SoundManager
 		play(path, loc, 1, players);
 	}
 
+	public static void play(String path, double x, double y, double z, Player... players)
+	{
+		play(path, x, y, z, 1, players);
+	}
+
 	public static void play(String path, Location loc, Iterable<Player> players)
 	{
 		play(path, loc, 1, players);
 	}
-	
+
+	public static void play(String path, double x, double y, double z, Iterable<Player> players)
+	{
+		play(path, x, y, z, 1, players);
+	}
+
+	public static PacketPlayOutNamedSoundEffect buildPacket(String path, double x, double y, double z, float volume, float pitch)
+	{
+		return new PacketPlayOutNamedSoundEffect(path, x, y, z, volume, pitch);
+	}
+
 	public static PacketPlayOutNamedSoundEffect buildPacket(String path, Location loc, float volume, float pitch)
 	{
-		return new PacketPlayOutNamedSoundEffect(path, loc.getX(), loc.getY(), loc.getZ(), volume, pitch);
+		return buildPacket(path, loc.getX(), loc.getY(), loc.getZ(), volume, pitch);
 	}
 	
 	public static PacketPlayOutNamedSoundEffect buildPacket(String path, Location loc, float volume)

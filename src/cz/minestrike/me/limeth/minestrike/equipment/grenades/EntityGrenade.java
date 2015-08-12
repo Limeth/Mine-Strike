@@ -1,12 +1,18 @@
 package cz.minestrike.me.limeth.minestrike.equipment.grenades;
 
 import cz.minestrike.me.limeth.minestrike.MSPlayer;
+import cz.minestrike.me.limeth.minestrike.scene.Scene;
+import cz.minestrike.me.limeth.minestrike.util.SoundManager;
 import net.minecraft.server.v1_7_R4.*;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.craftbukkit.v1_7_R4.CraftWorld;
 import org.bukkit.craftbukkit.v1_7_R4.inventory.CraftItemStack;
+import org.bukkit.entity.Player;
 import org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason;
 import org.bukkit.util.Vector;
+
+import java.util.Set;
 
 public class EntityGrenade extends EntityPotion//EntityProjectile
 {
@@ -71,6 +77,7 @@ public class EntityGrenade extends EntityPotion//EntityProjectile
 		
 		GrenadeType type = grenade.getType();
 		GrenadeExplosionTrigger trigger = type.getTrigger();
+        double speedPerTickSquared = motY * motY + motX * motX + motZ * motZ;
 		
 		if(!grenade.hasExploded())
 			if(trigger == GrenadeExplosionTrigger.LANDING)
@@ -87,9 +94,7 @@ public class EntityGrenade extends EntityPotion//EntityProjectile
 			{
 				if(mop.face == 1)
 				{
-					double length = Math.sqrt(motY * motY + motX * motX + motZ * motZ);
-					
-					if(length <= 0.1)
+					if(speedPerTickSquared <= 0.01)
 					{
 						boolean spawn = grenade.explode();
 						
@@ -118,9 +123,17 @@ public class EntityGrenade extends EntityPotion//EntityProjectile
 		entityGrenade.motX = motX;
 		entityGrenade.motY = motY;
 		entityGrenade.motZ = motZ;
+
+        MSPlayer msShooter = grenade.getShooter();
+        Scene scene = msShooter.getScene();
+        Set<Player> playersInScene = scene.getBukkitPlayers();
+        String soundBounce = type.getSoundBounce();
 		
 		grenade.setNMSEntity(entityGrenade);
 		world.addEntity(entityGrenade, SpawnReason.CUSTOM);
+
+        if(speedPerTickSquared > 0.01)
+            SoundManager.play(soundBounce, locX, locY, locZ, (float) speedPerTickSquared, playersInScene);
 	}
 
 	public Grenade getGrenade()

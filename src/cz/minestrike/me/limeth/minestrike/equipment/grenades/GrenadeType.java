@@ -38,7 +38,7 @@ import java.util.Set;
 
 public enum GrenadeType implements Equipment, DamageSource
 {
-	EXPLOSIVE(ChatColor.RED + "HE Grenade", 1, VoiceSound.GRENADE, new TeamValue<>(300), 240F, 16460, 40, "hegrenade", "he_draw")
+	EXPLOSIVE(ChatColor.RED + "HE Grenade", 1, VoiceSound.GRENADE, new TeamValue<>(300), 240F, 16460, 40, "hegrenade", "hegrenade.he_draw", "hegrenade.grenade_throw", "hegrenade.he_bounce")
 			{
 				public static final double RANGE = 6;
 				public static final float DAMAGE = 96 * 20 / MSConstant.CS_MAX_HEALTH,
@@ -89,7 +89,7 @@ public enum GrenadeType implements Equipment, DamageSource
 					return ARMOR_DAMAGE_RATIO;
 				}
 			},
-	INCENDIARY(ChatColor.GOLD + "Incendiary Grenade", 1, VoiceSound.MOLOTOV, new TeamValue<>(400, 600, 500), 250F, 16453, GrenadeExplosionTrigger.LANDING, "incgrenade", "inc_grenade_draw")
+	INCENDIARY(ChatColor.GOLD + "Incendiary Grenade", 1, VoiceSound.MOLOTOV, new TeamValue<>(400, 600, 500), 250F, 16453, GrenadeExplosionTrigger.LANDING, "incgrenade", "incgrenade.inc_grenade_draw", "incgrenade.inc_grenade_throw", "incgrenade.inc_grenade_bounce")
 			{
 				private static final int yawSteps = 10,pitchSteps = 10,duration = 20 * 8;
 
@@ -127,7 +127,7 @@ public enum GrenadeType implements Equipment, DamageSource
 					return false;
 				}
 			},
-	DECOY(ChatColor.GRAY + "Decoy Grenade", 1, VoiceSound.DECOY, new TeamValue<>(50), 250F, 16450, GrenadeExplosionTrigger.STABILIZATION, "decoy", "decoy_draw")
+	DECOY(ChatColor.GRAY + "Decoy Grenade", 1, VoiceSound.DECOY, new TeamValue<>(50), 250F, 16450, GrenadeExplosionTrigger.STABILIZATION, "decoy", "decoy.decoy_draw", "decoy.grenade_throw", "flashbang.grenade_hit")
 			{
 				@Override
 				public boolean onExplosion(Grenade grenade)
@@ -231,7 +231,7 @@ public enum GrenadeType implements Equipment, DamageSource
 					}
 				}
 			},
-	SMOKE(ChatColor.GREEN + "Smoke Grenade", 1, VoiceSound.SMOKE, new TeamValue<>(300), 245F, 16452, GrenadeExplosionTrigger.STABILIZATION, "smokegrenade", "smokegrenade_draw")
+	SMOKE(ChatColor.GREEN + "Smoke Grenade", 1, VoiceSound.SMOKE, new TeamValue<>(300), 245F, 16452, GrenadeExplosionTrigger.STABILIZATION, "smokegrenade", "smokegrenade.smokegrenade_draw", "smokegrenade.grenade_throw", "smokegrenade.grenade_hit")
 			{
 				@Override
 				public boolean onExplosion(final Grenade grenade)
@@ -280,7 +280,7 @@ public enum GrenadeType implements Equipment, DamageSource
 					return true;
 				}
 			},
-	FLASH(ChatColor.AQUA + "Flashbang", 2, VoiceSound.FLASHBANG, new TeamValue<>(200), 240, 16419, 40, "flashbang", "flashbang_draw")
+	FLASH(ChatColor.AQUA + "Flashbang", 2, VoiceSound.FLASHBANG, new TeamValue<>(200), 240, 16419, 40, "flashbang", "flashbang.flashbang_draw", "flashbang.grenade_throw", "flashbang.grenade_hit")
 			{
 				private static final double maxDistance = 32;
 				private static final double maxDuration = 6; //seconds
@@ -388,40 +388,44 @@ public enum GrenadeType implements Equipment, DamageSource
 				}
 			};
 
-	private final String name, directoryName, soundDraw;
-	private final VoiceSound         throwSound;
+	private final String name, directoryName, soundDraw, soundThrow, soundBounce;
+	private final VoiceSound throwVoiceSound;
 	private final TeamValue<Integer> price;
 	private final float              movementSpeed;
 	private final int                color, maxAmount;
 	private final Long                    ticksUntilExplosion;
 	private final GrenadeExplosionTrigger trigger;
 
-	private GrenadeType(String name, int maxAmount, VoiceSound throwSound, TeamValue<Integer> price, float movementSpeed, int color, long ticksUntilExplosion, String directoryName, String soundDraw)
+	GrenadeType(String name, int maxAmount, VoiceSound throwVoiceSound, TeamValue<Integer> price, float movementSpeed, int color, long ticksUntilExplosion, String directoryName, String soundDraw, String soundThrow, String soundBounce)
 	{
 		this.name = name;
 		this.maxAmount = maxAmount;
-		this.throwSound = throwSound;
+		this.throwVoiceSound = throwVoiceSound;
 		this.price = price;
 		this.movementSpeed = movementSpeed * MSConstant.CS_UNITS_TO_METERS_PER_TICK_MODIFIER;
 		this.color = color;
 		this.ticksUntilExplosion = ticksUntilExplosion;
 		this.trigger = GrenadeExplosionTrigger.TIMEOUT;
 		this.directoryName = directoryName;
-		this.soundDraw = "projectsurvive:counterstrike.weapons." + directoryName + "." + soundDraw;
+        this.soundDraw = "projectsurvive:counterstrike.weapons." + soundDraw;
+        this.soundThrow = "projectsurvive:counterstrike.weapons." + soundThrow;
+        this.soundBounce = "projectsurvive:counterstrike.weapons." + soundBounce;
 	}
 
-	private GrenadeType(String name, int maxAmount, VoiceSound throwSound, TeamValue<Integer> price, float movementSpeed, int color, GrenadeExplosionTrigger trigger, String directoryName, String soundDraw)
+	GrenadeType(String name, int maxAmount, VoiceSound throwVoiceSound, TeamValue<Integer> price, float movementSpeed, int color, GrenadeExplosionTrigger trigger, String directoryName, String soundDraw, String soundThrow, String soundBounce)
 	{
 		this.name = name;
 		this.maxAmount = maxAmount;
-		this.throwSound = throwSound;
+		this.throwVoiceSound = throwVoiceSound;
 		this.price = price;
 		this.movementSpeed = movementSpeed * MSConstant.CS_UNITS_TO_METERS_PER_TICK_MODIFIER;
 		this.color = color;
 		ticksUntilExplosion = null;
 		this.trigger = trigger;
 		this.directoryName = directoryName;
-		this.soundDraw = "projectsurvive:counterstrike.weapons." + directoryName + "." + soundDraw;
+		this.soundDraw = "projectsurvive:counterstrike.weapons." + soundDraw;
+		this.soundThrow = "projectsurvive:counterstrike.weapons." + soundThrow;
+		this.soundBounce = "projectsurvive:counterstrike.weapons." + soundBounce;
 	}
 
 	public static GrenadeType valueOf(ItemStack is)
@@ -481,17 +485,20 @@ public enum GrenadeType implements Equipment, DamageSource
 		PlayerInventory inv = player.getInventory();
 		int slot = inv.getHeldItemSlot();
 		Container hotbarContainer = msPlayer.getHotbarContainer();
+        Set<Player> playersInScene = scene.getBukkitPlayers();
+        Location location = player.getEyeLocation();
 
 		if(scene instanceof TeamGame)
 		{
 			TeamGame teamGame = (TeamGame) scene;
 
-			teamGame.playRadioSound(msPlayer, throwSound);
+			teamGame.playRadioSound(msPlayer, throwVoiceSound);
 		}
 
 		Grenade.throwGrenade(this, msPlayer, force);
 		player.setItemInHand(null);
 		hotbarContainer.setItem(slot, null);
+        SoundManager.play(soundThrow, location, playersInScene);
 	}
 
 	protected static void playExplosionEffect(Iterable<Player> playersInScene, Location loc, float strength)
@@ -618,7 +625,17 @@ public enum GrenadeType implements Equipment, DamageSource
 		return soundDraw;
 	}
 
-	@Override
+    public String getSoundThrow()
+    {
+        return soundThrow;
+    }
+
+    public String getSoundBounce()
+    {
+        return soundBounce;
+    }
+
+    @Override
 	public boolean purchase(MSPlayer msPlayer)
 	{
 		return true;
