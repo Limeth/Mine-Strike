@@ -29,7 +29,7 @@ public class DefuseRound extends GamePhase<DefuseGame>
 {
     public static final RoundPhase PHASE_PREPARATION = new RoundPhase("PREPARATION", 10 * 20),
             PHASE_RUNNING = new RoundPhase("RUNNING", 20 * 60 * 3),
-            PHASE_BOMB = new RoundPhase("BOMB", 20 * 60),
+            PHASE_BOMB = new RoundPhase("BOMB", 20 * 45),
             PHASE_END = new RoundPhase("END", 5 * 20),
             PHASE_POLL = new RoundPhase("POLL", 10 * 20);
     public static final List<RoundPhase> PHASES = ImmutableList.of(PHASE_PREPARATION, PHASE_RUNNING, PHASE_BOMB, PHASE_END, PHASE_POLL);
