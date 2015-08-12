@@ -1027,8 +1027,11 @@ var rotateX3D = function(theta) {
 				
 				if(newRank != oldRank)
 					if(amount > 0)
-						Title.send(player, null, Translation.XP_LEVEL_UPGRADE.getMessage(newRank.getName()));
-					else
+                    {
+                        Title.send(player, null, Translation.XP_LEVEL_UPGRADE.getMessage(newRank.getName()));
+                        SoundManager.play("projectsurvive:counterstrike.ui.achievement_earned", player);
+                    }
+                    else
 						Title.send(player, null, Translation.XP_LEVEL_DOWNGRADE.getMessage(newRank.getName()));
 			}
 		}
