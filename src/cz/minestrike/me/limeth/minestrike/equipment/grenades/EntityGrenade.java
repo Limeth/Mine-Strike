@@ -126,14 +126,13 @@ public class EntityGrenade extends EntityPotion//EntityProjectile
 
         MSPlayer msShooter = grenade.getShooter();
         Scene scene = msShooter.getScene();
-        Set<Player> playersInScene = scene.getBukkitPlayers();
         String soundBounce = type.getSoundBounce();
 		
 		grenade.setNMSEntity(entityGrenade);
 		world.addEntity(entityGrenade, SpawnReason.CUSTOM);
 
         if(speedPerTickSquared > 0.01)
-            SoundManager.play(soundBounce, locX, locY, locZ, (float) speedPerTickSquared, playersInScene);
+            scene.playSound(soundBounce, locX, locY, locZ, (float) speedPerTickSquared);
 	}
 
 	public Grenade getGrenade()

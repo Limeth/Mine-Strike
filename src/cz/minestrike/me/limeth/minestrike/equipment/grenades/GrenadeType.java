@@ -14,7 +14,6 @@ import cz.minestrike.me.limeth.minestrike.scene.Scene;
 import cz.minestrike.me.limeth.minestrike.scene.games.*;
 import cz.minestrike.me.limeth.minestrike.scene.games.team.TeamGame;
 import cz.minestrike.me.limeth.minestrike.util.LoreAttributes;
-import cz.minestrike.me.limeth.minestrike.util.SoundManager;
 import cz.minestrike.me.limeth.minestrike.util.collections.FilledArrayList;
 import darkBlade12.ParticleEffect;
 import net.minecraft.server.v1_7_R4.*;
@@ -56,9 +55,8 @@ public enum GrenadeType implements Equipment, DamageSource
 					Location loc = potion.getLocation();
 					List<Entity> targetEntities = potion.getNearbyEntities(RANGE, RANGE, RANGE);
 					Scene scene = msShooter.getScene();
-					Set<Player> playersInScene = scene.getBukkitPlayers();
 
-					playExplosionEffect(playersInScene, loc, 1);
+					playExplosionEffect(scene, loc, 1);
 
 					for(Entity targetEntity : targetEntities)
 					{
@@ -100,12 +98,11 @@ public enum GrenadeType implements Equipment, DamageSource
 
 					MSPlayer shooter = grenade.getShooter();
 					Scene scene = shooter.getScene();
-					Set<Player> playersInScene = scene.getBukkitPlayers();
 					ThrownPotion entity = grenade.getEntity();
 					Location loc = entity.getLocation();
 					IncendiaryEffect effect = new IncendiaryEffect(shooter, 8);
 
-					SoundManager.play("projectsurvive:counterstrike.weapons.incgrenade.inc_grenade_detonate", loc, playersInScene);
+					scene.playSound("projectsurvive:counterstrike.weapons.incgrenade.inc_grenade_detonate", loc);
 
 					for(int pitchStep = 0; pitchStep < pitchSteps; pitchStep++)
 						for(int yawStep = 0; yawStep < yawSteps; yawStep++)
@@ -208,9 +205,8 @@ public enum GrenadeType implements Equipment, DamageSource
 						Location loc = potion.getLocation();
 						MSPlayer shooter = grenade.getShooter();
 						Scene scene = shooter.getScene();
-						Set<Player> playersInScene = scene.getBukkitPlayers();
 
-						playExplosionEffect(playersInScene, loc, 0.5f);
+						playExplosionEffect(scene, loc, 0.5f);
 						cancel();
 						grenade.getNMSEntity().die();
 					}
@@ -225,9 +221,8 @@ public enum GrenadeType implements Equipment, DamageSource
 						Location loc = entity.getLocation();
 						MSPlayer shooter = grenade.getShooter();
 						Scene scene = shooter.getScene();
-						Set<Player> playersInScene = scene.getBukkitPlayers();
 
-						SoundManager.play(sound, loc, playersInScene);
+						scene.playSound(sound, loc);
 					}
 				}
 			},
@@ -242,9 +237,8 @@ public enum GrenadeType implements Equipment, DamageSource
 					Location loc = entity.getLocation();
 					MSPlayer shooter = grenade.getShooter();
 					Scene scene = shooter.getScene();
-					Set<Player> playersInScene = scene.getBukkitPlayers();
 
-					SoundManager.play("projectsurvive:counterstrike.weapons.smokegrenade.sg_explode", loc, playersInScene);
+					scene.playSound("projectsurvive:counterstrike.weapons.smokegrenade.sg_explode", loc);
 
 					for(int i = 0; i < 20 * 8; i += 1)
 					{
@@ -298,7 +292,7 @@ public enum GrenadeType implements Equipment, DamageSource
 
 					entityGrenade.die();
 					ParticleEffect.FIREWORKS_SPARK.display(loc, 0, 0, 0, 0.75F, 50);
-					SoundManager.play("projectsurvive:counterstrike.weapons.flashbang.flashbang_explode", loc, playersInScene);
+					scene.playSound("projectsurvive:counterstrike.weapons.flashbang.flashbang_explode", loc);
 					flashPlayers(loc, playersInScene);
 					return false;
 				}
@@ -485,7 +479,6 @@ public enum GrenadeType implements Equipment, DamageSource
 		PlayerInventory inv = player.getInventory();
 		int slot = inv.getHeldItemSlot();
 		Container hotbarContainer = msPlayer.getHotbarContainer();
-        Set<Player> playersInScene = scene.getBukkitPlayers();
         Location location = player.getEyeLocation();
 
 		if(scene instanceof TeamGame)
@@ -498,17 +491,17 @@ public enum GrenadeType implements Equipment, DamageSource
 		Grenade.throwGrenade(this, msPlayer, force);
 		player.setItemInHand(null);
 		hotbarContainer.setItem(slot, null);
-        SoundManager.play(soundThrow, location, playersInScene);
+        scene.playSound(soundThrow, location);
 	}
 
-	protected static void playExplosionEffect(Iterable<Player> playersInScene, Location loc, float strength)
+	protected static void playExplosionEffect(Scene scene, Location loc, float strength)
 	{
 		Location effectLoc = loc.clone().add(0, 0.5, 0);
 		float strengthSqrt = (float) Math.sqrt(strength);
 
 		ParticleEffect.LAVA.display(effectLoc, 0.5F * strengthSqrt, 0.5F * strengthSqrt, 0.5F * strengthSqrt, 1, (int) (100 * strength));
 		ParticleEffect.LARGE_SMOKE.display(effectLoc, 0, 0, 0, 1, (int) (25 * strength));
-		SoundManager.play("projectsurvive:counterstrike.weapons.hegrenade.explode", loc, strength, playersInScene);
+		scene.playSound("projectsurvive:counterstrike.weapons.hegrenade.explode", loc, strength);
 	}
 
 	public int getColor()
