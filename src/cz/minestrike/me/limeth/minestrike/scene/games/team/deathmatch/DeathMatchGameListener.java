@@ -11,8 +11,11 @@ import cz.minestrike.me.limeth.minestrike.equipment.Equipment;
 import cz.minestrike.me.limeth.minestrike.equipment.containers.HotbarContainer;
 import cz.minestrike.me.limeth.minestrike.events.*;
 import cz.minestrike.me.limeth.minestrike.listeners.msPlayer.MSSceneListener;
+import cz.minestrike.me.limeth.minestrike.scene.games.GamePhaseType;
 import cz.minestrike.me.limeth.minestrike.scene.games.PlayerState;
+import cz.minestrike.me.limeth.minestrike.scene.games.RoundPhase;
 import cz.minestrike.me.limeth.minestrike.scene.games.Team;
+import cz.minestrike.me.limeth.minestrike.scene.games.team.TeamGame;
 import cz.minestrike.me.limeth.minestrike.scene.games.team.defuse.DefuseEquipmentProvider;
 import cz.minestrike.me.limeth.minestrike.scene.games.team.defuse.DefuseGame;
 import cz.minestrike.me.limeth.minestrike.scene.games.team.defuse.DefuseGame.RoundEndReason;
@@ -74,6 +77,48 @@ public class DeathMatchGameListener extends MSSceneListener<DeathMatchGame>
     public void onEquipmentDrop(EquipmentDropEvent event, MSPlayer msPlayer)
     {
         event.setCancelled(true);
+    }
+
+    @EventHandler
+    public void onEntityDamageByEntity(EntityDamageByEntityEvent event, MSPlayer msVictim)
+    {
+        DeathMatchGame game = getScene();
+
+        if(!game.hasMoved(msVictim))
+        {
+            event.setCancelled(true);
+            return;
+        }
+
+        Entity damagerEntity = event.getDamager();
+
+        if(!(damagerEntity instanceof Player))
+            return;
+
+        Player victim = msVictim.getPlayer();
+
+        if(victim.equals(damagerEntity))
+            return;
+
+        Player damager = (Player) damagerEntity;
+        MSPlayer msDamager = MSPlayer.get(damager);
+
+        if(!game.hasMoved(msDamager))
+        {
+            event.setCancelled(true);
+            return;
+        }
+
+        GamePhaseType gamePhaseType = game.getPhaseType();
+
+        if(gamePhaseType == GamePhaseType.RUNNING)
+        {
+            DeathMatchRound round = game.getRound();
+            RoundPhase roundPhase = round.getPhase();
+
+            if(roundPhase == DeathMatchRound.PHASE_PREPARATION)
+                event.setCancelled(true);
+        }
     }
 
     @Override

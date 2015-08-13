@@ -401,6 +401,13 @@ public class MSPlayer
 		
 		DynamicDisplays.setDisplay(player, display);
 	}
+
+	public void removeDynamicDisplay()
+	{
+		Player player = getPlayer();
+
+		DynamicDisplays.removeDisplay(player);
+	}
 	
 	private static final ChatColor RANK_PROGRESS_BACKGROUND = ChatColor.DARK_GRAY;
 	private static final ChatColor[] RANK_PROGRESS_COLORS = new ChatColor[] {

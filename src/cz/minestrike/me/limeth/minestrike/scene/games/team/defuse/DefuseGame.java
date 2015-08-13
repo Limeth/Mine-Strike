@@ -228,7 +228,6 @@ public class DefuseGame extends TeamGame
 		round.cancel();
 		playSound("projectsurvive:counterstrike.radio.bombdef");
 		broadcast(Translation.GAME_BOMB_DEFUSED.getMessage());
-        bombRepeater.interrupt();
 		
 		if(!getRound().hasEnded())
 			roundEnd(RoundEndReason.DEFUSED);
@@ -248,6 +247,10 @@ public class DefuseGame extends TeamGame
 	public void clearBombsites()
 	{
 		bombBlock = null;
+
+		if(bombRepeater.isRunning())
+			bombRepeater.interrupt();
+
 		Structure<? extends DefuseGameMap> structure = getMapStructure();
 		DefuseGameMap scheme = structure.getScheme();
 		World world = MSConfig.getWorld();

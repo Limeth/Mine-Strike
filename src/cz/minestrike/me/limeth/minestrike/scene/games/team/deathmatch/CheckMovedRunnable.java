@@ -37,5 +37,6 @@ public class CheckMovedRunnable extends RespawnMovementRunnable<DeathMatchGame>
         }
 
         game.setMoved(msPlayer, true);
+        msPlayer.removeDynamicDisplay();
     }
 }
