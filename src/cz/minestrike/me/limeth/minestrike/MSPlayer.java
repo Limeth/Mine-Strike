@@ -171,6 +171,12 @@ public class MSPlayer
                 if(lastLoc == null)
                     continue;
 
+				World world = loc.getWorld();
+				World lastWorld = lastLoc.getWorld();
+
+				if(world != lastWorld)
+					continue;
+
                 msPlayer.setSpeed(lastLoc.distance(loc));
 
                 boolean onGround = ((CraftPlayer) player1).isOnGround();
