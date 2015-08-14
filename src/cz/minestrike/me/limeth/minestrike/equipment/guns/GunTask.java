@@ -2,13 +2,15 @@ package cz.minestrike.me.limeth.minestrike.equipment.guns;
 
 import javax.annotation.Nonnull;
 
+import cz.minestrike.me.limeth.minestrike.listeners.msPlayer.MSListener;
 import org.bukkit.Bukkit;
 
 import com.google.common.base.Preconditions;
 
 import cz.minestrike.me.limeth.minestrike.MSPlayer;
+import org.bukkit.entity.Player;
 
-public abstract class GunTask implements Runnable
+public abstract class GunTask extends MSListener implements Runnable
 {
 	private final MSPlayer msPlayer;
 	private final Gun gun;

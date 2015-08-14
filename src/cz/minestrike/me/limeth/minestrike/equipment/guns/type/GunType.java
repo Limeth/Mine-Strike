@@ -347,7 +347,15 @@ public abstract class GunType implements Equipment
 	public void onSelect(MSPlayer msPlayer) {}
 
 	@Override
-	public void onDeselect(MSPlayer msPlayer) {}
+	public void onDeselect(MSPlayer msPlayer)
+	{
+        GunTask gunTask = msPlayer.getGunTask();
+
+        if(gunTask == null)
+            return;
+
+        gunTask.cancel();
+	}
 
 	@Override
 	public boolean purchase(MSPlayer msPlayer)
