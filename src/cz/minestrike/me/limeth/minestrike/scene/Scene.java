@@ -67,7 +67,7 @@ public abstract class Scene implements MSListenerRedirector
         pm.callEvent(preEvent);
 
         if(preEvent.isCancelled())
-            return null;
+            return preEvent.getLocation();
 
         teleport = preEvent.isTeleport();
 

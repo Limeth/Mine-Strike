@@ -1,18 +1,21 @@
 package cz.minestrike.me.limeth.minestrike.events;
 
+import com.google.common.base.Preconditions;
 import cz.minestrike.me.limeth.minestrike.MSPlayer;
 import cz.minestrike.me.limeth.minestrike.scene.Scene;
 import cz.minestrike.me.limeth.minestrike.scene.games.Game;
 import org.apache.commons.lang.Validate;
+import org.bukkit.Location;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.HandlerList;
 
 public class ScenePreSpawnEvent extends MSPlayerEvent implements Cancellable, SceneEvent<Scene>
 {
 	private static final HandlerList handlers = new HandlerList();
-	private final Scene   scene;
-	private boolean cancelled;
-	private boolean teleport;
+	private final Scene    scene;
+	private       boolean  cancelled;
+	private       boolean  teleport;
+	private       Location location;
 
 	public ScenePreSpawnEvent(Scene scene, MSPlayer who, boolean teleport)
 	{
@@ -61,5 +64,17 @@ public class ScenePreSpawnEvent extends MSPlayerEvent implements Cancellable, Sc
 	public void setTeleport(boolean teleport)
 	{
 		this.teleport = teleport;
+	}
+
+	public Location getLocation()
+	{
+		return location;
+	}
+
+	public void setLocation(Location location)
+	{
+		Preconditions.checkNotNull(location);
+
+		this.location = location;
 	}
 }

@@ -512,7 +512,13 @@ public class DefuseGame extends TeamGame
 	{
 		return p.getPlayerState() == PlayerState.JOINED_GAME && getTeam(p) != null;
 	}
-	
+
+	@Override
+	public boolean isPlayerSpectating(MSPlayer msPlayer)
+	{
+		return msPlayer.getPlayerState() == PlayerState.JOINED_GAME && (getTeam(msPlayer) == null || isDead(msPlayer));
+	}
+
 	public DefuseRound getRound()
 	{
 		GamePhase<? extends Game> phase = getPhase();

@@ -349,6 +349,12 @@ public class DeathMatchGame extends TeamGame
         return p.getPlayerState() == PlayerState.JOINED_GAME && getTeam(p) != null;
     }
 
+    @Override
+    public boolean isPlayerSpectating(MSPlayer msPlayer)
+    {
+        return msPlayer.getPlayerState() == PlayerState.JOINED_GAME && getTeam(msPlayer) == null;
+    }
+
     public DeathMatchRound getRound()
     {
         GamePhase<? extends Game> phase = getPhase();
