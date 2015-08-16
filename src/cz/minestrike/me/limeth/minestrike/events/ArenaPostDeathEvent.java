@@ -8,7 +8,7 @@ import org.bukkit.event.HandlerList;
 /**
  * @author Limeth
  */
-public class ArenaPostDeathEvent extends MSPlayerEvent implements GameEvent
+public class ArenaPostDeathEvent extends MSPlayerEvent implements SceneEvent<Game>
 {
 	private static final HandlerList handlers = new HandlerList();
 	private Game    game;
@@ -34,7 +34,7 @@ public class ArenaPostDeathEvent extends MSPlayerEvent implements GameEvent
 	}
 
 	@Override
-	public Game getGame()
+	public Game getScene()
 	{
 		return game;
 	}

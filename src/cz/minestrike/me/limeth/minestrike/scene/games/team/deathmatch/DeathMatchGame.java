@@ -14,12 +14,11 @@ import cz.minestrike.me.limeth.minestrike.areas.schemes.GameLobby;
 import cz.minestrike.me.limeth.minestrike.areas.schemes.GameMap;
 import cz.minestrike.me.limeth.minestrike.areas.schemes.GameMenu;
 import cz.minestrike.me.limeth.minestrike.events.ArenaJoinEvent;
-import cz.minestrike.me.limeth.minestrike.events.GameQuitEvent;
-import cz.minestrike.me.limeth.minestrike.events.GameSpawnEvent;
-import cz.minestrike.me.limeth.minestrike.listeners.msPlayer.MSSceneListener;
+import cz.minestrike.me.limeth.minestrike.events.SceneQuitEvent;
+import cz.minestrike.me.limeth.minestrike.events.SceneSpawnEvent;
 import cz.minestrike.me.limeth.minestrike.scene.Scene;
 import cz.minestrike.me.limeth.minestrike.scene.games.*;
-import cz.minestrike.me.limeth.minestrike.scene.games.listeners.MSRewardListener;
+import cz.minestrike.me.limeth.minestrike.scene.games.listeners.RewardMSListener;
 import cz.minestrike.me.limeth.minestrike.scene.games.team.RadarView;
 import cz.minestrike.me.limeth.minestrike.scene.games.team.TeamGame;
 import cz.minestrike.me.limeth.minestrike.scene.games.team.defuse.*;
@@ -35,6 +34,7 @@ import org.bukkit.event.Event;
 import org.bukkit.plugin.PluginManager;
 
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -43,11 +43,12 @@ public class DeathMatchGame extends TeamGame
 {
     public static final String CUSTOM_DATA_MOVED = "MineStrike.game.moved";
     public static final int HEALTH_ASSIST_OFFSET = -25, XP_KILL = 20, XP_MATCH_WIN = 150, XP_MATCH_LOSE = 40;
-    private Map<String, Integer> score;
-    private DeathMatchGameListener gameListener;
-    private MSRewardListener<DeathMatchGame> rewardListener;
+    private Map<String, Integer>             score;
+    private DeathMatchGameMSListener         gameListener;
+    private RewardMSListener<DeathMatchGame> rewardListener;
 
-    public DeathMatchGame(String id, String name, MSPlayer owner, boolean open, String lobbyId, String menuId, FilledArrayList<String> maps)
+    public DeathMatchGame(String id, String name, MSPlayer owner, boolean open, String lobbyId, String menuId,
+                          FilledArrayList<String> maps)
     {
         super(GameType.DEATHMATCH, id, name, owner, open, lobbyId, menuId, maps);
     }
@@ -63,8 +64,8 @@ public class DeathMatchGame extends TeamGame
         super.setup();
 
         score = Maps.newHashMap();
-        gameListener = new DeathMatchGameListener(this);
-        rewardListener = new DeathMatchRewardListener(this);
+        gameListener = new DeathMatchGameMSListener(this);
+        rewardListener = new DeathMatchRewardMSListener(this);
 
         return this;
     }
@@ -398,17 +399,8 @@ public class DeathMatchGame extends TeamGame
     }
 
     @Override
-    public Location spawn(MSPlayer msPlayer, boolean teleport)
+    protected Optional<Location> doSpawn(MSPlayer msPlayer, boolean teleport)
     {
-        GameSpawnEvent event = new GameSpawnEvent(this, msPlayer, teleport);
-        PluginManager pm = Bukkit.getPluginManager();
-
-        pm.callEvent(event);
-
-        if(event.isCancelled())
-            return null;
-
-        teleport = event.isTeleport();
         PlayerState playerState = msPlayer.getPlayerState();
         Point spawnPoint;
 
@@ -437,25 +429,22 @@ public class DeathMatchGame extends TeamGame
             if(spawnPoint == null)
             {
                 msPlayer.sendMessage(ChatColor.RED + "Spawnpoint obscured!");
-                return null;
+                return Optional.empty();
             }
         }
         else
         {
-            msPlayer.quitScene(GameQuitEvent.SceneQuitReason.ERROR_INVALID_PLAYER_STATE, true);
-            return null;
+            msPlayer.quitScene(SceneQuitEvent.SceneQuitReason.ERROR_INVALID_PLAYER_STATE, true);
+            return Optional.empty();
         }
 
         Location spawnLocation = spawnPoint.getLocation(MSConfig.getWorld(), 0.5, 0, 0.5);
-
-        if(teleport)
-            msPlayer.teleport(spawnLocation);
 
         equip(msPlayer, false);
         setMoved(msPlayer, false);
         gameListener.resetMovedRunnable(msPlayer);
 
-        return spawnLocation;
+        return Optional.of(spawnLocation);
     }
 
     @Override

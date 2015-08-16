@@ -5,7 +5,7 @@ import com.google.common.collect.ImmutableList;
 import cz.minestrike.me.limeth.minestrike.MSPlayer;
 import cz.minestrike.me.limeth.minestrike.MineStrike;
 import cz.minestrike.me.limeth.minestrike.events.ArenaJoinEvent;
-import cz.minestrike.me.limeth.minestrike.listeners.msPlayer.MSSceneListener;
+import cz.minestrike.me.limeth.minestrike.listeners.msPlayer.SceneMSListener;
 import cz.minestrike.me.limeth.minestrike.scene.games.Game;
 import cz.minestrike.me.limeth.minestrike.scene.games.GamePhase;
 import cz.minestrike.me.limeth.minestrike.scene.games.GamePhaseType;
@@ -69,17 +69,17 @@ public class DeathMatchRound extends GamePhase<DeathMatchGame>
         getGame().roundNext();
     }
 
-    private final MSSceneListener<DeathMatchGame> listener;
-    private PreparationCheckRunnable checker;
-    private RoundPhase phase;
-    private Integer taskId;
-    private Long ranAt;
+    private final SceneMSListener<DeathMatchGame> listener;
+    private       PreparationCheckRunnable        checker;
+    private       RoundPhase                      phase;
+    private       Integer                         taskId;
+    private       Long                            ranAt;
 
     public DeathMatchRound(DeathMatchGame game)
     {
         super(game, GamePhaseType.RUNNING);
 
-        listener = new RoundListener(game);
+        listener = new RoundMSListener(game);
     }
 
     @Override
@@ -94,7 +94,8 @@ public class DeathMatchRound extends GamePhase<DeathMatchGame>
         if(hasTask())
             cancelTask();
 
-        taskId = Bukkit.getScheduler().scheduleSyncDelayedTask(MineStrike.getInstance(), this::onNext, PHASE_END.getDuration());
+        taskId = Bukkit.getScheduler()
+                       .scheduleSyncDelayedTask(MineStrike.getInstance(), this::onNext, PHASE_END.getDuration());
     }
 
     public void startVoteRunnable()
@@ -102,7 +103,8 @@ public class DeathMatchRound extends GamePhase<DeathMatchGame>
         if(hasTask())
             cancelTask();
 
-        taskId = Bukkit.getScheduler().scheduleSyncDelayedTask(MineStrike.getInstance(), this::onVote, PHASE_POLL.getDuration());
+        taskId = Bukkit.getScheduler()
+                       .scheduleSyncDelayedTask(MineStrike.getInstance(), this::onVote, PHASE_POLL.getDuration());
     }
 
     private void startPreparationCheckRunnable()
@@ -166,9 +168,9 @@ public class DeathMatchRound extends GamePhase<DeathMatchGame>
         return phase == PHASE_END;
     }
 
-    private static class RoundListener extends MSSceneListener<DeathMatchGame>
+    private static class RoundMSListener extends SceneMSListener<DeathMatchGame>
     {
-        public RoundListener(DeathMatchGame game)
+        public RoundMSListener(DeathMatchGame game)
         {
             super(game);
         }

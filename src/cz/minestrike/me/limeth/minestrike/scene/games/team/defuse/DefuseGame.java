@@ -13,11 +13,11 @@ import cz.minestrike.me.limeth.minestrike.areas.schemes.GameMap;
 import cz.minestrike.me.limeth.minestrike.areas.schemes.GameMenu;
 import cz.minestrike.me.limeth.minestrike.equipment.Equipment;
 import cz.minestrike.me.limeth.minestrike.events.ArenaJoinEvent;
-import cz.minestrike.me.limeth.minestrike.events.GameQuitEvent.SceneQuitReason;
-import cz.minestrike.me.limeth.minestrike.events.GameSpawnEvent;
-import cz.minestrike.me.limeth.minestrike.listeners.msPlayer.MSSceneListener;
+import cz.minestrike.me.limeth.minestrike.events.SceneQuitEvent.SceneQuitReason;
+import cz.minestrike.me.limeth.minestrike.events.SceneSpawnEvent;
+import cz.minestrike.me.limeth.minestrike.listeners.msPlayer.SceneMSListener;
 import cz.minestrike.me.limeth.minestrike.scene.games.*;
-import cz.minestrike.me.limeth.minestrike.scene.games.listeners.MSRewardListener;
+import cz.minestrike.me.limeth.minestrike.scene.games.listeners.RewardMSListener;
 import cz.minestrike.me.limeth.minestrike.scene.games.team.RadarView;
 import cz.minestrike.me.limeth.minestrike.scene.games.team.TeamGame;
 import cz.minestrike.me.limeth.minestrike.util.SoundManager;
@@ -36,6 +36,7 @@ import org.bukkit.event.Event;
 import org.bukkit.plugin.PluginManager;
 
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.function.Predicate;
 
@@ -49,11 +50,12 @@ public class DefuseGame extends TeamGame
 	private Team                         lastWinner;
 	private Block                        bombBlock;
 	private boolean                      bombGiven;
-	private MSSceneListener<DefuseGame>  gameListener;
-	private MSRewardListener<DefuseGame> rewardListener;
+	private SceneMSListener<DefuseGame>  gameListener;
+	private RewardMSListener<DefuseGame> rewardListener;
 	private BombRepeater                 bombRepeater;
 
-	public DefuseGame(String id, String name, MSPlayer owner, boolean open, String lobby, String menu, FilledArrayList<String> maps)
+	public DefuseGame(String id, String name, MSPlayer owner, boolean open, String lobby, String menu,
+					  FilledArrayList<String> maps)
 	{
 		super(GameType.DEFUSE, id, name, owner, open, lobby, menu, maps);
 	}
@@ -67,9 +69,9 @@ public class DefuseGame extends TeamGame
 	public DefuseGame setup()
 	{
 		super.setup();
-		gameListener = new DefuseGameListener(this);
-		rewardListener = new DefuseRewardListener(this);
-        bombRepeater = new BombRepeater(this);
+		gameListener = new DefuseGameMSListener(this);
+		rewardListener = new DefuseRewardMSListener(this);
+		bombRepeater = new BombRepeater(this);
 
 		return this;
 	}
@@ -588,15 +590,15 @@ public class DefuseGame extends TeamGame
 	}
 
 	@Override
-	public Location spawn(MSPlayer msPlayer, boolean teleport)
+	protected Optional<Location> doSpawn(MSPlayer msPlayer, boolean teleport)
 	{
-		GameSpawnEvent event = new GameSpawnEvent(this, msPlayer, teleport);		
+		SceneSpawnEvent event = new SceneSpawnEvent(this, msPlayer, teleport);
 		PluginManager pm = Bukkit.getPluginManager();
 		
 		pm.callEvent(event);
 		
 		if(event.isCancelled())
-			return null;
+			return Optional.empty();
 		
 		teleport = event.isTeleport();
 		PlayerState playerState = msPlayer.getPlayerState();
@@ -631,7 +633,7 @@ public class DefuseGame extends TeamGame
 				if(spawnPoint == null)
 				{
 					msPlayer.sendMessage(ChatColor.RED + "Spawnpoint obscured!");
-					return null;
+					return Optional.empty();
 				}
 			}
 			else
@@ -642,15 +644,12 @@ public class DefuseGame extends TeamGame
 		else
 		{
 			msPlayer.quitScene(SceneQuitReason.ERROR_INVALID_PLAYER_STATE, true);
-			return null;
+			return Optional.empty();
 		}
 		
 		Location spawnLocation = spawnPoint.getLocation(MSConfig.getWorld(), 0.5, 0, 0.5);
-		
-		if(teleport)
-			msPlayer.teleport(spawnLocation);
-		
-		return spawnLocation;
+
+		return Optional.of(spawnLocation);
 	}
 	
 	@Override

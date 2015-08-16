@@ -21,7 +21,7 @@ import cz.minestrike.me.limeth.minestrike.areas.Point;
 import cz.minestrike.me.limeth.minestrike.areas.Region;
 import cz.minestrike.me.limeth.minestrike.areas.Structure;
 import cz.minestrike.me.limeth.minestrike.areas.schemes.GameMenu;
-import cz.minestrike.me.limeth.minestrike.areas.schemes.MSStructureListener;
+import cz.minestrike.me.limeth.minestrike.areas.schemes.StructureMSListener;
 import cz.minestrike.me.limeth.minestrike.areas.schemes.Scheme;
 import cz.minestrike.me.limeth.minestrike.areas.schemes.SchemeType;
 import cz.minestrike.me.limeth.minestrike.scene.Scene;
@@ -43,12 +43,12 @@ public class TeamGameMenu extends GameMenu
 	
 	@SuppressWarnings("unchecked")
 	@Override
-	public <T extends Scheme> MSStructureListener<T> newStructureListener(Structure<T> structure)
+	public <T extends Scheme> StructureMSListener<T> newStructureListener(Structure<T> structure)
 	{
 		if(!(structure.getScheme() instanceof GameMenu))
 			throw new IllegalArgumentException("The structure's scheme is not an instance of GameMenu.");
 		
-		return (MSStructureListener<T>) new MSStructureListener<GameMenu>((Structure<GameMenu>) structure) {
+		return (StructureMSListener<T>) new StructureMSListener<GameMenu>((Structure<GameMenu>) structure) {
 			
 			@EventHandler(ignoreCancelled = true)
 			public void onPlayerInteract(PlayerInteractEvent event, MSPlayer msPlayer)

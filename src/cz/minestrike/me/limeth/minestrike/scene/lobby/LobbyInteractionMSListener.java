@@ -1,5 +1,6 @@
 package cz.minestrike.me.limeth.minestrike.scene.lobby;
 
+import cz.minestrike.me.limeth.minestrike.listeners.msPlayer.SceneMSListener;
 import org.bukkit.Bukkit;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -13,11 +14,10 @@ import org.bukkit.material.MaterialData;
 import org.bukkit.material.Redstone;
 
 import cz.minestrike.me.limeth.minestrike.MSPlayer;
-import cz.minestrike.me.limeth.minestrike.listeners.msPlayer.MSSceneListener;
 
-public class MSLobbyInteractionListener extends MSSceneListener<Lobby>
+public class LobbyInteractionMSListener extends SceneMSListener<Lobby>
 {
-	public MSLobbyInteractionListener(Lobby lobby)
+	public LobbyInteractionMSListener(Lobby lobby)
 	{
 		super(lobby);
 	}

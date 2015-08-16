@@ -5,15 +5,15 @@ import org.bukkit.Location;
 import org.bukkit.event.Event;
 
 import cz.minestrike.me.limeth.minestrike.MSPlayer;
-import cz.minestrike.me.limeth.minestrike.areas.schemes.MSStructureListener;
+import cz.minestrike.me.limeth.minestrike.areas.schemes.StructureMSListener;
 import cz.minestrike.me.limeth.minestrike.areas.schemes.Scheme;
 import cz.minestrike.me.limeth.minestrike.listeners.msPlayer.MSListenerRedirector;
 
 public class Structure<T extends Scheme> implements MSListenerRedirector
 {
-	private Plot<T> plot;
-	private T scheme;
-	private MSStructureListener<T> msListener;
+	private Plot<T>                plot;
+	private T                      scheme;
+	private StructureMSListener<T> msListener;
 	
 	public Structure(Plot<T> plot, T scheme)
 	{

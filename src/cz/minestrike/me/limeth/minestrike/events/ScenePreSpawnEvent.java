@@ -1,30 +1,30 @@
 package cz.minestrike.me.limeth.minestrike.events;
 
 import cz.minestrike.me.limeth.minestrike.MSPlayer;
+import cz.minestrike.me.limeth.minestrike.scene.Scene;
 import cz.minestrike.me.limeth.minestrike.scene.games.Game;
 import org.apache.commons.lang.Validate;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.HandlerList;
 
-/**
- * @author Limeth
- */
-public class ArenaPreDeathEvent extends MSPlayerEvent implements Cancellable, SceneEvent<Game>
+public class ScenePreSpawnEvent extends MSPlayerEvent implements Cancellable, SceneEvent<Scene>
 {
 	private static final HandlerList handlers = new HandlerList();
-	private Game    game;
+	private final Scene   scene;
 	private boolean cancelled;
+	private boolean teleport;
 
-	public ArenaPreDeathEvent(Game game, MSPlayer msPlayer)
+	public ScenePreSpawnEvent(Scene scene, MSPlayer who, boolean teleport)
 	{
-		super(msPlayer);
-
-		Validate.notNull(game, "The game cannot be null!");
-		Validate.notNull(msPlayer, "The player cannot be null!");
-
-		this.game = game;
+		super(who);
+		
+		Validate.notNull(scene, "The scene cannot be null!");
+		
+		this.scene = scene;
+		this.teleport = teleport;
 	}
 
+	@Override
 	public HandlerList getHandlers()
 	{
 		return handlers;
@@ -33,6 +33,12 @@ public class ArenaPreDeathEvent extends MSPlayerEvent implements Cancellable, Sc
 	public static HandlerList getHandlerList()
 	{
 		return handlers;
+	}
+
+	@Override
+	public Scene getScene()
+	{
+		return scene;
 	}
 
 	@Override
@@ -47,9 +53,13 @@ public class ArenaPreDeathEvent extends MSPlayerEvent implements Cancellable, Sc
 		this.cancelled = cancelled;
 	}
 
-	@Override
-	public Game getScene()
+	public boolean isTeleport()
 	{
-		return game;
+		return teleport;
+	}
+
+	public void setTeleport(boolean teleport)
+	{
+		this.teleport = teleport;
 	}
 }

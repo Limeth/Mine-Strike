@@ -1,4 +1,4 @@
-package cz.minestrike.me.limeth.minestrike.listeners;
+package cz.minestrike.me.limeth.minestrike.scene.listeners;
 
 import cz.minestrike.me.limeth.minestrike.*;
 import cz.minestrike.me.limeth.minestrike.equipment.guns.Gun;
@@ -17,7 +17,7 @@ import org.bukkit.event.EventHandler;
 /**
  * @author Limeth
  */
-public class UniversalShotListener extends MSListener
+public class UniversalShotMSListener extends MSListener
 {
 	private static final double PENETRATION_PLAYER = 0.8;
 

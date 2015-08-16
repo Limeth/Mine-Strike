@@ -1,9 +1,9 @@
 package cz.minestrike.me.limeth.minestrike.scene.games.team;
 
 import cz.minestrike.me.limeth.minestrike.MSPlayer;
-import cz.minestrike.me.limeth.minestrike.events.GameSpawnEvent;
+import cz.minestrike.me.limeth.minestrike.events.SceneSpawnEvent;
 import cz.minestrike.me.limeth.minestrike.events.PlayerMetadataPacketEvent;
-import cz.minestrike.me.limeth.minestrike.listeners.msPlayer.MSSceneListener;
+import cz.minestrike.me.limeth.minestrike.listeners.msPlayer.SceneMSListener;
 import cz.minestrike.me.limeth.minestrike.scene.games.PlayerState;
 import cz.minestrike.me.limeth.minestrike.scene.games.Team;
 import cz.minestrike.me.limeth.minestrike.scene.games.VoiceSound;
@@ -20,9 +20,9 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.Set;
 
-public class TeamGameListener extends MSSceneListener<TeamGame>
+public class TeamGameMSListener extends SceneMSListener<TeamGame>
 {
-	public TeamGameListener(TeamGame game)
+	public TeamGameMSListener(TeamGame game)
 	{
 		super(game);
 	}
@@ -104,7 +104,7 @@ public class TeamGameListener extends MSSceneListener<TeamGame>
 	}
 	
 	@EventHandler
-	public void onGameSpawn(GameSpawnEvent event, MSPlayer msPlayer)
+	public void onGameSpawn(SceneSpawnEvent event, MSPlayer msPlayer)
 	{
 		TeamGame game = getScene();
 		

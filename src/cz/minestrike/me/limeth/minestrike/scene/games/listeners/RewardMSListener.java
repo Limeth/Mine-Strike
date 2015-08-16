@@ -13,7 +13,7 @@ import cz.minestrike.me.limeth.minestrike.events.ArenaPreDeathEvent;
 import cz.minestrike.me.limeth.minestrike.events.ArenaJoinEvent;
 import cz.minestrike.me.limeth.minestrike.events.ArenaQuitEvent;
 import cz.minestrike.me.limeth.minestrike.events.GameStartEvent;
-import cz.minestrike.me.limeth.minestrike.listeners.msPlayer.MSSceneListener;
+import cz.minestrike.me.limeth.minestrike.listeners.msPlayer.SceneMSListener;
 import cz.minestrike.me.limeth.minestrike.scene.games.Game;
 import cz.minestrike.me.limeth.minestrike.util.SoundManager;
 import org.bukkit.Bukkit;
@@ -32,7 +32,7 @@ import java.util.List;
 /**
  * @author Limeth
  */
-public abstract class MSRewardListener<T extends Game> extends MSSceneListener<T>
+public abstract class RewardMSListener<T extends Game> extends SceneMSListener<T>
 {
 	private HashMap<String, Long>    joinedAt = Maps.newHashMap();
 	private HashMap<String, Integer> kills    = Maps.newHashMap();
@@ -40,7 +40,7 @@ public abstract class MSRewardListener<T extends Game> extends MSSceneListener<T
 	private int  requiredKills;
 	private int  maxRewardGenerosity;
 
-	public MSRewardListener(T scene, long requiredPlaytimeMillis, int requiredKills, int maxRewardGenerosity)
+	public RewardMSListener(T scene, long requiredPlaytimeMillis, int requiredKills, int maxRewardGenerosity)
 	{
 		super(scene);
 
@@ -176,7 +176,7 @@ public abstract class MSRewardListener<T extends Game> extends MSSceneListener<T
 	@EventHandler
 	public void onArenaQuit(GameStartEvent event)
 	{
-		if(event.getGame() != getScene())
+		if(event.getScene() != getScene())
 			return;
 
 		getScene().getPlayers().forEach(this::resetPlayerStats);

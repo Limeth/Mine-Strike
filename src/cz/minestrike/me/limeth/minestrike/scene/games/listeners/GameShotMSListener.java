@@ -7,12 +7,11 @@ import cz.minestrike.me.limeth.minestrike.areas.RegionList;
 import cz.minestrike.me.limeth.minestrike.areas.Structure;
 import cz.minestrike.me.limeth.minestrike.areas.schemes.GameMap;
 import cz.minestrike.me.limeth.minestrike.events.BlockShotEvent;
-import cz.minestrike.me.limeth.minestrike.listeners.msPlayer.MSSceneListener;
+import cz.minestrike.me.limeth.minestrike.listeners.msPlayer.SceneMSListener;
 import cz.minestrike.me.limeth.minestrike.scene.games.Game;
 import darkBlade12.ParticleEffect;
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.event.EventHandler;
 
@@ -21,9 +20,9 @@ import java.util.Map;
 /**
  * @author Limeth
  */
-public class GameShotListener extends MSSceneListener<Game>
+public class GameShotMSListener extends SceneMSListener<Game>
 {
-	public GameShotListener(Game scene)
+	public GameShotMSListener(Game scene)
 	{
 		super(scene);
 	}

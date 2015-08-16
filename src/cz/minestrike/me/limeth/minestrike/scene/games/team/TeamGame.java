@@ -19,10 +19,11 @@ import java.util.Collections;
 public abstract class TeamGame extends Game
 {
 	public static final String CUSTOM_DATA_TEAM = "MineStrike.game.team";
-	private TeamGameListener teamGameListener;
-	private RadarView radarView;
+	private TeamGameMSListener teamGameListener;
+	private RadarView          radarView;
 	
-	public TeamGame(GameType gameType, String id, String name, MSPlayer owner, boolean open, String lobbyId, String menuId, FilledArrayList<String> maps)
+	public TeamGame(GameType gameType, String id, String name, MSPlayer owner, boolean open, String lobbyId,
+					String menuId, FilledArrayList<String> maps)
 	{
 		super(gameType, id, name, owner, open, lobbyId, menuId, maps);
 	}
@@ -33,6 +34,7 @@ public abstract class TeamGame extends Game
 	 * @return True if passed
 	 */
 	public abstract boolean joinArena(MSPlayer msPlayer, Team team);
+
 	public abstract RadarView createRadarView();
 	
 	/**
@@ -54,7 +56,7 @@ public abstract class TeamGame extends Game
 	public Game setup()
 	{
 		super.setup();
-		teamGameListener = new TeamGameListener(this);
+		teamGameListener = new TeamGameMSListener(this);
 		radarView = createRadarView();
 		return this;
 	}

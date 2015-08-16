@@ -262,7 +262,7 @@ public abstract class Scheme
 		this.region = region;
 	}
 
-	public <T extends Scheme> MSStructureListener<T> newStructureListener(Structure<T> structure)
+	public <T extends Scheme> StructureMSListener<T> newStructureListener(Structure<T> structure)
 	{
 		return null;
 	}

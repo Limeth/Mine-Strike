@@ -6,7 +6,7 @@ import cz.minestrike.me.limeth.minestrike.Translation;
 import cz.minestrike.me.limeth.minestrike.equipment.Equipment;
 import cz.minestrike.me.limeth.minestrike.events.ArenaPostDeathEvent;
 import cz.minestrike.me.limeth.minestrike.events.ArenaPreDeathEvent;
-import cz.minestrike.me.limeth.minestrike.listeners.msPlayer.MSSceneListener;
+import cz.minestrike.me.limeth.minestrike.listeners.msPlayer.SceneMSListener;
 import cz.minestrike.me.limeth.minestrike.scene.games.Game;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Entity;
@@ -17,13 +17,13 @@ import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.plugin.PluginManager;
 
-public class MSInteractionListener extends MSSceneListener<Game>
+public class InteractionMSListener extends SceneMSListener<Game>
 {
     public static final char CHARACTER_SKULL = '〙';
 	public static final char CHARACTER_PENETRATED = '〚';
 	public static final char CHARACTER_HEADSHOT = '〛';
 
-	public MSInteractionListener(Game game)
+	public InteractionMSListener(Game game)
 	{
 		super(game);
 	}
@@ -96,7 +96,7 @@ public class MSInteractionListener extends MSSceneListener<Game>
 
 		msPlayer.clearReceivedDamage();
 		msPlayer.addDeaths(1);
-		//game.setDead(msPlayer, true); Moved to DefuseGameListener
+		//game.setDead(msPlayer, true); Moved to DefuseGameMSListener
 		game.broadcast(message);
 		pm.callEvent(arenaPostEvent);
 	}
@@ -116,11 +116,28 @@ public class MSInteractionListener extends MSSceneListener<Game>
 	@EventHandler
 	public void onEntityDamageByEntity(EntityDamageByEntityEvent event, MSPlayer msVictim)
 	{
-		Entity victimEntity = event.getEntity();
+		Game game = getScene();
+
+		if(game.isPlayerPlaying(msVictim))
+		{
+			event.setCancelled(true);
+			return;
+		}
+
+		Entity victimEntity = msVictim.getPlayer();
 		Entity damagerEntity = event.getDamager();
 		
-		if(!(victimEntity instanceof Player) || !(damagerEntity instanceof Player))
+		if(!(damagerEntity instanceof Player))
 			return;
+
+		Player damager = (Player) damagerEntity;
+		MSPlayer msDamager = MSPlayer.get(damager);
+
+		if(game.isPlayerPlaying(msDamager))
+		{
+			event.setCancelled(true);
+			return;
+		}
 		
 		DamageCause cause = event.getCause();
 		

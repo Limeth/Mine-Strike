@@ -6,7 +6,7 @@ import cz.minestrike.me.limeth.minestrike.MSPlayer;
 import cz.minestrike.me.limeth.minestrike.MineStrike;
 import cz.minestrike.me.limeth.minestrike.events.ArenaJoinEvent;
 import cz.minestrike.me.limeth.minestrike.events.ArenaQuitEvent;
-import cz.minestrike.me.limeth.minestrike.listeners.msPlayer.MSSceneListener;
+import cz.minestrike.me.limeth.minestrike.listeners.msPlayer.SceneMSListener;
 import cz.minestrike.me.limeth.minestrike.scene.games.Game;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -18,7 +18,7 @@ import java.util.HashMap;
 import java.util.function.BooleanSupplier;
 
 //TODO extends the RespawnMovementRunnable
-public class PreparationCheckRunnable extends MSSceneListener<Game> implements Runnable
+public class PreparationCheckRunnable extends SceneMSListener<Game> implements Runnable
 {
     private static final double MAX_DISTANCE = 0.25;
     private final HashMap<MSPlayer, Location> origin = Maps.newHashMap();

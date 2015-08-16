@@ -1,14 +1,10 @@
 package cz.minestrike.me.limeth.minestrike.scene.games.team.defuse;
 
-import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.Maps;
 import cz.minestrike.me.limeth.minestrike.MSPlayer;
 import cz.minestrike.me.limeth.minestrike.MineStrike;
 import cz.minestrike.me.limeth.minestrike.events.ArenaJoinEvent;
-import cz.minestrike.me.limeth.minestrike.events.ArenaQuitEvent;
-import cz.minestrike.me.limeth.minestrike.listeners.msPlayer.MSListener;
-import cz.minestrike.me.limeth.minestrike.listeners.msPlayer.MSSceneListener;
+import cz.minestrike.me.limeth.minestrike.listeners.msPlayer.SceneMSListener;
 import cz.minestrike.me.limeth.minestrike.scene.games.Game;
 import cz.minestrike.me.limeth.minestrike.scene.games.GamePhase;
 import cz.minestrike.me.limeth.minestrike.scene.games.GamePhaseType;
@@ -16,13 +12,10 @@ import cz.minestrike.me.limeth.minestrike.scene.games.RoundPhase;
 import cz.minestrike.me.limeth.minestrike.scene.games.team.PreparationCheckRunnable;
 import cz.minestrike.me.limeth.minestrike.scene.games.team.defuse.DefuseGame.RoundEndReason;
 import org.bukkit.Bukkit;
-import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
-import org.bukkit.scheduler.BukkitScheduler;
 
-import java.util.HashMap;
 import java.util.List;
 
 public class DefuseRound extends GamePhase<DefuseGame>
@@ -85,17 +78,17 @@ public class DefuseRound extends GamePhase<DefuseGame>
         getGame().roundNext();
     }
 	
-	private final MSSceneListener<DefuseGame> listener;
-	private PreparationCheckRunnable checker;
-	private RoundPhase phase;
-	private Integer taskId;
-	private Long ranAt;
+	private final SceneMSListener<DefuseGame> listener;
+	private       PreparationCheckRunnable    checker;
+	private       RoundPhase                  phase;
+	private       Integer                     taskId;
+	private       Long                        ranAt;
 	
 	public DefuseRound(DefuseGame game)
 	{
 		super(game, GamePhaseType.RUNNING);
 		
-		listener = new RoundListener(game);
+		listener = new RoundMSListener(game);
 	}
 
 	@Override
@@ -110,7 +103,8 @@ public class DefuseRound extends GamePhase<DefuseGame>
 		if(hasTask())
 			cancelTask();
 		
-		taskId = Bukkit.getScheduler().scheduleSyncDelayedTask(MineStrike.getInstance(), this::onNext, PHASE_END.getDuration());
+		taskId = Bukkit.getScheduler()
+					   .scheduleSyncDelayedTask(MineStrike.getInstance(), this::onNext, PHASE_END.getDuration());
 	}
 	
 	public void startVoteRunnable()
@@ -118,7 +112,8 @@ public class DefuseRound extends GamePhase<DefuseGame>
 		if(hasTask())
 			cancelTask();
 		
-		taskId = Bukkit.getScheduler().scheduleSyncDelayedTask(MineStrike.getInstance(), this::onVote, PHASE_POLL.getDuration());
+		taskId = Bukkit.getScheduler()
+					   .scheduleSyncDelayedTask(MineStrike.getInstance(), this::onVote, PHASE_POLL.getDuration());
 	}
 	
 	public void startExplodeRunnable()
@@ -126,14 +121,15 @@ public class DefuseRound extends GamePhase<DefuseGame>
 		if(hasTask())
 			cancelTask();
 		
-		taskId = Bukkit.getScheduler().scheduleSyncDelayedTask(MineStrike.getInstance(), this::onExplode, PHASE_BOMB.getDuration());
+		taskId = Bukkit.getScheduler()
+					   .scheduleSyncDelayedTask(MineStrike.getInstance(), this::onExplode, PHASE_BOMB.getDuration());
 	}
 
-    private void startPreparationCheckRunnable()
-    {
-        checker = new PreparationCheckRunnable(getGame(), () -> phase == PHASE_PREPARATION, () -> checker = null);
-        checker.start(5L);
-    }
+	private void startPreparationCheckRunnable()
+	{
+		checker = new PreparationCheckRunnable(getGame(), () -> phase == PHASE_PREPARATION, () -> checker = null);
+		checker.start(5L);
+	}
 	
 	private void cancelTask()
 	{
@@ -188,9 +184,9 @@ public class DefuseRound extends GamePhase<DefuseGame>
 		return phase == PHASE_END;
 	}
 
-	private static class RoundListener extends MSSceneListener<DefuseGame>
+	private static class RoundMSListener extends SceneMSListener<DefuseGame>
 	{
-		public RoundListener(DefuseGame game)
+		public RoundMSListener(DefuseGame game)
 		{
 			super(game);
 		}

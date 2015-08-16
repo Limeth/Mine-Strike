@@ -7,7 +7,8 @@ import cz.minestrike.me.limeth.minestrike.MSPlayer;
 import cz.minestrike.me.limeth.minestrike.equipment.Equipment;
 import cz.minestrike.me.limeth.minestrike.scene.games.Game;
 
-public class EquipmentPickupEvent extends MSPlayerEvent implements GameEvent, Cancellable
+//TODO Change to SceneEvent<Scene>
+public class EquipmentPickupEvent extends MSPlayerEvent implements SceneEvent<Game>, Cancellable
 {
 	private final Game game;
 	private final Equipment equipment;
@@ -46,7 +47,7 @@ public class EquipmentPickupEvent extends MSPlayerEvent implements GameEvent, Ca
 	}
 	
 	@Override
-	public Game getGame()
+	public Game getScene()
 	{
 		return game;
 	}

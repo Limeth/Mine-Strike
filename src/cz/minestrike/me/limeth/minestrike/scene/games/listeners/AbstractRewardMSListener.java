@@ -13,14 +13,14 @@ import java.util.Map;
 /**
  * @author Limeth
  */
-public abstract class AbstractRewardListener<T extends Game> extends WeightedMSRewardListener<T>
+public abstract class AbstractRewardMSListener<T extends Game> extends WeightedRewardMSListener<T>
 {
 	public static final int REQUIRED_KILLS = 3;
 	public static final double WEIGHT_CASES = 1;
 	public static final double WEIGHT_FREE_REWARDS = 1;
 	private final double globalChance;
 
-	public AbstractRewardListener(T scene, long requiredPlaytimeMillis, double globalChance)
+	public AbstractRewardMSListener(T scene, long requiredPlaytimeMillis, double globalChance)
 	{
 		super(scene, requiredPlaytimeMillis, REQUIRED_KILLS, MSConfig.getMaxRewardGenerosity());
 

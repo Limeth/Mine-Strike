@@ -4,8 +4,8 @@ import cz.minestrike.me.limeth.minestrike.*;
 import cz.minestrike.me.limeth.minestrike.areas.Structure;
 import cz.minestrike.me.limeth.minestrike.areas.schemes.GameMap;
 import cz.minestrike.me.limeth.minestrike.events.EquipmentPickupEvent;
-import cz.minestrike.me.limeth.minestrike.events.GameEquipEvent;
-import cz.minestrike.me.limeth.minestrike.listeners.msPlayer.MSSceneListener;
+import cz.minestrike.me.limeth.minestrike.events.SceneEquipEvent;
+import cz.minestrike.me.limeth.minestrike.listeners.msPlayer.SceneMSListener;
 import cz.minestrike.me.limeth.minestrike.renderers.MapPollRenderer;
 import cz.minestrike.me.limeth.minestrike.util.RendererUtil;
 import cz.minestrike.me.limeth.minestrike.util.collections.FilledArrayList;
@@ -36,20 +36,20 @@ public class MapPoll extends GamePhase<Game> implements Runnable
 {
 	public static final String OBJECTIVE_ID = "mapPoll";
 	public static final int SELECTED_MAX = 5, VOTING_SECONDS = 50 /* incl. changing */, CHANGING_SECONDS = 10; // + 10
-	private final PollListener listener;
+	private final PollMSListener                  listener;
 	private final FilledHashMap<GameMap, Integer> votedMaps;
-	private final FilledHashMap<String, GameMap> votedPlayers;
-	private int secondsLeft;
-	private Integer taskId;
-	private FilledHashMap<Short, GameMap> selectedMaps;
-	private Objective objective;
-	private GameMap votedMap;
+	private final FilledHashMap<String, GameMap>  votedPlayers;
+	private       int                             secondsLeft;
+	private       Integer                         taskId;
+	private       FilledHashMap<Short, GameMap>   selectedMaps;
+	private       Objective                       objective;
+	private       GameMap                         votedMap;
 	
 	public MapPoll(Game game)
 	{
 		super(game, GamePhaseType.FINISHED);
 		
-		listener = new PollListener(game);
+		listener = new PollMSListener(game);
 		votedMaps = new FilledHashMap<GameMap, Integer>();
 		votedPlayers = new FilledHashMap<String, GameMap>();
 		secondsLeft = VOTING_SECONDS;
@@ -330,15 +330,15 @@ public class MapPoll extends GamePhase<Game> implements Runnable
 		return votedMap;
 	}
 
-	private class PollListener extends MSSceneListener<Game>
+	private class PollMSListener extends SceneMSListener<Game>
 	{
-		public PollListener(Game game)
+		public PollMSListener(Game game)
 		{
 			super(game);
 		}
 		
 		@EventHandler
-		public void onGameEquip(GameEquipEvent event, MSPlayer msPlayer)
+		public void onGameEquip(SceneEquipEvent event, MSPlayer msPlayer)
 		{
 			Game game = getScene();
 			

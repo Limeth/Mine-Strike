@@ -14,13 +14,13 @@ import cz.minestrike.me.limeth.minestrike.Translation;
 import cz.minestrike.me.limeth.minestrike.equipment.ClickSound;
 import cz.minestrike.me.limeth.minestrike.equipment.ItemButton;
 import cz.minestrike.me.limeth.minestrike.equipment.containers.InventoryContainer;
-import cz.minestrike.me.limeth.minestrike.listeners.msPlayer.MSSceneListener;
+import cz.minestrike.me.limeth.minestrike.listeners.msPlayer.SceneMSListener;
 import cz.minestrike.me.limeth.minestrike.util.PlayerUtil;
 import cz.minestrike.me.limeth.minestrike.util.SoundManager;
 
-public class MSLobbyInventoryListener extends MSSceneListener<Lobby>
+public class LobbyInventoryMSListener extends SceneMSListener<Lobby>
 {
-	public MSLobbyInventoryListener(Lobby scene)
+	public LobbyInventoryMSListener(Lobby scene)
 	{
 		super(scene);
 	}

@@ -3,10 +3,10 @@ package cz.minestrike.me.limeth.minestrike.scene.lobby;
 import cz.minestrike.me.limeth.minestrike.MSConfig;
 import cz.minestrike.me.limeth.minestrike.MSPlayer;
 import cz.minestrike.me.limeth.minestrike.Translation;
-import cz.minestrike.me.limeth.minestrike.events.GameQuitEvent.SceneQuitReason;
-import cz.minestrike.me.limeth.minestrike.listeners.msPlayer.MSSceneListener;
+import cz.minestrike.me.limeth.minestrike.events.SceneQuitEvent.SceneQuitReason;
+import cz.minestrike.me.limeth.minestrike.listeners.msPlayer.SceneMSListener;
 import cz.minestrike.me.limeth.minestrike.scene.Scene;
-import cz.minestrike.me.limeth.minestrike.scene.lobby.MSLobbyInventoryListener.LobbyButton;
+import cz.minestrike.me.limeth.minestrike.scene.lobby.LobbyInventoryMSListener.LobbyButton;
 import cz.minestrike.me.limeth.minestrike.util.PlayerUtil;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -15,6 +15,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -22,8 +23,8 @@ import java.util.stream.Collectors;
 public class Lobby extends Scene
 {
 	private static final Lobby INSTANCE = new Lobby().setup();
-	private MSSceneListener<Lobby> interactionListener;
-	private MSSceneListener<Lobby> inventoryListener;
+	private SceneMSListener<Lobby> interactionListener;
+	private SceneMSListener<Lobby> inventoryListener;
 	
 	private Lobby() {}
 	
@@ -37,8 +38,8 @@ public class Lobby extends Scene
 	{
 		super.setup();
 
-		interactionListener = new MSLobbyInteractionListener(this);
-		inventoryListener = new MSLobbyInventoryListener(this);
+		interactionListener = new LobbyInteractionMSListener(this);
+		inventoryListener = new LobbyInventoryMSListener(this);
 		
 		return this;
 	}
@@ -91,14 +92,14 @@ public class Lobby extends Scene
 	}
 	
 	@Override
-	public Location spawn(MSPlayer msPlayer, boolean teleport)
+	public Optional<Location> doSpawn(MSPlayer msPlayer, boolean teleport)
 	{
 		Location loc = MSConfig.getWorld().getSpawnLocation();
 		
 		if(teleport)
 			msPlayer.teleport(loc);
 		
-		return loc;
+		return Optional.of(loc);
 	}
 	
 	@Override

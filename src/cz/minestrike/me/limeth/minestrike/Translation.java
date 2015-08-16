@@ -1,13 +1,12 @@
 package cz.minestrike.me.limeth.minestrike;
 
-import cz.minestrike.me.limeth.minestrike.scene.games.listeners.MSInteractionListener;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.File;
 import java.io.IOException;
 
-import static cz.minestrike.me.limeth.minestrike.scene.games.listeners.MSInteractionListener.CHARACTER_SKULL;
+import static cz.minestrike.me.limeth.minestrike.scene.games.listeners.InteractionMSListener.CHARACTER_SKULL;
 
 public enum Translation
 {

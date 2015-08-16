@@ -8,7 +8,7 @@ import cz.minestrike.me.limeth.minestrike.MSPlayer;
 import cz.minestrike.me.limeth.minestrike.scene.games.Game;
 import cz.minestrike.me.limeth.minestrike.scene.games.Team;
 
-public class ArenaJoinEvent extends MSPlayerEvent implements Cancellable, GameEvent
+public class ArenaJoinEvent extends MSPlayerEvent implements Cancellable, SceneEvent<Game>
 {
 	private static final HandlerList handlers = new HandlerList();
 	private Game game;
@@ -58,7 +58,7 @@ public class ArenaJoinEvent extends MSPlayerEvent implements Cancellable, GameEv
 	}
 
 	@Override
-	public Game getGame()
+	public Game getScene()
 	{
 		return game;
 	}

@@ -8,9 +8,9 @@ import cz.minestrike.me.limeth.minestrike.equipment.EquipmentPurchaseException;
 import cz.minestrike.me.limeth.minestrike.equipment.EquipmentSection;
 import cz.minestrike.me.limeth.minestrike.equipment.EquipmentSectionEntry;
 import cz.minestrike.me.limeth.minestrike.equipment.containers.InventoryContainer;
-import cz.minestrike.me.limeth.minestrike.events.GameEquipEvent;
+import cz.minestrike.me.limeth.minestrike.events.SceneEquipEvent;
 import cz.minestrike.me.limeth.minestrike.events.ShopOpenEvent;
-import cz.minestrike.me.limeth.minestrike.listeners.msPlayer.MSSceneListener;
+import cz.minestrike.me.limeth.minestrike.listeners.msPlayer.SceneMSListener;
 import cz.minestrike.me.limeth.minestrike.scene.games.EquipmentProvider;
 import cz.minestrike.me.limeth.minestrike.scene.games.Game;
 import cz.minestrike.me.limeth.minestrike.scene.games.PlayerState;
@@ -27,15 +27,15 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.plugin.PluginManager;
 
-public class MSShoppingListener extends MSSceneListener<Game>
+public class ShoppingMSListener extends SceneMSListener<Game>
 {
-	public MSShoppingListener(Game game)
+	public ShoppingMSListener(Game game)
 	{
 		super(game);
 	}
 
 	@EventHandler
-	public void onGameEquip(GameEquipEvent event, MSPlayer msPlayer)
+	public void onGameEquip(SceneEquipEvent event, MSPlayer msPlayer)
 	{
 		Game game = getScene();
 

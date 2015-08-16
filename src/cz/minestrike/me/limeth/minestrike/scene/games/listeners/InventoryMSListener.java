@@ -1,5 +1,6 @@
 package cz.minestrike.me.limeth.minestrike.scene.games.listeners;
 
+import cz.minestrike.me.limeth.minestrike.listeners.msPlayer.SceneMSListener;
 import cz.minestrike.me.limeth.minestrike.scene.games.EquipmentProvider;
 import cz.minestrike.me.limeth.minestrike.scene.games.Game;
 import cz.minestrike.me.limeth.minestrike.scene.games.PlayerState;
@@ -28,13 +29,12 @@ import cz.minestrike.me.limeth.minestrike.equipment.Equipment;
 import cz.minestrike.me.limeth.minestrike.equipment.containers.HotbarContainer;
 import cz.minestrike.me.limeth.minestrike.events.EquipmentDropEvent;
 import cz.minestrike.me.limeth.minestrike.events.EquipmentPickupEvent;
-import cz.minestrike.me.limeth.minestrike.events.GameQuitEvent.SceneQuitReason;
-import cz.minestrike.me.limeth.minestrike.listeners.msPlayer.MSSceneListener;
+import cz.minestrike.me.limeth.minestrike.events.SceneQuitEvent.SceneQuitReason;
 import cz.minestrike.me.limeth.minestrike.util.PlayerUtil;
 
-public class MSInventoryListener extends MSSceneListener<Game>
+public class InventoryMSListener extends SceneMSListener<Game>
 {
-	public MSInventoryListener(Game game)
+	public InventoryMSListener(Game game)
 	{
 		super(game);
 	}

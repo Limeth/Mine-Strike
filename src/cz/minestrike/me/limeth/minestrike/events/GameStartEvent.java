@@ -5,7 +5,7 @@ import org.apache.commons.lang.Validate;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
-public class GameStartEvent extends Event implements GameEvent
+public class GameStartEvent extends Event implements SceneEvent<Game>
 {
 	private static final HandlerList handlers = new HandlerList();
 	private Game game;
@@ -26,7 +26,7 @@ public class GameStartEvent extends Event implements GameEvent
 	}
 
 	@Override
-	public Game getGame()
+	public Game getScene()
 	{
 		return game;
 	}

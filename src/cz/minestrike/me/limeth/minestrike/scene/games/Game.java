@@ -11,17 +11,16 @@ import cz.minestrike.me.limeth.minestrike.areas.schemes.*;
 import cz.minestrike.me.limeth.minestrike.equipment.Equipment;
 import cz.minestrike.me.limeth.minestrike.equipment.EquipmentManagerInitializationException;
 import cz.minestrike.me.limeth.minestrike.events.*;
-import cz.minestrike.me.limeth.minestrike.events.GameQuitEvent.SceneQuitReason;
+import cz.minestrike.me.limeth.minestrike.events.SceneQuitEvent.SceneQuitReason;
 import cz.minestrike.me.limeth.minestrike.scene.Scene;
-import cz.minestrike.me.limeth.minestrike.scene.games.listeners.GameShotListener;
-import cz.minestrike.me.limeth.minestrike.scene.games.listeners.MSInteractionListener;
-import cz.minestrike.me.limeth.minestrike.scene.games.listeners.MSInventoryListener;
-import cz.minestrike.me.limeth.minestrike.scene.games.listeners.MSShoppingListener;
+import cz.minestrike.me.limeth.minestrike.scene.games.listeners.GameShotMSListener;
+import cz.minestrike.me.limeth.minestrike.scene.games.listeners.InteractionMSListener;
+import cz.minestrike.me.limeth.minestrike.scene.games.listeners.InventoryMSListener;
+import cz.minestrike.me.limeth.minestrike.scene.games.listeners.ShoppingMSListener;
 import cz.minestrike.me.limeth.minestrike.util.PlayerUtil;
 import cz.minestrike.me.limeth.minestrike.util.SoundManager;
 import cz.minestrike.me.limeth.minestrike.util.collections.FilledArrayList;
 import net.minecraft.server.v1_7_R4.EntityItem;
-import net.minecraft.server.v1_7_R4.PacketPlayOutNamedSoundEffect;
 import net.minecraft.server.v1_7_R4.WorldServer;
 import org.apache.commons.lang.Validate;
 import org.bukkit.*;
@@ -47,7 +46,8 @@ import java.util.stream.Collectors;
 
 public abstract class Game extends Scene
 {
-	private static final String SOUND_JOIN = "projectsurvive:counterstrike.ui.valve_logo_music", CUSTOM_DATA_DEAD = "MineStrike.game.dead";
+	private static final String SOUND_JOIN = "projectsurvive:counterstrike.ui.valve_logo_music", CUSTOM_DATA_DEAD
+			= "MineStrike.game.dead";
 	@Expose
 	private final GameType                       type;
 	@Expose
@@ -69,16 +69,17 @@ public abstract class Game extends Scene
 	private       Structure<? extends GameMenu>  menuStructure;
 	private       Structure<? extends GameMap>   mapStructure;
 	private       GamePhase<? extends Game>      phase;
-	private       MSInventoryListener            inventoryListener;
-	private       MSShoppingListener             shoppingListener;
-	private       MSInteractionListener          interactionListener;
-	private       GameShotListener               gameShotListener;
+	private       InventoryMSListener            inventoryListener;
+	private       ShoppingMSListener             shoppingListener;
+	private       InteractionMSListener          interactionListener;
+	private       GameShotMSListener             gameShotListener;
 	private       EquipmentProvider              equipmentProvider;
 	private       Scoreboard                     scoreboard;
 	private       Map<Item, Equipment>           drops;
 	private       Map<Block, Double>             blockDamageMap;
 
-	public Game(GameType gameType, String id, String name, MSPlayer owner, boolean open, String lobbyId, String menuId, FilledArrayList<String> maps)
+	public Game(GameType gameType, String id, String name, MSPlayer owner, boolean open, String lobbyId, String menuId,
+				FilledArrayList<String> maps)
 	{
 		Validate.notNull(gameType, "The type of the game cannot be null!");
 		Validate.notNull(id, "The ID must not be null!");
@@ -175,7 +176,7 @@ public abstract class Game extends Scene
 	{
 		super.equip(msPlayer, force);
 
-		GameEquipEvent event = new GameEquipEvent(this, msPlayer, force);
+		SceneEquipEvent event = new SceneEquipEvent(this, msPlayer, force);
 		PluginManager pm = Bukkit.getPluginManager();
 		Player player = msPlayer.getPlayer();
 		PlayerInventory inv = player.getInventory();
@@ -280,10 +281,10 @@ public abstract class Game extends Scene
 		
 		lobbyStructure = PlotManager.registerStructure(lobby);
 		menuStructure = PlotManager.registerStructure(menu);
-		inventoryListener = new MSInventoryListener(this);
-		shoppingListener = new MSShoppingListener(this);
-		interactionListener = new MSInteractionListener(this);
-		gameShotListener = new GameShotListener(this);
+		inventoryListener = new InventoryMSListener(this);
+		shoppingListener = new ShoppingMSListener(this);
+		interactionListener = new InteractionMSListener(this);
+		gameShotListener = new GameShotMSListener(this);
 		players = new HashSet<>();
 		invited = open ? null : new HashSet<>();
 		scoreboard = Bukkit.getScoreboardManager().getNewScoreboard();
@@ -432,14 +433,7 @@ public abstract class Game extends Scene
 	
 	public boolean onJoin(MSPlayer msPlayer)
 	{
-		Validate.notNull(msPlayer, "The player cannot be null!");
-		Validate.isTrue(!hasJoined(msPlayer), "Player '" + msPlayer.getName() + "' has already joined this game ('" + id + "').");
-		
-		GameJoinEvent event = new GameJoinEvent(this, msPlayer);
-		
-		Bukkit.getPluginManager().callEvent(event);
-		
-		if(event.isCancelled())
+		if(!super.onJoin(msPlayer))
 			return false;
 		
 		Player player = msPlayer.getPlayer();
@@ -457,13 +451,7 @@ public abstract class Game extends Scene
 	
 	public boolean onQuit(MSPlayer msPlayer, SceneQuitReason reason, boolean teleport)
 	{
-		Validate.isTrue(hasJoined(msPlayer), "Player '" + msPlayer + "' has not joined this game ('" + id + "').");
-		
-		GameQuitEvent event = new GameQuitEvent(this, msPlayer, reason);
-		
-		Bukkit.getPluginManager().callEvent(event);
-		
-		if(event.isCancelled())
+		if(!super.onQuit(msPlayer, reason, teleport))
 			return false;
 
 		if(!quitArena(msPlayer, false))
@@ -485,11 +473,6 @@ public abstract class Game extends Scene
 	{
 		for(MSPlayer msPlayer : players)
 			msPlayer.sendMessage(message);
-	}
-	
-	public boolean hasJoined(MSPlayer msPlayer)
-	{
-		return this.equals(msPlayer.getScene()) && players.contains(msPlayer);
 	}
 	
 /*	public void setupPlot()

@@ -1,53 +1,29 @@
 package cz.minestrike.me.limeth.minestrike.scene.games.team.deathmatch;
 
 import cz.minestrike.me.limeth.minestrike.MSPlayer;
-import cz.minestrike.me.limeth.minestrike.MineStrike;
 import cz.minestrike.me.limeth.minestrike.Translation;
-import cz.minestrike.me.limeth.minestrike.areas.RegionList;
-import cz.minestrike.me.limeth.minestrike.areas.Structure;
-import cz.minestrike.me.limeth.minestrike.areas.schemes.Scheme;
-import cz.minestrike.me.limeth.minestrike.areas.schemes.TeamGameMap;
-import cz.minestrike.me.limeth.minestrike.equipment.Equipment;
-import cz.minestrike.me.limeth.minestrike.equipment.containers.HotbarContainer;
 import cz.minestrike.me.limeth.minestrike.events.*;
-import cz.minestrike.me.limeth.minestrike.listeners.msPlayer.MSSceneListener;
+import cz.minestrike.me.limeth.minestrike.listeners.msPlayer.SceneMSListener;
 import cz.minestrike.me.limeth.minestrike.scene.games.GamePhaseType;
-import cz.minestrike.me.limeth.minestrike.scene.games.PlayerState;
 import cz.minestrike.me.limeth.minestrike.scene.games.RoundPhase;
-import cz.minestrike.me.limeth.minestrike.scene.games.Team;
-import cz.minestrike.me.limeth.minestrike.scene.games.team.TeamGame;
-import cz.minestrike.me.limeth.minestrike.scene.games.team.defuse.DefuseEquipmentProvider;
-import cz.minestrike.me.limeth.minestrike.scene.games.team.defuse.DefuseGame;
-import cz.minestrike.me.limeth.minestrike.scene.games.team.defuse.DefuseGame.RoundEndReason;
-import cz.minestrike.me.limeth.minestrike.scene.games.team.defuse.DefuseGameMap;
-import cz.minestrike.me.limeth.minestrike.scene.games.team.defuse.DefuseRound;
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.block.Block;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.EventPriority;
-import org.bukkit.event.block.BlockBreakEvent;
-import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.event.player.PlayerRespawnEvent;
-import org.bukkit.inventory.ItemStack;
 
-public class DeathMatchGameListener extends MSSceneListener<DeathMatchGame>
+public class DeathMatchGameMSListener extends SceneMSListener<DeathMatchGame>
 {
     private CheckMovedRunnable checkMovedRunnable;
 
-	public DeathMatchGameListener(DeathMatchGame game)
+	public DeathMatchGameMSListener(DeathMatchGame game)
 	{
 		super(game);
 
         checkMovedRunnable = new CheckMovedRunnable(game);
 	}
 
-    public DeathMatchGameListener start()
+    public DeathMatchGameMSListener start()
     {
         if(!checkMovedRunnable.isRunning())
             checkMovedRunnable.start();

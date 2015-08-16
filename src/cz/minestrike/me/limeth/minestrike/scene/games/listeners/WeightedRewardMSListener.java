@@ -11,12 +11,12 @@ import java.util.Random;
 /**
  * @author Limeth
  */
-public abstract class WeightedMSRewardListener<T extends Game> extends MSRewardListener<T>
+public abstract class WeightedRewardMSListener<T extends Game> extends RewardMSListener<T>
 {
 	private static final Random RANDOM = new Random();
 	private Map<Equipment, Double> equipmentWeights;
 
-	public WeightedMSRewardListener(T scene, long requiredPlaytimeMillis, int requiredKills, int maxRewardGenerosity)
+	public WeightedRewardMSListener(T scene, long requiredPlaytimeMillis, int requiredKills, int maxRewardGenerosity)
 	{
 		super(scene, requiredPlaytimeMillis, requiredKills, maxRewardGenerosity);
 
