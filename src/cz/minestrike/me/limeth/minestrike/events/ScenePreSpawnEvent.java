@@ -53,6 +53,8 @@ public class ScenePreSpawnEvent extends MSPlayerEvent implements Cancellable, Sc
 	@Override
 	public void setCancelled(boolean cancelled)
 	{
+		Preconditions.checkNotNull(location, "The location must be set!");
+
 		this.cancelled = cancelled;
 	}
 

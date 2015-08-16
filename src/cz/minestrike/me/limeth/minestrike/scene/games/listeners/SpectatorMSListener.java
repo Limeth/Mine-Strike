@@ -16,6 +16,7 @@ import cz.minestrike.me.limeth.minestrike.scene.games.Game;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.PlayerToggleFlightEvent;
 
 /**
@@ -57,47 +58,43 @@ public class SpectatorMSListener extends SceneMSListener<Game>
             player.setFlying(false);
             player.setAllowFlight(false);
         }
+    }
 
+    @EventHandler(priority = EventPriority.HIGHEST)
+    public void onScenePostSpawn(ScenePostSpawnEvent event, MSPlayer msPlayer)
+    {
         updateVisibility(msPlayer);
     }
 
-    @EventHandler
-    public void onPlayerToggleFlight(PlayerToggleFlightEvent event, MSPlayer msPlayer)
-    {
-        Game game = getScene();
-
-        event.setCancelled(game.isPlayerSpectating(msPlayer) ^ event.isFlying());
-    }
-
-    @EventHandler
+/*    @EventHandler(priority = EventPriority.HIGHEST)
     public void onSceneJoin(SceneJoinEvent event, MSPlayer msPlayer)
     {
         updateVisibilityOfOthers(msPlayer);
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGHEST)
     public void onSceneQuit(SceneQuitEvent event, MSPlayer msPlayer)
     {
         updateVisibilityOfOthers(msPlayer);
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGHEST)
     public void onArenaJoin(ArenaJoinEvent event, MSPlayer msPlayer)
     {
         updateVisibilityOfOthers(msPlayer);
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGHEST)
     public void onArenaQuit(ArenaQuitEvent event, MSPlayer msPlayer)
     {
         updateVisibilityOfOthers(msPlayer);
-    }
+    }*/
 
     public boolean isVisible(MSPlayer msViewer, MSPlayer msViewed)
     {
         Game game = getScene();
 
-        return !game.isPlayerSpectating(msViewer) || game.isPlayerSpectating(msViewed);
+        return !game.isPlayerSpectating(msViewed) || game.isPlayerSpectating(msViewer);
     }
 
     public void updateVisibility(MSPlayer msViewer, MSPlayer msViewed)
