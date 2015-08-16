@@ -882,7 +882,7 @@ public class MSPlayer
 var rotateY3D = function(theta) {
     var sin_t = sin(theta);
     var cos_t = cos(theta);
-    
+
     for (var n=0; n<nodes.length; n++) {
         var node = nodes[n];
         var x = node[0];
@@ -895,7 +895,7 @@ var rotateY3D = function(theta) {
 var rotateX3D = function(theta) {
     var sin_t = sin(theta);
     var cos_t = cos(theta);
-    
+
     for (var n=0; n<nodes.length; n++) {
         var node = nodes[n];
         var y = node[1];

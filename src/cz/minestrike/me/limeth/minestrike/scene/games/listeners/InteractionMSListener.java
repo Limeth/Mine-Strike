@@ -118,7 +118,7 @@ public class InteractionMSListener extends SceneMSListener<Game>
 	{
 		Game game = getScene();
 
-		if(game.isPlayerPlaying(msVictim))
+		if(!game.isPlayerPlaying(msVictim))
 		{
 			event.setCancelled(true);
 			return;
@@ -133,7 +133,7 @@ public class InteractionMSListener extends SceneMSListener<Game>
 		Player damager = (Player) damagerEntity;
 		MSPlayer msDamager = MSPlayer.get(damager);
 
-		if(game.isPlayerPlaying(msDamager))
+		if(!game.isPlayerPlaying(msDamager))
 		{
 			event.setCancelled(true);
 			return;
