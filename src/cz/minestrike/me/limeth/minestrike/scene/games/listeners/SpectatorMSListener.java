@@ -99,6 +99,9 @@ public class SpectatorMSListener extends SceneMSListener<Game>
 
     public void updateVisibility(MSPlayer msViewer, MSPlayer msViewed)
     {
+        if(true)
+            return; //TODO REMOVE WHEN INVISIBILITY FIXED
+
         Player viewer = msViewer.getPlayer();
         Player viewed = msViewed.getPlayer();
 
