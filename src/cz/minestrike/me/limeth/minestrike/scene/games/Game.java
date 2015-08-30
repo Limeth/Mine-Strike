@@ -39,6 +39,7 @@ import org.bukkit.block.Block;
 import org.bukkit.command.CommandSender;
 import org.bukkit.craftbukkit.libs.com.google.gson.annotations.Expose;
 import org.bukkit.craftbukkit.v1_7_R4.CraftWorld;
+import org.bukkit.craftbukkit.v1_7_R4.entity.CraftPlayer;
 import org.bukkit.craftbukkit.v1_7_R4.inventory.CraftItemStack;
 import org.bukkit.entity.Damageable;
 import org.bukkit.entity.Item;
@@ -492,11 +493,14 @@ public abstract class Game extends Scene
         if(!quitArena(msPlayer, false))
             return false;
 
+        Player player = msPlayer.getPlayer();
+
         players.remove(msPlayer);
         msPlayer.setScene(null);
         msPlayer.setPlayerStructure(null);
         msPlayer.setPlayerState(PlayerState.LOBBY_SERVER);
         msPlayer.updateMovementSpeed();
+        player.setScoreboard(Bukkit.getScoreboardManager().getMainScoreboard());
 
         if(teleport)
             msPlayer.spawn(true);
